@@ -71,10 +71,12 @@ export default function FilterForm() {
           id="value"
           value={ filterNumeric.value }
           onChange={ handleFilters }
+          data-testid="value-filter"
         />
         <button
           onClick={ handleFiltersButton }
           type="button"
+          data-testid="button-filter"
         >
           Adicionar filtro
         </button>
