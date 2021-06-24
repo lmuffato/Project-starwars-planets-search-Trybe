@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import StarwarsContext from '../context/context';
 
 export default function FilterForm() {
-  const { filters, setFilters } = useContext(StarwarsContext);
+  const { filters, setFilters, columnFiltersState } = useContext(StarwarsContext);
   const [filterNumeric, setFilter] = useState({
     column: 'population',
     comparison: 'maior',
@@ -35,6 +35,18 @@ export default function FilterForm() {
     }));
   };
 
+  const filterFilters = () => {
+    let usedList = columnFiltersState;
+    const { filterByNumericValues } = filters;
+    filterByNumericValues.forEach(({ column }) => {
+      usedList = usedList.filter((filter) => filter !== column);
+    });
+    return usedList.map((column) => (
+      <option key={ column } value={ column }>
+        {column}
+      </option>));
+  };
+
   return (
     <div>
       <input
@@ -50,11 +62,7 @@ export default function FilterForm() {
           value={ filterNumeric.column }
           onChange={ handleFilters }
         >
-          <option values="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          {filterFilters()}
         </select>
         <select
           data-testid="comparison-filter"
