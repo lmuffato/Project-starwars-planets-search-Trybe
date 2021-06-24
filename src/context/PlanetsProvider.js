@@ -4,9 +4,20 @@ import planetsApi from '../services/planetsApi';
 import PlanetsContext from './PlanetsContext';
 
 function PlanetsProvider(props) {
-  const [data, setdata] = useState([]);
+  const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState(false);
+  const [filters, setfilters] = useState({
+    filterByName: {
+      name: '',
+    },
+  });
+  const [copyResults, setcopyResults] = useState([]);
+
+  const setFilterByName = (event) => {
+    const { value } = event.target;
+    setfilters({ filterByName: { name: value.toLowerCase() } });
+  };
 
   useEffect(() => {
     const load = async () => {
@@ -14,7 +25,8 @@ function PlanetsProvider(props) {
         setIsLoading(true);
         setLoadError(false);
         const getPlanetsInfo = await planetsApi();
-        setdata(getPlanetsInfo.results);
+        setData(getPlanetsInfo.results);
+        setcopyResults(getPlanetsInfo.results);
         setIsLoading(false);
       } catch (error) {
         setLoadError(true);
@@ -23,7 +35,14 @@ function PlanetsProvider(props) {
     };
     load();
   }, []);
-  const context = { data, isLoading, loadError };
+  // const { name } = filters.filterByName;
+  const context = { data,
+    isLoading,
+    loadError,
+    filters,
+    setFilterByName,
+    setData,
+    copyResults };
   const { children } = props;
   return (
     <PlanetsContext.Provider value={ context }>

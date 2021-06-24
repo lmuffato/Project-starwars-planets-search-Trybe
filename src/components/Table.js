@@ -1,11 +1,21 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PlanestContext from '../context/PlanetsContext';
 
 function Table() {
   const context = useContext(PlanestContext);
-  const { data, isLoading } = context;
+  const { data, isLoading, filters, setData, copyResults } = context;
+  const { name } = filters.filterByName;
+
+  useEffect(() => {
+    if (name.length < 1) return setData(copyResults);
+    const filterPlantes = data
+      .filter((planet) => planet.name.toLowerCase().includes(name));
+    setData(filterPlantes);
+  }, [name]);
+
   if (isLoading) return <h2>Loading...</h2>;
   const infos = Object.keys(data[0]);
+  if (data.length < 1) return <h2>Teste</h2>;
   const filterInfo = infos.filter((item) => item !== 'url');
   return (
     <table>
