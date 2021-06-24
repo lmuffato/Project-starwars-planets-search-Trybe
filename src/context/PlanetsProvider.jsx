@@ -10,7 +10,11 @@ function PlanetsProvider({ children }) {
   async function fetchPlanets() {
     setIsLoading(true);
     const planets = await getPlanets();
-    setData(planets);
+    const noResidents = planets.map((planet) => {
+      delete planet.residents;
+      return planet;
+    });
+    setData(noResidents);
     setIsLoading(false);
   }
 
