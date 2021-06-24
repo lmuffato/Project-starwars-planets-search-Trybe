@@ -5,18 +5,28 @@ import planets from '../services/requestPlantes';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
+  const [name, setName] = useState('');
 
   const fetchApi = async () => {
     const result = await planets();
-    setData(result);
+    console.log();
+    const arrFilter = name.length ? result
+      .filter((planet) => planet.name.includes(name)) : result;
+    setData(arrFilter);
   };
 
   useEffect(() => {
     fetchApi();
-  }, []);
+  }, [name]);
 
   const contextValue = {
     data,
+    filters: {
+      filterByName: {
+        name,
+      },
+    },
+    setName,
   };
 
   return (
