@@ -19,6 +19,7 @@ export default function FilterForm() {
     <div>
       <input
         type="text"
+        data-testid="name-filter"
         value={ name }
         onChange={ handleNameInput }
       />
