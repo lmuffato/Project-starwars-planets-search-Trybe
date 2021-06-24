@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import starWarsPlanets from './index';
 
 function Provider({ children }) {
-  const [data, setData] = useState('initialStateA');
+  const [data, setData] = useState([{}]);
   const contextValue = {
     data,
     setData,
@@ -14,5 +15,9 @@ function Provider({ children }) {
     </starWarsPlanets.Provider>
   );
 }
+
+Provider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
 export default Provider;
