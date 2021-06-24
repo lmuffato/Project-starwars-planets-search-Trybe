@@ -1,0 +1,17 @@
+.table {
+  text-align: center;
+  white-space: normal;
+  width: 80%;
+}
+
+tr {
+  width: 60px;
+}
+
+td {
+  width: 60px;
+}
+
+th {
+  width: 60px;
+}
