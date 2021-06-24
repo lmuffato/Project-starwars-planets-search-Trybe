@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../utils/PlanetsContext';
 
-function Filter() {
+function Filters() {
   const { nameFilter, setNameFilter } = useContext(PlanetsContext);
   return (
     <div>
@@ -9,11 +9,12 @@ function Filter() {
         data-testid="name-filter"
         type="text"
         placeholder="Pesquise pelo nome"
-        value={ nameFilter }
-        onChange={ (e) => setNameFilter(e.target.value) }
+        value={ nameFilter.filters.filterByName.name }
+        onChange={ ({ target: { value } }) => setNameFilter((filters) => (
+          { ...filters, filters: { filterByName: { name: value } } })) }
       />
     </div>
   );
 }
 
-export default Filter;
+export default Filters;

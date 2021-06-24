@@ -5,13 +5,18 @@ import fetchPlanets from '../services/fetchPlanets';
 
 function Table() {
   const { setPlanets, planets, nameFilter } = useContext(PlanetsContext);
-  const filteredPlanets = planets.filter((planet) => planet.name.includes(nameFilter));
+
   useEffect(() => {
     const getPlanets = async () => {
       setPlanets(await fetchPlanets());
     };
     getPlanets();
   }, [setPlanets]);
+
+  const filteredPlanets = planets.filter((planet) => (
+    planet.name.toLowerCase().includes(
+      nameFilter.filters.filterByName.name.toLowerCase(),
+    )));
 
   return (
     <table>
