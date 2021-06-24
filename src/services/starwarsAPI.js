@@ -9,3 +9,8 @@ export default async function fetchDataFromStarWarsAPI() {
     throw new Error(error);
   }
 }
+
+export const dataWithoutResidents = (dataPl) => {
+  const dados = dataPl.forEach((planetSW) => delete planetSW.residents);
+  return dados;
+};

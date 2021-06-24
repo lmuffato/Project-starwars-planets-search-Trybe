@@ -5,11 +5,11 @@ import Input from '../components/Input';
 import Table from '../components/Table';
 
 function Home() {
-  const { data, setSWPlanets } = useStarWars();
+  const { setSWPlanets } = useStarWars();
 
   useEffect(() => {
     fetchDataFromStarWarsAPI().then((res) => setSWPlanets(res.results));
-  }, [data, setSWPlanets]);
+  });
 
   return (
     <>

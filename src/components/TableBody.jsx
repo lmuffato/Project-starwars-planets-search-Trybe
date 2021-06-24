@@ -1,20 +1,22 @@
 import React from 'react';
-import useStarWars from '../hooks/useStarWars';
+import PropTypes from 'prop-types';
 
-function TableBody() {
-  const { data } = useStarWars();
-
+function TableBody({ data }) {
   return (
     <tbody>
-      {data.length > 0
-        ? data.map((StarWarsPlanet) => (
-          <tr key={ StarWarsPlanet }>
-            {Object.values(StarWarsPlanet).map((val) => (<td key={ val }>{val}</td>))}
-          </tr>
-        ))
-        : ''}
+      {data.map((StarWarsPlanet, index) => (
+        <tr key={ `${StarWarsPlanet} ${index}` }>
+          {Object.values(StarWarsPlanet).map((val, i) => (
+            <td key={ `${val} ${i}` }>{val}</td>
+          ))}
+        </tr>
+      ))}
     </tbody>
   );
 }
+
+TableBody.propTypes = {
+  data: PropTypes.shape(PropTypes.array),
+}.isRequired;
 
 export default TableBody;

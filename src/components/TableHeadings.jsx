@@ -1,20 +1,21 @@
 import React from 'react';
-import useStarWars from '../hooks/useStarWars';
+import PropTypes from 'prop-types';
+// import useStarWars from '../hooks/useStarWars';
 
-function TableHeadings() {
-  const { data } = useStarWars();
-
+function TableHeadings({ data }) {
   return (
     <thead>
       <tr>
-        {data.length > 0
-          ? Object.keys(data[0]).map((heading) => (
-            <th key={ heading }>{heading}</th>
-          ))
-          : ''}
+        {Object.keys(data[0]).map((heading, index) => (
+          <th key={ `${heading} ${index}` }>{heading}</th>
+        ))}
       </tr>
     </thead>
   );
 }
+
+TableHeadings.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 export default TableHeadings;
