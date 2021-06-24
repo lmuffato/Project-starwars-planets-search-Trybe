@@ -1,10 +1,12 @@
 import React from 'react';
-import './App.css';
+import Home from './Pages/Home';
 
-function App() {
-  return (
-    <span>Hello, App!</span>
-  );
-}
+import PlanetsProvider from './context/PlanetsContext';
+
+const App = () => (
+  <PlanetsProvider>
+    <Home />
+  </PlanetsProvider>
+);
 
 export default App;
