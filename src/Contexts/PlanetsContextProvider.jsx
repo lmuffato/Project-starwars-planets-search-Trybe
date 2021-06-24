@@ -20,7 +20,8 @@ export function PlanetsContextProvider({ children }) {
   }, []);
 
   function filterByName(text) {
-    const filteredPlanets = planetasIniciais.filter((planet) => planet.name.includes(text));
+    const filteredPlanets = planetasIniciais
+      .filter((planet) => planet.name.includes(text));
     setPlanets(filteredPlanets);
   }
 
