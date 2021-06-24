@@ -1,10 +1,13 @@
 import React from 'react';
+import Table from './Components/Table';
+import ProviderPlanet from './Context/ProviderPlanet';
 import './App.css';
 
-function App() {
+export default function App() {
   return (
-    <span>Hello, App!</span>
+    <ProviderPlanet>
+      <h1 className="title">Star Wars</h1>
+      <Table />
+    </ProviderPlanet>
   );
 }
-
-export default App;
