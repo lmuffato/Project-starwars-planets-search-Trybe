@@ -10,7 +10,7 @@ function Table() {
       <thead>
         <tr>
           { names.map((planet) => (
-            <th key={ planet }>{planet.name}</th>
+            <th key={ planet }>{planet}</th>
           )) }
         </tr>
         {/* <tr>
