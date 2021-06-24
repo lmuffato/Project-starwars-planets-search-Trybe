@@ -12,20 +12,15 @@ export default function Table() {
     let returneList = data;
     const { filterByNumericValues } = filters;
     filterByNumericValues.forEach((object) => {
-        console.log(object)
       if (object.comparison === 'maior') {
-          
         returneList = returneList
           .filter((planet) => Number(planet[object.column]) > Number(object.value));
-          console.log('maior');
       } else if (object.comparison === 'menor') {
         returneList = returneList
           .filter((planet) => planet[object.column] < object.value);
-          console.log('menor');
       } else {
         returneList = returneList
           .filter((planet) => planet[object.column] === object.value);
-          console.log('igual');
       }
     });
     return returneList;
