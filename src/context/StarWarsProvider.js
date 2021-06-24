@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import FetchStarWars from '../services/FetchStarWars';
 import StarWarsContext from './StarWarsContext';
-// import FetchStarWars from '../services/FetchStarWars';
 
 function StarWarsProvider({ children }) {
+  const [data, setData] = useState('');
+
+  useEffect(() => {
+    FetchStarWars().then((resp) => setData(resp));
+  }, []);
+
   return (
-    <StarWarsContext.Provider value="">
+    <StarWarsContext.Provider value={ { data } }>
       { children }
     </StarWarsContext.Provider>
 

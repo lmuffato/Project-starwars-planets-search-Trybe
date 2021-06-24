@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import FetchStarWars from '../services/FetchStarWars';
+import React, { useContext } from 'react';
+import StarWarsContext from '../context/StarWarsContext';
 import RenderDataOfTable from '../services/RenderDataOfTable';
 
 function Table() {
+  const { data } = useContext(StarWarsContext);
   let tableInformations = '';
-  const [data, setData] = useState('');
 
-  useEffect(() => {
-    FetchStarWars().then((resp) => setData(resp));
-  }, []);
   if (data) tableInformations = RenderDataOfTable(data.results);
 
   return (

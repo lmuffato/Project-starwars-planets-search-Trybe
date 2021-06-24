@@ -109,7 +109,7 @@ describe('2 - Filtre a tabela através de um texto, inserido num *campo de texto
     }
   });
 
-  it.skip('Filtre planetas que possuem a letra "oo" no nome', async () => {
+  it('Filtre planetas que possuem a letra "oo" no nome', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -123,7 +123,7 @@ describe('2 - Filtre a tabela através de um texto, inserido num *campo de texto
     }
   });
 
-  it.skip('Faça vários filtros em sequência', async () => {
+  it('Faça vários filtros em sequência', async () => {
     await act(async () => {
       render(<App />);
     });
