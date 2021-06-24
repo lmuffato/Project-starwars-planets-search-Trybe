@@ -5,10 +5,17 @@ import Context from './Context';
 
 export default function Provider({ children }) {
   const [data, setData] = useState([]);
+  // const [filterData, setFilterData] = useState([]);
+
+  const fetchApi = async () => {
+    const result = await fetchPlanets();
+    setData(result);
+    // setFilterData(result);
+  };
 
   useEffect(() => {
-    fetchPlanets().then(({ results }) => setData(results));
-  }, [setData]);
+    fetchApi();
+  }, []);
 
   console.log(data);
 
