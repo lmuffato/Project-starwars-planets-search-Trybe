@@ -1,10 +1,16 @@
 import { createElement as e } from 'react';
 
+export const first = (code) => Promise.resolve(code);
 export const parseJSON = (APIresponse) => APIresponse.json();
-export const div = (children, attributes = null) => e('div', attributes, children);
-export const table = (children, attributes = null) => e('table', attributes, children);
-export const thead = (children, attributes = null) => e('thead', attributes, children);
-export const tr = (children, attributes = null) => e('tr', attributes, children);
-export const th = (children, attributes = null) => e('th', attributes, children);
-export const tbody = (children, attributes = null) => e('tbody', attributes, children);
-export const td = (children, attributes = null) => e('td', attributes, children);
+const htmlElement = (elem) => (
+  children, attributes = null,
+) => e(elem, attributes, children);
+export const div = htmlElement('div');
+export const table = htmlElement('table');
+export const thead = htmlElement('thead');
+export const tr = htmlElement('tr');
+export const th = htmlElement('th');
+export const tbody = htmlElement('tbody');
+export const td = htmlElement('td');
+export const label = htmlElement('label');
+export const input = htmlElement('input');
