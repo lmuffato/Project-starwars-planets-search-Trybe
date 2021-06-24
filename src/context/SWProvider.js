@@ -3,28 +3,24 @@ import PropTypes from 'prop-types';
 import SWContext from './SWContext';
 
 function SWProvider({ children }) {
-  const [value, setValue] = useState(false);
+  const [returnData, setReturnData] = useState();
+  const [keys, setKeys] = useState();
+  // const [isLoading, setIsLoading] = useState(false);
   // const [redCar, setRedCar] = useState(false);
   // const [yellowCar, setYellowCar] = useState(false);
 
-  // function moveCar(car, side) {
-  //   switch (car) {
-  //   case 'redCar':
-  //     setRedCar(side);
-  //     break;
-  //   case 'blueCar':
-  //     setBlueCar(side);
-  //     break;
-  //   case 'yellowCar':
-  //     setYellowCar(side);
-  //     break;
-  //   default:
-  //     break;
-  //   }
-  // }
+  async function fetchApi() {
+    await fetch('https://swapi-trybe.herokuapp.com/api/planets/')
+      .then((response) => response.json())
+      .then((response) => {
+        response.results.map((planet) => delete planet.residents);
+        setReturnData(response.results);
+        setKeys(Object.keys(response.results[0]));
+      });
+  }
 
   return (
-    <SWContext.Provider value={ { value, setValue } }>
+    <SWContext.Provider value={ { returnData, keys, fetchApi } }>
       {children}
     </SWContext.Provider>
   );
