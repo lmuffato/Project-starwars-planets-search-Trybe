@@ -5,7 +5,7 @@ import planetsContext from '../context/PlanetsContext';
 
 function Table() {
   const { data, filters: { filterByName: { name } } } = useContext(planetsContext);
-  const planets = name !== '' ? data.filter((e) => e.name === name) : data;
+  const planets = name !== '' ? data.filter((e) => e.name.includes(name)) : data;
   return (
     <table>
       {TableHead()}
