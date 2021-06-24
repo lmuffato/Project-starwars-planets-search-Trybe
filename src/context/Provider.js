@@ -4,6 +4,10 @@ import CountriesContext from './CountriesContext';
 
 const Provider = ({ children }) => {
   const [countries, setCountries] = useState([]);
+  const [filters, setFilters] = useState({ filterByName: {
+    name: '',
+  },
+  });
   useEffect(() => {
     const fetchCountries = async () => {
       const request = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
@@ -15,8 +19,21 @@ const Provider = ({ children }) => {
     fetchCountries();
   }, []);
 
+  const handleChange = ({ target }) => {
+    setFilters({ filterByName: {
+      name: target.value,
+    },
+    });
+    const { filterByName } = filters;
+    const { name } = filterByName;
+    const newList = countries.filter((country) => country.name.includes(name));
+    setCountries(newList);
+    console.log(countries);
+  };
+
   const context = {
     countries,
+    handleChange,
   };
 
   return (

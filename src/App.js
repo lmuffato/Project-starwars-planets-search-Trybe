@@ -1,12 +1,12 @@
 import React from 'react';
 import './App.css';
 import Provider from './context/Provider';
-import Table from './Table';
+import StarWarsCountriesPage from './StarWarsCountriesPage';
 
 function App() {
   return (
     <Provider>
-      <Table />
+      <StarWarsCountriesPage />
     </Provider>
   );
 }
