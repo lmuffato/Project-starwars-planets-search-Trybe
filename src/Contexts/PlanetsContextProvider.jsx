@@ -7,18 +7,28 @@ export const PlanetsContext = createContext({});
 
 export function PlanetsContextProvider({ children }) {
   const [planetsList, setPlanets] = useState([]);
+  const [planetasIniciais, setPlanetasIniciais] = useState([]);
 
   async function getPlanets() {
     const planets = await fetchPlanets();
     setPlanets(planets);
+    setPlanetasIniciais(planets);
   }
 
   useEffect(() => {
     getPlanets();
   }, []);
 
+  function filterByName(text) {
+    const filteredPlanets = planetasIniciais.filter((planet) => planet.name.includes(text));
+    setPlanets(filteredPlanets);
+  }
+
   return (
-    <PlanetsContext.Provider value={ { data: planetsList } }>
+    <PlanetsContext.Provider
+      value={ { data: planetsList,
+        filters: { filterByName: { filterByName } } } }
+    >
       {children}
     </PlanetsContext.Provider>
   );

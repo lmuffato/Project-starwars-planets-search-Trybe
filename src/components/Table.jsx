@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
-import { PlanetsContext } from '../Contexts/PlanetsContextProvider';
+import React from 'react';
+import usePlanets from '../hooks/usePlanets';
 
 function Table() {
-  const planetContext = useContext(PlanetsContext);
+  const planetContext = usePlanets();
   if (planetContext.data.length === 0) return 'carregando...';
   return (
     <table>
