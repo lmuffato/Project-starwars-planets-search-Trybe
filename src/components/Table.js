@@ -12,32 +12,28 @@ function Table() {
 
   return (
     <table>
-      {data.map((item, index) => {
-        if (index === 0) {
+      <tbody>
+        {data.map((item, index) => {
+          if (index === 0) {
+            return (
+              <tr key="header">
+                {Object.keys(item).map((keys, i) => (
+                  <th key={ i }>{ keys }</th>
+                ))}
+              </tr>
+            );
+          }
           return (
-            <tr>
-              <th>{Object.keys(item)}</th>
+            <tr key={ index }>
+              {Object.values(item).map((val, j) => (
+                <td key={ j }>{ val }</td>
+              ))}
             </tr>
           );
-        }
-        return (
-          <tr key={ index }>
-            {Object.values(item).map((val, j) => (
-              <td key={ j }>{ val }</td>
-            ))}
-          </tr>
-        );
-      })}
+        })}
+      </tbody>
     </table>
   );
 }
-
-/* {data.map((item, index) => (
-  <tr key={ index }>
-    {Object.values(item).map((val, j) => (
-      <td key={ j }>{ val }</td>
-    ))}
-  </tr>
-))} */
 
 export default Table;
