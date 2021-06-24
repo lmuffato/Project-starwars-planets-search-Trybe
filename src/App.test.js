@@ -32,14 +32,14 @@ describe('1 - Faça uma requisição para o endpoint `/planets` da API de Star W
   beforeAll(mockFetch);
   beforeEach(cleanup);
 
-  it('Realize uma requisição para a API', async () => {
+  it.only('Realize uma requisição para a API', async () => {
     await act(async () => {
       render(<App />);
     });
     expect(global.fetch).toHaveBeenCalled();
   });
 
-  it('Preencha a tabela com os dados retornados', async () => {
+  it.only('Preencha a tabela com os dados retornados', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -67,7 +67,7 @@ describe('1 - Faça uma requisição para o endpoint `/planets` da API de Star W
     };
   });
 
-  it('Verifique se a tabela tem 13 colunas', async () => {
+  it.only('Verifique se a tabela tem 13 colunas', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -75,7 +75,7 @@ describe('1 - Faça uma requisição para o endpoint `/planets` da API de Star W
     expect(await screen.findAllByRole(COLUMN_ROLE_SELECTOR)).toHaveLength(13);
   });
 
-  it('Verifique se a tabela tem uma linha para cada planeta retornado', async () => {
+  it.only('Verifique se a tabela tem uma linha para cada planeta retornado', async () => {
     await act(async () => {
       render(<App />);
     });

@@ -3,16 +3,41 @@ import StarwarsContext from '../context/StarwarsContext';
 
 function Table() {
   const { data, loading } = useContext(StarwarsContext);
-  console.log(loading);
+  console.log(data);
+
+  const doesTableHeader = () => {
+    const dataHeaders = Object.keys(data[0]);
+    return dataHeaders.map((header) => <th key={ header }>{header}</th>);
+  };
+
+  const doesTableBody = (infos, index) => {
+    const dataBody = Object.values(infos);
+    const tableBoby = (
+      <tr key={ index }>
+        {dataBody.map((info) => <td key={ info }>{ info }</td>) }
+      </tr>
+    );
+    return tableBoby;
+  };
 
   return (
     <div>
       <table>
         <thead>
           <tr>
-            {loading ? 'Loading...' : <th>{Object.keys(data[0])}</th>}
+            {loading ? 'Loading...' : doesTableHeader()}
           </tr>
         </thead>
+        <tbody>
+          {data.map((infos, index) => doesTableBody(infos, index))}
+          {/* {data.map((info, index) => {
+            return (
+              <tr key={ index }>
+                <td>{ Object.values(info) }</td>
+              </tr>
+            );
+          })} */}
+        </tbody>
       </table>
     </div>
   );
