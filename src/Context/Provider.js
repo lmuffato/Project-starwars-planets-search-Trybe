@@ -5,19 +5,49 @@ import StarWarsContext from './StarWarsContext';
 // Tirar o residents
 // colocar numa tabela. Componentizar?
 function PlanetsProvider({ children }) {
-  const [data, setData] = useState([]);
+  const [planets, setPlanets] = useState([]);
+  const [searchName, setSearchName] = useState('');
+  const [filterPlanet, setFilterPlanet] = useState([]);
+
   useEffect(() => {
     const fetchPlanets = async () => {
       const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
       const { results } = await fetch(endpoint).then((res) => res.json());
       results.map((obj) => delete obj.residents);
-      setData(results);
+      setPlanets(results);
     };
     fetchPlanets();
   }, []);
-  const context = { data };
+
+  // 2º requisito - Filtrar por nome
+  // Criar Componente pra colocar os filtros
+  // fazer o useEffect com o filtro aqui e exportar
+
+  const handleSearchName = ({ target }) => {
+    setSearchName(target.value);
+  };
+
+  useEffect(() => {
+    let filterPlanets = planets;
+    filterPlanets = planets.filter((planet) => planet.name.includes((searchName)));
+    setFilterPlanet(filterPlanets);
+  }, [planets, searchName]);
+
+  const data = { planets,
+    filters: {
+      filterByName: {
+        name: '',
+      },
+    },
+    searchName,
+    setSearchName,
+    setPlanets,
+    filterPlanet,
+    setFilterPlanet,
+    handleSearchName,
+  };
   return (
-    <StarWarsContext.Provider value={ context }>
+    <StarWarsContext.Provider value={ data }>
       {children}
     </StarWarsContext.Provider>
   );

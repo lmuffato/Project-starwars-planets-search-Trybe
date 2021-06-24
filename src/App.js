@@ -1,13 +1,17 @@
 import React from 'react';
-import Provider from './Context/Provider';
+import PlanetsProvider from './Context/Provider';
+import Filters from './Components/Filters';
 import MainTable from './Components/MainTable';
 import './App.css';
 
 function App() {
   return (
-    <Provider>
-      <MainTable />
-    </Provider>
+    <div>
+      <PlanetsProvider>
+        <Filters />
+        <MainTable />
+      </PlanetsProvider>
+    </div>
   );
 }
 

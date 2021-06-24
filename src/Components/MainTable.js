@@ -2,11 +2,12 @@ import React, { useContext } from 'react';
 import StarWarsContext from '../Context/StarWarsContext';
 
 function MainTable() {
-  const { data } = useContext(StarWarsContext);
+  const { filterPlanet } = useContext(StarWarsContext);
+
   return (
     <table className="table table-dark table-bordered table-responsive">
       <thead>
-        <tr>
+        <tr className="text-center">
           <th>Name</th>
           <th>Rotation_period</th>
           <th>Orbital_period</th>
@@ -23,24 +24,25 @@ function MainTable() {
         </tr>
       </thead>
       <tbody>
-        {data.map((i, index) => (
+        {filterPlanet.map((p, index) => (
           <tr key={ index }>
-            <td>{i.name}</td>
-            <td>{i.rotation_period}</td>
-            <td>{i.orbital_period}</td>
-            <td>{i.diameter}</td>
-            <td>{i.climate}</td>
-            <td>{i.gravity}</td>
-            <td>{i.terrain}</td>
-            <td>{i.surface_water}</td>
-            <td>{i.population}</td>
-            <td>{i.films}</td>
-            <td>{i.created}</td>
-            <td>{i.edited}</td>
-            <td>{i.url}</td>
+            <td>{p.name}</td>
+            <td>{p.rotation_period}</td>
+            <td>{p.orbital_period}</td>
+            <td>{p.diameter}</td>
+            <td>{p.climate}</td>
+            <td>{p.gravity}</td>
+            <td>{p.terrain}</td>
+            <td>{p.surface_water}</td>
+            <td>{p.population}</td>
+            <td>{p.films}</td>
+            <td>{p.created}</td>
+            <td>{p.edited}</td>
+            <td>{p.url}</td>
           </tr>))}
       </tbody>
     </table>
+
   );
 }
 
