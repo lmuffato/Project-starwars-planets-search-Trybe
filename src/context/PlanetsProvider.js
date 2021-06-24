@@ -6,21 +6,24 @@ import fetchStarWars from '../services/fetchStarWarsAPI';
 
 function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [name, setName] = useState('');
 
   useEffect(() => {
     const getPlanets = async () => {
-      setIsLoading(true);
       const { results } = await fetchStarWars();
       setData(results);
-      setIsLoading(false);
     };
     getPlanets();
   }, []);
 
   const provider = {
-    isLoading,
     data,
+    filters: {
+      filterByName: {
+        name,
+      },
+    },
+    setName,
   };
 
   return (

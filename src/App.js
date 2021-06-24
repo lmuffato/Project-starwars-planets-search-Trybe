@@ -1,13 +1,19 @@
 import React from 'react';
 
 import Table from './components/Table';
-import PlanetsProvider from './context/PlanetProvider';
+import PlanetsProvider from './context/PlanetsProvider';
+import Filters from './components/Filters';
 
 function PlanetsForm() {
   return (
     <PlanetsProvider>
       <main>
-        <Table />
+        <section>
+          <Filters />
+        </section>
+        <section>
+          <Table />
+        </section>
       </main>
     </PlanetsProvider>
   );
