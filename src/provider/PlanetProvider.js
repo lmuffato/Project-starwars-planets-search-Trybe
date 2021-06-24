@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import PlanetContext from '../context/PlanetContext';
 
 function PlanetProvider({ children }) {
-  const [object, setObject] = useState([]);
-  const context = { object, setObject };
+  const [data, setData] = useState([]);
+  const context = { data, setData };
   return (
     <PlanetContext.Provider value={ context }>
       {children}

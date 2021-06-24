@@ -3,18 +3,41 @@ import PlanetContext from '../context/PlanetContext';
 import planetsApi from '../services/api';
 
 function Table() {
-  const { object, setObject } = useContext(PlanetContext);
+  const { data, setData } = useContext(PlanetContext);
 
   useEffect(() => {
-    const fetchAPI = () => planetsApi().then((res) => setObject(() => res));
+    const fetchAPI = () => planetsApi().then((res) => setData(() => res));
     fetchAPI();
-  }, [setObject]);
+  }, [setData]);
 
   return (
-    <div>
-      {console.log(object)}
-    </div>
+    <table>
+      {data.map((item, index) => {
+        if (index === 0) {
+          return (
+            <tr>
+              <th>{Object.keys(item)}</th>
+            </tr>
+          );
+        }
+        return (
+          <tr key={ index }>
+            {Object.values(item).map((val, j) => (
+              <td key={ j }>{ val }</td>
+            ))}
+          </tr>
+        );
+      })}
+    </table>
   );
 }
+
+/* {data.map((item, index) => (
+  <tr key={ index }>
+    {Object.values(item).map((val, j) => (
+      <td key={ j }>{ val }</td>
+    ))}
+  </tr>
+))} */
 
 export default Table;
