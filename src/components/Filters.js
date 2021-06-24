@@ -24,7 +24,7 @@ const Filters = () => {
     <div>
       <fieldset>
         <label htmlFor="name-filter">
-          Digite o nome do planeta:
+          Digite o planeta:
           <input
             type="text"
             id="name-filter"

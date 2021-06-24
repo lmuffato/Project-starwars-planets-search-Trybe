@@ -39,7 +39,7 @@ const StarWarsPlanetsProvider = ({ children }) => {
     const { value } = event.target;
     setFilters({
       ...filters,
-      filtersByName: {
+      filterByName: {
         name: value,
       },
     });
