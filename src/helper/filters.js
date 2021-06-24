@@ -1,5 +1,7 @@
 export const filterByName = (array, name) => {
-  const filteredArrayByName = array.filter((item) => item.name.includes(name));
+  const filteredArrayByName = array
+    .filter((item) => item.name.toLowerCase().includes(name.toLowerCase()));
+
   return filteredArrayByName;
 };
 
