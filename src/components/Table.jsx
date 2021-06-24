@@ -4,12 +4,10 @@ import { dataWithoutResidents } from '../services/starwarsAPI';
 import TableBody from './TableBody';
 import TableHeadings from './TableHeadings';
 
-// Talvez tenha que componentizar as partes da tabela
-// Uma opção: componentizar tbody e thead
-
 function Table() {
   const { data } = useStarWars();
   const dataWithNoResidentes = [...data];
+  console.log(data);
   dataWithoutResidents(dataWithNoResidentes);
 
   return (
@@ -19,10 +17,9 @@ function Table() {
           <TableHeadings data={ dataWithNoResidentes } />
           <TableBody data={ dataWithNoResidentes } />
         </table>
-
       ) : (
-        'Sorry, planet information unavailable right now'
-      ) }
+        'Sorry, planets information unavailable right now' // pode virar um componente no futuro
+      )}
     </div>
   );
 }
