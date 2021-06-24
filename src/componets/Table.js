@@ -3,7 +3,6 @@ import StarwarsContext from '../context/StarwarsContext';
 
 function Table() {
   const { data, loading } = useContext(StarwarsContext);
-  console.log(data);
 
   const doesTableHeader = () => {
     const dataHeaders = Object.keys(data[0]);
@@ -30,13 +29,6 @@ function Table() {
         </thead>
         <tbody>
           {data.map((infos, index) => doesTableBody(infos, index))}
-          {/* {data.map((info, index) => {
-            return (
-              <tr key={ index }>
-                <td>{ Object.values(info) }</td>
-              </tr>
-            );
-          })} */}
         </tbody>
       </table>
     </div>
