@@ -1,8 +1,13 @@
 import React, { useContext } from 'react';
-import ContextAPI from './context/ContextAPI';
+import ContextAPI from '../context/ContextAPI';
 
 function Table() {
-  const { resultsApi } = useContext(ContextAPI);
+  const { resultsApi, filter } = useContext(ContextAPI);
+
+  const filterPlanets = resultsApi
+    .filter(({ name }) => name
+      .includes(filter.filters.filterByName.name));
+
   return (
     <div>
       <table>
@@ -22,8 +27,8 @@ function Table() {
             <th>Terrain</th>
             <th>Url</th>
           </tr>
-          {resultsApi.map((result) => (
-            <tr key={ result.name }>
+          {filterPlanets.map((result, index) => (
+            <tr key={ index }>
               <td>{result.climate}</td>
               <td>{result.created}</td>
               <td>{result.diameter}</td>

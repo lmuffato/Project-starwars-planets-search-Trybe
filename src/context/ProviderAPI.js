@@ -18,8 +18,25 @@ function ProviderAPI({ children }) {
     getApi();
   }, []);
 
+  const [filter, setFilter] = useState({
+    filters: {
+      filterByName: {
+        name: '',
+      },
+    },
+  });
+  function handleChange({ target }) {
+    setFilter({
+      filters: {
+        filterByName: {
+          name: target.value,
+        },
+      },
+    });
+  }
+
   return (
-    <ContextAPI.Provider value={ { resultsApi, isLoading } }>
+    <ContextAPI.Provider value={ { resultsApi, isLoading, handleChange, filter } }>
       {children}
     </ContextAPI.Provider>
   );
