@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect} from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 import '../css/PlanetsTable.css';
 
@@ -6,13 +6,23 @@ function PlanetsTable() {
   const { fetchPlanet: fetchPlanetApi } = useContext(PlanetsContext);
   const { data } = useContext(PlanetsContext);
   const { isLoading } = useContext(PlanetsContext);
-  // const [planets, setPlanets] = useState([]);
+  // const [PlanetsName, setPlanetsName] =   useState({ filter: { filterByName: { name: '' } } });
+
   useEffect(() => {
     fetchPlanetApi();
   }, [isLoading, fetchPlanetApi]);
 
   return (
     <main>
+      {/* <label htmlFor="filter-byname">
+        Nome
+        <input
+          id="filter-byname"
+          type="text"
+          value={ PlanetsName }
+          onChange={ (ev) => setPlanetsName(ev.target.value) }
+        />
+      </label> */}
       <section>
         <table className="table">
           <tr>

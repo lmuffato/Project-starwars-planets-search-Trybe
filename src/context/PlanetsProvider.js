@@ -8,10 +8,10 @@ function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
 
   async function fetchPlanet() {
-    // const fetchApi = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
-    // const result = await fetchApi.json();
+    const fetchApi = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
+    const result = await fetchApi.json();
     setData(response);
-    console.log(response);
+    console.log(result);
     setIsLoading(false);
   }
 
