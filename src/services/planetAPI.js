@@ -5,7 +5,6 @@ const planetsAPI = async () => {
     const response = await fetch(URL);
     const planets = await response.json();
 
-    console.log(planets.results);
     return planets.results;
   } catch (error) {
     console.log(error);
