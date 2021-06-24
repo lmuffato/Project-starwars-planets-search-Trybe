@@ -28,6 +28,7 @@ function PlanetsTable() {
             <th>Films</th>
             <th>Edited</th>
             <th>URL</th>
+            <th>Created</th>
           </tr>
 
           {isLoading ? <span>carregando...</span>
@@ -45,6 +46,7 @@ function PlanetsTable() {
                 <td key={ planet.films }>{planet.films}</td>
                 <td key={ planet.edited }>{planet.edited}</td>
                 <td key={ planet.url }>{planet.url}</td>
+                <td key={ planet.created }>{planet.created}</td>
               </tr>
             ))}
         </table>
