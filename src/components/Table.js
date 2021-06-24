@@ -10,28 +10,25 @@ function Table() {
     fetchAPI();
   }, [setData]);
 
+  const renderObjects = () => (
+    <tbody>
+      <tr>
+        {Object.keys(data[0]).map((item, index) => (<th key={ index }>{item}</th>))}
+      </tr>
+      {data.map((item, index) => (
+        <tr key={ index }>
+          { Object.values(item).map((value, j) => (
+            <td key={ j }>{value}</td>
+          ))}
+        </tr>
+
+      ))}
+    </tbody>
+  );
+
   return (
     <table>
-      <tbody>
-        {data.map((item, index) => {
-          if (index === 0) {
-            return (
-              <tr key="header">
-                {Object.keys(item).map((keys, i) => (
-                  <th key={ i }>{ keys }</th>
-                ))}
-              </tr>
-            );
-          }
-          return (
-            <tr key={ index }>
-              {Object.values(item).map((val, j) => (
-                <td key={ j }>{ val }</td>
-              ))}
-            </tr>
-          );
-        })}
-      </tbody>
+      {data[0] && renderObjects()}
     </table>
   );
 }
