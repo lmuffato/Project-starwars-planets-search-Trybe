@@ -26,6 +26,11 @@ function StarwarsProvider({ children }) {
     getPlanets();
   }, []);
 
+  useEffect(() => {
+    const filterName = data.filter((planet) => planet.name.includes(filters.filterByName.name));
+    console.log(filterName);
+  }, [filters]);
+
   return (
     <StarwarsContext.Provider value={ { data, loading, filters, setFilters } }>
       {children}
