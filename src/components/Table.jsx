@@ -1,25 +1,18 @@
 import React from 'react';
+import useStarWars from '../hooks/useStarWars';
+import TableBody from './TableBody';
+import TableHeadings from './TableHeadings';
 
 // Talvez tenha que componentizar as partes da tabela
 // Uma opção: componentizar tbody e thead
 
 function Table() {
+  const { data } = useStarWars();
+
   return (
     <table>
-      <thead>
-        <tr>
-          <th>
-            Teste
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            Teste
-          </td>
-        </tr>
-      </tbody>
+      <TableHeadings />
+      <TableBody />
     </table>
   );
 }
