@@ -4,7 +4,8 @@ import './Table.css';
 import fetchPlanets from '../services/fetchPlanets';
 
 function Table() {
-  const { setPlanets, planets } = useContext(PlanetsContext);
+  const { setPlanets, planets, nameFilter } = useContext(PlanetsContext);
+  const filteredPlanets = planets.filter((planet) => planet.name.includes(nameFilter));
   useEffect(() => {
     const getPlanets = async () => {
       setPlanets(await fetchPlanets());
@@ -32,7 +33,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        { planets ? planets.map((planet) => {
+        { filteredPlanets.map((planet) => {
           const objectKeys = Object.keys(planet);
           return (
             <tr key={ `${planet.name}-line` }>
@@ -41,7 +42,7 @@ function Table() {
               )) }
             </tr>
           );
-        }) : null }
+        }) }
 
       </tbody>
     </table>
