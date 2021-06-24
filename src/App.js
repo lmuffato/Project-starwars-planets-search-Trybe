@@ -8,7 +8,6 @@ function App() {
 
     <StarWarsProvider>
       <Table />
-      <span>Hello, App</span>
     </StarWarsProvider>
   );
 }
