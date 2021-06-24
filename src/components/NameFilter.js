@@ -6,7 +6,8 @@ function NameFilter() {
 
   function handleChange(event) {
     setNameFilter(event.target.value);
-    const filtered = data.filter((planet) => planet.name.includes(event.target.value));
+    const filtered = data.filter((planet) => (
+      planet.name.toLowerCase().includes(event.target.value.toLowerCase())));
     setReturnData(filtered);
   }
 
