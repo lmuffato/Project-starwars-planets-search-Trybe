@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import SWContext from './SWContext';
 
 function SWProvider({ children }) {
@@ -28,5 +29,9 @@ function SWProvider({ children }) {
     </SWContext.Provider>
   );
 }
+
+SWProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
 export default SWProvider;
