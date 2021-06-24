@@ -1,22 +1,30 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import response from '../testData';
 import PlanetsContext from './PlanetsContext';
 
 function PlanetsProvider({ children }) {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [filter, setFilter] = useState({ filterByName: { name: '' } });
 
   async function fetchPlanet() {
-    const fetchApi = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
+    const fetchApi = await fetch('https://swapi.dev/api/planets');
     const result = await fetchApi.json();
-    setData(response);
+    setData(result);
     console.log(result);
     setIsLoading(false);
   }
 
+  function onChangeName(cname) {
+    setFilter({ ...filter, ...{ name: cname } });
+  }
+
   return (
-    <PlanetsContext.Provider value={ { data, isLoading, fetchPlanet } }>
+    <PlanetsContext.Provider
+      value={
+        { data, isLoading, filter, fetchPlanet, onChangeName }
+      }
+    >
       {children}
     </PlanetsContext.Provider>
   );
