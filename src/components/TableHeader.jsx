@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import getApiStauo from '../services/fetchApiStauo';
+import titlesTB from '../services/dataTitles';
 
 function TableHeader() {
   const [dataOrigin, setDataOrigin] = useState();
@@ -16,8 +17,7 @@ function TableHeader() {
   const header = () => (
     <thead>
       <tr>
-        {Object.keys(dataOrigin[0])
-          .map((titulo) => (<th key={ titulo }>{titulo}</th>))}
+        {titlesTB.map((titulo, index) => <th key={ index }>{titulo}</th>)}
       </tr>
     </thead>
   );

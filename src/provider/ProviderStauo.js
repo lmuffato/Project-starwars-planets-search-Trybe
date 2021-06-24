@@ -4,8 +4,16 @@ import ContextStauo from './ContextStauo';
 import getApiStauo from '../services/fetchApiStauo';
 
 function Provider({ children }) {
+  const initial = {
+    filterByName: {
+      name: '',
+    },
+  };
+
   const [data, setData] = useState([]);
   const [dataTitle, setDataTitle] = useState([]);
+  const [text, setText] = useState('');
+  const [filters, setFilters] = useState(initial);
 
   const respApi = async () => {
     const results = await getApiStauo();
@@ -20,6 +28,11 @@ function Provider({ children }) {
   const context = {
     data,
     dataTitle,
+    setData,
+    text,
+    setText,
+    filters,
+    setFilters,
   };
 
   return (
