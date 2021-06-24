@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import Context from './context/Context';
 import Table from './components/table';
+import Filter from './components/filter';
 
 function App() {
   const [data, setData] = useState([]);
+  const [name, searchName] = useState('');
+
   const planets = {
     data,
     setData,
+    filters: {
+      filterByName: {
+        name,
+      },
+    },
+    searchName,
   };
 
   useEffect(() => {
@@ -18,10 +27,8 @@ function App() {
   return (
     <main>
       <Context.Provider value={ planets }>
-        <div>filters</div>
-        <div>
-          <Table />
-        </div>
+        <Filter />
+        <Table />
       </Context.Provider>
     </main>
   );
