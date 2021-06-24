@@ -1,0 +1,8 @@
+.cell {
+  min-width: 60px;
+  overflow: hidden;
+}
+
+td, th {
+  border: 1px solid black;
+}

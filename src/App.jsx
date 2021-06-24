@@ -1,19 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './App.css';
-import fetchPlanets from './services/fetchPlanets';
 import Table from './components/Table';
+import Provider from './utils/PlanetsProvider';
 
 function App() {
-  useEffect(() => {
-    const planets = async () => {
-      const test = await fetchPlanets();
-      console.log(test);
-    };
-    planets();
-  }, []);
-
   return (
-    <Table />
+    <Provider>
+      <Table />
+    </Provider>
   );
 }
 
