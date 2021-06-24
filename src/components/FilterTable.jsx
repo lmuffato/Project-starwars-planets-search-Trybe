@@ -15,7 +15,7 @@ export default function FilterTable() {
   };
 
   const mapList = () => filterByNumericValues.map((obj) => (
-    <li key={ obj.value }>
+    <li key={ obj.value } data-testid="filter">
       <p>{obj.column}</p>
       <p>{obj.comparison}</p>
       <p>{obj.value}</p>
