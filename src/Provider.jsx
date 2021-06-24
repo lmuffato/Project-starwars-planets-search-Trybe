@@ -8,6 +8,7 @@ export default function Provider({ children }) {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [],
   });
 
   useEffect(() => {
