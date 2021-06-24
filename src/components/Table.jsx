@@ -6,19 +6,18 @@ import TableHeadings from './TableHeadings';
 
 function Table() {
   const { data } = useStarWars();
-  const dataWithNoResidentes = [...data];
-  console.log(data);
-  dataWithoutResidents(dataWithNoResidentes);
+  const newData = [...data];
+  dataWithoutResidents(newData);
 
   return (
     <div>
       {data.length > 0 ? (
         <table>
-          <TableHeadings data={ dataWithNoResidentes } />
-          <TableBody data={ dataWithNoResidentes } />
+          <TableHeadings data={ newData } />
+          <TableBody data={ newData } />
         </table>
       ) : (
-        'Sorry, planets information unavailable right now' // pode virar um componente no futuro
+        'Carregando...' // pode virar um componente no futuro
       )}
     </div>
   );

@@ -7,6 +7,7 @@ export const StarWarsContext = createContext({});
 export function StarWarsContextProvider({ children }) {
   // const [state, setState] = useState({});
   const [swPlanets, setSWPlanets] = useState([]);
+  const [isLoading, setLoading] = useState(true);
   const [name, setName] = useState('');
 
   const contextVal = {
@@ -18,31 +19,18 @@ export function StarWarsContextProvider({ children }) {
     },
     setSWPlanets,
     setName,
+    isLoading,
   };
 
   useEffect(() => {
-    async function fetchApi() {
-      await fetchDataFromStarWarsAPI().then((res) => setSWPlanets(res.results));
+    async function tryFetch() {
+      const planets = await fetchDataFromStarWarsAPI();
+      setSWPlanets(planets.results);
+      setLoading(false);
+      console.log(planets.results);
     }
-    return () => fetchApi();
+    tryFetch();
   }, []);
-
-  /* An effect function must not return anything besides a function, which is used for clean-up.
-
-    It looks like you wrote useEffect(async () => ...) or returned a Promise. Instead, write the async function inside your effect and call it immediately:
-
-    useEffect(() => {
-      async function fetchData() {
-        // You can await here
-        const response = await MyAPI.getData(someId);
-        // ...
-      }
-      fetchData();
-    }, [someId]); // Or [] if effect doesn't need props or state
-
-    Learn more about data fetching with Hooks: https://fb.me/react-hooks-data-fetching
-        in StarWarsContextProvider (at App.js:8)
-        in App (at App.test.js:37) */
 
   return (
     <StarWarsContext.Provider value={ contextVal }>
@@ -54,3 +42,5 @@ export function StarWarsContextProvider({ children }) {
 StarWarsContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
+
+// https://fb.me/react-hooks-data-fetching

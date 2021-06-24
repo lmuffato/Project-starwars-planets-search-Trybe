@@ -6,7 +6,7 @@ function TableHeadings({ data }) {
   return (
     <thead>
       <tr>
-        {Object.keys(data[0]).map((heading, index) => (
+        {data && Object.keys(data[0]).map((heading, index) => (
           <th key={ `${heading} ${index}` }>{heading}</th>
         ))}
       </tr>
