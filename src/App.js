@@ -1,10 +1,16 @@
 import React from 'react';
-import './App.css';
 
-function App() {
+import Table from './components/Table';
+import PlanetsProvider from './context/PlanetProvider';
+
+function PlanetsForm() {
   return (
-    <span>Hello, App!</span>
+    <PlanetsProvider>
+      <main>
+        <Table />
+      </main>
+    </PlanetsProvider>
   );
 }
 
-export default App;
+export default PlanetsForm;
