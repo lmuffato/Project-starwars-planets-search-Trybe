@@ -9,7 +9,8 @@ function App() {
   const [loadingApi, setLoadingApi] = useState(true);
 
   useEffect(() => {
-    fetchApi().then((response) => setPlanetsArray(response)).then(() => setLoadingApi(false));
+    fetchApi().then((response) => setPlanetsArray(response))
+      .then(() => setLoadingApi(false));
   }, []);
 
   return (
