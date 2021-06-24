@@ -1,16 +1,13 @@
 import React from 'react';
-import Table from './components/Table';
-
 import Provider from './context/provider';
+import Home from './Home';
 import './App.css';
-import GetData from './components/services';
 
 function App() {
   return (
     <div>
       <Provider>
-        <GetData />
-        <Table />
+        <Home />
       </Provider>
     </div>
   );

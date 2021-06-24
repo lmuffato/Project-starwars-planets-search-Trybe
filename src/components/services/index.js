@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import starWarsPlanets from '../../context';
 
 function GetData() {
-  const { setData } = useContext(starWarsPlanets);
+  const { setData, setBackup } = useContext(starWarsPlanets);
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -10,6 +10,7 @@ function GetData() {
         .then((data) => data.json());
 
       setData(results);
+      setBackup(results);
     };
 
     getPlanets();

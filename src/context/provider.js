@@ -4,9 +4,16 @@ import starWarsPlanets from './index';
 
 function Provider({ children }) {
   const [data, setData] = useState([{}]);
+  const [filters, setFilters] = useState({ filterByName: { name: '' } });
+  const [backup, setBackup] = useState([]);
+
   const contextValue = {
     data,
     setData,
+    filters,
+    setFilters,
+    backup,
+    setBackup,
   };
 
   return (
