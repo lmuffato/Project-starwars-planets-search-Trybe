@@ -1,9 +1,12 @@
 import React from 'react';
-import './App.css';
+import Home from './pages/Home';
+import Provider from './provider/ProviderStauo';
 
 function App() {
   return (
-    <span>Hello, App!</span>
+    <Provider>
+      <Home />
+    </Provider>
   );
 }
 
