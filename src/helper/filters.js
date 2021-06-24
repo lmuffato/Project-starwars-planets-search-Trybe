@@ -4,11 +4,11 @@ export const filterByName = (array, name) => {
 };
 
 const isGreatherThan = (array, category, value) => (
-  array.filter((item) => item[category] > value)
+  array.filter((item) => Number(item[category]) > value)
 );
 
 const isLessThan = (array, category, value) => (
-  array.filter((item) => item[category] < value)
+  array.filter((item) => Number(item[category]) < value)
 );
 
 const isEqualTo = (array, category, value) => (
