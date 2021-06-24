@@ -5,15 +5,19 @@ import Context from './Context';
 function Provider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [name, setName] = useState('');
+  const [numericValues, setNumericValues] = useState([]);
+
   const contextValue = {
     data: planets,
     filters: {
       filterByName: {
         name,
       },
+      filterByNumericValues: numericValues,
     },
     setPlanets,
     setName,
+    setNumericValues,
   };
 
   return (
