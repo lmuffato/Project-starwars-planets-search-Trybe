@@ -7,7 +7,7 @@ function Home() {
   const { setPlanets } = useContext(Context);
   useEffect(() => {
     requestAPI().then((response) => setPlanets(response.results));
-  }, []);
+  });
   return (
     <div>
       <Table />
