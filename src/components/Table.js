@@ -10,19 +10,19 @@ function Table() {
 
   return (keys !== undefined
     ? (
-      <table>
+      <tbody>
         <tr>
-          {keys.map((key) => <th key={ key }>{ key }</th>)}
+          {keys.map((key, index) => <th key={ `${key}${index}` }>{ key }</th>)}
         </tr>
-        {returnData.map((planet) => (
-          <tr key={ planet }>
-            {Object.values(planet).map((property) => (
-              <td key={ property }>{ property }</td>))}
+        {returnData.map((planet, index) => (
+          <tr key={ `${planet}${index}` }>
+            {Object.values(planet).map((property, index2) => (
+              <td key={ `${planet}${index2}` }>{ property }</td>))}
           </tr>
         ))}
-      </table>
+      </tbody>
     )
-    : (<span>carregando...</span>));
+    : (<tbody><tr><td>carregando...</td></tr></tbody>));
 }
 
 export default Table;

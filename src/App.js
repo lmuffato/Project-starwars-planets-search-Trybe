@@ -8,7 +8,9 @@ function App() {
   return (
     <SWProvider>
       <Filters />
-      <Table />
+      <table>
+        <Table />
+      </table>
     </SWProvider>
   );
 }
