@@ -1,8 +1,9 @@
 import React from 'react';
+import '../App.css';
 
 function TableHead() {
   return (
-    <thead>
+    <thead className="table-head">
       <tr>
         <th>Name</th>
         <th>Rotation period</th>

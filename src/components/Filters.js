@@ -3,9 +3,9 @@ import planetsContext from '../context/PlanetsContext';
 
 function Filters() {
   const {
-    filters: { filterByName: { name } }, setName, setColumn, value,
-    setComparison, setValue, column, comparison, setBtnFilter, pop, diam,
-    rotation, orbit, surface } = useContext(planetsContext);
+    name, setName, setColumn, value,
+    setComparison, setValue, column, comparison, setBtnFilter, filtersSelect,
+  } = useContext(planetsContext);
 
   const handleChange = (target) => {
     setBtnFilter(false);
@@ -14,8 +14,6 @@ function Filters() {
     if (target.id === 'comparison') return setComparison(target.value);
     if (target.id === 'value-filter') return setValue(target.value);
   };
-
-  const filterColumn = [pop, orbit, diam, rotation, surface];
 
   return (
     <div>
@@ -38,13 +36,8 @@ function Filters() {
           onChange={ (e) => handleChange(e.target) }
         >
           {
-            filterColumn.map((e, index) => (
-              <option
-                key={ index }
-                value={ e.name }
-              >
-                {e.name}
-              </option>
+            filtersSelect.map((e, index) => (
+              <option key={ index } value={ e }>{e}</option>
             ))
           }
         </select>

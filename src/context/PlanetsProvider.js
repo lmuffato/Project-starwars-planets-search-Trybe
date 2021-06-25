@@ -6,16 +6,15 @@ import fetchStarWars from '../services/fetchStarWarsAPI';
 
 function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
+  const [filters, setFilters] = useState({ filterByName: {}, filterByNumericValues: [] });
   const [name, setName] = useState('');
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState('100000');
   const [btnFilter, setBtnFilter] = useState(false);
-  const [pop, setPop] = useState({ name: 'population', used: false });
-  const [orbit, setOrbit] = useState({ name: 'orbital_period', used: false });
-  const [diam, setDiam] = useState({ name: 'diameter', used: false });
-  const [rotation, setRotation] = useState({ name: 'rotation_period', used: false });
-  const [surface, setSurface] = useState({ name: 'surface_water', used: false });
+  const [filtersSelect, setFiltersSelect] = useState(
+    ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
+  );
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -27,18 +26,9 @@ function PlanetsProvider({ children }) {
 
   const provider = {
     data,
-    filters: {
-      filterByName: {
-        name,
-      },
-      filterByNumericValues: [
-        {
-          column,
-          comparison,
-          value,
-        },
-      ],
-    },
+    filters,
+    setFilters,
+    name,
     setName,
     column,
     setColumn,
@@ -48,16 +38,8 @@ function PlanetsProvider({ children }) {
     setValue,
     btnFilter,
     setBtnFilter,
-    pop,
-    setPop,
-    orbit,
-    setOrbit,
-    diam,
-    setDiam,
-    rotation,
-    setRotation,
-    surface,
-    setSurface,
+    filtersSelect,
+    setFiltersSelect,
   };
 
   return (
