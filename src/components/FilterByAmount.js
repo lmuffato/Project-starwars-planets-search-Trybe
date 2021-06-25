@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import PlanetContext from '../context/PlanetContext';
 
 function FilterByAmount() {
-  const { data } = useContext(PlanetContext);
+  const { data, filters, setFilter } = useContext(PlanetContext);
   const [value, setValue] = useState(0);
   const [comp, setComp] = useState('maior que');
   const [type, setType] = useState('rotation_period');
@@ -56,7 +56,16 @@ function FilterByAmount() {
         .filter((newItem) => newItem[0] === type && compareValue(newItem[1]))
         .length > 0
     ));
-    console.log(amountFiltred);
+
+    const addFilter = Object.assign(filters, {
+      filterByNumericValues: [{
+        column: type,
+        comparasion: comp,
+        value,
+      }],
+    });
+
+    setFilter(addFilter);
   };
 
   return (
