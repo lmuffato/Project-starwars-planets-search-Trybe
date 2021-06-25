@@ -2,29 +2,73 @@ import React from 'react';
 import usePlanet from '../../hooks/usePlanet';
 
 export default function Tbody() {
-  const { planets, filter } = usePlanet();
-  const { filters: { filterByName: { name } } } = filter;
+  const { planets, filteredByName, filteredByNumbers } = usePlanet();
+  const { filters: { filterByName: { name } } } = filteredByName;
+  const { filterByNumericValues } = filteredByNumbers;
+  // const { column, comparison, value } = filterByNumericValues[0];
+  // console.log((filterByNumericValues));
 
-  const FilterPlanetsByName = planets
-    .filter((planet) => (planet.name.includes(name)));
+  function FilterPlanetsByName() {
+    const filterByName = planets
+      .filter((planet) => (planet.name.includes(name)));
+
+    if (filterByNumericValues.length > 0) {
+      const { column, comparison, value } = filterByNumericValues[0];
+      const filterByNumbers = filterByName
+        .filter((planet) => {
+          switch (comparison) {
+          case 'igual a':
+            return +planet[column] === value;
+          case 'maior que':
+            return +planet[column] > value;
+          case 'menor que':
+            return +planet[column] < value;
+          default:
+            return planets;
+          }
+        });
+      return filterByNumbers;
+    }
+    return filterByName;
+  }
+
+  console.log(planets);
+
+  // function FilterPlanetsByNumbers(columnPlanets, comparisonPlanets, valuePlanets) {
+  //   return planets
+  //     .filter((planet) => {
+  //       switch (comparisonPlanets) {
+  //       case 'igual a':
+  //         return +planet[columnPlanets] === valuePlanets;
+  //       case 'maior que':
+  //         return +planet[columnPlanets] > valuePlanets;
+  //       case 'menor que':
+  //         return +planet[columnPlanets] < valuePlanets;
+  //       default:
+  //         return planets;
+  //       }
+  //     });
+  // }
+
+  // console.log(FilterPlanetsByNumbers('population', 'igual a', 200000));
 
   return (
     <tbody>
-      {FilterPlanetsByName.map((planet, index) => (
+      {FilterPlanetsByName().map((planet, index) => (
         <tr key={ index }>
-          <td>{planet.name}</td>
-          <td>{planet.rotationPeriod}</td>
-          <td>{planet.orbitalPeriod}</td>
-          <td>{planet.diameter}</td>
-          <td>{planet.climate}</td>
-          <td>{planet.gravity}</td>
-          <td>{planet.terrain}</td>
-          <td>{planet.surfaceWater}</td>
-          <td>{planet.population}</td>
-          <td>{planet.films}</td>
-          <td>{planet.created}</td>
-          <td>{planet.edited}</td>
-          <td>{planet.url}</td>
+          <td className="columnName">{planet.name}</td>
+          <td className="columnRotationPeriod">{planet.rotationPeriod}</td>
+          <td className="columnOrbitalPeriod">{planet.orbitalPeriod}</td>
+          <td className="columnDiameter">{planet.diameter}</td>
+          <td className="columnClimate">{planet.climate}</td>
+          <td className="columnGravity">{planet.gravity}</td>
+          <td className="columnTerrain">{planet.terrain}</td>
+          <td className="columnSurfaceWater">{planet.surfaceWater}</td>
+          <td className="columnPopulation">{planet.population}</td>
+          <td className="columnFilms">{planet.films}</td>
+          <td className="columnCreated">{planet.created}</td>
+          <td className="columnEdited">{planet.edited}</td>
+          <td className="columnUrl">{planet.url}</td>
         </tr>
       ))}
     </tbody>
