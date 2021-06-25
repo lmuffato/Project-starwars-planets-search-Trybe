@@ -12,9 +12,9 @@ function Provider({ children }) {
 
   const [numericValues, setNumericValues] = useState({
     filterByNumericValues: [{
-      column: 'population',
-      comparison: 'maior que',
-      value: 0,
+      column: undefined,
+      comparison: undefined,
+      value: undefined,
     }],
   });
 
