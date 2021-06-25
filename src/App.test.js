@@ -88,14 +88,14 @@ describe('2 - Filtre a tabela através de um texto, inserido num *campo de texto
   beforeAll(mockFetch);
   beforeEach(cleanup);
 
-  it.skip('Renderize o campo de texto para o filtro de nomes', async () => {
+  it('Renderize o campo de texto para o filtro de nomes', async () => {
     await act(async () => {
       render(<App />);
     });
     expect(await screen.findByTestId(INPUT_FILTER_NAME_SELECTOR)).toBeInTheDocument();
   });
 
-  it.skip('Filtre os planetas que possuem a letra "o" no nome', async () => {
+  it('Filtre os planetas que possuem a letra "o" no nome', async () => {
     await act(async () => {
       render(<App />);
     });

@@ -1,6 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import StarWarsContext from '../context/StarWarsContext';
 
-export default function RenderDataOfTable(planets) {
+export default function RenderDataOfTable(arrayPlanets) {
+  let planets = [...arrayPlanets];
+  const { name: filterText } = useContext(StarWarsContext);
+
+  if (filterText !== '') {
+    planets = arrayPlanets
+      .filter(({ name }) => name.toLowerCase().includes(filterText.toLowerCase()));
+  }
   const dataRender = planets.map(({
     name,
     rotation_period: rotationPeriod,
