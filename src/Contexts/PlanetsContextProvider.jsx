@@ -9,11 +9,13 @@ export function PlanetsContextProvider({ children }) {
   const [planetsList, setPlanets] = useState([]);
   const [planetasIniciais, setPlanetasIniciais] = useState([]);
   const [filters, setFilters] = useState({});
+  const [loading, setLoading] = useState(true);
 
   async function getPlanets() {
     const planets = await fetchPlanets();
     setPlanets(planets);
     setPlanetasIniciais(planets);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -22,7 +24,7 @@ export function PlanetsContextProvider({ children }) {
 
   return (
     <PlanetsContext.Provider
-      value={ { data: { planetsList, planetasIniciais, setPlanets },
+      value={ { data: { planetsList, planetasIniciais, setPlanets, loading },
         filters: { filters, setFilters } } }
     >
       {children}

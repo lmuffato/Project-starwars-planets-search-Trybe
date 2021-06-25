@@ -1,21 +1,16 @@
 import React, { useState } from 'react';
+import useFilter from '../hooks/useFilter';
 import usePlanets from '../hooks/usePlanets';
 
 function FilterByNumber() {
-  const categories = ['population',
-    'orbital_period',
-    'diameter',
-    'rotation_period',
-    'surface_water'];
-  const [comparisonFilter, setComparisonFilter] = useState('maior que');
-  const [inputFilter, setInputFilter] = useState(0);
-  const [dropdown, setDropdown] = useState(categories);
-  const [columnFilter, setColumnFilter] = useState(dropdown[0]);
-
+  const { dropdown, setDropdown } = useFilter();
   const {
     filters: { filters, setFilters },
     data: { planetsList, setPlanets },
   } = usePlanets();
+  const [comparisonFilter, setComparisonFilter] = useState('maior que');
+  const [inputFilter, setInputFilter] = useState(0);
+  const [columnFilter, setColumnFilter] = useState(dropdown[0]);
 
   function filterByNumericValues() {
     const filteredPlanets = planetsList.filter((planet) => {

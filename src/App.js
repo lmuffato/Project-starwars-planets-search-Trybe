@@ -4,13 +4,16 @@ import Table from './components/Table';
 import FilterName from './components/FilterName';
 import FilterByNumber from './components/FilterByNumber';
 import './App.css';
+import { FiltersContextProvider } from './Contexts/FiltersContextProvider';
 
 function App() {
   return (
     <PlanetsContextProvider>
-      <FilterName />
-      <FilterByNumber />
-      <Table />
+      <FiltersContextProvider>
+        <FilterName />
+        <FilterByNumber />
+        <Table />
+      </FiltersContextProvider>
     </PlanetsContextProvider>
   );
 }
