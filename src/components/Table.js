@@ -2,24 +2,24 @@ import React, { useContext } from 'react';
 import starwarsContext from '../context/starwarsContext';
 
 export default function Table() {
-  const { data } = useContext(starwarsContext);
+  const { dataTable } = useContext(starwarsContext);
 
   return (
     <div>
-      { data.length === 0 ? <span>Loading...</span>
+      { dataTable.length === 0 ? <span>Loading...</span>
         : (
           <table>
             <thead>
               <tr>
                 {
-                  Object.keys(data[0]).map((title, index) => (
+                  Object.keys(dataTable[0]).map((title, index) => (
                     <th key={ index }>{ title }</th>))
                 }
               </tr>
             </thead>
             <tbody>
-              { data.map((planet, index) => (
-                <tr key={ index }>
+              { dataTable.map((planet, indexPlanet) => (
+                <tr key={ indexPlanet }>
                   {
                     Object.values(planet).map((value, index) => (
                       <td key={ index }>{ value }</td>))
