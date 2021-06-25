@@ -10,17 +10,27 @@ const Provider = ({ children }) => {
       name: '',
     },
   });
-
+  const [selects, setSelects] = useState({
+    filerByNumericValues: [
+      {
+        column: '',
+        comparison: '',
+        value: '',
+      },
+    ],
+  });
   const contextValue = {
     data,
     setData,
     filter,
     setFilter,
+    selects,
+    setSelects,
   };
 
   useEffect(() => {
     requestAPI().then(({ results }) => setData(results));
-  }, [data]);
+  }, []);
 
   return (
     <context.Provider value={ contextValue }>

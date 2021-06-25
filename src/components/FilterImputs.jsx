@@ -4,9 +4,9 @@ import context from '../context/context';
 const FilterInputs = () => {
   const { data, setData } = useContext(context);
 
-  const handleChange = (e) => {
+  const handleChange = ({ target }) => {
     setData(
-      data.filter((planets) => planets.name.toLowerCase().includes(e.target.value)),
+      data.filter((planets) => planets.name.toLowerCase().includes(target.value)),
     );
     return data;
   };

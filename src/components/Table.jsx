@@ -3,7 +3,7 @@ import context from '../context/context';
 
 const Table = () => {
   const { data } = useContext(context);
-  // console.log(data);
+  console.log(data);
 
   return (
     <div className="table-wrapper">
