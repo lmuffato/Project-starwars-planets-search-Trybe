@@ -7,7 +7,7 @@ function TableProvider({ children }) {
   const [headers, setHeaders] = useState([]);
   const [filters, setFilters] = useState({
     filterByName: { name: '' },
-    filterByNumericValues: { column: '', comparison: '', value: '' },
+    filterByNumericValues: [],
   });
 
   useEffect(() => {
@@ -29,7 +29,7 @@ function TableProvider({ children }) {
 }
 
 TableProvider.propTypes = {
-  children: PropTypes.objectOf(PropTypes.string).isRequired,
+  children: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default TableProvider;

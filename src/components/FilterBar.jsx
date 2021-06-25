@@ -1,19 +1,22 @@
 import React, { useContext, useState } from 'react';
 import TableContext from '../context/TableContext';
 
+const filterArray = ['population', 'orbital_period',
+  'diameter', 'rotation_period', 'surface_water'];
+
 function FilterBar() {
+  const [filterArr, setFilterArr] = useState(filterArray);
   const [columnFilter, setColumnFilter] = useState('population');
   const [comparisonFilter, setComparisonFilter] = useState('maior que');
   const [valueFilter, setValueFilter] = useState('');
-  const { setFilters, filters } = useContext(TableContext);
 
-  const filterArray = ['population', 'orbital_period',
-    'diameter', 'rotation_period', 'surface_water'];
+  const { setFilters, filters } = useContext(TableContext);
 
   function handleClick() {
     setFilters({ ...filters,
-      filterByNumericValues: {
-        column: columnFilter, comparison: comparisonFilter, value: valueFilter } });
+      filterByNumericValues: filters.filterByNumericValues.concat({
+        column: columnFilter, comparison: comparisonFilter, value: valueFilter }) });
+    setFilterArr(filterArr.filter((e) => e !== columnFilter));
   }
 
   return (
@@ -38,7 +41,7 @@ function FilterBar() {
         value={ columnFilter }
         onChange={ (e) => (setColumnFilter(e.target.value)) }
       >
-        {filterArray.map((e) => (
+        {filterArr.map((e) => (
           (<option key={ e } name={ e } value={ e }>{e}</option>)
         ))}
       </select>

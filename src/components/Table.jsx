@@ -4,25 +4,37 @@ import TableContext from '../context/TableContext';
 function Table() {
   const { data, headers, filters } = useContext(TableContext);
 
-  if (!headers.length) return <div>loading...</div>;
+  function numericFilter(arr) {
+    const { filterByNumericValues } = filters;
 
-  function filter() {
-    const { filterByName: { name },
-      filterByNumericValues: { column, comparison, value } } = filters;
+    if (!filterByNumericValues.length) return arr;
+
+    let newArr = arr;
+
+    filterByNumericValues.forEach((filtro) => {
+      const { comparison, column, value } = filtro;
+      if (comparison === 'maior que') {
+        newArr = newArr.filter((pl) => parseFloat(pl[column]) > parseFloat(value));
+      }
+      if (comparison === 'menor que') {
+        newArr = newArr.filter((pl) => parseFloat(pl[column]) < parseFloat(value));
+      }
+      if (comparison === 'igual a') {
+        newArr = newArr.filter((pl) => parseFloat(pl[column]) === parseFloat(value));
+      }
+    });
+    return newArr;
+  }
+
+  function allFilters() {
+    const { filterByName: { name } } = filters;
     const filt = data.results.filter((pl) => (
       pl.name.includes(name)
     ));
-    if (comparison === 'maior que') {
-      return filt.filter((planet) => parseFloat(planet[column]) > parseFloat(value));
-    }
-    if (comparison === 'menor que') {
-      return filt.filter((planet) => parseFloat(planet[column]) < parseFloat(value));
-    }
-    if (comparison === 'igual a') {
-      return filt.filter((planet) => parseFloat(planet[column]) === parseFloat(value));
-    }
-    return filt;
+    return numericFilter(filt);
   }
+
+  if (!headers.length) return <div>loading...</div>;
 
   return (
     <table>
@@ -31,7 +43,7 @@ function Table() {
           {headers.map((head) => <th key={ head }>{head}</th>)}
         </tr>
         {
-          filter()
+          allFilters()
             .map((planet) => (
               <tr key={ planet.name }>
                 {
