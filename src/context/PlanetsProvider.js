@@ -12,21 +12,13 @@ function PlanetsProvider({ children }) {
     const result = await fetchApi.json();
     result.results.map((planets) => delete planets.residents);
     setData(result);
-    console.log(result);
     setIsLoading(false);
   }
 
   function filterName(cname) {
+    fetchPlanet();
     const filterPlanetName = -1;
     setFilter({ ...filter, ...{ filterByName: { name: cname } } });
-    const { filterByName } = filter;
-    const { name } = filterByName;
-    console.log(name);
-    console.log(data);
-    if (cname === '') {
-      return fetchPlanet();
-    }
-
     const newArr = data.results.filter((planet) => (
       planet.name.indexOf(cname) !== filterPlanetName));
     return setData({ ...data, results: newArr });
