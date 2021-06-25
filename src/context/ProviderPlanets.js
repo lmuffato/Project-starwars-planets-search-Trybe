@@ -17,6 +17,15 @@ function ProviderPlanets({ children }) {
 
   const [filters, setFilters] = useState(INITIAL_FILTERS);
 
+  const deleteNumericFilter = (column) => {
+    const filterByNumericValues = filters.filterByNumericValues
+      .filter((filter) => filter.column !== column);
+    setFilters({
+      ...filters,
+      filterByNumericValues,
+    });
+  };
+
   const updateColumnOptions = () => {
     const initialColumnOptions = [
       'population',
@@ -126,8 +135,8 @@ function ProviderPlanets({ children }) {
         updateNumericFilter,
         updateNameFilter,
         updateSortKey,
-        data,
         filterColumnOptions,
+        deleteNumericFilter,
       } }
     >
       { children }
