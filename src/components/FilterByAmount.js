@@ -1,8 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import PlanetContext from '../context/PlanetContext';
 
 function FilterByAmount() {
   const { data } = useContext(PlanetContext);
+  const [value, setValue] = useState(0);
+  const [comp, setComp] = useState('maior que');
+  const [type, setType] = useState('rotation_period');
 
   function isNumeric(str) {
     const er = /^[0-9]+$/;
@@ -15,6 +18,7 @@ function FilterByAmount() {
 
     return (
       <select
+        onChange={(e) => setType(e.target.value)}
         data-testid="column-filter"
       >
         { names.map((item, index) => (
@@ -26,6 +30,7 @@ function FilterByAmount() {
 
   const greaterThan = () => (
     <select
+      onChange={ (e) => setComp(e.target.value) }
       data-testid="value-filter"
     >
       <option>maior que</option>
@@ -39,6 +44,7 @@ function FilterByAmount() {
       {data[0] && renderType()}
       {greaterThan()}
       <input
+        onChange={ (e) => setValue(e.target.value) }
         data-testid="value-filter"
         type="number"
       />
