@@ -9,20 +9,32 @@ const Table = () => {
   let planetsFiltred = [];
 
   if (planetList) {
-    if (name) {
-      planetsFiltred = planetList.filter((planet) => planet[0].toLowerCase()
+    if (name !== null) {
+      planetsFiltred = planetList.filter((planet) => planet.name.toLowerCase()
         .includes(name.toLowerCase()));
     } else {
       planetsFiltred = planetList;
     }
+    // console.log(name);
+    // console.log(planetsFiltred);
 
     const planetsRender = planetsFiltred.map((planet, index) => (
       <tr key={ index }>
         {
-          planet.map((data, id) => <td key={ id }>{data}</td>)
+          Object.values(planet).map((data, id) => <td key={ id }>{data}</td>)
         }
       </tr>
     ));
+
+    // const checkPlanetsRender = () => {
+    //   if (planetsRender.length > 0) {
+    //     return (
+    //       <tbody>{planetsRender}</tbody>
+    //     )
+    //   }
+    //   return false;
+    // }
+    // console.log(planetsRender.length > 0);
 
     return (
       <table>
@@ -33,9 +45,8 @@ const Table = () => {
             ))}
           </tr>
         </thead>
-        <tbody>
-          {planetsRender}
-        </tbody>
+        {planetsRender.length > 0
+          ? <tbody>{planetsRender}</tbody> : false}
       </table>
     );
   }

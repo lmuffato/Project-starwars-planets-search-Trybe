@@ -9,6 +9,7 @@ function Input() {
       <input
         type="text"
         data-testid="name-filter"
+        placeholder="Search for a planet"
         onChange={ (e) => setName(e.target.value) }
       />
     </div>
