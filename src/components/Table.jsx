@@ -21,10 +21,36 @@ function renderTableBody(data) {
   );
 }
 
-function Table() {
-  const { data, filters: { filterByName: { name } } } = useContext(Context);
+function filterDataName(data, name) {
   const newData = [...data].filter((planet) => planet.name.includes(name));
   data.forEach((planet) => delete planet.residents);
+  return newData;
+}
+
+function filterDataNumber(data, numeralValue) {
+  if (numeralValue.length === 0) { return data; }
+  const { comparison, column: compare, value } = numeralValue[0];
+  switch (comparison) {
+  case 'maior que':
+    return [...data].filter((planet) => Number(planet[compare]) > Number(value));
+  case 'menor que':
+    return [...data].filter((planet) => Number(planet[compare]) < Number(value));
+  case 'igual a':
+    return [...data].filter((planet) => Number(planet[compare]) === Number(value));
+  default:
+    return data;
+  }
+}
+
+function Table() {
+  const {
+    data,
+    filters: {
+      filterByName: { name },
+      filterByNumericValues,
+    } } = useContext(Context);
+  let newData = filterDataName(data, name);
+  newData = filterDataNumber(newData, filterByNumericValues);
   return (
     <table>
       <thead>
