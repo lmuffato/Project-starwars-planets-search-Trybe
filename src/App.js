@@ -1,8 +1,8 @@
 import { createElement as e } from 'react';
 import './App.css';
 import Table from './components/Table';
-import TableProvider from './context/TableProvider';
+import TableDataProvider from './context/TableDataProvider';
 
-const App = () => e(TableProvider, null, e(Table));
+const App = () => e(TableDataProvider, null, e(Table));
 
 export default App;

@@ -14,3 +14,16 @@ export const tbody = htmlElement('tbody');
 export const td = htmlElement('td');
 export const label = htmlElement('label');
 export const input = htmlElement('input');
+export const comparisons = ['maior que', 'igual a', 'menor que'];
+export const is = (a, comparison, b) => {
+  const numA = Number(a);
+  const numB = Number(b);
+  switch (comparison) {
+  case 'maior que':
+    return numA > numB;
+  case 'menor que':
+    return numA < numB;
+  default:
+    return numA === numB;
+  }
+};

@@ -1,14 +1,17 @@
 import { useContext } from 'react';
-import TableContext from '../context/TableContext';
-import { input, label } from '../utils';
 
-const TableFilter = () => {
+import { input, label } from '../utils';
+import TableContext from '../context/TableDataContext';
+
+const NameFilter = () => {
   const { setFilterByName } = useContext(TableContext);
 
-  const updateFilteredName = ({ target: { value } }) => setFilterByName(value);
+  const updateFilteredName = (
+    { target: { value } },
+  ) => setFilterByName(value);
   return (
     label([
-      'Filtre pelo nome do planeta',
+      'Nome',
       input(
         null, {
           onChange: updateFilteredName,
@@ -21,4 +24,4 @@ const TableFilter = () => {
   );
 };
 
-export default TableFilter;
+export default NameFilter;

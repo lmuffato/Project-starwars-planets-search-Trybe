@@ -2,15 +2,15 @@ import { createElement as e, useContext } from 'react';
 import { isEmpty } from 'lodash';
 import { div } from '../utils';
 
-import TableContext from '../context/TableContext';
+import TableDataContext from '../context/TableDataContext';
 import TableContainer from './TableContainer';
-import TableFilter from './TableFilter';
+import Filters from './Filters';
 
 const Table = () => {
-  const { data, loading } = useContext(TableContext);
+  const { data, loading } = useContext(TableDataContext);
 
   return loading || isEmpty(data) ? div('Loading')
-    : [e(TableFilter), e(TableContainer)];
+    : [e(Filters), e(TableContainer)];
 };
 
 export default Table;

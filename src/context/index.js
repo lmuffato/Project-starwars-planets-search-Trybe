@@ -1,4 +1,4 @@
-import TableContext from './TableContext';
-import TableProvider from './TableProvider';
+import TableDataContext from './TableDataContext';
+import TableDataProvider from './TableDataProvider';
 
-export { TableContext, TableProvider };
+export { TableDataContext, TableDataProvider };
