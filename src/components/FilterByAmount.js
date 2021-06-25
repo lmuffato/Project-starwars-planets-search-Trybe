@@ -39,9 +39,22 @@ function FilterByAmount() {
     </select>
   );
 
+  function compareValue(number) {
+    switch (comp) {
+    case 'maior que':
+      return number > value;
+    case 'menor que':
+      return number < value;
+    default:
+      return number === value;
+    }
+  }
+
   const submitFilter = () => {
     const amountFiltred = data.filter((item) => (
-      Object.entries(item).filter((newItem) => newItem[0] === type && newItem[1] > 26).length > 0
+      Object.entries(item)
+        .filter((newItem) => newItem[0] === type && compareValue(newItem[1]))
+        .length > 0
     ));
     console.log(amountFiltred);
   };
