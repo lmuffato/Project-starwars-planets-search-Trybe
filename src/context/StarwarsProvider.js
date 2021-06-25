@@ -24,6 +24,14 @@ function StarwarsProvider({ children }) {
     setLoading(false);
   };
 
+  const filterNumerically = () => {
+    filters.filterByNumericValues.map((filter) => {
+      const getFiltersValues = Object.values(filter);
+      const getColumn = data.map((planets) => planets[[getFiltersValues[0]]]);
+      console.log(getColumn);
+    });
+  };
+
   useEffect(() => {
     if (filters.filterByName.name === '') {
       getDataApi();
@@ -33,6 +41,7 @@ function StarwarsProvider({ children }) {
       return findPlanet;
     });
     setData(filterName);
+    filterNumerically();
   }, [filters]);
 
   return (

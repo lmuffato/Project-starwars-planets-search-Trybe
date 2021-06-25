@@ -2,15 +2,16 @@ import React, { useContext, useState } from 'react';
 import StarwarsContext from '../context/StarwarsContext';
 
 function Filters() {
-  const { setFilters, filters, data } = useContext(StarwarsContext);
-  const [numericFilter, setNumericFilter] = useState({});
+  const { setFilters, filters } = useContext(StarwarsContext);
+  const [numericFilter, setNumericFilter] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    value: '',
+  });
 
   const columValues = ['population', 'orbital_period', 'diameter',
     'rotation_period', 'surface_water'];
   const comparsionValues = ['maior que', 'menor que', 'igual a'];
-
-  console.log(data);
-  console.log(filters);
 
   function buildingOptions(arrayOptions) {
     return arrayOptions.map((value) => <option key={ value }>{ value }</option>);
@@ -29,10 +30,6 @@ function Filters() {
       ...filters,
       filterByNumericValues: [numericFilter],
     });
-
-    const getSelectors = filters.filterByNumericValues
-      .map((selector) => Object.values(selector));
-    console.log(getSelectors);
   }
 
   return (
@@ -54,7 +51,7 @@ function Filters() {
       <div>
         <select
           data-testid="column-filter"
-          name="colum"
+          name="column"
           onChange={ (e) => handleChange(e) }
         >
           {buildingOptions(columValues)}
