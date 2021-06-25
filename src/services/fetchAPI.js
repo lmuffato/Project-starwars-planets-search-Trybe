@@ -1,10 +1,10 @@
-// const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
+const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
 
-const mockEndpoint = 'https://swapi.dev/api/planets';
+// const mockEndpoint = 'https://swapi.dev/api/planets';
 
 export default async function fetchDataFromStarWarsAPI() {
   try {
-    const request = await fetch(mockEndpoint);
+    const request = await fetch(endpoint);
     const response = await request.json();
     // console.log(response);
     return response;
