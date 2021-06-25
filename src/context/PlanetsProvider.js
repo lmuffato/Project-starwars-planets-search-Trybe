@@ -10,19 +10,32 @@ function PlanetsProvider({ children }) {
   async function fetchPlanet() {
     const fetchApi = await fetch('https://swapi.dev/api/planets');
     const result = await fetchApi.json();
+    result.results.map((planets) => delete planets.residents);
     setData(result);
     console.log(result);
     setIsLoading(false);
   }
 
-  function onChangeName(cname) {
-    setFilter({ ...filter, ...{ name: cname } });
+  function filterName(cname) {
+    const filterPlanetName = -1;
+    setFilter({ ...filter, ...{ filterByName: { name: cname } } });
+    const { filterByName } = filter;
+    const { name } = filterByName;
+    console.log(name);
+    console.log(data);
+    if (cname === '') {
+      return fetchPlanet();
+    }
+
+    const newArr = data.results.filter((planet) => (
+      planet.name.indexOf(cname) !== filterPlanetName));
+    return setData({ ...data, results: newArr });
   }
 
   return (
     <PlanetsContext.Provider
       value={
-        { data, isLoading, filter, fetchPlanet, onChangeName }
+        { data, isLoading, filter, fetchPlanet, filterName }
       }
     >
       {children}

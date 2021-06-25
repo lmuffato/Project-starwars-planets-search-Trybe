@@ -5,11 +5,10 @@ import '../css/PlanetsTable.css';
 function PlanetsTable() {
   const { fetchPlanet: fetchPlanetApi } = useContext(PlanetsContext);
   const { data } = useContext(PlanetsContext);
-  const { isLoading, onChangeName } = useContext(PlanetsContext);
-
+  const { isLoading, filterName, } = useContext(PlanetsContext);
   useEffect(() => {
     fetchPlanetApi();
-  }, [isLoading]);
+  }, []);
 
   return (
     <main>
@@ -18,7 +17,7 @@ function PlanetsTable() {
         <input
           id="filter-byname"
           type="text"
-          onChange={ (ev) => onChangeName(ev.target.value) }
+          onChange={ (ev) => { filterName(ev.target.value); } }
         />
       </label>
       <section>
@@ -39,8 +38,8 @@ function PlanetsTable() {
             <th>Created</th>
           </tr>
 
-          {isLoading ? <span>carregando...</span>
-            : data.results.map((planet, index) => (
+          {isLoading
+            ? <span>Carregando</span> : data.results.map((planet, index) => (
               <tr key={ planet.name }>
                 <td key={ index }>{planet.name}</td>
                 <td key={ planet.rotaion_period }>{planet.rotation_period}</td>
@@ -56,7 +55,8 @@ function PlanetsTable() {
                 <td key={ planet.url }>{planet.url}</td>
                 <td key={ planet.created }>{planet.created}</td>
               </tr>
-            ))}
+
+            )) }
         </table>
       </section>
     </main>
