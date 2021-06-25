@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import PlanetContext from '../context/PlanetContext';
 
 function Table() {
-  const { data, isLoading } = useContext(PlanetContext);
+  const { data, isLoading, filters } = useContext(PlanetContext);
 
   const tableHeader = () => {
     const headers = data.map((planet) => {
@@ -18,20 +18,20 @@ function Table() {
             if (header !== 'residents') {
               return <th key={ index }>{ header }</th>;
             }
-            return console.log('');
+            return null;
           })) }
         </tr>
       );
     }
   };
 
-  return !isLoading ? (
-    <table>
-      <thead>
-        { tableHeader() }
-      </thead>
-      <tbody>
-        { data.map((planet) => (
+  const tableContent = () => {
+    if ('filterByName' in filters) {
+      const testFilter = data
+        .filter((planets) => planets.name.includes(filters.filterByName.name));
+
+      return (
+        testFilter.map((planet) => (
           <tr key={ planet.name }>
             <td>{planet.name}</td>
             <td>{planet.rotation_period}</td>
@@ -52,7 +52,43 @@ function Table() {
             <td>{planet.edited}</td>
             <td>{planet.url}</td>
           </tr>
-        )) }
+        ))
+      );
+    }
+
+    return (
+      data.map((planet) => (
+        <tr key={ planet.name }>
+          <td>{planet.name}</td>
+          <td>{planet.rotation_period}</td>
+          <td>{planet.orbital_period}</td>
+          <td>{planet.diameter}</td>
+          <td>{planet.climate}</td>
+          <td>{planet.gravity}</td>
+          <td>{planet.terrain}</td>
+          <td>{planet.surface_water}</td>
+          <td>{planet.population}</td>
+          <td>
+            {
+              planet.films
+                .map((film, index) => (<ul key={ index }><li>{ film }</li></ul>))
+            }
+          </td>
+          <td>{planet.created}</td>
+          <td>{planet.edited}</td>
+          <td>{planet.url}</td>
+        </tr>
+      ))
+    );
+  };
+
+  return !isLoading ? (
+    <table>
+      <thead>
+        { tableHeader() }
+      </thead>
+      <tbody>
+        { tableContent() }
       </tbody>
     </table>
   ) : <span>Loading...</span>;
