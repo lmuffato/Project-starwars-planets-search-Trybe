@@ -1,32 +1,38 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import StarwarsContext from '../context/StarwarsContext';
 
 function Filters() {
   const { setFilters, filters, data } = useContext(StarwarsContext);
+  const [numericFilter, setNumericFilter] = useState({});
+
+  const columValues = ['population', 'orbital_period', 'diameter',
+    'rotation_period', 'surface_water'];
+  const comparsionValues = ['maior que', 'menor que', 'igual a'];
+
   console.log(data);
+  console.log(filters);
 
-  function selectColum() {
-    const columValues = ['population', 'orbital_period', 'diameter',
-      'rotation_period', 'surface_water'];
-    return columValues.map((value) => <option key={ value }>{ value }</option>);
-  }
-
-  function selectComparsion() {
-    const comparsionValues = ['maior que', 'menor que', 'igual a'];
-    return comparsionValues.map((value) => <option key={ value }>{ value }</option>);
+  function buildingOptions(arrayOptions) {
+    return arrayOptions.map((value) => <option key={ value }>{ value }</option>);
   }
 
   function handleChange(e) {
     const { name, value } = e.target;
+    setNumericFilter({
+      ...numericFilter,
+      [name]: value,
+    });
+  }
+
+  function addFilter() {
     setFilters({
       ...filters,
-      filterByNumericValues: [
-        ...filters.filterByNumericValues,
-        {
-          [name]: value,
-        },
-      ],
+      filterByNumericValues: [numericFilter],
     });
+
+    const getSelectors = filters.filterByNumericValues
+      .map((selector) => Object.values(selector));
+    console.log(getSelectors);
   }
 
   return (
@@ -51,14 +57,14 @@ function Filters() {
           name="colum"
           onChange={ (e) => handleChange(e) }
         >
-          {selectColum()}
+          {buildingOptions(columValues)}
         </select>
         <select
           data-testid="comparison-filter"
           name="comparison"
           onChange={ (e) => handleChange(e) }
         >
-          {selectComparsion()}
+          {buildingOptions(comparsionValues)}
         </select>
         <input
           type="text"
@@ -69,6 +75,7 @@ function Filters() {
         <button
           type="button"
           data-testid="button-filter"
+          onClick={ () => addFilter() }
         >
           Adicionar Filtro
         </button>

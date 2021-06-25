@@ -88,14 +88,14 @@ describe('2 - Filtre a tabela através de um texto, inserido num *campo de texto
   beforeAll(mockFetch);
   beforeEach(cleanup);
 
-  it.only('Renderize o campo de texto para o filtro de nomes', async () => {
+  it('Renderize o campo de texto para o filtro de nomes', async () => {
     await act(async () => {
       render(<App />);
     });
     expect(await screen.findByTestId(INPUT_FILTER_NAME_SELECTOR)).toBeInTheDocument();
   });
 
-  it.only('Filtre os planetas que possuem a letra "o" no nome', async () => {
+  it('Filtre os planetas que possuem a letra "o" no nome', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -109,7 +109,7 @@ describe('2 - Filtre a tabela através de um texto, inserido num *campo de texto
     }
   });
 
-  it.only('Filtre planetas que possuem a letra "oo" no nome', async () => {
+  it('Filtre planetas que possuem a letra "oo" no nome', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -123,7 +123,7 @@ describe('2 - Filtre a tabela através de um texto, inserido num *campo de texto
     }
   });
 
-  it.only('Faça vários filtros em sequência', async () => {
+  it('Faça vários filtros em sequência', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -163,7 +163,7 @@ describe('3 - Crie um filtro para valores numéricos', () => {
   beforeAll(mockFetch);
   beforeEach(cleanup);
 
-  it('Renderize o filtro de coluna', async () => {
+  it.only('Renderize o filtro de coluna', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -178,7 +178,7 @@ describe('3 - Crie um filtro para valores numéricos', () => {
     expect(foundColumnFilter).toEqual(expect.arrayContaining(columns));
   });
 
-  it('Renderize o filtro de comparação', async () => {
+  it.only('Renderize o filtro de comparação', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -193,7 +193,7 @@ describe('3 - Crie um filtro para valores numéricos', () => {
     expect(foundComparisonFilter).toEqual(expect.arrayContaining(columns));
   });
 
-  it('Renderize o campo para o valor do filtro', async () => {
+  it.only('Renderize o campo para o valor do filtro', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -201,7 +201,7 @@ describe('3 - Crie um filtro para valores numéricos', () => {
     expect(await screen.findByTestId(VALUE_FILTER_SELECTOR)).toHaveProperty('nodeName', 'INPUT');
   });
 
-  it('Renderize o botão para executar a filtragem', async () => {
+  it.only('Renderize o botão para executar a filtragem', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -209,7 +209,7 @@ describe('3 - Crie um filtro para valores numéricos', () => {
     expect(await screen.findByTestId(BUTTON_FILTER_SELECTOR)).toHaveProperty('nodeName', 'BUTTON');
   });
 
-  it('Filtre utilizando a comparação "menor que"', async () => {
+  it.only('Filtre utilizando a comparação "menor que"', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -222,7 +222,7 @@ describe('3 - Crie um filtro para valores numéricos', () => {
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(7);
   });
 
-  it('Filtre utilizando a comparação "maior que"', async () => {
+  it.only('Filtre utilizando a comparação "maior que"', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -235,7 +235,7 @@ describe('3 - Crie um filtro para valores numéricos', () => {
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(8);
   });
 
-  it('Filtre utilizando a comparação "igual a"', async () => {
+  it.only('Filtre utilizando a comparação "igual a"', async () => {
     await act(async () => {
       render(<App />);
     });
