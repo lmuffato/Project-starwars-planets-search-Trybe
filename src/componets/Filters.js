@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import StarwarsContext from '../context/StarwarsContext';
 
 function Filters() {
-  const { setFilters } = useContext(StarwarsContext);
+  const { setFilters, filters } = useContext(StarwarsContext);
 
   return (
     <div>
@@ -13,15 +13,20 @@ function Filters() {
           type="text"
           data-testid="name-filter"
           onChange={ (e) => setFilters({
-            filterByName: {
-              name: e.target.value,
-            },
-            filterByNumericValues: [],
+            ...filters,
+            filterByName: { name: e.target.value },
           }) }
         />
       </label>
     </div>
   );
 }
+
+// onChange={ (e) => setFilters({
+//   filterByName: {
+//     name: e.target.value,
+//   },
+//   filterByNumericValues: [],
+// }) }
 
 export default Filters;

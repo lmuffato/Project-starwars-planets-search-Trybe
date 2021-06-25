@@ -6,8 +6,14 @@ function Table() {
   // console.log(filters.filterByName.name);
 
   const doesTableHeader = () => {
-    const dataHeaders = Object.keys(data[0]);
+    const dataHeaders = Object.keys(data[0] || {});
     return dataHeaders.map((header) => <th key={ header }>{header}</th>);
+  };
+
+  const resultNotFoundMessage = () => {
+    if (data.length === 0) {
+      return <p>Nenhum resultado foi encontrado.</p>;
+    }
   };
 
   const doesTableBody = (infos, index) => {
@@ -22,6 +28,7 @@ function Table() {
 
   return (
     <div>
+      {resultNotFoundMessage()}
       <table>
         <thead>
           <tr>

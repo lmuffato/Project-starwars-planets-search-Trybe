@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import StarwarsContext from './StarwarsContext';
+// import starwarsAPI from '../API/starswrasAPI';
 
 function StarwarsProvider({ children }) {
   const [data, setData] = useState([]);
@@ -14,17 +15,18 @@ function StarwarsProvider({ children }) {
     },
   );
 
+  const getDataApi = async () => {
+    const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
+    const { results } = await fetch(endpoint)
+      .then((dataResults) => dataResults.json());
+    const resultsMinusResidents = results.filter((planet) => delete planet.residents);
+    setData(resultsMinusResidents);
+    setLoading(false);
+  };
+
   useEffect(() => {
     if (filters.filterByName.name === '') {
-      const getPlanets = async () => {
-        const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
-        const { results } = await fetch(endpoint)
-          .then((dataResults) => dataResults.json());
-        const resultsMinusResidents = results.filter((planet) => delete planet.residents);
-        setData(resultsMinusResidents);
-        setLoading(false);
-      };
-      getPlanets();
+      getDataApi();
     }
     const filterName = data.filter((planet) => {
       const findPlanet = planet.name.includes(filters.filterByName.name);
