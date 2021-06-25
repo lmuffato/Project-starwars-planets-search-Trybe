@@ -1,4 +1,6 @@
 import React from 'react';
+import Button from './Button';
+import Input from './Input';
 import Select from './Select';
 
 function ControlPanel() {
@@ -19,8 +21,22 @@ function ControlPanel() {
   return (
     <div className="control-panel">
       <div className="filter-panel">
-        <Select dataTestid="column-filter" options={ optionsColumn } />
-        <Select options={ optionsComparison } dataTestid="comparison-filter" />
+        <Select
+          dataTestid="column-filter"
+          options={ optionsColumn }
+          placeholder="Selecione uma opção"
+        />
+        <Select
+          options={ optionsComparison }
+          dataTestid="comparison-filter"
+          placeholder="Selecione uma opção"
+        />
+        <Input
+          data-testid="value-filter"
+          type="number"
+          placeholder="Digite um valor"
+        />
+        <Button data-testid="button-filter">Adicionar filtros</Button>
       </div>
     </div>
   );
