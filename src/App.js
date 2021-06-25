@@ -1,12 +1,16 @@
 import React from 'react';
 import './App.css';
+import Provider from './CONTEXT/DataProvider';
 import Table from './COMPONENTS/Table';
+import Filter from './COMPONENTS/Filter';
 
 function App() {
   return (
     <div>
-      <span>Hello, App!</span>
-      <Table />
+      <Provider>
+        <Filter />
+        <Table />
+      </Provider>
     </div>
   );
 }
