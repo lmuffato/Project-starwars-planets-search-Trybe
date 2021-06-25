@@ -8,6 +8,7 @@ function PlanetsProvider(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState(false);
   const [copyResults, setcopyResults] = useState([]);
+  const [allTypes, setAllTypes] = useState([]);
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
@@ -23,6 +24,18 @@ function PlanetsProvider(props) {
   const sendFilterNumeric = (obj) => {
     const { filterByNumericValues } = filters;
     setFilters({ ...filters, filterByNumericValues: [...filterByNumericValues, obj] });
+  };
+
+  const deleteFilter = (arr) => {
+    setFilters({ ...filters, filterByNumericValues: arr });
+  };
+
+  const resetFilter = () => {
+    setFilters({ ...filters, filterByNumericValues: [] });
+  };
+
+  const addType = (type) => {
+    setAllTypes([...allTypes, type]);
   };
 
   useEffect(() => {
@@ -49,7 +62,11 @@ function PlanetsProvider(props) {
     setFilterByName,
     setData,
     copyResults,
-    sendFilterNumeric };
+    sendFilterNumeric,
+    deleteFilter,
+    resetFilter,
+    allTypes,
+    addType };
   const { children } = props;
   return (
     <PlanetsContext.Provider value={ context }>

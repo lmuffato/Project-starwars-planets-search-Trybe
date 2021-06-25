@@ -3,7 +3,7 @@ import PlanestContext from '../context/PlanetsContext';
 
 function Table() {
   const context = useContext(PlanestContext);
-  const { data, isLoading, filters, setData, copyResults } = context;
+  const { data, isLoading, filters, setData, copyResults, resetFilter } = context;
   const { filterByNumericValues } = filters;
   const { name } = filters.filterByName;
 
@@ -17,6 +17,7 @@ function Table() {
 
   const resetPlanets = () => {
     setData(copyResults);
+    resetFilter();
   };
 
   const checkComparison = (currItem) => {
@@ -36,6 +37,7 @@ function Table() {
   };
 
   useEffect(() => {
+    if (filterByNumericValues.length < 1) return setData(copyResults);
     const aplyFilter = filterByNumericValues.reduce((acc, currItem) => {
       const filter = checkComparison(currItem);
       return filter;

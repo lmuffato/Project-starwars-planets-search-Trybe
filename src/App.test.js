@@ -28,7 +28,7 @@ const mockFetch = () => {
     }));
 }
 
-describe('1 - Faça uma requisição para o endpoint `/planets` da API de Star Wars e preencha uma tabela com os dados retornados, com exceção dos da coluna `residents`', () => {
+/* describe('1 - Faça uma requisição para o endpoint `/planets` da API de Star Wars e preencha uma tabela com os dados retornados, com exceção dos da coluna `residents`', () => {
   beforeAll(mockFetch);
   beforeEach(cleanup);
 
@@ -336,9 +336,9 @@ describe('4 - Não utilize filtros repetidos', () => {
 
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(11);
   });
-});
+});*/
 
-/* describe('6 - Ordene as colunas de forma ascendente ou descendente', () => {
+ describe('6 - Ordene as colunas de forma ascendente ou descendente', () => {
   beforeAll(mockFetch);
   beforeEach(cleanup);
 
@@ -364,4 +364,4 @@ describe('4 - Não utilize filtros repetidos', () => {
     const actual = planets.map(planet => planet.innerHTML);
     expect(actual).toEqual(expected);
   });
-}); */
+});
