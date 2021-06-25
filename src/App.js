@@ -8,7 +8,7 @@ function App() {
     <Provider>
       <Table />
     </Provider>
-  )
+  );
 }
 
 export default App;
