@@ -23,7 +23,7 @@ function Table({ labels, data }) {
   }
 
   return (
-    <table className="table table-striped table-hover">
+    <table className="table table-striped table-hover table-responsive d-table">
       <thead>
         <tr>
           {
