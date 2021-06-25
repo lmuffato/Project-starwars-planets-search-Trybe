@@ -87,7 +87,12 @@ function Planets() {
       </div>
       <div className="row mt-4">
         <div className="col-4">
-          <select name="filterProperty" className="form-select" data-testid="column-filter" onChange={ handleFilter }>
+          <select
+            name="filterProperty"
+            className="form-select"
+            data-testid="column-filter"
+            onChange={ handleFilter }
+          >
             <option value="population">population</option>
             <option value="orbital_period">orbital_period</option>
             <option value="diameter">diameter</option>
@@ -96,7 +101,12 @@ function Planets() {
           </select>
         </div>
         <div className="col-4">
-          <select name="cFilter" className="form-select" data-testid="comparison-filter" onChange={ handleFilter }>
+          <select
+            name="cFilter"
+            className="form-select"
+            data-testid="comparison-filter"
+            onChange={ handleFilter }
+          >
             <option>maior que</option>
             <option>menor que</option>
             <option>igual a</option>
