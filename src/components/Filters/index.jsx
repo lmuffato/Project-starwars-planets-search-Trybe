@@ -1,5 +1,7 @@
 import React, { useContext } from 'react';
 import starWarsPlanets from '../../context';
+import { columnObj, comparisonObj } from './data';
+import Select from '../Select';
 
 function Filters() {
   const { filters, setFilters, setData, backup } = useContext(starWarsPlanets);
@@ -23,6 +25,8 @@ function Filters() {
         onChange={ handleChange }
         data-testid="name-filter"
       />
+      <Select selectData={ columnObj } />
+      <Select selectData={ comparisonObj } />
     </div>
   );
 }
