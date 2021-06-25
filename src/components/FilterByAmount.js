@@ -4,9 +4,14 @@ import PlanetContext from '../context/PlanetContext';
 function FilterByAmount() {
   const { data } = useContext(PlanetContext);
 
+  function isNumeric(str) {
+    const er = /^[0-9]+$/;
+    return (er.test(str));
+  }
+
   const renderType = () => {
     const names = Object.entries(data[0])
-      .filter((name) => parseFloat(name[1]));
+      .filter((name) => isNumeric(name[1]));
 
     return (
       <select>
