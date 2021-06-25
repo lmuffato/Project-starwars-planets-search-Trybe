@@ -5,6 +5,7 @@ import TableContext from './TableContext';
 function TableProvider({ children }) {
   const [data, setData] = useState([]);
   const [headers, setHeaders] = useState([]);
+  const [filters, setFilters] = useState({ filterByName: { name: '' } });
 
   useEffect(() => {
     const getData = async () => {
@@ -18,7 +19,7 @@ function TableProvider({ children }) {
   }, []);
 
   return (
-    <TableContext.Provider value={ { data, headers } }>
+    <TableContext.Provider value={ { data, headers, setFilters, filters } }>
       { children }
     </TableContext.Provider>
   );
