@@ -1,13 +1,13 @@
 import React from 'react';
 import Table from './components/Table';
-import Filters from './components/Filters';
+import FilterByName from './components/FilterByName';
 import './App.css';
 import PlanetProvider from './provider/PlanetProvider';
 
 function App() {
   return (
     <PlanetProvider>
-      <Filters />
+      <FilterByName />
       <Table />
     </PlanetProvider>
   );

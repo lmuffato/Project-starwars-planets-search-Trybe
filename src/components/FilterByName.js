@@ -1,12 +1,12 @@
 import React, { useContext, useEffect } from 'react';
 import PlanetContext from '../context/PlanetContext';
 
-function Filters() {
+function FilterByName() {
   const { data, setFilter } = useContext(PlanetContext);
 
   useEffect(() => (
     setFilter({ filterByName: { name: data } })
-  ), [data]);
+  ), [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const filterPlanet = (value) => {
     const filtered = data.filter((item) => (
@@ -33,4 +33,4 @@ function Filters() {
   );
 }
 
-export default Filters;
+export default FilterByName;
