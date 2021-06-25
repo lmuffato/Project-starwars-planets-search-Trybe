@@ -1,6 +1,6 @@
 import { useContext } from 'react';
+import { labelledInput } from '../utils';
 
-import { input, label } from '../utils';
 import TableContext from '../context/TableDataContext';
 
 const NameFilter = () => {
@@ -10,17 +10,14 @@ const NameFilter = () => {
     { target: { value } },
   ) => setFilterByName(value);
   return (
-    label([
+    labelledInput(
       'Nome',
-      input(
-        null, {
-          onChange: updateFilteredName,
-          name: 'planetName',
-          'data-testid': 'name-filter',
-        },
-      ),
-    ],
-    { htmlFor: 'planetName' })
+      {
+        onChange: updateFilteredName,
+        'data-testid': 'name-filter',
+      },
+      'planetName',
+    )
   );
 };
 

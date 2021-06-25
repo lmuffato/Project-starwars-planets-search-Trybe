@@ -1,64 +1,90 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { isEmpty } from 'lodash';
+import {
+  button, comparisons, div, label, labelledInput, option, select,
+} from '../utils';
 
 import TableDataContext from '../context/TableDataContext';
-import { comparisons } from '../utils';
 
+const COLUMN_FILTER = 'column-filter';
+const COMPARISON_FILTER = 'comparison-filter';
+const VALUE_FILTER = 'value-filter';
+const BUTTON_FILTER = 'button-filter';
+const selector = (labelText, selectData, optionsData) => label(
+  [
+    labelText,
+    select(
+      optionsData.map((option)),
+      {
+        ...selectData,
+        'data-testid': selectData.name,
+      },
+    ),
+  ],
+);
+
+const handleOnChange = (state, setState) => ({ target: { name, value } }) => {
+  setState({ ...state, [name]: value });
+};
+const handleOnClick = (state, setState, addFilterByNumericValue) => () => {
+  addFilterByNumericValue(
+    {
+      column: state[COLUMN_FILTER],
+      comparison: state[COMPARISON_FILTER],
+      value: state[VALUE_FILTER],
+    },
+  );
+};
 const NumericFilters = () => {
   const { addFilterByNumericValue, availableColumns } = useContext(TableDataContext);
-  const [state, setState] = useState({
-    'column-filter': availableColumns[0],
-    'comparison-filter': comparisons[0],
-    'value-filter': '',
-  });
+  const [state, setState] = useState({});
+  useEffect(() => {
+    setState({
+      [COLUMN_FILTER]: availableColumns[0],
+      [COMPARISON_FILTER]: comparisons[0],
+      [VALUE_FILTER]: '',
+    });
+  }, [availableColumns]);
 
-  const handleOnChange = ({ target: { name, value } }) => {
-    console.log(name);
-    setState({ ...state, [name]: value });
-  };
+  const columnSelector = () => selector('Coluna', {
+    onChange: handleOnChange(state, setState),
+    name: COLUMN_FILTER,
+    value: state[COLUMN_FILTER],
+  }, availableColumns);
+  const comparisonSelector = () => selector(
+    'Comparação', {
+      onChange: handleOnChange(state, setState),
+      name: COMPARISON_FILTER,
+      value: state[COMPARISON_FILTER],
+    }, comparisons,
+  );
+  const valueInputBox = () => labelledInput(
+    'Valor',
+    {
+      onChange: handleOnChange(state, setState),
+      value: state[VALUE_FILTER],
+      key: VALUE_FILTER,
+      'data-testid': VALUE_FILTER,
+    },
+    VALUE_FILTER,
+  );
+  const addFilterButton = () => (
+    button('Adicionar filtro', {
+      onClick: handleOnClick(state, setState, addFilterByNumericValue),
+      type: 'button',
+      key: BUTTON_FILTER,
+      'data-testid': BUTTON_FILTER })
+  );
   return (
-    <>
-      <label htmlFor="column-filter">
-        Coluna
-        <select
-          onChange={ handleOnChange }
-          name="column-filter"
-          data-testid="column-filter"
-        >
-          {availableColumns.map(((col) => <option key={ col }>{col}</option>))}
-        </select>
-      </label>
-      <label htmlFor="comparison-filter">
-        Comparação
-        <select
-          onChange={ handleOnChange }
-          name="comparison-filter"
-          data-testid="comparison-filter"
-        >
-          {comparisons.map(
-            (comparison) => <option key={ comparison }>{comparison}</option>,
-          )}
-        </select>
-      </label>
-      <label htmlFor="value-filter">
-        Valor
-        <input
-          onChange={ handleOnChange }
-          name="value-filter"
-          data-testid="value-filter"
-        />
-      </label>
-      <button
-        onClick={ () => addFilterByNumericValue(
-          { column: state['column-filter'],
-            comparison: state['comparison-filter'],
-            value: state['value-filter'] },
-        ) }
-        type="button"
-        data-testid="button-filter"
-      >
-        Adicionar filtro
-      </button>
-    </>
+    !isEmpty(availableColumns)
+    && div(
+      [
+        columnSelector(),
+        comparisonSelector(),
+        valueInputBox(),
+        addFilterButton(),
+      ],
+    )
   );
 };
 

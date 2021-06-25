@@ -10,7 +10,7 @@ const Table = () => {
   const { data, loading } = useContext(TableDataContext);
 
   return loading || isEmpty(data) ? div('Loading')
-    : [e(Filters), e(TableContainer)];
+    : [e(Filters, { key: 'Filters' }), e(TableContainer, { key: 'TableContainer' })];
 };
 
 export default Table;

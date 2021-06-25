@@ -1,49 +1,38 @@
 import { head } from 'lodash';
-import { useContext, useEffect } from 'react';
-import TableContext from '../context/TableDataContext';
+import { useContext } from 'react';
 import { table, tbody, th, thead, tr, td, is } from '../utils';
+
+import TableContext from '../context/TableDataContext';
 
 const TableContainer = () => {
   const {
     data: { results }, filters: { filterByName, filterByNumericValue },
   } = useContext(TableContext);
-  useEffect(() => {
-    console.log(filterByName);
-  }, [filterByName]);
 
-  const notResidents = (key) => key !== 'residents';
+  const dontShowResidents = (key) => key !== 'residents';
   const byPlanetName = ({ name }) => (
     filterByName ? name.includes(filterByName) : true
   );
-  // Number(planet[column]) > Number(value)
-  const byNumericValue = (planet) => filterByNumericValue
-    .reduce((
-      acc, { column, comparison, value },
-    ) => (acc ? is(planet[column], comparison, value) : false), true);
-  const colNames = Object.keys(head(results)).filter(notResidents);
-  const tableHeader = thead(
-    tr(
-      colNames.map(
-        (column) => th(column),
-      ),
-    ),
+  const byNumericValue = (planet) => filterByNumericValue.reduce((
+    acc, { column, comparison, value },
+  ) => (acc ? is(planet[column], comparison, value) : false), true);
+  const colNames = Object.keys(head(results)).filter(dontShowResidents);
+
+  const tableHeader = thead(tr(colNames.map(th)));
+  const planetDataToCell = (planet) => tr(
+    Object
+      .keys(planet)
+      .filter(dontShowResidents)
+      .map((key) => (td(planet[key]))),
   );
+
   const tableBody = tbody(
     results
       .filter(byPlanetName)
       .filter(byNumericValue)
-      .map(
-        (planet) => tr(
-          Object
-            .entries(planet)
-            .filter(([key]) => notResidents(key))
-            .map(
-              ([key]) => (
-                td(planet[key])),
-            ),
-        ),
-      ),
+      .map(planetDataToCell),
   );
+
   return table([tableHeader, tableBody]);
 };
 

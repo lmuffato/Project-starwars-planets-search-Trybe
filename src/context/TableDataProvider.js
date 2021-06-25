@@ -1,9 +1,9 @@
 import { createElement as e, useEffect, useState } from 'react';
 import { arrayOf, object } from 'prop-types';
-
-import TableContext from './TableDataContext';
-import getPlanetsData, { columns } from '../services/swAPI';
 import { first } from '../utils';
+
+import getPlanetsData, { columns } from '../services/swAPI';
+import TableContext from './TableDataContext';
 
 const { Provider } = TableContext;
 const TableDataProvider = ({ children }) => {
@@ -16,7 +16,12 @@ const TableDataProvider = ({ children }) => {
       .then(setData)
       .then(setLoading(false));
   }, []);
-  const availableColumns = columns.filter((column) => column);
+
+  const availableColumns = columns.filter((column) => (
+    filters.filterByNumericValue.reduce((acc, { column: alreadyUsedColumn }) => (
+      acc ? column !== alreadyUsedColumn : false
+    ), true)
+  ));
   const setFilterByName = (name) => {
     setFilters({ ...filters, filterByName: name });
   };
@@ -29,7 +34,6 @@ const TableDataProvider = ({ children }) => {
           { column, comparison, value },
         ] },
     );
-    console.log(filters);
   };
 
   return (
