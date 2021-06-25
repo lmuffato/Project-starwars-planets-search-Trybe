@@ -7,7 +7,8 @@ export const PlanetsContext = createContext({});
 
 export function PlanetsContextProvider({ children }) {
   const [planetsList, setPlanets] = useState([]);
-  const [planetasInicial, setPlanetasIniciais] = useState([]);
+  const [planetasIniciais, setPlanetasIniciais] = useState([]);
+  const [filters, setFilters] = useState({});
 
   async function getPlanets() {
     const planets = await fetchPlanets();
@@ -19,16 +20,10 @@ export function PlanetsContextProvider({ children }) {
     getPlanets();
   }, []);
 
-  function filterByName(text) {
-    const filteredPlanets = planetasInicial
-      .filter((planet) => planet.name.includes(text));
-    setPlanets(filteredPlanets);
-  }
-
   return (
     <PlanetsContext.Provider
-      value={ { data: planetsList,
-        filters: { filterByName: { filterByName } } } }
+      value={ { data: { planetsList, planetasIniciais, setPlanets },
+        filters: { filters, setFilters } } }
     >
       {children}
     </PlanetsContext.Provider>

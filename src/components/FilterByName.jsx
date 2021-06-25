@@ -2,17 +2,21 @@ import React from 'react';
 import usePlanets from '../hooks/usePlanets';
 
 function FilterName() {
-  // const [text, setText] = useState('');
-  const { filters } = usePlanets();
+  const {
+    filters: { filters, setFilters },
+    data: { planetasIniciais, setPlanets },
+  } = usePlanets();
 
-  function filter(text) {
-    filters.filterByName.name = text;
-    filters.filterByName.filterByName(text);
+  function filterByName(text) {
+    const filteredPlanets = planetasIniciais
+      .filter((planet) => planet.name.includes(text));
+    setPlanets(filteredPlanets);
+    setFilters({ ...filters, filterByName: { name: text } });
   }
 
   return (
     <input
-      onChange={ ({ target }) => filter(target.value) }
+      onChange={ ({ target }) => filterByName(target.value) }
       type="text"
       data-testid="name-filter"
     />
