@@ -9,6 +9,8 @@ const PlanetsProvider = ({ children }) => {
   const [planets, setPlanets] = useState([]);
   const [keys, setKeys] = useState([]);
   const [filterName, setFilterName] = useState({ filterByName: { name: '' } });
+  const [filterByNumericValues, setFilterByNumericValues] = useState([
+    { column: '', comparision: '', value: '' }]);
 
   useEffect(() => {
     (async () => {
@@ -26,7 +28,41 @@ const PlanetsProvider = ({ children }) => {
 
   const filteredPlanets = planets
     .filter((planet) => planet.name.includes(filterName.filterByName.name));
-  console.log(filteredPlanets);
+
+  const filterByNumeric = () => {
+    const finalFilter = filteredPlanets.filter((planet) => {
+      const filteredColumn = filterByNumericValues[filterByNumericValues
+        .length - 1].column;
+      const filteredComparison = filterByNumericValues[filterByNumericValues
+        .length - 1].comparison;
+      const filteredValue = filterByNumericValues[filterByNumericValues
+        .length - 1].value;
+
+      console.log(filteredComparison);
+
+      if (filteredComparison === 'maior que') {
+        return parseFloat(planet[filteredColumn]) > filteredValue;
+      }
+
+      if (filteredComparison === 'menor que') {
+        return parseFloat(planet[filteredColumn]) < filteredValue;
+      }
+
+      if (filteredComparison === 'igual a') {
+        return planet[filteredColumn] === filteredValue;
+      }
+
+      return planet[filteredColumn];
+    });
+
+    if (finalFilter) {
+      return finalFilter;
+    }
+
+    return filteredPlanets;
+  };
+
+  console.log(filterByNumeric());
 
   return (
     <PlanetsContext.Provider
@@ -36,7 +72,10 @@ const PlanetsProvider = ({ children }) => {
         setPlanets,
         filterName,
         setFilterName,
-        filteredPlanets } }
+        filteredPlanets,
+        filterByNumericValues,
+        setFilterByNumericValues,
+        filterByNumeric } }
     >
       {children}
     </PlanetsContext.Provider>
