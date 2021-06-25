@@ -4,19 +4,19 @@ export default function Thead() {
   return (
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Rotation Period</th>
-        <th>Orbital Period</th>
-        <th>Diameter</th>
-        <th>Climate</th>
-        <th>Gravity</th>
-        <th>Terrain</th>
-        <th>Surface Water</th>
-        <th>Population</th>
-        <th>Films</th>
-        <th>Created</th>
-        <th>Edited</th>
-        <th>URL</th>
+        <th>name</th>
+        <th>rotation_period</th>
+        <th>orbital_period</th>
+        <th>diameter</th>
+        <th>climate</th>
+        <th>gravity</th>
+        <th>terrain</th>
+        <th>surface_water</th>
+        <th>population</th>
+        <th>films</th>
+        <th>created</th>
+        <th>edited</th>
+        <th>url</th>
       </tr>
     </thead>
   );

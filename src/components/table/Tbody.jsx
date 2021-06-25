@@ -32,7 +32,7 @@ export default function Tbody() {
     return filterByName;
   }
 
-  console.log(planets);
+  // console.log(planets);
 
   // function FilterPlanetsByNumbers(columnPlanets, comparisonPlanets, valuePlanets) {
   //   return planets
