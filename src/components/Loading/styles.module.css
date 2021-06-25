@@ -1,0 +1,33 @@
+@keyframes loading {
+
+  0% { bottom: 0;}
+
+  25% { bottom: 10px;}
+
+  50% { bottom: 20px;}
+
+  75% { bottom: 10px;}
+
+  100% { bottom: 0;}
+}
+
+.container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  font-family: Roboto, sans-serif;
+  height: 100vh;
+  justify-content: center;
+}
+
+.container h2 {
+  color: #969696;
+}
+
+.animation {
+  animation: loading 1.2s linear infinite;
+  display: inline-block;
+  font-size: 1.2rem;
+  padding: 2rem 1rem;
+  position: relative;
+}

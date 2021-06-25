@@ -1,0 +1,21 @@
+.table {
+  border-collapse: collapse;
+  color: white;
+  font-size: 1rem;
+  margin-top: 3rem;
+  width: 95%;
+}
+
+.table thead th {
+  font-size: 1.1rem;
+}
+
+.table tbody td, .table thead th {
+  border: 1px solid var(--green);
+  padding: 8px;
+  text-align: center;
+}
+
+.table tr:nth-child( even ) {
+  background-color: var(--green);
+}
