@@ -104,6 +104,8 @@ export default function Form() {
 
         <input
           type="number"
+          id="valueFilter"
+          data-testid="value-filter"
           name="value"
           onChange={ handleOnChangeFilterByNumbers }
           value={ valueFilter }
