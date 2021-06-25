@@ -1,13 +1,14 @@
 import React, { useContext, useState } from 'react';
 import ContextPlanets from '../context/ContextPlanets';
-import { columnOptions, comparisonOptions } from '../context/ProviderPlanets';
+import { comparisonOptions } from '../context/ProviderPlanets';
 
 function FormFilters() {
   const [column, setColumnState] = useState('population');
   const [comparison, setComparisonState] = useState('maior que');
   const [valueFilter, setValueState] = useState(0);
 
-  const { updateNumericFilter, updateNameFilter, filters } = useContext(ContextPlanets);
+  const { updateNumericFilter, updateNameFilter,
+    filters, filterColumnOptions } = useContext(ContextPlanets);
 
   return (
     <form>
@@ -31,7 +32,7 @@ function FormFilters() {
             value={ column }
             onChange={ ({ target: { value } }) => setColumnState(value) }
           >
-            {columnOptions.map((columnOtion, index) => (
+            {filterColumnOptions.map((columnOtion, index) => (
               <option key={ index }>{columnOtion}</option>
             ))}
           </select>

@@ -6,36 +6,30 @@ function ProviderPlanets({ children }) {
   const [data, loaldPlanets] = useState([]);
   const [filteredPlanets, updatePlanetList] = useState([]);
   const [isLoalding, setIsLoalding] = useState(false);
+  const [filterColumnOptions, setColumnOptions] = useState([]);
   const INITIAL_FILTERS = {
     filterByName: {
       name: '',
     },
-    filterByNumericValues: [
-      {
-        column: 'population',
-        comparison: '',
-        value: 0,
-      },
-      {
-        column: 'orbital_period',
-        comparison: '',
-        value: 0,
-      },
-      {
-        column: 'rotation_period',
-        comparison: '',
-        value: 0,
-      },
-      {
-        column: 'surface_water',
-        comparison: '',
-        value: 0,
-      },
-    ],
+    filterByNumericValues: [],
     order: { column: 'name', sort: 'ASC' },
   };
 
   const [filters, setFilters] = useState(INITIAL_FILTERS);
+
+  const updateColumnOptions = () => {
+    const initialColumnOptions = [
+      'population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water',
+    ];
+    const activeFilters = filters.filterByNumericValues.map((filter) => filter.column);
+    const columnOptions = initialColumnOptions
+      .filter((option) => !activeFilters.includes(option));
+    setColumnOptions(columnOptions);
+  };
 
   const updateNumericFilter = (newNumericFilter) => {
     const filterByNumericValues = filters.filterByNumericValues
@@ -72,15 +66,15 @@ function ProviderPlanets({ children }) {
         switch (comparison) {
         case 'menor que':
           planetsFiltered = planetsFiltered
-            .filter((planet) => Number(planet[column]) < value);
+            .filter((planet) => Number(planet[column]) < Number(value));
           break;
         case 'maior que':
           planetsFiltered = planetsFiltered
-            .filter((planet) => Number(planet[column]) > value);
+            .filter((planet) => Number(planet[column]) > Number(value));
           break;
         case 'igual a':
           planetsFiltered = planetsFiltered
-            .filter((planet) => Number(planet[column]) === value);
+            .filter((planet) => Number(planet[column]) === Number(value));
           break;
         default: console.log('Erro na detecção tipo de comparação do filtro numérico');
         }
@@ -96,6 +90,7 @@ function ProviderPlanets({ children }) {
 
   useEffect(() => {
     applyFilters();
+    updateColumnOptions();
   }, [filters, data]);
 
   const getDataPlanets = async () => {
@@ -132,6 +127,7 @@ function ProviderPlanets({ children }) {
         updateNameFilter,
         updateSortKey,
         data,
+        filterColumnOptions,
       } }
     >
       { children }
@@ -161,18 +157,10 @@ export const columnTitle = [
   'url',
 ];
 
-export const columnOptions = [
-  'population',
-  'orbital_period',
-  'diameter',
-  'rotation_period',
-  'surface_water',
-];
-
 export const comparisonOptions = [
   'maior que',
+  'igual a',
   'menor que',
-  'igua a',
 ];
 
 export default ProviderPlanets;

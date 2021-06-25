@@ -190,6 +190,7 @@ describe('3 - Crie um filtro para valores numéricos', () => {
       expect(child).toHaveProperty('nodeName', 'OPTION');
       return child.innerHTML;
     });
+    console.log(foundComparisonFilter);
     expect(foundComparisonFilter).toEqual(expect.arrayContaining(columns));
   });
 
