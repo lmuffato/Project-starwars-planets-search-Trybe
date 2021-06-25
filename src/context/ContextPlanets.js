@@ -1,11 +1,5 @@
-import React from 'react';
+import { createContext } from 'react';
 
-function ContextPlanets(props) {
-  return (
-    <div>
-      { props }
-    </div>
-  );
-}
+const ContextPlanets = createContext();
 
 export default ContextPlanets;
