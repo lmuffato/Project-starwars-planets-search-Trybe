@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import CountriesContext from '../context/CountriesContext';
 
 function Table() {
-  const { filteredCountries } = useContext(CountriesContext);
+  const { filteredPlanets } = useContext(CountriesContext);
   return (
     <table>
       <thead>
@@ -23,7 +23,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        { filteredCountries.map((countrie) => (
+        { filteredPlanets.map((countrie) => (
           <tr key={ countrie.name }>
             <td>{countrie.name}</td>
             <td>{countrie.rotation_period}</td>
