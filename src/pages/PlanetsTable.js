@@ -4,8 +4,7 @@ import '../css/PlanetsTable.css';
 
 function PlanetsTable() {
   const { fetchPlanet: fetchPlanetApi } = useContext(PlanetsContext);
-  const { data } = useContext(PlanetsContext);
-  const { isLoading, filterName } = useContext(PlanetsContext);
+  const { isLoading, filterName, newArray } = useContext(PlanetsContext);
   useEffect(() => {
     fetchPlanetApi();
   }, []);
@@ -40,7 +39,7 @@ function PlanetsTable() {
           </tr>
 
           {isLoading
-            ? <span>Carregando</span> : data.results.map((planet, index) => (
+            ? <span>Carregando</span> : newArray.map((planet, index) => (
               <tr key={ planet.name }>
                 <td key={ index }>{planet.name}</td>
                 <td key={ planet.rotaion_period }>{planet.rotation_period}</td>
