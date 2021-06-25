@@ -4,12 +4,20 @@ import TableBody from './TableBody';
 import TableHeadings from './TableHeadings';
 
 function Table() {
-  const { data, newArrayOfPlanets, isLoading } = useStarWars();
+  const { data, newArrayOfPlanets, isLoading, sortingArray } = useStarWars();
 
   if (isLoading) {
     return (
       'Loading...'
     );
+  }
+
+  if (!isLoading && data) {
+    sortingArray(data);
+  }
+
+  if (!isLoading && newArrayOfPlanets) {
+    sortingArray(newArrayOfPlanets);
   }
 
   return (

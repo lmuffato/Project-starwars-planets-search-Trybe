@@ -1,8 +1,9 @@
 import React from 'react';
 import Input from '../components/Input';
 import Table from '../components/Table';
-import ControlPanel from '../components/ControlPanel';
+import ControlPanel from '../components/FiltersControlPanel';
 import useStarWars from '../hooks/useStarWars';
+import SortPanel from '../components/SortPanel';
 
 function Home() {
   const { filteredPlanets } = useStarWars();
@@ -16,6 +17,7 @@ function Home() {
         onChange={ (event) => filteredPlanets(event.target.value) }
       />
       <ControlPanel />
+      <SortPanel />
       <main>
         <Table />
       </main>

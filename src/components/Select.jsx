@@ -1,12 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Select({ options, dataTestid, placeholder }) {
+function Select({ options, dataTestid, placeholder, onChange, name }) {
   return (
-    <select data-testid={ dataTestid } placeholder={ placeholder }>
+    <select
+      data-testid={ dataTestid }
+      placeholder={ placeholder }
+      onChange={ onChange }
+      name={ name }
+    >
       {options.map((option, index) => (
-        <option value={ option.value } key={ `${option} ${index}` }>
-          {option.label}
+        <option value={ option.value || option } key={ `${option} ${index}` }>
+          {option.label || option }
         </option>
       ))}
     </select>
