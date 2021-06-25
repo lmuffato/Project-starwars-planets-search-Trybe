@@ -3,20 +3,20 @@ import context from './context';
 import { getPlanets } from '../services/getPlanets';
 
 function Provider({ children }) {
-  const [planets, setPlanets] = useState([]);
+  const [data, setData] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     const setThePlanets = async () => {
       const thePlanets = await getPlanets();
-      setPlanets([...thePlanets]);
+      setData([...thePlanets]);
       setLoading(false);
     }
     setThePlanets();
   }, []);
 
   const store = {
-    planets,
+    data,
     isLoading,
   }
 
