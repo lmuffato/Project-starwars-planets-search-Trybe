@@ -5,7 +5,7 @@ import Select from './Select';
 import {
   optionsColumnObj,
   optionsComparisonObj,
-  optionsColumn,
+  // optionsColumn,
 } from '../services/data';
 import useStarWars from '../hooks/useStarWars';
 
@@ -24,18 +24,18 @@ function ControlPanel() {
     value: '',
   });
 
-  const [columnOp, setColumnOp] = useState(optionsColumn);
+  // const [columnOp, setColumnOp] = useState(optionsColumn);
 
-  const handleColumnOptions = () => {
-    setColumnOp((previousState) => previousState.filter((opt) => (
-      opt !== filterObj.column)));
-  };
+  // const handleColumnOptions = () => {
+  //   setColumnOp((previousState) => previousState.filter((opt) => (
+  //     opt !== filterObj.column)));
+  // };
 
   const handleClickOnButton = (event) => {
     event.preventDefault();
     console.log(filterObj);
     setFilterByOtherParams(...filterByOtherParams, filterObj);
-    handleColumnOptions();
+    // handleColumnOptions();
     console.log('click');
   };
 
