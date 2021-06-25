@@ -34,24 +34,6 @@ export default function Tbody() {
 
   // console.log(planets);
 
-  // function FilterPlanetsByNumbers(columnPlanets, comparisonPlanets, valuePlanets) {
-  //   return planets
-  //     .filter((planet) => {
-  //       switch (comparisonPlanets) {
-  //       case 'igual a':
-  //         return +planet[columnPlanets] === valuePlanets;
-  //       case 'maior que':
-  //         return +planet[columnPlanets] > valuePlanets;
-  //       case 'menor que':
-  //         return +planet[columnPlanets] < valuePlanets;
-  //       default:
-  //         return planets;
-  //       }
-  //     });
-  // }
-
-  // console.log(FilterPlanetsByNumbers('population', 'igual a', 200000));
-
   return (
     <tbody>
       {FilterPlanetsByName().map((planet, index) => (
