@@ -1,5 +1,7 @@
 .tableHeader {
-    border: 1px solid black;
+  border: 1px solid black;
 }
 
-
+.tableData {
+  border: 1px solid black;
+}

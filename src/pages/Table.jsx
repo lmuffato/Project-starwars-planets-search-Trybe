@@ -12,7 +12,10 @@ function Table() {
         values.pop();
         return (
           <tr key={ values[index][0] }>
-            { values.map((value, index) => (<td key={ value }>{ value }</td>)) }
+            { values.map((value, index) => (
+            <td key={ value } className="tableData">
+              { value }
+            </td>)) }
           </tr>
       )}));
   }
