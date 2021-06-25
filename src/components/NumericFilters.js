@@ -59,14 +59,13 @@ const NumericFilters = () => {
     }, comparisons,
   );
   const valueInputBox = () => labelledInput(
-    'Valor',
-    {
+    'Valor', {
       onChange: handleOnChange(state, setState),
       value: state[VALUE_FILTER],
       key: VALUE_FILTER,
+      type: 'number',
       'data-testid': VALUE_FILTER,
-    },
-    VALUE_FILTER,
+    }, VALUE_FILTER,
   );
   const addFilterButton = () => (
     button('Adicionar filtro', {
