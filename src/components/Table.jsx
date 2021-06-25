@@ -8,14 +8,14 @@ const Table = () => {
   const filter = () => {
     const planetSearch = name.toLowerCase();
     let planetList = data;
-    if(planetSearch !== ''){
+    if (planetSearch !== '') {
       planetList = data.filter((planet) => (
         planet.name.toLowerCase().includes(planetSearch)
       ));
     }
     return planetList;
-  }
-
+    // console.log(planetList)
+  };
 
   return (
     <div className="table-wrapper">

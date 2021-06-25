@@ -5,7 +5,7 @@ import context from './context';
 
 const Provider = ({ children }) => {
   const [data, setData] = useState([]);
-  const [name, setName] = useState('')
+  const [name, setName] = useState('');
   const [filter, setFilter] = useState({
     filterByName: {
       name: '',
