@@ -3,17 +3,10 @@ import StarwarsContext from '../context/StarwarsContext';
 
 function Table() {
   const { data, loading } = useContext(StarwarsContext);
-  // console.log(filters.filterByName.name);
 
   const doesTableHeader = () => {
     const dataHeaders = Object.keys(data[0] || {});
     return dataHeaders.map((header) => <th key={ header }>{header}</th>);
-  };
-
-  const resultNotFoundMessage = () => {
-    if (data.length === 0) {
-      return <p>Nenhum resultado foi encontrado.</p>;
-    }
   };
 
   const doesTableBody = (infos, index) => {
@@ -24,6 +17,12 @@ function Table() {
       </tr>
     );
     return tableBoby;
+  };
+
+  const resultNotFoundMessage = () => {
+    if (data.length === 0) {
+      return <p>Nenhum resultado foi encontrado.</p>;
+    }
   };
 
   return (
