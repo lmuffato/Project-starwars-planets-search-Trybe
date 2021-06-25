@@ -3,8 +3,8 @@ import ContextPlanets from '../context/ContextPlanets';
 import { columnOptions, comparisonOptions } from '../context/ProviderPlanets';
 
 function FormFilters() {
-  const [column, setColumnState] = useState('');
-  const [comparison, setComparisonState] = useState('');
+  const [column, setColumnState] = useState('population');
+  const [comparison, setComparisonState] = useState('maior que');
   const [valueFilter, setValueState] = useState(0);
 
   const { updateNumericFilter, updateNameFilter, filters } = useContext(ContextPlanets);

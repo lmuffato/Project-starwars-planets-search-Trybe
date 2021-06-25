@@ -14,22 +14,22 @@ function ProviderPlanets({ children }) {
       {
         column: 'population',
         comparison: '',
-        value: '',
+        value: 0,
       },
       {
         column: 'orbital_period',
         comparison: '',
-        value: '',
+        value: 0,
       },
       {
         column: 'rotation_period',
         comparison: '',
-        value: '',
+        value: 0,
       },
       {
         column: 'surface_water',
         comparison: '',
-        value: '',
+        value: 0,
       },
     ],
     order: { column: 'name', sort: 'ASC' },
@@ -48,7 +48,7 @@ function ProviderPlanets({ children }) {
   };
 
   const updateNameFilter = (nameFilter) => {
-    const filterByName = nameFilter;
+    const filterByName = { name: nameFilter };
     setFilters({
       ...filters,
       filterByName,
@@ -113,6 +113,13 @@ function ProviderPlanets({ children }) {
     setIsLoalding(false);
   };
 
+  useEffect(() => {
+    const start = async () => {
+      await getDataPlanets();
+    };
+    start();
+  }, []);
+
   return (
     <ContextPlanets.Provider
       value={ {
@@ -123,6 +130,7 @@ function ProviderPlanets({ children }) {
         updateNumericFilter,
         updateNameFilter,
         updateSortKey,
+        data,
       } }
     >
       { children }

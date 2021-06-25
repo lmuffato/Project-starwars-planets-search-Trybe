@@ -4,6 +4,7 @@ import ContextPlanets from '../context/ContextPlanets';
 function ActiveFilters() {
   const { filters, updateNumericFilter, updateNameFilter } = useContext(ContextPlanets);
   const { filterByName, filterByNumericValues } = filters;
+  console.log(filterByName.name);
   const filterList = filterByName.name === ''
     ? []
     : ([
@@ -23,11 +24,11 @@ function ActiveFilters() {
     if (filter.value !== 0) {
       filterList.push(
         (
-          <li key={ index }>
+          <li key={ index } data-testid="filter">
             {`${column} ${comparison} ${value}`}
             <button
               type="button"
-              onClick={ () => updateNumericFilter({ column, comparison: '', value: '' }) }
+              onClick={ () => updateNumericFilter({ column, comparison: '', value: 0 }) }
             >
               X
             </button>
