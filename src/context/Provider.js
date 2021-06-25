@@ -5,15 +5,22 @@ import context from './context';
 
 const Provider = ({ children }) => {
   const [data, setData] = useState([]);
+  const [filter, setFilter] = useState({
+    filterByName: {
+      name: '',
+    },
+  });
 
   const contextValue = {
     data,
     setData,
+    filter,
+    setFilter,
   };
 
   useEffect(() => {
     requestAPI().then(({ results }) => setData(results));
-  }, []);
+  }, [data]);
 
   return (
     <context.Provider value={ contextValue }>
