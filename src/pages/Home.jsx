@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Table from '../components/table/Table';
-import PlanetsContext from '../utils/PlanetsContext/PlanetsContext';
 import requestPlanetsAPI from '../services/requestPlanetsAPI';
+import usePlanet from '../hooks/usePlanet';
 
 export default function Home() {
-  const { setPlanets } = useContext(PlanetsContext);
+  const { setPlanets } = usePlanet();
 
   useEffect(() => {
     requestPlanetsAPI()
@@ -13,7 +13,7 @@ export default function Home() {
 
   return (
     <div>
-      <h1>Hello World</h1>
+      <h1>StarWars Planets Search</h1>
       <Table />
     </div>
   );

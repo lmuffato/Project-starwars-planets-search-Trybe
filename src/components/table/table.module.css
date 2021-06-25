@@ -1,0 +1,21 @@
+.table {
+  border: 1px solid black;
+  border-collapse: collapse;
+  margin: 0 auto;
+  max-width: 1200px;
+  text-overflow: ellipsis;
+}
+
+.table thead {
+  border: 1px solid black;
+  border-spacing: 10px;
+}
+
+.table tbody, td {
+  border: 1px solid black;
+}
+
+.table thead tr th {
+  border: 1px solid black;
+  border-spacing: 10px;
+}
