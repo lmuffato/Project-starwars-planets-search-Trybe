@@ -1,13 +1,12 @@
 import React from 'react';
+import TableHead from './TableHead';
+import TableBody from './TableBody';
 
 export default function Table() {
   return (
     <table>
-      <thead>
-        <tr>
-          <th>Xablau</th>
-        </tr>
-      </thead>
+      <TableHead />
+      <TableBody />
     </table>
   );
 }

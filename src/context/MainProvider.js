@@ -10,7 +10,6 @@ export default function MainProvider({ children }) {
       const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
       const data = await response.json();
       setPlanets(data.results);
-      console.log(data.results);
     };
     fecthPlanets();
   }, []);
