@@ -10,7 +10,7 @@ export function StarWarsContextProvider({ children }) {
   const [apiPlanets, setPlanets] = useState([]); // estado que recebe o array original da API
   const [soughtPlanets, setSoughtPlanets] = useState([]); // segundo estado pra gerenciar mudanças nos filtros
   const [isLoading, setLoading] = useState(true); // booleana para renderização do loading
-  const [filterByNumericValues, setFiltersByNumericValue] = useState([]); // gerencia os filtros - este estado precisa ficar aqui? Ou posso colocá-lo direto no componente?
+  const [filterByNumericValues, setFiltersByNumericValue] = useState([]); // gerencia os filtros
 
   // Requisito 1
   async function fetchPlanetsAPI() {
