@@ -4,6 +4,7 @@ import starWarContext from '../context/starWarsContext';
 import Table from '../Components/Table';
 import SearchBar from '../Components/SearchBar';
 import Select from '../Components/Select';
+import LoadFilters from '../Components/LoadFilters';
 
 export default function Home() {
   const { setPlanets } = useContext(starWarContext);
@@ -18,6 +19,7 @@ export default function Home() {
     <div>
       <SearchBar />
       <Select />
+      <LoadFilters />
       <Table />
     </div>
   );

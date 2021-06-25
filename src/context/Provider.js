@@ -58,6 +58,7 @@ function Provider({ children }) {
     selectInput,
     filterSelect,
     newFilter,
+    setNewFilter,
   };
 
   return (
