@@ -3,7 +3,11 @@ import StarWarsContext from '../context/StarWarsContext';
 
 export default function RenderDataOfTable(arrayPlanets) {
   let planets = [...arrayPlanets];
-  const { name: filterText } = useContext(StarWarsContext);
+  const { filterByName, filterByNumericValues } = useContext(StarWarsContext);
+  const { name: filterText } = filterByName;
+  const {
+    column: filterColumn, comparison: filterComparison,
+    value: filterValue } = filterByNumericValues;
 
   if (filterText !== '') {
     planets = arrayPlanets

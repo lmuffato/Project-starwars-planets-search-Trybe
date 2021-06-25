@@ -9,6 +9,13 @@ function StarWarsProvider({ children }) {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [
+      {
+        column: 'population',
+        comparison: 'maior que',
+        value: '100000',
+      },
+    ],
   });
 
   function getText({ target }) {
@@ -18,14 +25,30 @@ function StarWarsProvider({ children }) {
       } });
   }
 
+  function getNumericFilters(columFilter, comparisonFilter, valueFilter) {
+    setFilters({ ...filters,
+      filterByNumericValues: [
+        {
+          column: columFilter,
+          comparison: comparisonFilter,
+          value: valueFilter,
+        },
+      ],
+    });
+  }
+
   useEffect(() => {
     FetchStarWars().then((resp) => setData(resp));
   }, []);
 
-  const { filterByName } = filters;
-  const { name } = filterByName;
+  const { filterByName, filterByNumericValues } = filters;
+ 
   return (
-    <StarWarsContext.Provider value={ { data, getText, name } }>
+    <StarWarsContext.Provider
+      value={
+        { data, getText, filterByName, getNumericFilters, filterByNumericValues }
+      }
+    >
       { children }
     </StarWarsContext.Provider>
 
