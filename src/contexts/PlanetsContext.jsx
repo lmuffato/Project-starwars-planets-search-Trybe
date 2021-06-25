@@ -5,11 +5,13 @@ import fetchPlanets from '../services/api';
 export const PlanetsContext = createContext();
 
 export function PlanetsProvider({ children }) {
+  const [initialPlanets, setInitialPlanets] = useState([]);
   const [planets, setPlanets] = useState([]);
   const [tableHeads, setTableHeads] = useState([]);
 
   async function getPlanets() {
     const planetsResults = await fetchPlanets();
+    setInitialPlanets(planetsResults);
     setPlanets(planetsResults);
   }
 
@@ -23,18 +25,33 @@ export function PlanetsProvider({ children }) {
     setTableHeads(firstPlanetKeys);
   }
 
+  function filterByText(filter) {
+    const filteredPlanets = initialPlanets.filter(
+      (planet) => planet.name.toLowerCase().includes(filter.toLowerCase()),
+    );
+    setPlanets(filteredPlanets);
+  }
+
+  useEffect(() => {
+    getPlanets();
+  }, []);
+
   useEffect(() => {
     const planetsWereLoaded = planets.length > 0;
 
-    if (!planetsWereLoaded) {
-      getPlanets();
-    } else {
+    if (planetsWereLoaded) {
       getTableHeads(planets);
     }
   }, [planets]);
 
   return (
-    <PlanetsContext.Provider value={ { planets, tableHeads } }>
+    <PlanetsContext.Provider
+      value={ {
+        planets,
+        tableHeads,
+        filterByText,
+      } }
+    >
       {children}
     </PlanetsContext.Provider>
   );
