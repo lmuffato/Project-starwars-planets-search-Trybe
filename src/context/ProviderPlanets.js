@@ -65,8 +65,29 @@ function ProviderPlanets({ children }) {
     });
   };
 
+  const sortPlanetList = (planetList) => {
+    const { order } = filters;
+    const planetsSorted = planetList.sort((a, b) => {
+      let result = {};
+      const test = a[order.column] === 'unknown'
+        ? false
+        : Number.isNaN(Number(a[order.column]));
+      if (test) {
+        result = order.sort === 'ASC'
+          ? a[order.column].localeCompare(b[order.column])
+          : b[order.column].localeCompare(a[order.column]);
+      } else {
+        result = order.sort === 'ASC'
+          ? Number(a[order.column]) - Number(b[order.column])
+          : Number(b[order.column]) - Number(a[order.column]);
+      }
+      return result;
+    });
+    return planetsSorted;
+  };
+
   const applyFilters = () => {
-    const { filterByName: { name }, filterByNumericValues, order } = filters;
+    const { filterByName: { name }, filterByNumericValues } = filters;
     const wordFilter = new RegExp(name, 'i');
     let planetsFiltered = data.filter((planet) => wordFilter.test(planet.name));
     filterByNumericValues.forEach((filter) => {
@@ -89,11 +110,7 @@ function ProviderPlanets({ children }) {
         }
       }
     });
-    planetsFiltered = planetsFiltered.sort((a, b) => (
-      order.sort === 'ASC'
-        ? a[order.column] - b[order.column]
-        : b[order.column] - a[order.column]
-    ));
+    planetsFiltered = sortPlanetList(planetsFiltered);
     updatePlanetList(planetsFiltered);
   };
 
