@@ -7,6 +7,7 @@ function Provider({ children }) {
   const [data, setData] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
   const [text, setText] = useState('');
+  const [filterByNumericValues, setFilterByNumericValues] = useState([]);
 
   async function fetchPlanetsFromApi() {
     setIsFetching(true);
@@ -30,15 +31,40 @@ function Provider({ children }) {
   }));
 
   useEffect(() => {
-    search(data);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    function filterResults() {
+      let filterPlanets = [];
+      filterByNumericValues.forEach((fil) => {
+        switch (fil.comparison) {
+        case 'maior que':
+          filterPlanets = data.filter((row) => row[fil.column] > parseInt(fil.value, 10));
+          return setData(filterPlanets);
+        case 'menor que':
+          filterPlanets = data.filter((row) => row[fil.column] < parseInt(fil.value, 10));
+          return setData(filterPlanets);
+        case 'igual a':
+          filterPlanets = data.filter((row) => row[fil.column] === fil.value);
+          return setData(filterPlanets);
+        default:
+          search(data);
+        }
+      });
+    }
+    filterResults();
+  }, [filterByNumericValues]);
 
   const contextStarWars = {
     isFetching,
     data,
     setText,
     search,
+    setFilterByNumericValues,
+    filters:
+      {
+        filterByName: {
+          name: text,
+        },
+        filterByNumericValues,
+      },
   };
 
   return (
