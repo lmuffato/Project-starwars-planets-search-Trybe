@@ -22,6 +22,7 @@ function Table() {
         value={ name }
         onChange={ (e) => setName(e.target.value) }
         className="filter-input"
+        data-testid="name-filter"
       />
       <table className="table">
         <thead>
