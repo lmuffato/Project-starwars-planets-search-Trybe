@@ -25,10 +25,33 @@ function PlanetsProvider({ children }) {
     setNewArray(newValue);
   }
 
+  function filterInfo(event, compFilter, colFilter, numberFilter) {
+    event.preventDefault();
+    console.log(data.results[0][colFilter]);
+    console.log(numberFilter);
+    if (compFilter === 'maior que') {
+      const newValue = data.results
+        .filter((plantet) => parseInt(plantet[colFilter], 10)
+         > parseInt(numberFilter, 10));
+      return setNewArray(newValue);
+    } if (compFilter === 'menor que') {
+      console.log('menor');
+      const newValue = data.results
+        .filter((plantet) => parseInt(plantet[colFilter], 10)
+        < parseInt(numberFilter, 10));
+      return setNewArray(newValue);
+    }
+    console.log('igual');
+    const newValue = data.results
+      .filter((plantet) => parseInt(plantet[colFilter], 10)
+      === parseInt(numberFilter, 10));
+    return setNewArray(newValue);
+  }
+
   return (
     <PlanetsContext.Provider
       value={
-        { data, isLoading, filter, fetchPlanet, filterName, newArray }
+        { data, isLoading, filter, fetchPlanet, filterName, newArray, filterInfo }
       }
     >
       {children}

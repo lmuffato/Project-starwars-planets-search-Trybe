@@ -1,13 +1,30 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 import '../css/PlanetsTable.css';
 
 function PlanetsTable() {
   const { fetchPlanet: fetchPlanetApi } = useContext(PlanetsContext);
-  const { isLoading, filterName, newArray } = useContext(PlanetsContext);
+  const { isLoading, filterName, newArray, filterInfo } = useContext(PlanetsContext);
+  const [columnFilter, setColumnFilter] = useState('population');
+  const [comparisonFilter, setComparisonFilter] = useState('maior que');
+  const [numberFilter, setNumberFilter] = useState('');
   useEffect(() => {
     fetchPlanetApi();
   }, []);
+
+  function columnFilterFunc(ev) {
+    const event = ev.target.value;
+    setColumnFilter(event);
+  }
+  function comparisonFilterFunc(ev) {
+    const event = ev.target.value;
+    setComparisonFilter(event);
+  }
+
+  function numberFilterFunc(ev) {
+    const event = ev.target.value;
+    setNumberFilter(event);
+  }
 
   return (
     <main>
@@ -20,6 +37,30 @@ function PlanetsTable() {
           onChange={ (ev) => { filterName(ev.target.value); } }
         />
       </label>
+      <form
+        onSubmit={ (ev) => filterInfo(ev, comparisonFilter, columnFilter, numberFilter) }
+      >
+        <select data-testid="column-filter" onChange={ columnFilterFunc }>
+          <option value="population">population</option>
+          <option value="orbital_period">orbital_period</option>
+          <option value="diameter">diameter</option>
+          <option value="rotation_period">rotation_period</option>
+          <option value="surface_water">surface_water</option>
+        </select>
+        <select data-testid="comparison-filter" onChange={ comparisonFilterFunc }>
+          <option value="maior que">maior que</option>
+          <option value="menor que">menor que</option>
+          <option value="igual a">igual a</option>
+        </select>
+
+        <input
+          data-testid="value-filter"
+          type="number"
+          value={ numberFilter }
+          onChange={ numberFilterFunc }
+        />
+        <button data-testid="button-filter" type="submit">Pesquisar</button>
+      </form>
       <section>
         <table className="table">
           <tr>
