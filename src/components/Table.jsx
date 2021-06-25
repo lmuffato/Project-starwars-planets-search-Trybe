@@ -10,8 +10,25 @@ function Table() {
       <tbody>
         {planets.map((planet) => (
           <tr key={ planet.name }>
-            {Object.keys(planet).map((key) => key !== 'residents'
-            && <td key={ planet[key] }>{planet[key]}</td>)}
+            <td>{planet.name}</td>
+            <td>{planet.rotation_period}</td>
+            <td>{planet.orbital_period}</td>
+            <td>{planet.diameter}</td>
+            <td>{planet.climate}</td>
+            <td>{planet.gravity}</td>
+            <td>{planet.terrain}</td>
+            <td>{planet.surface_water}</td>
+            <td>{planet.population}</td>
+            <td>
+              <ul>
+                {planet.films.map((film) => (
+                  <li key={ film }>{film}</li>
+                ))}
+              </ul>
+            </td>
+            <td>{planet.created}</td>
+            <td>{planet.edited}</td>
+            <td>{planet.url}</td>
           </tr>
         ))}
       </tbody>
