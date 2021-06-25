@@ -1,14 +1,10 @@
-import React, { useContext, useEffect } from 'react';
-import starWarsContext from '../context/StarWarsContext';
+import React, { useContext } from 'react';
+import StarWarsContext from '../context/StarWarsContext';
 
 function Table() {
-  const { data, getPlanets } = useContext(starWarsContext);
+  const { planetsData } = useContext(StarWarsContext);
+  const { data } = planetsData;
   const columns = data[0] && Object.keys(data[0]);
-
-  useEffect(() => {
-    getPlanets();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   // video utilizado como base de consulta na construção da tabela https://www.youtube.com/watch?v=d1r0aK5awWk
   return (
