@@ -1,19 +1,13 @@
 import React, { useContext } from 'react';
 import StarWarsContext from '../context/starWarsContext';
+import './Table.css';
 
 function Table() {
-  const { planets, names } = useContext(StarWarsContext);
-  console.log(planets[0]);
-  console.log(names);
+  const { filteredPlanets } = useContext(StarWarsContext);
   return (
     <table>
       <thead>
         <tr>
-          { names.map((planet) => (
-            <th key={ planet }>{planet}</th>
-          )) }
-        </tr>
-        {/* <tr>
           <th>Nome</th>
           <th>Período de Rotação</th>
           <th>Período de órbita</th>
@@ -27,10 +21,10 @@ function Table() {
           <th>Criado em</th>
           <th>Editado em</th>
           <th>URL</th>
-        </tr> */}
+        </tr>
       </thead>
       <tbody>
-        { planets.map((planet) => (
+        { filteredPlanets.map((planet) => (
           <tr key={ planet.name }>
             <td>{planet.name}</td>
             <td>{planet.rotation_period}</td>

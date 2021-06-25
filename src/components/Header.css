@@ -1,0 +1,19 @@
+* {
+  border: 0;
+  margin: 0;
+}
+
+.header {
+  background-color: tomato;
+  display: flex;
+  height: 120px;
+  justify-content: center;
+  padding: 30px;
+}
+
+.header input {
+  font-size: 16px;
+  height: 40px;
+  padding-left: 16px;
+  width: 250px;
+}

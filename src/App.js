@@ -1,13 +1,18 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import Provider from './context/Provider';
-import Table from './components/Table';
+import Table from './pages/Table';
+import Header from './components/Header';
 import './App.css';
 
 function App() {
   return (
-    <Provider>
-      <Table />
-    </Provider>
+    <BrowserRouter>
+      <Provider>
+        <Header />
+        <Table />
+      </Provider>
+    </BrowserRouter>
   );
 }
 

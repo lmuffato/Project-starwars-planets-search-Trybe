@@ -1,0 +1,17 @@
+table {
+  margin: 20px;
+  padding: 20px;
+}
+
+thead {
+  background-color: red;
+}
+
+tbody {
+  background-color: green;
+}
+
+td {
+  padding: 0 10px;
+  text-align: center;
+}
