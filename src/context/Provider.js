@@ -5,6 +5,7 @@ import Context from './Context';
 function Provider({ children }) {
   const [data, setData] = useState([]);
   const [header, setHeader] = useState([]);
+  const [name, setName] = useState('');
 
   useEffect(() => {
     const fetchPlanets = async () => {
@@ -25,6 +26,8 @@ function Provider({ children }) {
   const contextValue = {
     data,
     header,
+    name,
+    setName,
   };
 
   return (
