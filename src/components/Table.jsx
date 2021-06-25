@@ -4,7 +4,6 @@ import handleFilter from '../services/handleFilter';
 
 function Table() {
   const { data, filters } = useContext(PlanetContext);
-
   if (data[0] === 'loading') return <h2>Carregando...</h2>;
 
   return (

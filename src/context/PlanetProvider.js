@@ -5,7 +5,7 @@ import PlanetContext from './PlanetContext';
 const PlanetProvider = ({ children }) => {
   const apiURL = 'https://swapi-trybe.herokuapp.com/api/planets/';
   const [data, setData] = useState(['loading']);
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState({ name: '' });
 
   useEffect(() => {
     const getPlanets = async () => {

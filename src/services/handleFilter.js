@@ -3,15 +3,21 @@ const handleFilter = (arrayObjects, method) => {
 
   const filters = Object.values(method);
   const key = Object.keys(method);
-  console.log(filters, key);
 
   return filters.reduce((acc, currFilter, index) => acc.filter((object) => {
+    const integerObjectKeyValue = parseInt(object[key[index]], 10);
+    const integerNumberFilter = parseInt(currFilter.slice(1), 10);
+
     switch (currFilter[0]) {
     case '>':
-      return object[key[index]] > parseInt(currFilter.slice(1), 10);
+      return integerObjectKeyValue > integerNumberFilter;
     case '<':
-      return object[key[index]] < parseInt(currFilter.slice(1), 10);
+      return integerObjectKeyValue < integerNumberFilter;
+    case '=': {
+      return integerObjectKeyValue === integerNumberFilter;
+    }
     default: {
+      if (!object[key[index]]) return arrayObjects;
       return (object[key[index]].toLowerCase().includes(currFilter.toLowerCase()));
     }
     }
