@@ -30,8 +30,6 @@ function Table() {
     filterData();
   }, [filters]);
 
-  // teste de push
-
   if (isLoading) return 'Loading';
   return (
     <table>
