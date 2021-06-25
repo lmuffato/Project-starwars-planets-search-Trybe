@@ -1,12 +1,17 @@
 import React from 'react';
+import useFilters from '../../hooks/useFilters';
 import usePlanets from '../../hooks/usePlanets';
 
 export default function TableBody() {
   const { results: planets } = usePlanets();
+  const { filters } = useFilters();
+  const nameFilter = filters.filterByName.name;
+
+  const filteredPlanets = planets.filter((planet) => planet.name.includes(nameFilter));
 
   return (
     <tbody>
-      {planets.map((planet) => (
+      {filteredPlanets.map((planet) => (
         <tr key={ planet.name }>
           <td>{planet.name}</td>
           <td>{planet.rotation_period}</td>
