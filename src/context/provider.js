@@ -5,11 +5,11 @@ import starWarsPlanets from './index';
 function Provider({ children }) {
   const INICIAL_FILTERS = {
     filterByName: { name: '' },
-    filterByNumericValues: {
-      column: 'population',
-      comparison: 'maior que',
+    filterByNumericValues: [{
+      column: '',
+      comparison: '',
       value: '',
-    },
+    }],
   };
 
   const [data, setData] = useState([{}]);

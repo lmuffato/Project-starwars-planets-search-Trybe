@@ -1,14 +1,22 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import starWarsPlanets from '../../context';
 import { columnObj, comparisonObj } from './data';
 import Select from '../Select';
 
 function Filters() {
   const { filters, setFilters, setData, backup } = useContext(starWarsPlanets);
+  const [position, setPosition] = useState(0);
+  const [localObj, setLocalObj] = useState({
+    column: '',
+    comparison: 'maior que',
+    value: '',
+  });
   const {
     filterByName: { name },
-    filterByNumericValues: { column, comparison, value: size },
+    filterByNumericValues,
   } = filters;
+  const { column, comparison, value: size } = filterByNumericValues[position];
+  const toSelectColumn = columnObj;
 
   const handleChange = ({ target: { value } }) => {
     setFilters({
@@ -21,15 +29,24 @@ function Filters() {
   };
 
   const handleChange2 = ({ target: { name: nameAttribute, value } }) => {
-    setFilters({
-      ...filters,
-      filterByNumericValues: {
-        ...filters.filterByNumericValues, [nameAttribute]: value,
-      },
+    setLocalObj({
+      ...localObj,
+      [nameAttribute]: value,
     });
   };
 
   const handleClick = () => {
+    setFilters({
+      ...filters,
+      filterByNumericValues: filters.filterByNumericValues.concat(localObj),
+    });
+    setPosition((old) => old + 1);
+    const index = toSelectColumn.options.indexOf(localObj.column);
+    delete toSelectColumn.options[index];
+    setLocalObj({ column: '', comparison: 'maior que', value: '' });
+  };
+
+  useEffect(() => {
     let filteredArray = [];
 
     if (comparison === 'maior que') {
@@ -44,7 +61,7 @@ function Filters() {
     }
 
     setData(filteredArray);
-  };
+  }, [filterByNumericValues]);
 
   return (
     <div>
@@ -54,12 +71,11 @@ function Filters() {
         onChange={ handleChange }
         data-testid="name-filter"
       />
-      <Select selectData={ columnObj } onChange={ handleChange2 } />
+      <Select selectData={ toSelectColumn } onChange={ handleChange2 } />
       <Select selectData={ comparisonObj } onChange={ handleChange2 } />
       <input
         type="number"
         name="value"
-        value={ size }
         onChange={ handleChange2 }
         data-testid="value-filter"
       />
