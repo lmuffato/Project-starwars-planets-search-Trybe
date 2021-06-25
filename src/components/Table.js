@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import context from '../store/Context';
 import '../style/Table.css';
+import Formfilter from './Formfilter';
 import Tbody from './Tbody';
 import Thead from './Thead';
 
@@ -24,6 +25,7 @@ function Table() {
           />
         </label>
       </section>
+      <Formfilter />
       <table className="table">
         <Thead />
         <Tbody />

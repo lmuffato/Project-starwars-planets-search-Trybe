@@ -10,6 +10,14 @@ function Provider({ children }) {
     filteredByName: '',
   });
 
+  const [numericValues, setNumericValues] = useState({
+    filterByNumericValues: [{
+      column: 'population',
+      comparison: 'maior que',
+      value: 0,
+    }],
+  });
+
   useEffect(() => {
     fetchPlanets().then(({ results }) => setData(results));
   }, []);
@@ -26,6 +34,8 @@ function Provider({ children }) {
     keys,
     filter,
     setFilter,
+    numericValues,
+    setNumericValues,
   };
 
   return (
