@@ -7,6 +7,9 @@ import fetchStarWars from '../services/fetchStarWarsAPI';
 function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
   const [name, setName] = useState('');
+  const [column, setColumn] = useState('');
+  const [comparison, setComparison] = useState('');
+  const [value, setValue] = useState('');
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -22,8 +25,19 @@ function PlanetsProvider({ children }) {
       filterByName: {
         name,
       },
+      filterByNumericValues: [
+        {
+          column,
+          comparison,
+          value,
+        },
+      ],
     },
     setName,
+    column,
+    setColumn,
+    setComparison,
+    setValue,
   };
 
   return (
