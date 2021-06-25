@@ -2,10 +2,15 @@ import React from 'react';
 import usePlanet from '../../hooks/usePlanet';
 
 export default function Tbody() {
-  const { planets } = usePlanet();
+  const { planets, filter } = usePlanet();
+  const { filters: { filterByName: { name } } } = filter;
+
+  const FilterPlanetsByName = planets
+    .filter((planet) => (planet.name.includes(name)));
+
   return (
     <tbody>
-      {planets.map((planet, index) => (
+      {FilterPlanetsByName.map((planet, index) => (
         <tr key={ index }>
           <td>{planet.name}</td>
           <td>{planet.rotationPeriod}</td>

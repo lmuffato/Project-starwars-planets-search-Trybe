@@ -4,9 +4,16 @@ import PlanetsContext from './PlanetsContext';
 
 export default function PlanetsProvider({ children }) {
   const [planets, setPlanets] = useState([]);
+  const [filter, setFilter] = useState({
+    filters: { filterByName: { name: '' } },
+  });
 
   return (
-    <PlanetsContext.Provider value={ { planets, setPlanets } }>
+    <PlanetsContext.Provider
+      value={
+        { planets, setPlanets, filter, setFilter }
+      }
+    >
       {children}
     </PlanetsContext.Provider>
   );
