@@ -11,7 +11,7 @@ function TableHead() {
         <th>Clima</th>
         <th>Gravidade</th>
         <th>Terreno</th>
-        <th>Águas superficiais</th>
+        <th>Águas superficiais (%)</th>
         <th>População</th>
         <th>Filmes</th>
         <th>Criado em</th>
