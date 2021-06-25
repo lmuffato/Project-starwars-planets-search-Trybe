@@ -2,12 +2,12 @@ import React, { useContext, useState } from 'react';
 import SWContext from '../context/SWContext';
 
 function NumericFilter() {
-  const [column] = useState(['population', 'orbital_period', 'diameter',
+  const [column, setColumn] = useState(['population', 'orbital_period', 'diameter',
     'rotation_period', 'surface_water']);
   const [columnFilter, setColumnFilter] = useState('population');
   const [operation, setOperation] = useState('maior que');
   const [number, setNumber] = useState();
-  const { data, setReturnData } = useContext(SWContext);
+  const { setNumericFilters, numericFilters } = useContext(SWContext);
 
   function handleColumn(event) {
     setColumnFilter(event.target.value);
@@ -22,22 +22,8 @@ function NumericFilter() {
   }
 
   function handleClick() {
-    let filtered = [];
-    switch (operation) {
-    case 'menor que':
-      filtered = data.filter((planet) => (
-        Number(planet[columnFilter]) < Number([number])));
-      break;
-    case 'igual a':
-      filtered = data.filter((planet) => (
-        Number(planet[columnFilter]) === Number([number])));
-      break;
-    default:
-      filtered = data.filter((planet) => (
-        Number(planet[columnFilter]) > Number([number])));
-      break;
-    }
-    setReturnData(filtered);
+    setNumericFilters([...numericFilters, { columnFilter, operation, number }]);
+    setColumn(column.filter((item) => item !== columnFilter));
   }
 
   return (

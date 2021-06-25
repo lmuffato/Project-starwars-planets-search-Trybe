@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import SWContext from './SWContext';
 
 function SWProvider({ children }) {
-  const [returnData, setReturnData] = useState();
   const [data, setdata] = useState();
+  const [returnData, setReturnData] = useState();
   const [keys, setKeys] = useState();
   const [nameFilter, setNameFilter] = useState();
+  const [numericFilters, setNumericFilters] = useState([]);
 
   async function fetchApi() {
     await fetch('https://swapi-trybe.herokuapp.com/api/planets/')
@@ -22,7 +23,15 @@ function SWProvider({ children }) {
   return (
     <SWContext.Provider
       value={
-        { returnData, data, keys, fetchApi, nameFilter, setNameFilter, setReturnData }
+        { data,
+          keys,
+          returnData,
+          nameFilter,
+          numericFilters,
+          fetchApi,
+          setReturnData,
+          setNameFilter,
+          setNumericFilters }
       }
     >
       {children}
