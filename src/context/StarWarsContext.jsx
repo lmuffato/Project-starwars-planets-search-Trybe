@@ -15,6 +15,7 @@ export function StarWarsContextProvider({ children }) {
   const [inputValue, setInputValue] = useState('');
   const [newArrayOfPlanets, setNewArrayOfPlanets] = useState([]); // novo array com filtros aplicados
   const [isSorted, setIsSorted] = useState(false);
+  const [sortSelectColumn, setSortColumn] = useState('name');
   const [sorting, setSorting] = useState({
     column: 'name',
     sort: 'ASC',
@@ -110,6 +111,8 @@ export function StarWarsContextProvider({ children }) {
     setFilterByOtherParams,
     isSorted,
     setIsSorted,
+    sortSelectColumn,
+    setSortColumn,
   };
 
   return (
