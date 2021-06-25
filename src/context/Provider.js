@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-
 import Context from './Context';
 import starWarsApi from '../services/starwarsAPI';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
   const [keys, setKey] = useState([]);
+  const [filters, setFilters] = useState({
+    filterByName: {
+      name: '',
+    },
+  });
 
   const getKeys = (result) => {
     const keysHeader = Object.keys(result[0]);
@@ -16,9 +20,7 @@ function Provider({ children }) {
   useEffect(() => {
     const fetchAPI = async () => {
       const result = await starWarsApi();
-      // console.log(result);
       setData(result);
-
       getKeys(result);
     };
 
@@ -28,7 +30,8 @@ function Provider({ children }) {
   const context = {
     data,
     keys,
-    setData,
+    filters,
+    setFilters,
   };
 
   return (

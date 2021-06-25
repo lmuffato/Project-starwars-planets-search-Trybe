@@ -2,12 +2,20 @@ import React, { useContext } from 'react';
 import Context from '../context/Context';
 
 function Table() {
-  const { data, keys } = useContext(Context);
-
+  const { data, keys, filters: { filterByName: { name } } } = useContext(Context);
   const headerTable = keys.filter((key) => key !== 'residents');
-  // console.log(keys);
-  // console.log(data);
+
   if (!keys.length && !data.length) return <div>...Loading</div>;
+
+  const dataFilters = () => {
+    if (name) {
+      return data.filter((planet) => planet.name.includes(name));
+    }
+
+    return data;
+  };
+
+  const planets = dataFilters();
 
   return (
     <main>
@@ -18,8 +26,8 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {data.map((planet) => (
-            <tr key={ planet.name }>
+          {planets.map((planet, index) => (
+            <tr key={ index }>
               <td>{planet.name}</td>
               <td>{planet.rotation_period}</td>
               <td>{planet.orbital_period}</td>
