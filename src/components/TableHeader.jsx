@@ -1,18 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { getPlanets } from '../services/getPlanets';
+import React, { useState, useEffect, useContext } from 'react';
+import context from '../context/context';
 import './TableHeader.css';
 
 function TableHeader() {
-  const [planets, setPlanets] = useState([]);
-  const [isLoading, setLoading] = useState(true);
-  useEffect(() => {
-    const setThePlanets = async () => {
-      const thePlanets = await getPlanets();
-      setPlanets([...thePlanets]);
-      setLoading(false);
-    }
-    setThePlanets();
-  }, []);
+  const { planets, isLoading } = useContext(context);
 
   const renderTableHeader = () => {
     const headers = Object.keys(planets[0]);
