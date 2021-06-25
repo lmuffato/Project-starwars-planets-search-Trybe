@@ -6,7 +6,7 @@ function PlanetsList() {
 
   useEffect(() => {
     fetchPlanets();
-  }, [fetchPlanets]);
+  }, []);
 
   return (
     <div>

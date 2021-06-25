@@ -23,7 +23,7 @@ function PlanetsProvider({ children }) {
 }
 
 PlanetsProvider.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.node,
 }.isRequired;
 
 export default PlanetsProvider;
