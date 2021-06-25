@@ -2,8 +2,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 function Table() {
-  const { data, fetchPlanets, isLoading } = useContext(PlanetsContext);
+  const { data, fetchPlanets, isLoading, filters } = useContext(PlanetsContext);
   const [heading, setHeading] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
 
   useEffect(() => {
     fetchPlanets();
@@ -13,8 +14,21 @@ function Table() {
     if (data[0] !== null && data[0] !== undefined) {
       const headingText = Object.keys(data[0]);
       setHeading(headingText);
+      setFilteredData(data);
     }
   }, [data]);
+
+  useEffect(() => {
+    const filterData = () => {
+      const filter = filters.filterByName.name;
+      if (filter !== '') {
+        setFilteredData(data.filter((planet) => planet.name.includes(filter)));
+      } else {
+        setFilteredData(data);
+      }
+    };
+    filterData();
+  }, [filters]);
 
   if (isLoading) return 'Loading';
   return (
@@ -26,7 +40,7 @@ function Table() {
       </thead>
       <tbody>
         {
-          data.map((info, key) => (
+          filteredData.map((info, key) => (
             <tr key={ key }>
               {Object.values(info).map((tableInfo, index) => (
                 <td key={ index }>
