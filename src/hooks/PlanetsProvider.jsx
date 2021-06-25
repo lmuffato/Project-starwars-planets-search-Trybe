@@ -6,6 +6,7 @@ import MyContext from '../context/myContext';
 
 function PlanetsProvider({ children }) {
   const [data, setData] = useState({});
+  const [name, setName] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -14,8 +15,12 @@ function PlanetsProvider({ children }) {
     })();
   }, []);
 
+  const handleChange = (value) => setName(value);
+
   return (
-    <MyContext.Provider value={ { data } }>
+    <MyContext.Provider
+      value={ { data, handleChange, filters: { filterByName: { name } } } }
+    >
       {children}
     </MyContext.Provider>
   );
