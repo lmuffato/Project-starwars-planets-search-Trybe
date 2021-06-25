@@ -14,7 +14,7 @@ export default function Home() {
       setPlanets(results);
     };
     fetchApi();
-  }, []);
+  }, [setPlanets]);
   return (
     <div>
       <SearchBar />
