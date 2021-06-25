@@ -11,7 +11,7 @@ function Table() {
   }, []);
 
   function handleFilter() {
-    let filtered = data;
+    let filtered = returnData;
     if (nameFilter !== undefined) {
       filtered = data.filter((planet) => (
         planet.name.toLowerCase().includes(nameFilter.toLowerCase())));
@@ -48,6 +48,22 @@ function Table() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [numericFilters, nameFilter]);
 
+  function mapPlanets(planet) {
+    return (
+      Object.values(planet).map((property, index2) => {
+        if (index2 === 0) {
+          return (
+            <td key={ `${planet}${index2}` } data-testid="planet-name">
+              { property }
+            </td>
+          );
+        }
+        return (
+          <td key={ `${planet}${index2}` }>{ property }</td>
+        );
+      }));
+  }
+
   return (keys !== undefined
     ? (
       <tbody>
@@ -56,8 +72,7 @@ function Table() {
         </tr>
         {returnData.map((planet, index) => (
           <tr key={ `${planet}${index}` }>
-            {Object.values(planet).map((property, index2) => (
-              <td key={ `${planet}${index2}` }>{ property }</td>))}
+            {mapPlanets(planet)}
           </tr>
         ))}
       </tbody>

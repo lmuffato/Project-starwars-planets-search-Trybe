@@ -8,8 +8,37 @@ function SWProvider({ children }) {
   const [keys, setKeys] = useState();
   const [nameFilter, setNameFilter] = useState();
   const [numericFilters, setNumericFilters] = useState([]);
+  const [sort, setSort] = useState({ columnSort: 'name', order: 'ASC' });
   const [column, setColumn] = useState(['population', 'orbital_period', 'diameter',
     'rotation_period', 'surface_water']);
+
+  function handleSort({ columnSort, order }, array) {
+    if (order === 'ASC' && columnSort === 'name') {
+      const sortedAsc = array.sort((a, b) => {
+        const textA = a.name.toUpperCase();
+        const textB = b.name.toUpperCase();
+        const magicNumber = -1;
+        if (textA < textB) {
+          return magicNumber;
+        } if (textA > textB) {
+          return 1;
+        }
+        return 0;
+      });
+      setReturnData(sortedAsc);
+    } else if (order === 'ASC') {
+      const sortedAsc = returnData.sort((a, b) => (
+        a[columnSort] - b[columnSort]
+      ));
+      // const sortedAsc = returnData.sort();
+      setReturnData(sortedAsc);
+    } else {
+      const sortedDesc = returnData.sort((a, b) => (
+        b[columnSort] - a[columnSort]
+      ));
+      setReturnData(sortedDesc);
+    }
+  }
 
   async function fetchApi() {
     await fetch('https://swapi-trybe.herokuapp.com/api/planets/')
@@ -17,7 +46,7 @@ function SWProvider({ children }) {
       .then((response) => {
         response.results.map((planet) => delete planet.residents);
         setdata(response.results);
-        setReturnData(response.results);
+        handleSort(sort, response.results);
         setKeys(Object.keys(response.results[0]));
       });
   }
@@ -31,11 +60,14 @@ function SWProvider({ children }) {
           nameFilter,
           numericFilters,
           column,
+          sort,
           fetchApi,
+          handleSort,
           setReturnData,
           setNameFilter,
           setNumericFilters,
-          setColumn }
+          setColumn,
+          setSort }
       }
     >
       {children}
