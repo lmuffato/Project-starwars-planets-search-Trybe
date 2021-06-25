@@ -2,8 +2,8 @@ import React, { useState, useContext } from 'react';
 import PlanetsContext from '../utils/PlanetsContext';
 
 function NumericFilter() {
-  const [column, setColumn] = useState('');
-  const [comparison, setComparison] = useState('');
+  const [column, setColumn] = useState('population');
+  const [comparison, setComparison] = useState('maior que');
   const [number, setNumber] = useState('');
 
   const { planetFilter, setPlanetFilter } = useContext(PlanetsContext);
@@ -28,7 +28,7 @@ function NumericFilter() {
       },
     };
     setPlanetFilter(filters);
-    setColumn('');
+    setColumn('population');
     setComparison('maior que');
     setNumber('');
   };
