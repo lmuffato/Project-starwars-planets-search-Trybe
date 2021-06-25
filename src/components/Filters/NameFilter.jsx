@@ -3,7 +3,10 @@ import React from 'react';
 export default function NameFilter() {
   return (
     <div>
-      Name Filter
+      <label htmlFor="name-filter">
+        Name Filter:
+        <input id="name-filter" data-testid="name-filter" />
+      </label>
     </div>
   );
 }
