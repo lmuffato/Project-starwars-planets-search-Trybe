@@ -1,38 +1,32 @@
 import React, { useContext } from 'react';
 import context from '../store/Context';
 import '../style/Table.css';
+import Tbody from './Tbody';
+import Thead from './Thead';
 
 function Table() {
-  const { data, keys } = useContext(context);
+  const { filter: { filteredByName }, setFilter } = useContext(context);
+
+  const handleChange = ({ target }) => {
+    setFilter({ filteredByName: target.value });
+  };
   return (
     <div>
+      <section>
+        <label htmlFor="nameInput">
+          { 'Name ' }
+          <input
+            data-testid="name-filter"
+            type="text"
+            name="nameInput"
+            onChange={ handleChange }
+            value={ filteredByName }
+          />
+        </label>
+      </section>
       <table className="table">
-        <thead>
-          <tr>
-            {keys
-              .filter((key) => key !== 'residents')
-              .map((key) => <th key={ key }>{key}</th>)}
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((planet) => (
-            <tr key={ planet.name }>
-              <td>{planet.name}</td>
-              <td>{planet.rotation_period}</td>
-              <td>{planet.orbital_period}</td>
-              <td>{planet.diameter}</td>
-              <td>{planet.climate}</td>
-              <td>{planet.gravity}</td>
-              <td>{planet.terrain}</td>
-              <td>{planet.surface_water}</td>
-              <td>{planet.population}</td>
-              <td>{planet.films}</td>
-              <td>{planet.created}</td>
-              <td>{planet.edited}</td>
-              <td>{planet.url}</td>
-            </tr>
-          ))}
-        </tbody>
+        <Thead />
+        <Tbody />
       </table>
     </div>
   );
