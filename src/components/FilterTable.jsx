@@ -29,6 +29,8 @@ const FilterTable = () => {
         comparison: comparisonFilter.value,
         value: valueFilter.value,
       }]);
+
+    columnFilter.remove(columnFilter.value);
   };
 
   return (

@@ -38,21 +38,16 @@ const PlanetsProvider = ({ children }) => {
       const filteredValue = filterByNumericValues[filterByNumericValues
         .length - 1].value;
 
-      console.log(filteredComparison);
-
-      if (filteredComparison === 'maior que') {
+      switch (filteredComparison) {
+      case 'maior que':
         return parseFloat(planet[filteredColumn]) > filteredValue;
-      }
-
-      if (filteredComparison === 'menor que') {
+      case 'menor que':
         return parseFloat(planet[filteredColumn]) < filteredValue;
-      }
-
-      if (filteredComparison === 'igual a') {
+      case 'igual a':
         return planet[filteredColumn] === filteredValue;
+      default:
+        return planet[filteredColumn];
       }
-
-      return planet[filteredColumn];
     });
 
     if (finalFilter) {

@@ -3,12 +3,7 @@ import PlanetsContext from '../context/PlanetsContext';
 
 const Table = () => {
   const { keys, filteredPlanets, filterByNumeric } = useContext(PlanetsContext);
-
   const filteredFinalPlanets = filterByNumeric();
-
-  if (filteredFinalPlanets.length > 0) {
-    console.log('Existe');
-  }
 
   const filteredByInput = (filtered) => filtered.map((planet) => (
     <tr key={ planet.name }>
