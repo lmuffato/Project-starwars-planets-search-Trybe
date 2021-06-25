@@ -2,7 +2,7 @@ import React from 'react';
 import Form from './components/Form';
 import Table from './components/Table';
 
-function StarWarsCountriesPage() {
+function StarWarsPlanetsPage() {
   return (
     <div>
       <Form />
@@ -11,4 +11,4 @@ function StarWarsCountriesPage() {
   );
 }
 
-export default StarWarsCountriesPage;
+export default StarWarsPlanetsPage;

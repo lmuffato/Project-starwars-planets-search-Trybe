@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import CountriesContext from '../context/CountriesContext';
+import PlanetsContext from '../context/PlanetsContext';
 
 function Table() {
-  const { filteredPlanets } = useContext(CountriesContext);
+  const { filteredPlanets } = useContext(PlanetsContext);
   return (
     <table>
       <thead>
@@ -23,21 +23,21 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        { filteredPlanets.map((countrie) => (
-          <tr key={ countrie.name }>
-            <td>{countrie.name}</td>
-            <td>{countrie.rotation_period}</td>
-            <td>{countrie.orbital_period}</td>
-            <td>{countrie.diameter}</td>
-            <td>{countrie.climate}</td>
-            <td>{countrie.gravity}</td>
-            <td>{countrie.terrain}</td>
-            <td>{countrie.surface_water}</td>
-            <td>{countrie.population}</td>
-            <td>{countrie.films}</td>
-            <td>{countrie.created}</td>
-            <td>{countrie.edited}</td>
-            <td>{countrie.url}</td>
+        { filteredPlanets.map((planet) => (
+          <tr key={ planet.name }>
+            <td>{planet.name}</td>
+            <td>{planet.rotation_period}</td>
+            <td>{planet.orbital_period}</td>
+            <td>{planet.diameter}</td>
+            <td>{planet.climate}</td>
+            <td>{planet.gravity}</td>
+            <td>{planet.terrain}</td>
+            <td>{planet.surface_water}</td>
+            <td>{planet.population}</td>
+            <td>{planet.films}</td>
+            <td>{planet.created}</td>
+            <td>{planet.edited}</td>
+            <td>{planet.url}</td>
           </tr>
         )) }
       </tbody>

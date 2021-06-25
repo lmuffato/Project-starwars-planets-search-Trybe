@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import CountriesContext from './CountriesContext';
+import CountriesContext from './PlanetsContext';
 
 const Provider = ({ children }) => {
   const [planets, setPlanets] = useState([]);
