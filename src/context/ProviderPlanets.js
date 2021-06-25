@@ -7,64 +7,64 @@ function ProviderPlanets({ children }) {
   const [filteredPlanets, updatePlanetList] = useState([]);
   const [isLoalding, setIsLoalding] = useState(false);
   const INITIAL_FILTERS = {
-    filters: {
-      filterByName: {
-        name: '',
-      },
-      filterByNumericValues: [
-        {
-          column: 'population',
-          comparison: '',
-          value: '',
-        },
-        {
-          column: 'orbital_period',
-          comparison: '',
-          value: '',
-        },
-        {
-          column: 'rotation_period',
-          comparison: '',
-          value: '',
-        },
-        {
-          column: 'surface_water',
-          comparison: '',
-          value: '',
-        },
-      ],
-      order: { column: 'name', sort: 'ASC' },
+    filterByName: {
+      name: '',
     },
+    filterByNumericValues: [
+      {
+        column: 'population',
+        comparison: '',
+        value: '',
+      },
+      {
+        column: 'orbital_period',
+        comparison: '',
+        value: '',
+      },
+      {
+        column: 'rotation_period',
+        comparison: '',
+        value: '',
+      },
+      {
+        column: 'surface_water',
+        comparison: '',
+        value: '',
+      },
+    ],
+    order: { column: 'name', sort: 'ASC' },
   };
 
-  const [dataFilters, setFilters] = useState(INITIAL_FILTERS);
+  const [filters, setFilters] = useState(INITIAL_FILTERS);
 
   const updateNumericFilter = (newNumericFilter) => {
-    const filterByNumericValues = dataFilters.filters.filterByNumericValues
+    const filterByNumericValues = filters.filterByNumericValues
       .filter((filter) => filter.column !== newNumericFilter.column);
     filterByNumericValues.push(newNumericFilter);
     setFilters({
-      ...dataFilters,
-      filters: {
-        ...dataFilters.filters,
-        filterByNumericValues,
-      },
+      ...filters,
+      filterByNumericValues,
     });
   };
 
   const updateNameFilter = (nameFilter) => {
     const filterByName = nameFilter;
     setFilters({
-      ...dataFilters,
-      filters: {
-        ...dataFilters.filters,
-        filterByName,
-      },
+      ...filters,
+      filterByName,
+    });
+  };
+
+  const updateSortKey = (newSortKey) => {
+    setFilters({
+      ...filters,
+      order: { ...newSortKey },
     });
   };
 
   const applyFilters = () => {
-    const { filterByName: { name }, filterByNumericValues, order } = dataFilters.filters;
+    console.log('applyFilter foi chamada');
+    const { filterByName: { name }, filterByNumericValues, order } = filters;
     const wordFilter = new RegExp(name, 'i');
     let planetsFiltered = data.filter((planet) => wordFilter.test(planet.name));
     filterByNumericValues.forEach((filter) => {
@@ -89,12 +89,13 @@ function ProviderPlanets({ children }) {
         ? a[order.column] - b[order.column]
         : b[order.column] - a[order.column]
     ));
+    console.log(planetsFiltered);
     updatePlanetList(planetsFiltered);
   };
 
   useEffect(() => {
     applyFilters();
-  }, [dataFilters, data]);
+  }, [filters, data]);
 
   const getDataPlanets = async () => {
     setIsLoalding(true);
@@ -118,9 +119,10 @@ function ProviderPlanets({ children }) {
         filteredPlanets,
         getDataPlanets,
         isLoalding,
-        filters: dataFilters.filters,
+        filters,
         updateNumericFilter,
         updateNameFilter,
+        updateSortKey,
       } }
     >
       { children }
@@ -133,5 +135,35 @@ ProviderPlanets.propTypes = {
     PropTypes.object,
   )),
 }.isRequired;
+
+export const columnTitle = [
+  'name',
+  'rotation_period',
+  'orbital_period',
+  'diameter',
+  'climate',
+  'gravity',
+  'terrain',
+  'surface_water',
+  'population',
+  'films',
+  'created',
+  'edited',
+  'url',
+];
+
+export const columnOptions = [
+  'population',
+  'orbital_period',
+  'diameter',
+  'rotation_period',
+  'surface_water',
+];
+
+export const comparisonOptions = [
+  'maior que',
+  'menor que',
+  'igua a',
+];
 
 export default ProviderPlanets;
