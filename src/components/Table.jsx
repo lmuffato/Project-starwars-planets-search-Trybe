@@ -15,8 +15,6 @@ function Table() {
     return filteredPlanets;
   };
 
-  console.log(nameFilter());
-
   return (
     <>
       <input
