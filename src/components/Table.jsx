@@ -2,18 +2,22 @@ import React, { useContext } from 'react';
 import ContextPlanets from '../store/ContextPlanets';
 
 export default function Table() {
-  const { data } = useContext(ContextPlanets);
-  console.log(data[0]);
+  const { planets } = useContext(ContextPlanets);
   return (
-    <div>
-      <tr key="table_header">
-        {data.length && Object.keys(data[0]).map((key) => <th key={ key }>{ key }</th>)}
-      </tr>
-      {data.length && data.map((planet, index) => (
-        <tr key={ index }>
-          {Object.values(planet).map((value) => <td key={ value }>{ value }</td>)}
+    <>
+      <thead>
+        <tr key="table_header">
+          {planets.length && Object.keys(planets[0])
+            .map((key) => <th key={ key }>{ key }</th>)}
         </tr>
-      ))}
-    </div>
+      </thead>
+      <tbody>
+        {planets.length && planets.map((planet, index) => (
+          <tr key={ index }>
+            {Object.values(planet).map((value) => <td key={ value }>{ value }</td>)}
+          </tr>
+        ))}
+      </tbody>
+    </>
   );
 }
