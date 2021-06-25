@@ -61,14 +61,20 @@ export default function Provider({ children }) {
     setNumericFilter([...numericFilter, ...newFilterData]);
   };
 
+  const removeFilter = (column) => {
+    const newArray = numericFilter.filter((item) => item.column !== column);
+    setNumericFilter(newArray);
+  };
+
   const context = {
     setFilterName,
-    filterByNumber,
+    filterByNumber: filterByNumber(),
     addNewFilter,
     setCategory,
     setComparison,
     setValue,
     numericFilter,
+    removeFilter,
   };
 
   return (

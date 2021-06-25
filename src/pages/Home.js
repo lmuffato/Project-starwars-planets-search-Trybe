@@ -5,12 +5,13 @@ import '../index.css';
 
 export default function Home() {
   const { setFilterName, filterByNumber: result, addNewFilter,
-    setCategory, setComparison, setValue, numericFilter } = useContext(Context);
+    setCategory, setComparison, setValue, numericFilter, removeFilter,
+  } = useContext(Context);
 
   const renderPlanets = () => {
-    if (result()) {
+    if (result) {
       return (
-        result().map((item, index) => {
+        result.map((item, index) => {
           const { name, rotation_period: rotation, orbital_period: orbital,
             diameter, climate, gravity, terrain, surface_water: surface, population,
             films, created, edited, url } = item;
@@ -43,6 +44,32 @@ export default function Home() {
     const newArray = options.filter((i) => !array.includes(i));
     return newArray;
   };
+
+  function renderFilters() {
+    if (numericFilter) {
+      return (
+        numericFilter.map((item) => {
+          const { column, comparison, value } = item;
+          return (
+            <div data-testid="filter" key={ column }>
+              column:
+              {column}
+              , comparison:
+              {comparison}
+              , value:
+              {value}
+              <button
+                type="button"
+                onClick={ () => removeFilter(column) }
+              >
+                x
+              </button>
+            </div>
+          );
+        })
+      );
+    }
+  }
 
   return (
     <div>
@@ -80,6 +107,7 @@ export default function Home() {
       >
         Adicionar Filtro
       </button>
+      {renderFilters()}
       <table className="table">
         <Header />
         <tbody>
