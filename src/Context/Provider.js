@@ -54,7 +54,7 @@ function PlanetsProvider({ children }) {
       const columnInfo = Number(planet[column]);
       const compareValue = Number(number);
 
-      if (comparison === 'menor que') return columnInfo < compareValue;
+      if (comparison === 'maior que') return columnInfo < compareValue;
       if (comparison === 'menor que') return columnInfo < compareValue;
       return columnInfo === compareValue;
     });
