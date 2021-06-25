@@ -4,7 +4,6 @@ import CountriesContext from './PlanetsContext';
 
 const Provider = ({ children }) => {
   const [planets, setPlanets] = useState([]);
-  console.log(planets);
   const [filteredPlanets, setFilteredPlanets] = useState(planets);
   const [filters, setFilters] = useState({
     filterByName: {
@@ -37,25 +36,27 @@ const Provider = ({ children }) => {
 
   useEffect(() => {
     const { filterByNumericValues } = filters;
-    // const position = filterByNumericValues.length - 1;
+    const idx = filterByNumericValues.length - 1;
     // console.log(position);
-    console.log(filterByNumericValues);
 
-    if (filterByNumericValues[0].comparison === 'maior que') {
+    if (filterByNumericValues[idx].comparison === 'maior que') {
       const newList = planets.filter((planet) => (
-        planet[filterByNumericValues[0].column] > filterByNumericValues[0].value));
+        parseInt(planet[filterByNumericValues[idx].column], 10)
+        > parseInt(filterByNumericValues[idx].value, 10)));
       setFilteredPlanets(newList);
       console.log('newList', newList);
     }
-    if (filterByNumericValues[0].comparison === 'menor que') {
+    if (filterByNumericValues[idx].comparison === 'menor que') {
       const newList = planets.filter((planet) => (
-        planet[filterByNumericValues[0].column] < filterByNumericValues[0].value));
+        parseInt(planet[filterByNumericValues[idx].column], 10)
+        < parseInt(filterByNumericValues[idx].value, 10)));
       setFilteredPlanets(newList);
       console.log('newList', newList);
     }
-    if (filterByNumericValues[0].comparison === 'igual a') {
+    if (filterByNumericValues[idx].comparison === 'igual a') {
       const newList = planets.filter((planet) => (
-        planet[filterByNumericValues[0].column] === filterByNumericValues[0].value));
+        parseInt(planet[filterByNumericValues[idx].column], 10)
+        === parseInt(filterByNumericValues[idx].value, 10)));
       setFilteredPlanets(newList);
       console.log('newList', newList);
     }
