@@ -3,9 +3,9 @@ import planetsContext from '../context/PlanetsContext';
 
 function Filters() {
   const {
-    filters: { filterByName: { name } }, setName, setColumn,
-    setComparison, setValue, column, comparison, setBtnFilter,
-  } = useContext(planetsContext);
+    filters: { filterByName: { name } }, setName, setColumn, value,
+    setComparison, setValue, column, comparison, setBtnFilter, pop, diam,
+    rotation, orbit, surface } = useContext(planetsContext);
 
   const handleChange = (target) => {
     setBtnFilter(false);
@@ -15,17 +15,21 @@ function Filters() {
     if (target.id === 'value-filter') return setValue(target.value);
   };
 
+  const filterColumn = [pop, orbit, diam, rotation, surface];
+
   return (
     <div>
-      <label htmlFor="name">
-        Name
-        <input
-          id="name"
-          value={ name }
-          data-testid="name-filter"
-          onChange={ (e) => handleChange(e.target) }
-        />
-      </label>
+      <div>
+        <label htmlFor="name">
+          Name
+          <input
+            id="name"
+            value={ name }
+            data-testid="name-filter"
+            onChange={ (e) => handleChange(e.target) }
+          />
+        </label>
+      </div>
       <label htmlFor="column">
         <select
           id="column"
@@ -33,12 +37,16 @@ function Filters() {
           value={ column }
           onChange={ (e) => handleChange(e.target) }
         >
-          <option>{}</option>
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          {
+            filterColumn.map((e, index) => (
+              <option
+                key={ index }
+                value={ e.name }
+              >
+                {e.name}
+              </option>
+            ))
+          }
         </select>
       </label>
       <label htmlFor="comparison">
@@ -48,7 +56,6 @@ function Filters() {
           value={ comparison }
           onChange={ (e) => handleChange(e.target) }
         >
-          <option>{}</option>
           <option value="maior que">maior que</option>
           <option value="menor que">menor que</option>
           <option value="igual a">igual a</option>
@@ -59,6 +66,7 @@ function Filters() {
           type="number"
           id="value-filter"
           data-testid="value-filter"
+          value={ value }
           onChange={ (e) => handleChange(e.target) }
         />
       </label>
