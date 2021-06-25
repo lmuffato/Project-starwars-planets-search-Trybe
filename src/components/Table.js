@@ -8,7 +8,7 @@ function Table() {
   useEffect(() => {
     getPlanets()
       .then(setIsLoading(false));
-  }, []);
+  }, [getPlanets]);
 
   if (isLoading === true) {
     console.log(planets);
