@@ -1,8 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PlanetContext from '../context/PlanetContext';
 
 function Filters() {
   const { data, setFilter } = useContext(PlanetContext);
+
+  useEffect(() => (
+    setFilter({ filterByName: { name: data } })
+  ), [data]);
 
   const filterPlanet = (value) => {
     const filtered = data.filter((item) => (
