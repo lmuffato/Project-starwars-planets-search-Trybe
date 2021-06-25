@@ -3,7 +3,8 @@ import MyContext from '../context/myContext';
 
 function Table() {
   const { data } = useContext(MyContext);
-  const planets = data.results;
+  const planets = data
+
   return (
     <table>
       <thead>
@@ -25,7 +26,7 @@ function Table() {
       </thead>
       <tbody>
         {planets.map((planet) => (
-          <tr key={ planet.name }>
+          <tr key={planet.name}>
             <td>{planet.name}</td>
             <td>{planet.rotation_period}</td>
             <td>{planet.orbital_period}</td>
