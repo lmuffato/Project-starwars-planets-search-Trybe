@@ -1,9 +1,14 @@
 import React from 'react';
+import PlanetContext from './context/PlanetContext';
+import Table from './componentes/Table';
 import './App.css';
 
 function App() {
   return (
-    <span>Hello, App - Iniciando o projeto!</span>
+    <PlanetContext.Provider>
+      <Table />
+      <p>oi</p>
+    </PlanetContext.Provider>
   );
 }
 
