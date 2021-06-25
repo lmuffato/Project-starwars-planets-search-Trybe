@@ -7,9 +7,11 @@ import MyContext from '../context/myContext';
 function PlanetsProvider({ children }) {
   const [data, setData] = useState({});
 
-  useEffect(async () => {
-    const dados = await getDataAPI();
-    setData(dados);
+  useEffect(() => {
+    (async () => {
+      const dados = await getDataAPI();
+      setData(dados);
+    })();
   }, []);
 
   return (
