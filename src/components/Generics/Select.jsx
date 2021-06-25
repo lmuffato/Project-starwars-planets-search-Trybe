@@ -11,7 +11,7 @@ function Select({ options, dataTestid, placeholder, onChange, name }) {
     >
       {options.map((option, index) => (
         <option value={ option.value || option } key={ `${option} ${index}` }>
-          {option.label || option }
+          {option.label || option}
         </option>
       ))}
     </select>

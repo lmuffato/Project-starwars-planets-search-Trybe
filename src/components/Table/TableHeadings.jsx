@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import useStarWars from '../hooks/useStarWars';
 
 function TableHeadings({ data }) {
   return (

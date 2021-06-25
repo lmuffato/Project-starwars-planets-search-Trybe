@@ -3,9 +3,7 @@ import React from 'react';
 // pelo menos dois tipos de input: tipo text e tipo checked.
 
 function Input({ ...props }) {
-  return (
-    <input { ...props } />
-  );
+  return <input { ...props } />;
 }
 
 export default Input;

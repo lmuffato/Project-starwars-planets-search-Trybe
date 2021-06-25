@@ -1,26 +1,16 @@
 import React from 'react';
-import Input from '../components/Input';
-import Table from '../components/Table';
-import ControlPanel from '../components/FiltersControlPanel';
-import useStarWars from '../hooks/useStarWars';
-import SortPanel from '../components/SortPanel';
+import NumericFilters from '../components/ControlPanel/NumericFilters';
+import SortFilters from '../components/ControlPanel/SortFilters';
+import SearchBar from '../components/SearchBar/SearchBar';
+import Table from '../components/Table/Table';
 
 function Home() {
-  const { filteredPlanets } = useStarWars();
-
   return (
     <>
-      <Input
-        type="text"
-        placeholder="Digite o nome do planeta"
-        data-testid="name-filter"
-        onChange={ (event) => filteredPlanets(event.target.value) }
-      />
-      <ControlPanel />
-      <SortPanel />
-      <main>
-        <Table />
-      </main>
+      <SearchBar />
+      <NumericFilters />
+      <SortFilters />
+      <Table />
     </>
   );
 }

@@ -2,26 +2,11 @@
 
 const mockEndpoint = 'https://swapi.dev/api/planets';
 
-// export const firstFetch = async (endp) => {
-//   try {
-//     const request = await fetch(endp);
-//     const response = await request.json();
-//     return response;
-//   } catch (error) {
-//     throw new Error(error);
-//   }
-// };
-
-// export const planetsAPI = async () => {
-//   const { results } = await firstFetch(endpoint);
-//   return results;
-// };
-
 export default async function fetchDataFromStarWarsAPI() {
   try {
     const request = await fetch(mockEndpoint);
     const response = await request.json();
-    console.log(response);
+    // console.log(response);
     return response;
   } catch (error) {
     throw new Error(error);

@@ -1,132 +1,110 @@
-import React, { createContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import fetchDataFromStarWarsAPI, {
   dataWithoutResidents,
-} from '../services/starwarsAPI';
-// import { optionsColumn } from '../services/data';
+} from '../services/fetchAPI';
 
 export const StarWarsContext = createContext({});
 
 export function StarWarsContextProvider({ children }) {
-  const [swPlanets, setSWPlanets] = useState([]); // array inicial com todos os planetas da API
-  const [isLoading, setLoading] = useState(true); // loading do fetch
-  const [filterByName, setFilterByName] = useState({ name: '' });
-  const [order, setOrder] = useState('ASC');
-  const [filterByOtherParams, setFilterByOtherParams] = useState([]); // filtros numéricos e outros
-  const [inputValue, setInputValue] = useState('');
-  const [newArrayOfPlanets, setNewArrayOfPlanets] = useState([]); // novo array com filtros aplicados
-  const [isSorted, setIsSorted] = useState(false);
-  const [sortSelectColumn, setSortColumn] = useState('name');
-  const [sorting, setSorting] = useState({
-    column: 'name',
-    sort: 'ASC',
-  });
-  const [filters, setFilters] = useState({
-    filterByName,
-    filtersByNumericValues: [],
-    order: sorting,
-  });
+  // const INITIAL_STATE = {
+  //   filterByName: {
+  //     name: '',
+  //   },
+  //   filterByNumericValues: [],
+  // };
+  const [apiPlanets, setPlanets] = useState([]); // estado que recebe o array original da API
+  const [soughtPlanets, setSoughtPlanets] = useState([]); // segundo estado pra gerenciar mudanças nos filtros
+  const [isLoading, setLoading] = useState(true); // booleana para renderização do loading
+  const [filterByNumericValues, setFiltersByNumericValue] = useState([]); // gerencia os filtros - este estado precisa ficar aqui? Ou posso colocá-lo direto no componente?
 
-  // Filtra planetas por nome
+  // Requisito 1
+  async function fetchPlanetsAPI() {
+    const planets = await fetchDataFromStarWarsAPI();
+    const planetsData = [...planets.results];
+    dataWithoutResidents(planetsData);
+    setPlanets(planetsData);
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    fetchPlanetsAPI();
+  }, []);
+
+  // Parte do requisito 3 - estabelece comparação entre os operadores
+  const comparingNumericFilters = (
+    comparison,
+    column,
+    value,
+    filterNumericValues,
+  ) => {
+    if (filterNumericValues.length === 0) {
+      return apiPlanets;
+    }
+    switch (comparison) {
+    case 'maior que':
+      setSoughtPlanets(
+        [...apiPlanets].filter(
+          (planet) => Number(planet[column]) > Number(value),
+        ),
+      );
+      return soughtPlanets;
+      // break;
+    case 'menor que':
+      setSoughtPlanets(
+        [...apiPlanets].filter(
+          (planet) => Number(planet[column]) < Number(value),
+        ),
+      );
+      return soughtPlanets;
+      // break;
+    case 'igual a':
+      setSoughtPlanets(
+        [...apiPlanets].filter(
+          (planet) => Number(planet[column]) === Number(value),
+        ),
+      );
+      return soughtPlanets;
+      // break;
+    default:
+      return apiPlanets;
+    }
+  };
+
+  // outra parte do requisito 3
+  const getFilteredPlanets = () => {
+    filterByNumericValues.forEach((item) => {
+      const { filterColumn, filterComparisonType, filterValue } = item;
+      comparingNumericFilters(
+        filterComparisonType,
+        filterColumn,
+        filterValue,
+        filterByNumericValues,
+      );
+    });
+  };
+
+  // Requisito 2
   const filteredPlanets = (inputVal) => {
-    setNewArrayOfPlanets(
-      swPlanets.filter((planet) => (
+    setSoughtPlanets(
+      apiPlanets.filter((planet) => (
         planet.name.toLowerCase().includes(inputVal.toLowerCase()))),
     );
   };
 
-  // Filtra planetas por operadores de comparação
-  const comparingTypes = (typeOfComparison, filteredArr, value, column) => {
-    let arr = filteredArr;
-    switch (typeOfComparison) {
-    case 'maior que':
-      arr = arr.filter((sPlanet) => Number(sPlanet[column]) > Number(value));
-      break;
-    case 'menor que':
-      arr = arr.filter((sPlanet) => Number(sPlanet[column] < Number(value)));
-      break;
-    case 'igual a':
-      arr = arr.filter((sPlanet) => Number(sPlanet[column] === Number(value)));
-      break;
-    default:
-      console.log('help');
-    }
-    return arr;
-  };
-
-  // Filtra por ordem - crescente ou ascendente -- incluir referências
-  const sortingArray = useCallback((planetTable) => {
-    const sortColumn = filters.order.column;
-    const isItAString = !parseInt(planetTable[0][sortColumn], 10);
-    const isAscendant = filters.order.sort === 'ASC';
-    const POSITIVE = 1;
-    const NEGATIVE = -1;
-    const orderSort = isAscendant ? POSITIVE : NEGATIVE;
-
-    return planetTable.sort((a, b) => (
-      isItAString ? (a[sortColumn].localeCompare(b[sortColumn])) * orderSort
-        : (a[sortColumn] - b[sortColumn]) * orderSort));
-  }, [filters.order.column, filters.order.sort]);
-
-  const filteringByDifferentParams = useCallback(
-    (arrOfResults) => {
-      const filteredArr = [...arrOfResults];
-      if (filterByOtherParams.length !== 0) {
-        filteredArr.forEach((planet) => {
-          const { column, comparison, value } = planet;
-          comparingTypes(comparison, filteredArr, value, column);
-        });
-      }
-      sortingArray(filteredArr);
-      setNewArrayOfPlanets(filteredArr);
-    },
-    [filterByOtherParams, sortingArray],
-  );
-
-  useEffect(() => {
-    async function tryFetch() {
-      const planets = await fetchDataFromStarWarsAPI();
-      dataWithoutResidents(planets.results);
-      setSWPlanets(planets.results);
-      filteringByDifferentParams(planets.results);
-      setLoading(false);
-      // console.log(planets.results);
-    }
-    tryFetch();
-  }, [filteringByDifferentParams]);
-
-  const contextVal = {
-    data: swPlanets,
-    filters: {
-      filterByName,
-      filtersByNumericValues: filterByOtherParams,
-      order: {
-        sort: order,
-        column: sortSelectColumn,
-      },
-    },
-    setSWPlanets,
+  // variáveis de estado global
+  const contextValue = {
     isLoading,
-    inputValue,
-    newArrayOfPlanets,
-    filterByOtherParams,
-    setSorting,
-    setFilterByName,
-    setFilters,
-    setInputValue,
+    data: apiPlanets, // array original de planetas, vindos da API
     filteredPlanets,
-    sortingArray,
-    setFilterByOtherParams,
-    filteringByDifferentParams,
-    isSorted,
-    setIsSorted,
-    sortSelectColumn,
-    setSortColumn,
-    setOrder,
+    soughtPlanets, // planetas buscados pelos filtros (SearchBar, maior/menor/igual)
+    setFiltersByNumericValue,
+    filterByNumericValues,
+    getFilteredPlanets,
   };
 
   return (
-    <StarWarsContext.Provider value={ contextVal }>
+    <StarWarsContext.Provider value={ contextValue }>
       {children}
     </StarWarsContext.Provider>
   );
