@@ -2,17 +2,23 @@ import React, { useState } from 'react';
 import usePlanets from '../hooks/usePlanets';
 
 function FilterByNumber() {
-  const [columnFilter, setColumnFilter] = useState('population');
-  const [comparisonFilter, setComparisonFilter] = useState('>');
+  const categories = ['population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water'];
+  const [comparisonFilter, setComparisonFilter] = useState('maior que');
   const [inputFilter, setInputFilter] = useState(0);
+  const [dropdown, setDropdown] = useState(categories);
+  const [columnFilter, setColumnFilter] = useState(dropdown[0]);
 
   const {
     filters: { filters, setFilters },
-    data: { planetasIniciais, setPlanets },
+    data: { planetsList, setPlanets },
   } = usePlanets();
 
   function filterByNumericValues() {
-    const filteredPlanets = planetasIniciais.filter((planet) => {
+    const filteredPlanets = planetsList.filter((planet) => {
       if (comparisonFilter === 'maior que') {
         return planet[columnFilter] > Number(inputFilter);
       }
@@ -22,10 +28,27 @@ function FilterByNumber() {
       return planet[columnFilter] === inputFilter;
     });
     setPlanets(filteredPlanets);
-    setFilters({ ...filters,
-      filterByNumbers:
-      [{ columnFilter, comparisonFilter, inputFilter }],
-    });
+    if (!filters.filterByNumbers) {
+      setFilters({ ...filters,
+        filterByNumbers:
+        [{ columnFilter, comparisonFilter, inputFilter }],
+      });
+    } else {
+      setFilters({ ...filters,
+        filterByNumbers:
+        [...filters.filterByNumbers, { columnFilter, comparisonFilter, inputFilter }],
+      });
+    }
+    const newCategories = dropdown.reduce((acc, curr) => {
+      if (curr === columnFilter) {
+        return acc;
+      }
+      return [...acc, curr];
+    }, []);
+    setDropdown(newCategories);
+    setComparisonFilter('maior que');
+    setInputFilter(0);
+    setColumnFilter(newCategories[0]);
   }
 
   return (
@@ -35,11 +58,8 @@ function FilterByNumber() {
         data-testid="column-filter"
         value={ columnFilter }
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        { dropdown.map((category) => (
+          <option key={ category } value={ category }>{category}</option>)) }
       </select>
       <select
         onChange={ ({ target }) => setComparisonFilter(target.value) }
