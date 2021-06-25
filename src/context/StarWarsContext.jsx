@@ -11,6 +11,7 @@ export function StarWarsContextProvider({ children }) {
   const [swPlanets, setSWPlanets] = useState([]); // array inicial com todos os planetas da API
   const [isLoading, setLoading] = useState(true); // loading do fetch
   const [filterByName, setFilterByName] = useState({ name: '' });
+  const [order, setOrder] = useState('ASC');
   const [filterByOtherParams, setFilterByOtherParams] = useState([]); // filtros numéricos e outros
   const [inputValue, setInputValue] = useState('');
   const [newArrayOfPlanets, setNewArrayOfPlanets] = useState([]); // novo array com filtros aplicados
@@ -54,32 +55,32 @@ export function StarWarsContextProvider({ children }) {
   };
 
   // Filtra por ordem - crescente ou ascendente -- incluir referências
-  const sortingArray = (planetTable) => {
+  const sortingArray = useCallback((planetTable) => {
     const sortColumn = filters.order.column;
     const isItAString = !parseInt(planetTable[0][sortColumn], 10);
     const isAscendant = filters.order.sort === 'ASC';
     const POSITIVE = 1;
     const NEGATIVE = -1;
-    const order = isAscendant ? POSITIVE : NEGATIVE;
+    const orderSort = isAscendant ? POSITIVE : NEGATIVE;
 
     return planetTable.sort((a, b) => (
-      isItAString ? (a[sortColumn].localeCompare(b[sortColumn])) * order
-        : (a[sortColumn] - b[sortColumn]) * order));
-  };
+      isItAString ? (a[sortColumn].localeCompare(b[sortColumn])) * orderSort
+        : (a[sortColumn] - b[sortColumn]) * orderSort));
+  }, [filters.order.column, filters.order.sort]);
 
   const filteringByDifferentParams = useCallback(
     (arrOfResults) => {
       const filteredArr = [...arrOfResults];
       if (filterByOtherParams.length !== 0) {
-        filterByOtherParams.forEach((planet) => {
+        filteredArr.forEach((planet) => {
           const { column, comparison, value } = planet;
           comparingTypes(comparison, filteredArr, value, column);
         });
       }
-      // sortingArray(filteredArr);
+      sortingArray(filteredArr);
       setNewArrayOfPlanets(filteredArr);
     },
-    [filterByOtherParams],
+    [filterByOtherParams, sortingArray],
   );
 
   useEffect(() => {
@@ -89,14 +90,21 @@ export function StarWarsContextProvider({ children }) {
       setSWPlanets(planets.results);
       filteringByDifferentParams(planets.results);
       setLoading(false);
-      console.log(planets.results);
+      // console.log(planets.results);
     }
     tryFetch();
   }, [filteringByDifferentParams]);
 
   const contextVal = {
     data: swPlanets,
-    filters,
+    filters: {
+      filterByName,
+      filtersByNumericValues: filterByOtherParams,
+      order: {
+        sort: order,
+        column: sortSelectColumn,
+      },
+    },
     setSWPlanets,
     isLoading,
     inputValue,
@@ -109,10 +117,12 @@ export function StarWarsContextProvider({ children }) {
     filteredPlanets,
     sortingArray,
     setFilterByOtherParams,
+    filteringByDifferentParams,
     isSorted,
     setIsSorted,
     sortSelectColumn,
     setSortColumn,
+    setOrder,
   };
 
   return (

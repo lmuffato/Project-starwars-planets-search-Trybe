@@ -13,6 +13,8 @@ function SortPanel() {
     // setIsSorted,
     sortSelectColumn,
     setSortColumn,
+    // swPlanets,
+    // filteringByDifferentParams,
     // isSorted,
     // sorting,
     // setSorting,
@@ -26,7 +28,8 @@ function SortPanel() {
     event.preventDefault();
     console.log('click');
     console.log(sortSelectColumn);
-    console.log(order); // captura o value de column sort
+    console.log(order);
+    // filteringByDifferentParams(swPlanets);// captura o value de column sort
     // if (!isLoading && data) {
     //   console.log('sort');
     //   console.log(sortSelectColumn);
