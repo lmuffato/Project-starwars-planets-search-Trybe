@@ -2,17 +2,19 @@ import React, { useContext } from 'react';
 import MainContext from '../context/MainContext';
 
 export default function TableBody() {
-  const { planets } = useContext(MainContext);
+  const { planets, filters: { filterByName: { name } } } = useContext(MainContext);
+  const filteredPlanetsByName = name !== ''
+    ? planets.filter((planet) => planet.name.toLowerCase().includes(name.toLowerCase()))
+    : planets;
 
   if (planets.length === 0) {
     return 'Loading...';
   }
-  console.log(planets);
 
   return (
     <tbody>
-      {planets.map((planet) => (
-        <tr key={ planet.diameter }>
+      {filteredPlanetsByName.map((planet) => (
+        <tr key={ planet.name }>
           <td>{planet.name}</td>
           <td>{planet.rotation_period}</td>
           <td>{planet.orbital_period}</td>
@@ -26,7 +28,6 @@ export default function TableBody() {
           <td>{planet.residents[0]}</td>
           <td>{planet.edited}</td>
           <td>{planet.films[0]}</td>
-
         </tr>
       ))}
     </tbody>
