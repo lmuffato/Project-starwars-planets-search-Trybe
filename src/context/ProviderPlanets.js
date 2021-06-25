@@ -63,7 +63,6 @@ function ProviderPlanets({ children }) {
   };
 
   const applyFilters = () => {
-    console.log('applyFilter foi chamada');
     const { filterByName: { name }, filterByNumericValues, order } = filters;
     const wordFilter = new RegExp(name, 'i');
     let planetsFiltered = data.filter((planet) => wordFilter.test(planet.name));
@@ -72,13 +71,16 @@ function ProviderPlanets({ children }) {
       if (comparison !== '' && value !== '') {
         switch (comparison) {
         case 'menor que':
-          planetsFiltered = planetsFiltered.filter((planet) => planet[column] < value);
+          planetsFiltered = planetsFiltered
+            .filter((planet) => Number(planet[column]) < value);
           break;
         case 'maior que':
-          planetsFiltered = planetsFiltered.filter((planet) => planet[column] > value);
+          planetsFiltered = planetsFiltered
+            .filter((planet) => Number(planet[column]) > value);
           break;
         case 'igual a':
-          planetsFiltered = planetsFiltered.filter((planet) => planet[column] === value);
+          planetsFiltered = planetsFiltered
+            .filter((planet) => Number(planet[column]) === value);
           break;
         default: console.log('Erro na detecção tipo de comparação do filtro numérico');
         }
@@ -89,7 +91,6 @@ function ProviderPlanets({ children }) {
         ? a[order.column] - b[order.column]
         : b[order.column] - a[order.column]
     ));
-    console.log(planetsFiltered);
     updatePlanetList(planetsFiltered);
   };
 
