@@ -1,8 +1,9 @@
 import React, { useContext, useEffect } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
+import NameFilters from './NameFilter';
 
 function PlanetsList() {
-  const { data, fetchPlanets } = useContext(PlanetsContext);
+  const { fetchPlanets, filterName } = useContext(PlanetsContext);
 
   useEffect(() => {
     fetchPlanets();
@@ -12,6 +13,9 @@ function PlanetsList() {
     <div>
       <div>
         <h1>Planets</h1>
+      </div>
+      <div>
+        <NameFilters />
       </div>
       <table>
         <thead>
@@ -32,23 +36,25 @@ function PlanetsList() {
           </tr>
         </thead>
         <tbody>
-          {data.map((dat, key) => (
-            <tr key={ key }>
-              <td>{dat.name}</td>
-              <td>{dat.rotation_period}</td>
-              <td>{dat.orbital_period}</td>
-              <td>{dat.diameter}</td>
-              <td>{dat.climate}</td>
-              <td>{dat.gravity}</td>
-              <td>{dat.terrain}</td>
-              <td>{dat.surface_water}</td>
-              <td>{dat.population}</td>
-              <td>{dat.films}</td>
-              <td>{dat.created}</td>
-              <td>{dat.edited}</td>
-              <td>{dat.url}</td>
-            </tr>
-          ))}
+          {
+            filterName.map((dat, key) => (
+              <tr key={ key }>
+                <td>{dat.name}</td>
+                <td>{dat.rotation_period}</td>
+                <td>{dat.orbital_period}</td>
+                <td>{dat.diameter}</td>
+                <td>{dat.climate}</td>
+                <td>{dat.gravity}</td>
+                <td>{dat.terrain}</td>
+                <td>{dat.surface_water}</td>
+                <td>{dat.population}</td>
+                <td>{dat.films}</td>
+                <td>{dat.created}</td>
+                <td>{dat.edited}</td>
+                <td>{dat.url}</td>
+              </tr>
+            ))
+          }
         </tbody>
       </table>
     </div>

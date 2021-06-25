@@ -7,6 +7,8 @@ import PlanetsContext from './PlanetsContext';
 function PlanetsProvider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setPlanets] = useState([]);
+  const [filterName, setFilterName] = useState([]);
+  const [search, setSearch] = useState('');
 
   async function fetchPlanets() {
     setIsLoading(true);
@@ -16,7 +18,10 @@ function PlanetsProvider({ children }) {
   }
 
   return (
-    <PlanetsContext.Provider value={ { isLoading, data, fetchPlanets } }>
+    <PlanetsContext.Provider
+      value={ {
+        isLoading, data, fetchPlanets, filterName, setFilterName, search, setSearch } }
+    >
       {children}
     </PlanetsContext.Provider>
   );
