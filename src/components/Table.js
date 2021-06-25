@@ -4,24 +4,61 @@ import PlanestContext from '../context/PlanetsContext';
 function Table() {
   const context = useContext(PlanestContext);
   const { data, isLoading, filters, setData, copyResults } = context;
+  const { filterByNumericValues } = filters;
   const { name } = filters.filterByName;
 
   useEffect(() => {
     if (name.length < 1) return setData(copyResults);
-    const filterPlantes = data
+    const filterPlanets = data
       .filter((planet) => planet.name.toLowerCase().includes(name));
-    setData(filterPlantes);
+    if (filterPlanets.length < 1) return setData(copyResults);
+    setData(filterPlanets);
   }, [name]);
 
+  const resetPlanets = () => {
+    setData(copyResults);
+  };
+
+  const checkComparison = (currItem) => {
+    const currColumn = currItem.column;
+    const currComparison = currItem.comparison;
+    const currValue = Number(currItem.value);
+    switch (currComparison) {
+    case 'maior que':
+      return data.filter((item) => Number(item[currColumn]) > currValue);
+    case 'menor que':
+      return data.filter((item) => Number(item[currColumn]) < currValue);
+    case 'igual a':
+      return data.filter((item) => Number(item[currColumn]) === currValue);
+    default:
+      break;
+    }
+  };
+
+  useEffect(() => {
+    const aplyFilter = filterByNumericValues.reduce((acc, currItem) => {
+      const filter = checkComparison(currItem);
+      return filter;
+    }, []);
+    if (aplyFilter.length < 1) return setData('');
+    setData(aplyFilter);
+  }, [filterByNumericValues]);
   if (isLoading) return <h2>Loading...</h2>;
+  if (data.length < 1) {
+    return (
+      <div>
+        <h2>No have planets with this filter</h2>
+        <button type="button" onClick={ resetPlanets }>Reset Planets</button>
+      </div>
+    );
+  }
   const infos = Object.keys(data[0]);
-  if (data.length < 1) return <h2>Teste</h2>;
   const filterInfo = infos.filter((item) => item !== 'url');
   return (
     <table>
       <thead>
         <tr>
-          { filterInfo.map((item, index) => <th key={ index }>{item}</th>)}
+          {filterInfo.map((item, index) => <th key={ index }>{item}</th>)}
         </tr>
       </thead>
       <tbody>
