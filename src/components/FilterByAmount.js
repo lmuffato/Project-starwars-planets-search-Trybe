@@ -14,7 +14,9 @@ function FilterByAmount() {
       .filter((name) => isNumeric(name[1]));
 
     return (
-      <select>
+      <select
+        data-testid="column-filter"
+      >
         { names.map((item, index) => (
           <option key={ index }>{Object.values(item)[0]}</option>
         ))}
@@ -22,9 +24,30 @@ function FilterByAmount() {
     );
   };
 
+  const greaterThan = () => (
+    <select
+      data-testid="value-filter"
+    >
+      <option>maior que</option>
+      <option>menor que</option>
+      <option>igual a</option>
+    </select>
+  );
+
   return (
     <div>
       {data[0] && renderType()}
+      {greaterThan()}
+      <input
+        data-testid="value-filter"
+        type="number"
+      />
+      <button
+        type="button"
+        data-testid="button-filter"
+      >
+        Filter
+      </button>
     </div>
   );
 }
