@@ -9,3 +9,22 @@ function Input({ ...props }) {
 }
 
 export default Input;
+
+/*
+  switch (comparisonType) {
+        case 'maior que':
+          filteredArr = filteredArr.filter((sPlanet) => (
+            Number(sPlanet[column]) > Number(value)));
+          break;
+        case 'menor que':
+          filteredArr = filteredArr.filter((sPlanet) => (
+            Number(sPlanet[column] < Number(value))));
+          break;
+        case 'igual a':
+          filteredArr = filteredArr.filter((sPlanet) => (
+            Number(sPlanet[column] === Number(value))));
+          break;
+        default:
+          console.log('help');
+        }
+*/
