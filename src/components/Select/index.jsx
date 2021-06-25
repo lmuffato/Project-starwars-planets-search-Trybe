@@ -1,27 +1,16 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import starWarsPlanets from '../../context';
 
-function Select({ selectData }) {
-  const { setFilters, filters } = useContext(starWarsPlanets);
+function Select({ selectData, onChange }) {
   const { testeId, options, tagName } = selectData;
-
-  const handleChange = ({ target: { name, value } }) => {
-    setFilters({
-      ...filters,
-      filterByNumericValues: {
-        ...filters.filterByNumericValues, [name]: value,
-      },
-    });
-  };
 
   return (
     <select
-      onChange={ handleChange }
+      onChange={ onChange }
       data-testid={ testeId }
       name={ tagName }
     >
-      { options.map((optionText) => (
+      {options.map((optionText) => (
         <option
           key={ optionText }
         >
@@ -38,6 +27,7 @@ Select.propTypes = {
     options: PropTypes.arrayOf(PropTypes.string),
     tagName: PropTypes.string,
   }).isRequired,
+  onChange: PropTypes.func.isRequired,
 };
 
 export default Select;
