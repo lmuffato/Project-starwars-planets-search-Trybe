@@ -2,6 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function Table({ labels, data }) {
+  function getColumn(row, column, index) {
+    return (
+      <td key={ `${column}-${index}` }>
+        {row[column]}
+      </td>
+    );
+  }
+
+  function getRow(row, index) {
+    return (
+      <tr key={ `${row}-${index}` }>
+        {
+          Object
+            .keys(row)
+            .map((column, indexColumn) => getColumn(row, column, indexColumn))
+        }
+      </tr>
+    );
+  }
+
   return (
     <table className="table table-striped">
       <thead>
@@ -12,25 +32,7 @@ function Table({ labels, data }) {
         </tr>
       </thead>
       <tbody>
-        {
-          data.map((planet, index) => (
-            <tr key={ `${planet}-${index}` }>
-              <td>{planet.name}</td>
-              <td>{planet.rotation_period}</td>
-              <td>{planet.orbital_period}</td>
-              <td>{planet.diameter}</td>
-              <td>{planet.climate}</td>
-              <td>{planet.gravity}</td>
-              <td>{planet.terrain}</td>
-              <td>{planet.surface_water}</td>
-              <td>{planet.population}</td>
-              <td>{planet.films}</td>
-              <td>{planet.created}</td>
-              <td>{planet.edited}</td>
-              <td>{planet.url}</td>
-            </tr>
-          ))
-        }
+        {data.map((row, index) => getRow(row, index))}
       </tbody>
     </table>
   );
