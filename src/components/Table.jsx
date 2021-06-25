@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import InputsComponents from './InputsComponents';
+import SelectsComponents from './SelectsComponents';
 import TableHeader from './TableHeader';
 import TableBody from './TableBody';
 import ContextStauo from '../provider/ContextStauo';
@@ -9,7 +10,10 @@ function Table() {
 
   const table = () => (
     <>
-      <InputsComponents />
+      <form action="">
+        <InputsComponents />
+        <SelectsComponents />
+      </form>
       <table>
         <TableHeader />
         <TableBody />

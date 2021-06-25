@@ -1,19 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import getApiStauo from '../services/fetchApiStauo';
+import React from 'react';
 import titlesTB from '../services/dataTitles';
 
 function TableHeader() {
-  const [dataOrigin, setDataOrigin] = useState();
-
-  const fetchData = async () => {
-    const result = await getApiStauo();
-    setDataOrigin(result);
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   const header = () => (
     <thead>
       <tr>
@@ -23,7 +11,7 @@ function TableHeader() {
   );
 
   return (
-    dataOrigin ? header() : 'Wait'
+    header()
   );
 }
 

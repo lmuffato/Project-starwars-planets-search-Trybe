@@ -1,18 +1,8 @@
 import React, { useContext } from 'react';
 import ContextStauo from '../provider/ContextStauo';
-// import getApiStauo from '../services/fetchApiStauo';
 
 function TableBody() {
   const { dataTitle, filters } = useContext(ContextStauo);
-
-  // const fetchData = async () => {
-  //   const result = await getApiStauo();
-  //   setDataOrigin(result);
-  // };
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
 
   const body = () => (
     <tbody>
