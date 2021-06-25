@@ -10,7 +10,6 @@ const TableDataProvider = ({ children }) => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState({ filterByName: '', filterByNumericValue: [] });
-
   const [availableColumns, setAvailableColumns] = useState([]);
   useEffect(() => {
     first(setLoading(true))
@@ -25,6 +24,7 @@ const TableDataProvider = ({ children }) => {
       ), true)
     )));
   }, [filters.filterByNumericValue]);
+
   const setFilterByName = (name) => { setFilters({ ...filters, filterByName: name }); };
   const addFilterByNumericValue = ({ column, comparison, value }) => {
     setFilters({ ...filters,
