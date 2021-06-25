@@ -5,7 +5,7 @@ import Table from '../components/Table';
 import useStarWars from '../hooks/useStarWars';
 
 function Home() {
-  const { inputValue, setInputValue } = useStarWars();
+  const { filteredPlanets } = useStarWars();
   const options = ['test1', 'test2', 'test3'];
   // console.log(inputValue);
 
@@ -15,8 +15,8 @@ function Home() {
         type="text"
         placeholder="Digite o nome do planeta"
         data-testid="name-filter"
-        onChange={ (event) => setInputValue(event.target.value) }
-        value={ inputValue }
+        onChange={ (event) => filteredPlanets(event.target.value) }
+        // value={ inputValue }
       />
       <div className="filter-panel">
         <Select options={ options } value=" " placeholder="Select an option" />

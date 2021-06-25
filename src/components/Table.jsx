@@ -1,24 +1,32 @@
 import React from 'react';
 import useStarWars from '../hooks/useStarWars';
-import { dataWithoutResidents } from '../services/starwarsAPI';
 import TableBody from './TableBody';
 import TableHeadings from './TableHeadings';
 
 function Table() {
-  const { data } = useStarWars();
-  const newData = [...data];
-  dataWithoutResidents(newData);
-  // const filter = filteredPlanets(newData);
+  const { data, newArrayOfPlanets, isLoading } = useStarWars();
+
+  if (isLoading) {
+    return (
+      'Loading...'
+    );
+  }
 
   return (
     <div>
-      {data.length > 0 ? (
+      {newArrayOfPlanets.length > 0 ? (
         <table>
-          <TableHeadings data={ newData } />
-          <TableBody data={ newData } />
+          <TableHeadings data={ newArrayOfPlanets } />
+          <TableBody data={ newArrayOfPlanets } />
         </table>
       ) : (
-        'Carregando...' // pode virar um componente no futuro
+        data.length > 0
+        && (
+          <table>
+            <TableHeadings data={ data } />
+            <TableBody data={ data } />
+          </table>
+        )
       )}
     </div>
   );
