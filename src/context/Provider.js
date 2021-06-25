@@ -5,6 +5,7 @@ import context from './context';
 
 const Provider = ({ children }) => {
   const [data, setData] = useState([]);
+  const [name, setName] = useState('')
   const [filter, setFilter] = useState({
     filterByName: {
       name: '',
@@ -26,6 +27,8 @@ const Provider = ({ children }) => {
     setFilter,
     selects,
     setSelects,
+    name,
+    setName,
   };
 
   useEffect(() => {

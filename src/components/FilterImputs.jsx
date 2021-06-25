@@ -2,14 +2,14 @@ import React, { useContext } from 'react';
 import context from '../context/context';
 
 const FilterInputs = () => {
-  const { data, setData } = useContext(context);
+  const { name, setName } = useContext(context);
 
-  const handleChange = ({ target }) => {
-    setData(
-      data.filter((planets) => planets.name.toLowerCase().includes(target.value)),
-    );
-    return data;
-  };
+  // const handleChange = ({ target }) => {
+  //   setData(
+  //     data.filter((planets) => planets.name.toLowerCase().includes(target.value)),
+  //   );
+  //   return data;
+  // };
 
   return (
     <label htmlFor="name-filter">
@@ -17,8 +17,9 @@ const FilterInputs = () => {
       {' '}
       <input
         type="text"
+        value={ name }
         data-testid="name-filter"
-        onChange={ handleChange }
+        onChange={ (e) => setName(e.target.value) }
         placeholder="Digite o nome do planeta"
       />
     </label>
