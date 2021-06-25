@@ -4,9 +4,11 @@ import planetsContext from '../context/PlanetsContext';
 function Filters() {
   const {
     filters: { filterByName: { name } }, setName, setColumn,
-    setComparison, setValue, column } = useContext(planetsContext);
+    setComparison, setValue, column, comparison, setBtnFilter,
+  } = useContext(planetsContext);
 
   const handleChange = (target) => {
+    setBtnFilter(false);
     if (target.id === 'name') return setName(target.value);
     if (target.id === 'column') return setColumn(target.value);
     if (target.id === 'comparison') return setComparison(target.value);
@@ -32,23 +34,24 @@ function Filters() {
           onChange={ (e) => handleChange(e.target) }
         >
           <option>{}</option>
-          <option value="population">Population</option>
-          <option value="orbital">Orbital Period</option>
-          <option value="diameter">Diameter</option>
-          <option value="rotation">Rotation Period</option>
-          <option value="surface">Surface Water</option>
+          <option value="population">population</option>
+          <option value="orbital_period">orbital_period</option>
+          <option value="diameter">diameter</option>
+          <option value="rotation_period">rotation_period</option>
+          <option value="surface_water">surface_water</option>
         </select>
       </label>
       <label htmlFor="comparison">
         <select
           id="comparison"
           data-testid="comparison-filter"
+          value={ comparison }
           onChange={ (e) => handleChange(e.target) }
         >
           <option>{}</option>
-          <option value="bigger">Bigger then</option>
-          <option value="less">Less then</option>
-          <option value="equal">Equal to</option>
+          <option value="maior que">maior que</option>
+          <option value="menor que">menor que</option>
+          <option value="igual a">igual a</option>
         </select>
       </label>
       <label htmlFor="value-filter">
@@ -59,6 +62,13 @@ function Filters() {
           onChange={ (e) => handleChange(e.target) }
         />
       </label>
+      <button
+        type="button"
+        data-testid="button-filter"
+        onClick={ () => setBtnFilter(true) }
+      >
+        Filter
+      </button>
     </div>
   );
 }

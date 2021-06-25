@@ -10,6 +10,7 @@ function PlanetsProvider({ children }) {
   const [column, setColumn] = useState('');
   const [comparison, setComparison] = useState('');
   const [value, setValue] = useState('');
+  const [btnFilter, setBtnFilter] = useState(false);
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -36,8 +37,12 @@ function PlanetsProvider({ children }) {
     setName,
     column,
     setColumn,
+    comparison,
     setComparison,
+    value,
     setValue,
+    btnFilter,
+    setBtnFilter,
   };
 
   return (

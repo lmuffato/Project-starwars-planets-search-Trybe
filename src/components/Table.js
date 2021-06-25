@@ -4,8 +4,23 @@ import TableHead from './TableHead';
 import planetsContext from '../context/PlanetsContext';
 
 function Table() {
-  const { data, filters: { filterByName: { name } } } = useContext(planetsContext);
-  const planets = name !== '' ? data.filter((e) => e.name.includes(name)) : data;
+  const {
+    data, filters: { filterByName: { name } }, btnFilter, column,
+    comparison, value } = useContext(planetsContext);
+
+  let planets = '';
+  if (name === '' && btnFilter === false) planets = data;
+  if (name !== '') planets = data.filter((e) => e.name.includes(name));
+  if (btnFilter && comparison === 'maior que') {
+    planets = data.filter((e) => e[column] > Number(value));
+  }
+  if (btnFilter && comparison === 'menor que') {
+    planets = data.filter((e) => e[column] < Number(value));
+  }
+  if (btnFilter && comparison === 'igual a') {
+    planets = data.filter((e) => e[column] === value);
+  }
+
   return (
     <table>
       {TableHead()}
