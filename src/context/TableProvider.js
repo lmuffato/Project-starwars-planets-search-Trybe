@@ -5,7 +5,10 @@ import TableContext from './TableContext';
 function TableProvider({ children }) {
   const [data, setData] = useState([]);
   const [headers, setHeaders] = useState([]);
-  const [filters, setFilters] = useState({ filterByName: { name: '' } });
+  const [filters, setFilters] = useState({
+    filterByName: { name: '' },
+    filterByNumericValues: { column: '', comparison: '', value: '' },
+  });
 
   useEffect(() => {
     const getData = async () => {
