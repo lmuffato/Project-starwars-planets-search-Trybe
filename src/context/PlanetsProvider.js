@@ -14,7 +14,21 @@ function PlanetsProvider(props) {
       name: '',
     },
     filterByNumericValues: [],
+    order: {
+      column: 'Name',
+      sort: 'ASC',
+    },
   });
+
+  const setOrderColumn = (value) => {
+    const { order } = filters;
+    setFilters({ ...filters, order: { ...order, column: value } });
+  };
+
+  const setOrderSort = (value) => {
+    const { order } = filters;
+    setFilters({ ...filters, order: { ...order, sort: value } });
+  };
 
   const setFilterByName = (event) => {
     const { value } = event.target;
@@ -37,6 +51,18 @@ function PlanetsProvider(props) {
   const addType = (type) => {
     setAllTypes([...allTypes, type]);
   };
+
+  // function compare(a, b) {
+  //   const POSITIONARRAY = -1;
+  //   if (a < b) return POSITIONARRAY;
+  //   if (a > b) return 1;
+  //   return 0;
+  // }
+
+  // const orderArrByPopulation = () => {
+  //   const orderArr = data.population.sort(compare);
+  //   setData(orderArr);
+  // };
 
   useEffect(() => {
     const load = async () => {
@@ -66,7 +92,9 @@ function PlanetsProvider(props) {
     deleteFilter,
     resetFilter,
     allTypes,
-    addType };
+    addType,
+    setOrderColumn,
+    setOrderSort };
   const { children } = props;
   return (
     <PlanetsContext.Provider value={ context }>
