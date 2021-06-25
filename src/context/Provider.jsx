@@ -5,13 +5,17 @@ import getPlanetsFromApi from '../services/api';
 
 export default function Provider({ children }) {
   const [data, setData] = useState({});
+  const [filters, setFilters] = useState({
+    filterByName: { name: '' },
+    filterByNumericValues: [],
+  });
 
   useEffect(() => {
     getPlanetsFromApi().then((res) => { setData(res); });
   }, []);
 
   return (
-    <Context.Provider value={ data }>
+    <Context.Provider value={ { data, filters, setFilters } }>
       {children}
     </Context.Provider>
   );
