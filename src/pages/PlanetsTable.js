@@ -5,16 +5,17 @@ import '../css/PlanetsTable.css';
 function PlanetsTable() {
   const { fetchPlanet: fetchPlanetApi } = useContext(PlanetsContext);
   const { data } = useContext(PlanetsContext);
-  const { isLoading, filterName, } = useContext(PlanetsContext);
+  const { isLoading, filterName } = useContext(PlanetsContext);
   useEffect(() => {
     fetchPlanetApi();
-  }, []);
+  }, [fetchPlanetApi]);
 
   return (
     <main>
       <label htmlFor="filter-byname">
         Nome
         <input
+          data-testid="name-filter"
           id="filter-byname"
           type="text"
           onChange={ (ev) => { filterName(ev.target.value); } }
