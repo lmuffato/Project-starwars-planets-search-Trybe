@@ -1,8 +1,10 @@
 import React, { useContext } from 'react';
 import PlanetContext from '../context/PlanetContext';
+import handleFilter from '../services/handleFilter';
 
 function Table() {
-  const { data } = useContext(PlanetContext);
+  const { data, filters } = useContext(PlanetContext);
+
   if (data[0] === 'loading') return <h2>Carregando...</h2>;
 
   return (
@@ -25,7 +27,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        {data.map((planet, index) => (
+        {handleFilter(data, filters).map((planet, index) => (
           <tr key={ index }>
             <td>{planet.name}</td>
             <td>{planet.population}</td>
