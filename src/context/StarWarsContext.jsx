@@ -91,7 +91,7 @@ export function StarWarsContextProvider({ children }) {
     isLoading,
     data: apiPlanets, // array original de planetas, vindos da API
     filteredPlanets, // fn que filtra pelo nome do planeta
-    soughtPlanets, // planetas buscados pelos filtros (SearchBar, maior/menor/igual)
+    soughtPlanets, // array de planetas buscados pelos filtros (SearchBar, maior/menor/igual)
     setFiltersByNumericValue, // setState dos filtros numéricos
     filterByNumericValues, // estado dos filtros numéricos
     getFilteredPlanets, // fn itera sobre o array de filtros e faz o switch case de cada tipo de operador
