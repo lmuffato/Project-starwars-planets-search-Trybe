@@ -1,0 +1,39 @@
+.loading-container {
+  align-items: center;
+  background-color: #130c0e;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  width: 100%;
+}
+
+.loading-content img {
+  position: absolute;
+
+  /* width: 100%; */
+}
+
+.loading-content {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  position: relative;
+  transition-duration: 1.5s;
+  width: 40%;
+}
+
+.loading-sabre {
+  opacity: 0;
+  transition: opacity 0.5s ease-in;
+  width: 70%;
+}
+
+.loading-logo {
+  opacity: 0;
+  transition: opacity 1s ease-in;
+}
+
+.loading-content.active .loading-sabre, .loading-content.active .loading-logo {
+  opacity: 1;
+  transition: opacity 1s ease-out;
+}
