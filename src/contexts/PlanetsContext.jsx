@@ -16,12 +16,7 @@ export function PlanetsProvider({ children }) {
   }
 
   function getTableHeads(planetsFromApi) {
-    let firstPlanetKeys = Object.keys(planetsFromApi[0]);
-    firstPlanetKeys = firstPlanetKeys.map((key) => {
-      const capitalizedFirstLetter = key[0].toUpperCase();
-      const restOfTheWord = key.slice(1);
-      return (capitalizedFirstLetter + restOfTheWord).replace('_', ' ');
-    });
+    const firstPlanetKeys = Object.keys(planetsFromApi[0]);
     setTableHeads(firstPlanetKeys);
   }
 
