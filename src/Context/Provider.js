@@ -58,6 +58,7 @@ function Provider({ children }) {
     setText,
     search,
     setFilterByNumericValues,
+    fetchPlanetsFromApi,
     filters:
       {
         filterByName: {

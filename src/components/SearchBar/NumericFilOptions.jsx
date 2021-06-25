@@ -15,6 +15,7 @@ function NumericFilOptions() {
   const searchButton = (() => {
     setFilterByNumericValues([...filterByNumericValues, { column, comparison, value }]);
   });
+
   function attFilters() {
     return (
       COLUMNS
