@@ -7,12 +7,6 @@ import fetchDataFromStarWarsAPI, {
 export const StarWarsContext = createContext({});
 
 export function StarWarsContextProvider({ children }) {
-  // const INITIAL_STATE = {
-  //   filterByName: {
-  //     name: '',
-  //   },
-  //   filterByNumericValues: [],
-  // };
   const [apiPlanets, setPlanets] = useState([]); // estado que recebe o array original da API
   const [soughtPlanets, setSoughtPlanets] = useState([]); // segundo estado pra gerenciar mudanças nos filtros
   const [isLoading, setLoading] = useState(true); // booleana para renderização do loading
