@@ -37,6 +37,10 @@ function Table() {
       });
       setReturnData(filtered);
     }
+
+    if (numericFilters.length === 0 && nameFilter === undefined) {
+      setReturnData(data);
+    }
   }
 
   useEffect(() => {

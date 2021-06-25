@@ -2,12 +2,12 @@ import React, { useContext, useState } from 'react';
 import SWContext from '../context/SWContext';
 
 function NumericFilter() {
-  const [column, setColumn] = useState(['population', 'orbital_period', 'diameter',
-    'rotation_period', 'surface_water']);
+  // const [column, setColumn] = useState(['population', 'orbital_period', 'diameter',
+  //   'rotation_period', 'surface_water']);
   const [columnFilter, setColumnFilter] = useState('population');
   const [operation, setOperation] = useState('maior que');
   const [number, setNumber] = useState();
-  const { setNumericFilters, numericFilters } = useContext(SWContext);
+  const { setNumericFilters, numericFilters, column, setColumn } = useContext(SWContext);
 
   function handleColumn(event) {
     setColumnFilter(event.target.value);
