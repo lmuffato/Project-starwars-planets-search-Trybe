@@ -8,6 +8,7 @@ function Provider({ children }) {
   const [isFetching, setIsFetching] = useState(true);
   const [text, setText] = useState('');
   const [filterByNumericValues, setFilterByNumericValues] = useState([]);
+  const [order, setOrder] = useState({ column: 'name', sort: 'ASC' });
 
   async function fetchPlanetsFromApi() {
     setIsFetching(true);
@@ -59,12 +60,14 @@ function Provider({ children }) {
     search,
     setFilterByNumericValues,
     fetchPlanetsFromApi,
+    setOrder,
     filters:
       {
         filterByName: {
           name: text,
         },
         filterByNumericValues,
+        order,
       },
   };
 
