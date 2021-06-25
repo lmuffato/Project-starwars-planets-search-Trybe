@@ -56,6 +56,7 @@ function Sort() {
             data-testid="column-sort"
             value={ columnSort }
             onChange={ handleColumn }
+            className="sort-filter"
           >
             {keys.map((string, index) => (
               <option key={ index } value={ string }>{string}</option>))}
@@ -68,6 +69,7 @@ function Sort() {
               id="ASC"
               data-testid="column-sort-input-asc"
               onChange={ handleOrder }
+              className="sort-filter"
             />
             Ordenar Ascendente
           </label>
@@ -79,6 +81,7 @@ function Sort() {
               id="DESC"
               data-testid="column-sort-input-desc"
               onChange={ handleOrder }
+              className="sort-filter"
             />
             Ordenar Descendente
           </label>
@@ -86,6 +89,7 @@ function Sort() {
             type="button"
             onClick={ handleClick }
             data-testid="column-sort-button"
+            className="sort-filter"
           >
             Ordenar
           </button>

@@ -14,6 +14,8 @@ function NameFilter() {
       onChange={ handleChange }
       value={ nameFilter }
       data-testid="name-filter"
+      placeholder="Filtrar por nome"
+      className="name-filter"
     />
   );
 }

@@ -36,6 +36,7 @@ function NumericFilter() {
           data-testid="column-filter"
           value={ columnFilter }
           onChange={ handleColumn }
+          className="numeric-filter"
         >
           {column.map((string, index) => (
             <option key={ index } value={ string }>{string}</option>))}
@@ -46,6 +47,7 @@ function NumericFilter() {
           data-testid="comparison-filter"
           value={ operation }
           onChange={ handleOperation }
+          className="numeric-filter"
         >
           <option value="maior que">maior que</option>
           <option value="menor que">menor que</option>
@@ -56,11 +58,13 @@ function NumericFilter() {
           onChange={ handleChange }
           value={ number }
           data-testid="value-filter"
+          className="numeric-filter"
         />
         <button
           type="button"
           onClick={ handleClick }
           data-testid="button-filter"
+          className="numeric-filter"
         >
           Filtrar
         </button>

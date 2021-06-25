@@ -15,8 +15,8 @@ function Filters() {
   }
 
   return (
-    <div>
-      <form>
+    <div className="filters">
+      <form className="filters-form">
         <NameFilter />
         <NumericFilter />
         <Sort />
