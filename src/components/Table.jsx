@@ -8,6 +8,7 @@ function Table() {
   const { data } = useStarWars();
   const newData = [...data];
   dataWithoutResidents(newData);
+  // const filter = filteredPlanets(newData);
 
   return (
     <div>
