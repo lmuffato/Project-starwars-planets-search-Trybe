@@ -8,7 +8,7 @@ function PlanetsTable() {
   const { isLoading, filterName } = useContext(PlanetsContext);
   useEffect(() => {
     fetchPlanetApi();
-  }, [fetchPlanetApi]);
+  }, []);
 
   return (
     <main>

@@ -15,8 +15,8 @@ function PlanetsProvider({ children }) {
     setIsLoading(false);
   }
 
-  function filterName(cname) {
-    fetchPlanet();
+  async function filterName(cname) {
+    await fetchPlanet();
     const filterPlanetName = -1;
     setFilter({ ...filter, ...{ filterByName: { name: cname } } });
     const newArr = data.results.filter((planet) => (
