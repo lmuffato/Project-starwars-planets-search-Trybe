@@ -8,6 +8,8 @@ export function PlanetsProvider({ children }) {
   const [initialPlanets, setInitialPlanets] = useState([]);
   const [planets, setPlanets] = useState([]);
   const [tableHeads, setTableHeads] = useState([]);
+  const [columnsToSelect, setColumnsToSelect] = useState([]);
+  const [textFilter, setTextFilter] = useState('');
 
   async function getPlanets() {
     const planetsResults = await fetchPlanets();
@@ -20,10 +22,48 @@ export function PlanetsProvider({ children }) {
     setTableHeads(firstPlanetKeys);
   }
 
+  function getColumnsToSelect(tableHeadsFromState) {
+    const options = [
+      'population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water',
+    ];
+    const heads = tableHeadsFromState.filter((head) => options.includes(head));
+    setColumnsToSelect(heads);
+  }
+
   function filterByText(filter) {
     const filteredPlanets = initialPlanets.filter(
       (planet) => planet.name.toLowerCase().includes(filter.toLowerCase()),
     );
+    setPlanets(filteredPlanets);
+    setTextFilter(filter);
+  }
+
+  function filterByComparisons(event, { column, comparison, value }) {
+    event.preventDefault();
+
+    const planetsWithTextFilter = initialPlanets.filter(
+      (planet) => planet.name.toLowerCase().includes(textFilter.toLowerCase()),
+    );
+
+    let filteredPlanets = [];
+    if (comparison === '+') {
+      filteredPlanets = planetsWithTextFilter.filter(
+        (planet) => Number(planet[column]) > Number(value),
+      );
+    } else if (comparison === '-') {
+      filteredPlanets = planetsWithTextFilter.filter(
+        (planet) => Number(planet[column]) < Number(value),
+      );
+    } else {
+      filteredPlanets = planetsWithTextFilter.filter(
+        (planet) => Number(planet[column]) === Number(value),
+      );
+    }
+
     setPlanets(filteredPlanets);
   }
 
@@ -39,12 +79,22 @@ export function PlanetsProvider({ children }) {
     }
   }, [planets]);
 
+  useEffect(() => {
+    const headsWereLoaded = tableHeads.length > 0;
+
+    if (headsWereLoaded) {
+      getColumnsToSelect(tableHeads);
+    }
+  }, [tableHeads]);
+
   return (
     <PlanetsContext.Provider
       value={ {
         planets,
         tableHeads,
+        columnsToSelect,
         filterByText,
+        filterByComparisons,
       } }
     >
       {children}

@@ -1,29 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { PlanetsContext } from '../../contexts/PlanetsContext';
 
 function Filter() {
   const {
     filterByText,
-    tableHeads,
+    filterByComparisons,
+    columnsToSelect,
   } = useContext(PlanetsContext);
-  const [columnsToSelect, setColumnsToSelect] = useState([]);
 
-  useEffect(() => {
-    function getColumnsToSelect() {
-      const options = [
-        'population',
-        'orbital_period',
-        'diameter',
-        'rotation_period',
-        'surface_water',
-      ];
-      console.log('executei');
-      const heads = tableHeads.filter((head) => options.includes(head));
-      return heads;
-    }
-    const heads = getColumnsToSelect();
-    setColumnsToSelect(heads);
-  }, [tableHeads]);
+  const [column, setColumn] = useState('');
+  const [comparison, setComparison] = useState('');
+  const [valueForComparison, setValueForComparison] = useState('');
 
   return (
     <>
@@ -32,11 +19,34 @@ function Filter() {
         onChange={ ({ target: { value } }) => filterByText(value) }
         data-testid="name-filter"
       />
-      <select data-testid="column-filter">
-        { columnsToSelect.length > 0 && columnsToSelect.map((head) => (
-          <option value={ head } key={ head }>{head}</option>
-        )) }
-      </select>
+      <form
+        onSubmit={ (event) => filterByComparisons(event, {
+          column, comparison, value: valueForComparison,
+        }) }
+      >
+        <select
+          data-testid="column-filter"
+          onChange={ ({ target: { value } }) => setColumn(value) }
+        >
+          { columnsToSelect.length > 0 && columnsToSelect.map((head) => (
+            <option value={ head } key={ head }>{head}</option>
+          )) }
+        </select>
+        <select
+          data-testid="comparison-filter"
+          onChange={ ({ target: { value } }) => setComparison(value) }
+        >
+          <option value="+">maior que</option>
+          <option value="-">menor que</option>
+          <option value="=">igual a</option>
+        </select>
+        <input
+          type="number"
+          data-testid="value-filter"
+          onChange={ ({ target: { value } }) => setValueForComparison(value) }
+        />
+        <button type="submit" data-testid="button-filter">Filtrar</button>
+      </form>
     </>
   );
 }
