@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import SwapiTrybe from '../service/swapi-trybe';
 import URL_BASE, { URL_PLANETS } from '../const/swapi-trybe';
 import Table from '../components/table/Table';
@@ -6,18 +6,23 @@ import PlanetsContext from '../global/planets/PlanetsContext';
 
 function Planets() {
   const { planets, setPlanets } = useContext(PlanetsContext);
+  const [search, setSearch] = useState('');
+
+  function filterByName(data, termSearch) {
+    const termSearchLowerCase = termSearch.toLowerCase();
+    return data.filter(({ name }) => name.toLowerCase().includes(termSearchLowerCase));
+  }
 
   function getKeys() {
-    if (planets === undefined) return [];
-    if (planets.length) {
-      return Object.keys(planets[0]);
-    }
-    return [];
+    if (planets === undefined || planets.length <= 0) return [];
+    return Object.keys(planets[0]);
   }
 
   function getPlanets() {
-    if (planets === undefined) return [];
-    return planets;
+    let filteredPlanets = [];
+    if (planets === undefined || planets.length <= 0) return [];
+    if (search !== '') filteredPlanets = filterByName(planets, search);
+    return filteredPlanets.length > 0 ? filteredPlanets : planets;
   }
 
   function removeResidents(data) {
@@ -43,9 +48,21 @@ function Planets() {
     };
 
     setStatePlanets().then();
-  }, []);
+  }, [search]);
 
-  return (<Table labels={ getKeys() } data={ getPlanets() } />);
+  return (
+    <>
+      <div className="m-4">
+        <input
+          type="text"
+          className="form-control"
+          onChange={ (event) => setSearch(event.target.value) }
+          data-testid="name-filter"
+        />
+      </div>
+      <Table labels={ getKeys() } data={ getPlanets() } />
+    </>
+  );
 }
 
 export default Planets;
