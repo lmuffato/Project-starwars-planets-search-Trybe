@@ -9,9 +9,13 @@ function StarWarsProvider({ children }) {
   const [data, setData] = useState([]);
   const [name, setName] = useState('');
   const [filteredByName, setFilteredByName] = useState([]);
+  const [column, setColumn] = useState('');
+  const [comparison, setComparison] = useState('');
+  const [value, setValue] = useState('');
   const planetsData = {
     data,
     filters: { filterByName: { name } },
+    filterByNumericValues: [{ column, comparison, value }],
   };
 
   const getPlanets = async () => {
@@ -35,6 +39,9 @@ function StarWarsProvider({ children }) {
     <StartWarsContext.Provider
       value={ {
         planetsData,
+        setColumn,
+        setComparison,
+        setValue,
         setName,
         filteredByName,
       } }
