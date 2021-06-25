@@ -1,12 +1,12 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PlanetsContext from '../utils/PlanetsContext';
 import './Table.css';
 import fetchPlanets from '../services/fetchPlanets';
 
 function Table() {
   const { setPlanets, planets, planetFilter } = useContext(PlanetsContext);
-  const { filters: { filterByName: { name } } } = planetFilter;
-  const { filters: { filterByNumericValues } } = planetFilter;
+  const { filters: { filterByName: { name }, filterByNumericValues } } = planetFilter;
+  const [filteredPlanet, setFilteredPlanet] = useState([]);
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -15,29 +15,26 @@ function Table() {
     getPlanets();
   }, [setPlanets]);
 
-  const nameFilter = (planetList) => planetList.filter((planet) => (
-    planet.name.toLowerCase().includes(
-      name.toLowerCase(),
-    )));
+  useEffect(() => {
+    const nameFilter = (planetList) => planetList.filter((planet) => (
+      planet.name.toLowerCase().includes(
+        name.toLowerCase(),
+      )));
 
-  const comparisonFilter = (planetList) => planetList.filter((planet) => {
-    let check = true;
+    const numericFilter = (planetList) => planetList.filter((planet) => (
+      !filterByNumericValues.find(({ column, comparison, value }) => {
+        if (comparison === 'maior que' && planet[column] !== 'unknown') {
+          return Number(planet[column]) <= Number(value);
+        }
+        if (comparison === 'menor que' && planet[column] !== 'unknown') {
+          return Number(planet[column]) >= Number(value);
+        }
+        return Number(planet[column]) !== Number(value);
+      })
+    ));
 
-    filterByNumericValues.forEach((filter) => {
-      if (filter.comparison === 'higher'
-        && Number(filter.value) >= Number(planet[filter.column])) check = false;
-      if (filter.comparison === 'lesser'
-        && Number(filter.value) <= Number(planet[filter.column])) check = false;
-      if (filter.comparison === 'equal'
-        && planet[filter.column] !== filter.value) check = false;
-    });
-    return check;
-  });
-
-  const filteredPlanets = () => {
-    const displayPlanets = comparisonFilter(planets);
-    return nameFilter(displayPlanets);
-  };
+    setFilteredPlanet(numericFilter(nameFilter(planets)));
+  }, [planetFilter, planets, name, filterByNumericValues]);
 
   return (
     <table>
@@ -59,7 +56,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        { filteredPlanets().map((planet) => {
+        { filteredPlanet.map((planet) => {
           const objectKeys = Object.keys(planet);
           return (
             <tr key={ `${planet.name}-line` }>

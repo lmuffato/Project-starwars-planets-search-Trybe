@@ -2,9 +2,9 @@ import React, { useState, useContext } from 'react';
 import PlanetsContext from '../utils/PlanetsContext';
 
 function NumericFilter() {
-  const [column, setColumn] = useState('orbital_period');
-  const [comparison, setComparison] = useState('higher');
-  const [number, setNumber] = useState(0);
+  const [column, setColumn] = useState('');
+  const [comparison, setComparison] = useState('');
+  const [number, setNumber] = useState('');
 
   const { planetFilter, setPlanetFilter } = useContext(PlanetsContext);
 
@@ -18,10 +18,7 @@ function NumericFilter() {
       value: number,
     };
 
-    const checkFilters = filterByNumericValues
-      .filter((filter) => filter.column !== column);
-
-    const updatedValues = [...checkFilters, newValues];
+    const updatedValues = [...filterByNumericValues, newValues];
 
     const filters = {
       ...planetFilter,
@@ -31,9 +28,23 @@ function NumericFilter() {
       },
     };
     setPlanetFilter(filters);
-    setColumn('orbital_period');
-    setComparison('higher');
-    setNumber(0);
+    setColumn('');
+    setComparison('maior que');
+    setNumber('');
+  };
+
+  const checkFilter = (options) => {
+    const { filters: { filterByNumericValues } } = planetFilter;
+
+    return options.filter((option) => !filterByNumericValues
+      .find((filter) => filter.column === option));
+  };
+
+  const columnOptions = () => {
+    const options = ['population', 'orbital_period',
+      'diameter', 'rotation_period', 'surface_water'];
+
+    return checkFilter(options);
   };
 
   return (
@@ -44,11 +55,8 @@ function NumericFilter() {
         data-testid="column-filter"
         onChange={ ({ target: { value } }) => setColumn(value) }
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        { columnOptions().map((option) => (
+          <option key={ option } value={ option }>{ option }</option>)) }
       </select>
       <select
         id="comparison-select"
@@ -56,9 +64,9 @@ function NumericFilter() {
         data-testid="comparison-filter"
         onChange={ ({ target: { value } }) => setComparison(value) }
       >
-        <option value="higher">maior que</option>
-        <option value="lesser">menor que</option>
-        <option value="equal">igual a</option>
+        <option value="maior que">maior que</option>
+        <option value="menor que">menor que</option>
+        <option value="igual a">igual a</option>
       </select>
       <input
         data-testid="value-filter"
@@ -66,10 +74,12 @@ function NumericFilter() {
         value={ number }
         onChange={ ({ target: { value } }) => setNumber(value) }
         min="0"
+        placeholder="0"
       />
       <button
         type="submit"
         data-testid="button-filter"
+        // disabled={ !column || !comparison }
       >
         Filter
       </button>
