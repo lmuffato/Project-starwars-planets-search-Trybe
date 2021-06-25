@@ -1,3 +1,4 @@
+// Requisito 1 - Cria tabela de planetas
 import React, { useContext, useEffect } from 'react';
 import Context from '../context/Context';
 import fetchPlanets from '../services/api';
@@ -32,7 +33,7 @@ const Table = () => {
         </tr>
       </thead>
       {data.map((planet, index) => (
-        <tbody key={index}>
+        <tbody key={ index }>
           <tr>
             <td>
               {planet.name}
