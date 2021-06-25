@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaRegMoneyBillAlt } from 'react-icons/fa';
 
-import styles from './styles.module.css';
+import styles from './loading.module.css';
 
 function Loading() {
   return (

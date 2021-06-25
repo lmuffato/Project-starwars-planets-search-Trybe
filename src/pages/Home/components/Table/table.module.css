@@ -7,12 +7,13 @@
 }
 
 .table thead th {
+  background-color: var(--red);
   font-size: 1.1rem;
 }
 
 .table tbody td, .table thead th {
-  border: 1px solid var(--green);
-  padding: 8px;
+  border: 1px solid var(--green-dark);
+  padding: 5px;
   text-align: center;
 }
 

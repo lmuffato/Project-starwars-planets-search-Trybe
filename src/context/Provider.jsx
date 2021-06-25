@@ -6,14 +6,14 @@ import starWarsApi from '../services/starWarsApi';
 import Context from './Context';
 
 function Provider({ children }) {
-  const [planets, setPlanets] = useState([]);
+  const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const getPlanets = async () => {
       try {
         const planetsList = await starWarsApi();
-        setPlanets(planetsList);
+        setData(planetsList);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -23,7 +23,7 @@ function Provider({ children }) {
   }, []);
 
   return (
-    <Context.Provider value={ { isLoading, planets } }>
+    <Context.Provider value={ { isLoading, data } }>
       {children}
     </Context.Provider>
   );
