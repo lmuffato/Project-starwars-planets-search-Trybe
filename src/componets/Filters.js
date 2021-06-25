@@ -6,19 +6,20 @@ function Filters() {
 
   return (
     <div>
-      <label htmlFor="name-filter">Nome do Planeta:</label>
-      <input
-        aria-label="name-filter"
-        id="name-filter"
-        type="text"
-        data-testid="name-filter"
-        onChange={ (e) => setFilters({
-          filterByName: {
-            name: e.target.value,
-          },
-          filterByNumericValues: [],
-        }) }
-      />
+      <label htmlFor="name-filter">
+        Nome do Planeta:
+        <input
+          id="name-filter"
+          type="text"
+          data-testid="name-filter"
+          onChange={ (e) => setFilters({
+            filterByName: {
+              name: e.target.value,
+            },
+            filterByNumericValues: [],
+          }) }
+        />
+      </label>
     </div>
   );
 }

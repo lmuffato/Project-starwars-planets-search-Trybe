@@ -15,20 +15,22 @@ function StarwarsProvider({ children }) {
   );
 
   useEffect(() => {
-    const getPlanets = async () => {
-      const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
-      const { results } = await fetch(endpoint).then((dataResults) => dataResults.json());
-      const resultsMinusResidents = results.filter((planet) => delete planet.residents);
-
-      setData(resultsMinusResidents);
-      setLoading(false);
-    };
-    getPlanets();
-  }, []);
-
-  useEffect(() => {
-    const filterName = data.filter((planet) => planet.name.includes(filters.filterByName.name));
-    console.log(filterName);
+    if (filters.filterByName.name === '') {
+      const getPlanets = async () => {
+        const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
+        const { results } = await fetch(endpoint)
+          .then((dataResults) => dataResults.json());
+        const resultsMinusResidents = results.filter((planet) => delete planet.residents);
+        setData(resultsMinusResidents);
+        setLoading(false);
+      };
+      getPlanets();
+    }
+    const filterName = data.filter((planet) => {
+      const findPlanet = planet.name.includes(filters.filterByName.name);
+      return findPlanet;
+    });
+    setData(filterName);
   }, [filters]);
 
   return (

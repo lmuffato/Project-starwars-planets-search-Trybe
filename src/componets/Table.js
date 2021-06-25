@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import StarwarsContext from '../context/StarwarsContext';
 
 function Table() {
-  const { data, loading, filters } = useContext(StarwarsContext);
+  const { data, loading } = useContext(StarwarsContext);
   // console.log(filters.filterByName.name);
 
   const doesTableHeader = () => {
