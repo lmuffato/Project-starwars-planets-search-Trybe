@@ -8,16 +8,13 @@ function Provider({ children }) {
   const [name, setName] = useState('');
 
   const fetchApi = async () => {
-    const result = await planets();
-    console.log();
-    const arrFilter = name.length ? result
-      .filter((planet) => planet.name.includes(name)) : result;
-    setData(arrFilter);
+    const response = await planets();
+    setData(response);
   };
 
   useEffect(() => {
     fetchApi();
-  }, [name]);
+  }, []);
 
   const contextValue = {
     data,
