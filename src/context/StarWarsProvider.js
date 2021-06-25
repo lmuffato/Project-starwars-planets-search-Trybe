@@ -8,6 +8,7 @@ import StartWarsContext from './StarWarsContext';
 function StarWarsProvider({ children }) {
   const [data, setData] = useState([]);
   const [name, setName] = useState('');
+  const [filteredByName, setFilteredByName] = useState([]);
   const planetsData = {
     data,
     filters: { filterByName: { name } },
@@ -19,15 +20,12 @@ function StarWarsProvider({ children }) {
     setData(filtered);
   };
 
-  const handleFilterByName = () => {
-    const filterByName = data.filter((planet) => (
-      planet.name.toLowerCase().includes(name.toLowerCase())));
-    setData(filterByName);
-  };
-
   useEffect(() => {
-    handleFilterByName();
-  }, [name]);
+    setFilteredByName(
+      data.filter((planet) => (
+        planet.name.toLowerCase().includes(name.toLowerCase()))),
+    );
+  }, [name, data]);
 
   useEffect(() => {
     getPlanets();
@@ -37,8 +35,8 @@ function StarWarsProvider({ children }) {
     <StartWarsContext.Provider
       value={ {
         planetsData,
-        handleFilterByName,
         setName,
+        filteredByName,
       } }
     >
       {children}
