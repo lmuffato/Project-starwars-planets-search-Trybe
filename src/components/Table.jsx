@@ -26,16 +26,6 @@ const Table = () => {
       </tr>
     ));
 
-    // const checkPlanetsRender = () => {
-    //   if (planetsRender.length > 0) {
-    //     return (
-    //       <tbody>{planetsRender}</tbody>
-    //     )
-    //   }
-    //   return false;
-    // }
-    // console.log(planetsRender.length > 0);
-
     return (
       <table>
         <thead>

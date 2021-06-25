@@ -1,8 +1,11 @@
 import React, { useContext, useState } from 'react';
 import Context from '../context/Context';
+import { columnArray, comparisonArray } from '../services/options';
 
 function Filters() {
-  const { filtersValue } = useContext(Context);
+  const { filters: {
+    filtersValue, filterByNumericValues, setFiltersByNumericValues,
+  } } = useContext(Context);
 
   const [filters, setFilters] = useState({
     column: 'population',
@@ -17,12 +20,15 @@ function Filters() {
     });
   };
 
-  // console.log(filters);
-
   const handleSubmitFilter = (e) => {
     e.preventDefault();
     filtersValue(filters);
+    setFiltersByNumericValues([...filterByNumericValues, { ...filters }]);
   };
+
+  console.log(filterByNumericValues);
+  const columnFilters = filterByNumericValues.map((filter) => filter.column);
+  const comparisonFilters = filterByNumericValues.map((filter) => filter.comparison);
 
   return (
     <div>
@@ -32,11 +38,10 @@ function Filters() {
         onChange={ handleFilters }
         required
       >
-        <option>population</option>
-        <option>orbital_period</option>
-        <option>diameter</option>
-        <option>rotation_period</option>
-        <option>surface_water</option>
+        {columnArray.filter((column) => !columnFilters.includes(column))
+          .map((col, index) => (
+            <option key={ index }>{col}</option>
+          ))}
       </select>
       <select
         data-testid="comparison-filter"
@@ -44,9 +49,10 @@ function Filters() {
         onChange={ handleFilters }
         required
       >
-        <option>maior que</option>
-        <option>menor que</option>
-        <option>igual a</option>
+        {comparisonArray.filter((comparison) => !comparisonFilters.includes(comparison))
+          .map((compar, index) => (
+            <option key={ index }>{compar}</option>
+          ))}
       </select>
       <input
         type="number"

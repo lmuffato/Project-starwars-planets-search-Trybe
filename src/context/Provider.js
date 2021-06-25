@@ -7,16 +7,13 @@ const Provider = ({ children }) => {
   const [name, setName] = useState(null);
   const [planetList, setPlanetList] = useState(null);
   const [tableHeaders, setTableHeaders] = useState(null);
+  const [filtersByNumericValues, setFiltersByNumericValues] = useState([]);
 
   const filterTableContent = ({ results }) => {
-    // const tableData = results.map((planet) => console.log(planet));
     results.map((planet) => delete planet.residents);
     const tableData = results;
     setPlanetList(tableData);
   };
-
-  // console.log(planetList);
-  // headers.map((header) => planet[header])
 
   const filterByValue = ({ column, comparison, value }) => {
     const filtredPlanets = planetList.filter((planet) => {
@@ -53,17 +50,18 @@ const Provider = ({ children }) => {
         name,
         setName,
       },
-    },
-    filterByNumericValues: [
-      {
-        column: 'population',
-        comparison: 'maior que',
-        value: '100000',
+      filterByNumericValues: filtersByNumericValues,
+      setFiltersByNumericValues,
+      // filterByNumericValues: [
+      //   {
+      //     column: 'population',
+      //     comparison: 'maior que',
+      //     value: '100000',
+      //   },
+      // ],
+      filtersValue: (filters) => {
+        filterByValue(filters);
       },
-    ],
-    filtersValue: (filters) => {
-      // console.log(filters);
-      filterByValue(filters);
     },
   };
 
