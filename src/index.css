@@ -5,9 +5,35 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(151, 144, 144);
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.header{
+  color: white;
+  background-color: rgb(56, 54, 54);
+  border-radius: 6px;
+  width: 100%;
+}
+
+/* .table-content{
+  flex: 1;
+  text-align: center;
+  justify-content: space-between;
+} */
+
+.head{
+  color: white;
+  background-color:black;
+  border-radius: 6px;
+  font-size: 22px;
+}
+
+.table{
+  color: white;
+  background-color: rgb(56, 54, 54);
 }
