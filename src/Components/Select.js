@@ -19,7 +19,6 @@ export default function Select() {
     ];
     const newArray = newFilter.map((r) => r.column);
     const removeOption = options.filter((res) => !newArray.includes(res));
-    console.log(removeOption);
     return (
       removeOption.map((opt, index) => (
         <option key={ index }>{ opt }</option>

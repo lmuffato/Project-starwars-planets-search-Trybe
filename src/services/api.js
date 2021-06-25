@@ -1,4 +1,4 @@
-export const endpoint = 'https://swapi.dev/api/planets';
+export const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
 
 const getPlanets = async () => {
   const response = await fetch(endpoint);
