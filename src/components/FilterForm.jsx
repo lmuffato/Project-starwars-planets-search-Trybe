@@ -3,19 +3,20 @@ import StarwarsContext from '../context/context';
 
 export default function FilterForm() {
   const { filters, setFilters, columnFiltersState } = useContext(StarwarsContext);
+  const [usefulFilter, setUsefulFilter] = useState(columnFiltersState);
   const [filterNumeric, setFilter] = useState({
-    column: 'population',
-    comparison: 'maior',
+    column: usefulFilter[0],
+    comparison: 'maior que',
     value: 0,
   });
   const { filterByName } = filters;
   const { name } = filterByName;
 
-  const handleNameInput = ({ target }) => {
+  const handleNameInput = ({ target: { value } }) => {
     setFilters((pastState) => ({
       ...pastState,
       filterByName: {
-        name: target.value,
+        name: value,
       },
     }));
   };
@@ -33,6 +34,10 @@ export default function FilterForm() {
       ...pastState,
       filterByNumericValues: [...pastState.filterByNumericValues, filterNumeric],
     }));
+    let newUseful = usefulFilter;
+    newUseful = newUseful.filter((element) => element !== filterNumeric.column);
+    setUsefulFilter(newUseful);
+    setFilter((pastState) => ({ ...pastState, column: newUseful[0] }));
   };
 
   const filterFilters = () => {
@@ -70,9 +75,9 @@ export default function FilterForm() {
           value={ filterNumeric.comparison }
           onChange={ handleFilters }
         >
-          <option value="maior">maior que</option>
-          <option value="menor">menor que</option>
-          <option value="igual">igual a</option>
+          <option value="maior que">maior que</option>
+          <option value="menor que">menor que</option>
+          <option value="igual a">igual a</option>
         </select>
         <input
           type="number"

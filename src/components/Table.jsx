@@ -12,15 +12,15 @@ export default function Table() {
     let returneList = data;
     const { filterByNumericValues } = filters;
     filterByNumericValues.forEach((object) => {
-      if (object.comparison === 'maior') {
+      if (object.comparison.includes('maior que')) {
         returneList = returneList
           .filter((planet) => Number(planet[object.column]) > Number(object.value));
-      } else if (object.comparison === 'menor') {
+      } else if (object.comparison.includes('menor que')) {
         returneList = returneList
-          .filter((planet) => planet[object.column] < object.value);
+          .filter((planet) => Number(planet[object.column]) < Number(object.value));
       } else {
         returneList = returneList
-          .filter((planet) => planet[object.column] === object.value);
+          .filter((planet) => Number(planet[object.column]) === Number(object.value));
       }
     });
     return returneList;
@@ -29,6 +29,7 @@ export default function Table() {
   const createArrayValues = () => {
     const { filterByName: { name } } = filters;
     const newData = filterByNumerics();
+    console.log(name);
     const filtered = newData
       .filter((planet) => planet.name.toLowerCase().includes(name.toLowerCase()));
     if (newData[0]) {
