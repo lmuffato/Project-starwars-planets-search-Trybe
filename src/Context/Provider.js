@@ -7,7 +7,16 @@ import StarWarsContext from './StarWarsContext';
 function PlanetsProvider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [searchName, setSearchName] = useState('');
-  const [filterPlanet, setFilterPlanet] = useState([]);
+  const [filterPlanet, setFilterPlanet] = useState([planets]);
+  const [columnOptions, setColumnOptions] = useState(['population',
+    'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
+  const comparisons = ['maior que', 'menor que', 'igual a'];
+
+  const [preferences, setPreferences] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    number: '',
+  });
 
   useEffect(() => {
     const fetchPlanets = async () => {
@@ -28,10 +37,36 @@ function PlanetsProvider({ children }) {
   };
 
   useEffect(() => {
-    let filterPlanets = planets;
-    filterPlanets = planets.filter((planet) => planet.name.includes((searchName)));
+    const filterPlanets = planets.filter((planet) => planet.name.includes((searchName)));
     setFilterPlanet(filterPlanets);
   }, [planets, searchName]);
+
+  // 3º requisito - filtro por número e usar o dropdown
+  // lógica e conteúdo do dropdown aqui e joga pro filter
+  // lembrar que aqui é o cartão de memória da aplicação
+
+  const handlePreferences = ({ target }) => {
+    setPreferences({ ...preferences, [target.name]: target.value });
+  };
+
+  const preferencesFiltered = ({ column, comparison, number }) => {
+    const newFiltered = planets.filter((planet) => {
+      const columnInfo = Number(planet[column]);
+      const compareValue = Number(number);
+
+      if (comparison === 'menor que') return columnInfo < compareValue;
+      if (comparison === 'menor que') return columnInfo < compareValue;
+      return columnInfo === compareValue;
+    });
+    setFilterPlanet(newFiltered);
+  };
+
+  const handleClick = () => {
+    let copyColumn = columnOptions;
+    copyColumn = columnOptions.filter((column) => column !== preferences.column);
+    setColumnOptions(copyColumn);
+    preferencesFiltered(preferences);
+  };
 
   const data = { planets,
     filters: {
@@ -45,6 +80,13 @@ function PlanetsProvider({ children }) {
     filterPlanet,
     setFilterPlanet,
     handleSearchName,
+    handlePreferences,
+    preferencesFiltered,
+    handleClick,
+    comparisons,
+    preferences,
+    columnOptions,
+    setColumnOptions,
   };
   return (
     <StarWarsContext.Provider value={ data }>
