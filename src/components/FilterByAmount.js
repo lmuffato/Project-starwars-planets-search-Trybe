@@ -18,7 +18,7 @@ function FilterByAmount() {
 
     return (
       <select
-        onChange={(e) => setType(e.target.value)}
+        onChange={ (e) => setType(e.target.value) }
         data-testid="column-filter"
       >
         { names.map((item, index) => (
@@ -39,6 +39,13 @@ function FilterByAmount() {
     </select>
   );
 
+  const submitFilter = () => {
+    const amountFiltred = data.filter((item) => (
+      Object.entries(item).filter((newItem) => newItem[0] === type && newItem[1] > 26).length > 0
+    ));
+    console.log(amountFiltred);
+  };
+
   return (
     <div>
       {data[0] && renderType()}
@@ -49,6 +56,7 @@ function FilterByAmount() {
         type="number"
       />
       <button
+        onClick={ () => submitFilter() }
         type="button"
         data-testid="button-filter"
       >
