@@ -4,7 +4,9 @@ import './Table.css';
 import fetchPlanets from '../services/fetchPlanets';
 
 function Table() {
-  const { setPlanets, planets, nameFilter } = useContext(PlanetsContext);
+  const { setPlanets, planets, planetFilter } = useContext(PlanetsContext);
+  const { filters: { filterByName: { name } } } = planetFilter;
+  const { filters: { filterByNumericValues } } = planetFilter;
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -13,10 +15,29 @@ function Table() {
     getPlanets();
   }, [setPlanets]);
 
-  const filteredPlanets = planets.filter((planet) => (
+  const nameFilter = (planetList) => planetList.filter((planet) => (
     planet.name.toLowerCase().includes(
-      nameFilter.filters.filterByName.name.toLowerCase(),
+      name.toLowerCase(),
     )));
+
+  const comparisonFilter = (planetList) => planetList.filter((planet) => {
+    let check = true;
+
+    filterByNumericValues.forEach((filter) => {
+      if (filter.comparison === 'higher'
+        && Number(filter.value) >= Number(planet[filter.column])) check = false;
+      if (filter.comparison === 'lesser'
+        && Number(filter.value) <= Number(planet[filter.column])) check = false;
+      if (filter.comparison === 'equal'
+        && planet[filter.column] !== filter.value) check = false;
+    });
+    return check;
+  });
+
+  const filteredPlanets = () => {
+    const displayPlanets = comparisonFilter(planets);
+    return nameFilter(displayPlanets);
+  };
 
   return (
     <table>
@@ -38,7 +59,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        { filteredPlanets.map((planet) => {
+        { filteredPlanets().map((planet) => {
           const objectKeys = Object.keys(planet);
           return (
             <tr key={ `${planet.name}-line` }>
