@@ -2,7 +2,13 @@ import React, { useContext } from 'react';
 import CountriesContext from '../context/CountriesContext';
 
 function Form() {
-  const { handleChange } = useContext(CountriesContext);
+  const { setFilters } = useContext(CountriesContext);
+
+  const handleChange = ({ target }) => setFilters({ filterByName: {
+    name: target.value,
+  },
+  });
+
   return (
     <form>
       <label htmlFor="name-filter">

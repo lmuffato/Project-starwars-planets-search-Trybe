@@ -4,10 +4,10 @@ import Table from './components/Table';
 
 function StarWarsCountriesPage() {
   return (
-    <body>
+    <div>
       <Form />
       <Table />
-    </body>
+    </div>
   );
 }
 
