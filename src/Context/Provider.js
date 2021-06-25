@@ -6,6 +6,7 @@ import requestApiStarWars from '../services/requestApi';
 function Provider({ children }) {
   const [data, setData] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
+  const [text, setText] = useState('');
 
   async function fetchPlanetsFromApi() {
     setIsFetching(true);
@@ -21,9 +22,23 @@ function Provider({ children }) {
     fetchPlanetsFromApi();
   }, []);
 
+  const search = (((rows) => {
+    const ONE_LESS = -1;
+    return rows.filter(
+      (row) => row.name.toLowerCase().indexOf(text.toLowerCase()) > ONE_LESS,
+    );
+  }));
+
+  useEffect(() => {
+    search(data);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const contextStarWars = {
     isFetching,
     data,
+    setText,
+    search,
   };
 
   return (
