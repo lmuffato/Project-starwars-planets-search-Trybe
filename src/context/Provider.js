@@ -6,6 +6,10 @@ function Provider({ children }) {
   const [data, setData] = useState([]);
   const [header, setHeader] = useState([]);
   const [name, setName] = useState('');
+  const [column, setColumn] = useState('');
+  const [comparison, setComparison] = useState('');
+  const [value, setValue] = useState('');
+  const [btn, setBtn] = useState(false);
 
   useEffect(() => {
     const fetchPlanets = async () => {
@@ -28,6 +32,14 @@ function Provider({ children }) {
     header,
     name,
     setName,
+    column,
+    setColumn,
+    comparison,
+    setComparison,
+    value,
+    setValue,
+    btn,
+    setBtn,
   };
 
   return (

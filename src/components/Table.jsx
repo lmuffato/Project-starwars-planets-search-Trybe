@@ -1,29 +1,59 @@
 import React, { useContext } from 'react';
 import Context from '../context/Context';
 import './Table.css';
+import NameInput from './NameInput';
+import SelectColumn from './SelectColumn';
+import ComparisonColumn from './ComparisonColumn';
+import ValueInput from './ValueInput';
 
 function Table() {
-  const { data, name, setName, header } = useContext(Context);
+  const { data,
+    name,
+    header,
+    column,
+    comparison,
+    value,
+    btn,
+    setBtn,
+  } = useContext(Context);
 
-  const nameFilter = () => {
+  const tableFilter = () => {
     const search = name.toLowerCase();
     let filteredPlanets = data;
-    if (search !== '') {
+    if (name === '' && btn === false) {
+      filteredPlanets = data;
+    } else if (search !== '' && btn === false) {
       filteredPlanets = data.filter((planet) => (
         planet.name.toLowerCase().includes(search)));
+    } else if (btn && comparison === 'maior que') {
+      filteredPlanets = data.filter((planet) => (
+        planet[column] > Number(value)));
+    } else if (btn && comparison === 'menor que') {
+      filteredPlanets = data.filter((planet) => (
+        planet[column] < Number(value)));
+    } else if (btn && comparison === 'igual a') {
+      filteredPlanets = data.filter((planet) => (
+        planet[column] === value));
     }
     return filteredPlanets;
   };
 
   return (
     <>
-      <input
-        type="text"
-        value={ name }
-        onChange={ (e) => setName(e.target.value) }
-        className="filter-input"
-        data-testid="name-filter"
-      />
+      <NameInput />
+      <div className="filter">
+        <SelectColumn />
+        <ComparisonColumn />
+        <ValueInput />
+        <button
+          type="button"
+          className="button-filter"
+          data-testid="button-filter"
+          onClick={ () => setBtn(true) }
+        >
+          Filtrar
+        </button>
+      </div>
       <table className="table">
         <thead>
           <tr>
@@ -33,7 +63,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {nameFilter().map((planet, index) => (
+          {tableFilter().map((planet, index) => (
             <tr key={ index }>
               <td>{planet.name}</td>
               <td>{planet.rotation_period}</td>
