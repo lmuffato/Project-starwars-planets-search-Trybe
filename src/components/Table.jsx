@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
+import useNumericFilter from '../context/useNumericFilter';
 
 function Table() {
   const { data, fetchPlanets, isLoading,
-    filters, canFilter, setCanFilter } = useContext(PlanetsContext);
+    filters } = useContext(PlanetsContext);
   const [heading, setHeading] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
 
@@ -31,22 +32,7 @@ function Table() {
     filterData();
   }, [filters]);
 
-  useEffect(() => {
-    const filterData = () => {
-      if (canFilter) {
-        const colu = filters.filterByNumericValues[0].column;
-        const comp = filters.filterByNumericValues[0].comparison;
-        const val = filters.filterByNumericValues[0].value;
-        setFilteredData(filteredData.filter((planet) => {
-          if (comp === 'maior que') return Number(planet[colu]) > Number(val);
-          if (comp === 'menor que') return Number(planet[colu]) < Number(val);
-          return Number(planet[colu]) === Number(val);
-        }));
-      }
-    };
-    filterData();
-    setCanFilter(false);
-  }, [canFilter]);
+  useNumericFilter(0, filteredData, setFilteredData);
 
   if (isLoading) return 'Loading';
   return (
