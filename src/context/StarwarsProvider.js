@@ -41,7 +41,7 @@ function StarwarsProvider({ children }) {
   }, [filters.filterByName]);
 
   useEffect(() => {
-    const { column, comparison, value } = filters.filterByNumericValues;
+    const { column, comparison, value } = filters.filterByNumericValues[0];
     const dataToUse = filteredByName ? dataTable : data;
 
     const filteredResult = dataToUse.filter(

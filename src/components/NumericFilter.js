@@ -17,11 +17,13 @@ export default function NumericFilter() {
   const handleClick = () => {
     setFilters({
       ...filters,
-      filterByNumericValues: {
-        column: filtersInputs.columnInput,
-        comparison: filtersInputs.comparisonInput,
-        value: filtersInputs.valueInput,
-      },
+      filterByNumericValues: [
+        {
+          column: filtersInputs.columnInput,
+          comparison: filtersInputs.comparisonInput,
+          value: filtersInputs.valueInput,
+        },
+      ],
     });
   };
 
