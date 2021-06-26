@@ -3,17 +3,22 @@ import InputsComponents from './InputsComponents';
 import SelectsComponents from './SelectsComponents';
 import TableHeader from './TableHeader';
 import TableBody from './TableBody';
+import FiltersItens from './FiltersItens';
 import ContextStauo from '../provider/ContextStauo';
+import '../styles/home.css';
 
 function Table() {
   const { data } = useContext(ContextStauo);
 
   const table = () => (
     <>
-      <form action="">
-        <InputsComponents />
-        <SelectsComponents />
-      </form>
+      <div className="form-filters">
+        <form action="">
+          <InputsComponents />
+          <SelectsComponents />
+        </form>
+        <FiltersItens />
+      </div>
       <table>
         <TableHeader />
         <TableBody />

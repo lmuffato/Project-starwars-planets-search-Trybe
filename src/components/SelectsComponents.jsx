@@ -14,9 +14,10 @@ function selects({ ...context }) {
   };
 
   const handleClick = () => {
+    const { filterByNumericValues } = filters;
     setFilters({
       ...filters,
-      filterByNumericValues: [{ ...inputFilt }],
+      filterByNumericValues: [...filterByNumericValues, { ...inputFilt }],
     });
   };
 

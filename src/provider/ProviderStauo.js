@@ -17,6 +17,7 @@ function Provider({ children }) {
   const [text, setText] = useState('');
   const [filters, setFilters] = useState(initial);
   const [filtersArray, setFiltersArray] = useState(valuesArray);
+  const [removedFilt, setRemovedFilt] = useState([]);
 
   const respApi = async () => {
     const results = await getApiStauo();
@@ -31,13 +32,16 @@ function Provider({ children }) {
 
   const deleleElement = () => {
     const { filterByNumericValues } = filters;
+
     if (filterByNumericValues.length > 0) {
       filterByNumericValues.forEach((itemList) => {
         const newFilter = filtersArray.filter((item) => item !== itemList.column);
         setFiltersArray(newFilter);
+
+        const removedItem = filtersArray.filter((item) => item === itemList.column);
+        setRemovedFilt([...removedFilt, ...removedItem]);
       });
     }
-    return 'nao entrou';
   };
 
   const filtering = () => {
@@ -78,13 +82,17 @@ function Provider({ children }) {
 
   const context = {
     data,
-    dataTitle,
-    setData,
     text,
-    setText,
+    dataTitle,
     filters,
-    setFilters,
+    removedFilt,
     filtersArray,
+    setText,
+    setData,
+    setFilters,
+    setDataTitle,
+    setRemovedFilt,
+    setFiltersArray,
   };
 
   return (
