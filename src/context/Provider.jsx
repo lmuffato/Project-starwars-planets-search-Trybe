@@ -5,8 +5,18 @@ import starWarsApi from '../services/starWarsApi';
 
 import Context from './Context';
 
+const INITIAL_FILTER = {
+  filters: {
+    filterByName: {
+      name: '',
+    },
+    filterByNumericValues: [],
+  },
+};
+
 function Provider({ children }) {
   const [data, setData] = useState([]);
+  const [filters, setFilters] = useState(INITIAL_FILTER);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -23,7 +33,7 @@ function Provider({ children }) {
   }, []);
 
   return (
-    <Context.Provider value={ { isLoading, data } }>
+    <Context.Provider value={ { isLoading, data, filters, setFilters } }>
       {children}
     </Context.Provider>
   );

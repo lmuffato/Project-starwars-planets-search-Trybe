@@ -3,7 +3,7 @@
   color: white;
   font-size: 1rem;
   margin-top: 3rem;
-  width: 95%;
+  width: 90%;
 }
 
 .table thead th {
@@ -12,11 +12,15 @@
 }
 
 .table tbody td, .table thead th {
-  border: 1px solid var(--green-dark);
+  border: 1px solid var(--green);
   padding: 5px;
   text-align: center;
 }
 
 .table tr:nth-child( even ) {
   background-color: var(--green);
+}
+
+.table tr:nth-child( odd ) {
+  background-color: var(--green-dark);
 }

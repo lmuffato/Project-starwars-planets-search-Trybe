@@ -4,6 +4,7 @@ import Context from '../../context/Context';
 import styles from './home.module.css';
 
 import Loading from '../../components/Loading';
+import Filter from './components/Filter';
 import Table from './components/Table';
 
 function Home() {
@@ -16,6 +17,8 @@ function Home() {
       <header>
         <h1>STAR WARS</h1>
       </header>
+
+      <Filter />
 
       <Table />
     </div>

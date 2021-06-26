@@ -1,5 +1,7 @@
 :root {
 
+  --black: #292929;
+
   --green-dark: rgb(38, 70, 83);
 
   --green: rgb(42, 157, 143);
@@ -18,7 +20,8 @@
 }
 
 body {
-  background: var(--green-dark);
+  background: var(--black);
+  color: white;
   font-family: sans-serif;
   font-size: 14px;
 }
