@@ -11,7 +11,6 @@ function PlanetsProvider({ children }) {
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState('100000');
-  const [btnFilter, setBtnFilter] = useState(false);
   const [filtersSelect, setFiltersSelect] = useState(
     ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
   );
@@ -24,7 +23,14 @@ function PlanetsProvider({ children }) {
     getPlanets();
   }, []);
 
+  const handleFilter = (obj) => {
+    setFilters({
+      ...filters, filterByNumericValues: [...filters.filterByNumericValues, obj],
+    });
+  };
+
   const provider = {
+    handleFilter,
     data,
     filters,
     setFilters,
@@ -36,8 +42,6 @@ function PlanetsProvider({ children }) {
     setComparison,
     value,
     setValue,
-    btnFilter,
-    setBtnFilter,
     filtersSelect,
     setFiltersSelect,
   };

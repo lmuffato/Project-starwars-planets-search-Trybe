@@ -2,30 +2,22 @@ import React, { useContext } from 'react';
 
 import TableHead from './TableHead';
 import planetsContext from '../context/PlanetsContext';
+import comparisonSwitch from '../util/switch';
 
 function Table() {
   const {
-    data, name, btnFilter, setFilters, column, comparison, value,
+    data, name, filters: { filterByNumericValues }, column, value, comparison,
   } = useContext(planetsContext);
 
   let planets = '';
-  if (name === '' && btnFilter === false) planets = data;
   if (name !== '') planets = data.filter((e) => e.name.includes(name));
-  if (btnFilter && comparison === 'maior que') {
-    planets = data.filter((e) => e[column] > Number(value));
-    // const thisFilter = { column, comparison, value };
-    // setFilterByNumericValues(thisFilter);
+  if (filterByNumericValues.length > 0) {
+    planets = data.filter((planet) => (
+      comparisonSwitch(planet, column, comparison, value)
+    ));
   }
-  if (btnFilter && comparison === 'menor que') {
-    planets = data.filter((e) => e[column] < Number(value));
-    // const thisFilter = { column, comparison, value };
-    // setFilterByNumericValues(thisFilter);
-  }
-  if (btnFilter && comparison === 'igual a') {
-    planets = data.filter((e) => e[column] === value);
-    // const thisFilter = { column, comparison, value };
-    // setFilterByNumericValues(thisFilter);
-  }
+  if (planets === '') planets = data;
+
   const allFilters = () => (
     <p>Filtros</p>
   );
@@ -36,6 +28,7 @@ function Table() {
       <table>
         {TableHead()}
         <tbody>
+          {console.log(planets)}
           {
             planets.map((e) => (
               <tr key={ e.name }>

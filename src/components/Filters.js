@@ -1,19 +1,20 @@
 import React, { useContext } from 'react';
 import planetsContext from '../context/PlanetsContext';
+// import compareColumns from '../util/compareColumns';
+// import comparisonSwitch from '../util/switch';
 
 function Filters() {
-  const {
-    name, setName, setColumn, value,
-    setComparison, setValue, column, comparison, setBtnFilter, filtersSelect,
+  const { name, setName, setColumn, value, handleFilter, setComparison, setValue,
+    column, comparison, filtersSelect,
   } = useContext(planetsContext);
 
   const handleChange = (target) => {
-    setBtnFilter(false);
     if (target.id === 'name') return setName(target.value);
     if (target.id === 'column') return setColumn(target.value);
     if (target.id === 'comparison') return setComparison(target.value);
     if (target.id === 'value-filter') return setValue(target.value);
   };
+  // let columns = '';
 
   return (
     <div>
@@ -36,8 +37,11 @@ function Filters() {
           onChange={ (e) => handleChange(e.target) }
         >
           {
+            // filterByNumericValues.length === 0 ? filtersSelect.forEach((element) => {
+            //   columns = compareColumns(element, filterByNumericValues[0].column);
+            // }) :
             filtersSelect.map((e, index) => (
-              <option key={ index } value={ e }>{e}</option>
+              <option key={ index }>{e}</option>
             ))
           }
         </select>
@@ -66,7 +70,7 @@ function Filters() {
       <button
         type="button"
         data-testid="button-filter"
-        onClick={ () => setBtnFilter(true) }
+        onClick={ () => handleFilter({ column, comparison, value }) }
       >
         Filter
       </button>
