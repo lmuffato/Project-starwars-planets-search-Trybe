@@ -16,14 +16,14 @@ export function compareNameDesc(a, b) {
 
 export function comparePopulationAsc(a, b) {
   const POSITIONARRAY = -1;
-  if (a.population < b.population) return POSITIONARRAY;
-  if (a.population > b.population) return 1;
+  if (Number(a.population) < Number(b.population)) return POSITIONARRAY;
+  if (Number(a.population) > Number(b.population)) return 1;
   return 0;
 }
 
 export function comparePopulationDesc(a, b) {
   const POSITIONARRAY = -1;
-  if (a.population > b.population) return POSITIONARRAY;
-  if (a.population < b.population) return 1;
+  if (Number(a.population) > b.population) return POSITIONARRAY;
+  if (Number(a.population) < Number(b.population)) return 1;
   return 0;
 }

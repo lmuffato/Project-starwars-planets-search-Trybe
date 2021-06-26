@@ -15,19 +15,13 @@ function PlanetsProvider(props) {
     },
     filterByNumericValues: [],
     order: {
-      column: 'Name',
+      column: 'name',
       sort: 'ASC',
     },
   });
 
-  const setOrderColumn = (value) => {
-    const { order } = filters;
-    setFilters({ ...filters, order: { ...order, column: value } });
-  };
-
-  const setOrderSort = (value) => {
-    const { order } = filters;
-    setFilters({ ...filters, order: { ...order, sort: value } });
+  const setOrderSort = (column, sort) => {
+    setFilters({ ...filters, order: { column, sort } });
   };
 
   const setFilterByName = (event) => {
@@ -93,7 +87,6 @@ function PlanetsProvider(props) {
     resetFilter,
     allTypes,
     addType,
-    setOrderColumn,
     setOrderSort };
   const { children } = props;
   return (

@@ -9,7 +9,7 @@ function Table() {
   const { name } = filters.filterByName;
 
   const orderPlanets = (type, form) => {
-    if (type === 'Name') {
+    if (type === 'name') {
       switch (form) {
       case 'ASC':
         return setData(data.sort(compareNameAsc));
@@ -94,7 +94,7 @@ function Table() {
       <tbody>
         {data.map((info) => (
           <tr key={ info.name }>
-            <td>{info.name}</td>
+            <td data-testid="planet-name">{info.name}</td>
             <td>{info.rotation_period}</td>
             <td>{info.orbital_period}</td>
             <td>{info.diameter}</td>

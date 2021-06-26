@@ -97,7 +97,7 @@ function Filters() {
       </button>
       {filterByNumericValues.map((item) => (
         <div key={ item.column } data-testid="filter">
-          {`{ ${item.column}||${item.comparison}||${item.value} }`}
+          {`{ ${item.column} ${item.comparison} ${item.value} }`}
           <button onClick={ () => deleteCurrFilter(item.column) } type="button">X</button>
         </div>
       ))}

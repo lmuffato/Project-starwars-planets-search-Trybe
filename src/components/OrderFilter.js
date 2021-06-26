@@ -3,27 +3,22 @@ import PlanestContext from '../context/PlanetsContext';
 
 function OrderFilter() {
   const context = useContext(PlanestContext);
-  const { setOrderColumn,
-    setOrderSort } = context;
+  const { setOrderSort } = context;
   const [orderBy, setOrderBy] = useState('name');
   const [orderForm, setOrderForm] = useState('ASC');
 
-  const getOrderBy = (event) => {
-    const { value } = event.target;
-    setOrderBy(value.toLowerCase());
-    setOrderColumn(value);
-  };
-
-  const getOrderForm = (event) => {
-    const { value } = event.target;
-    setOrderForm(value);
-    setOrderSort(value);
+  const getOrderForm = () => {
+    setOrderSort(orderBy, orderForm);
   };
 
   return (
     <div>
       <span>Order By:</span>
-      <select onChange={ getOrderBy } value={ orderBy } data-testid="column-sort">
+      <select
+        onChange={ (e) => setOrderBy(e.target.value) }
+        value={ orderBy }
+        data-testid="column-sort"
+      >
         <option value="name">Name</option>
         <option value="population">Population</option>
       </select>
@@ -31,9 +26,11 @@ function OrderFilter() {
       <label htmlFor="asc">
         Ascendant
         <input
+          data-testid="column-sort-input-asc"
           type="radio"
-          onChange={ getOrderForm }
+          onClick={ (e) => setOrderForm(e.target.value) }
           id="asc"
+          defaultChecked
           name="orderBy"
           value="ASC"
         />
@@ -41,13 +38,21 @@ function OrderFilter() {
       <label htmlFor="desc">
         Downward
         <input
+          data-testid="column-sort-input-desc"
           type="radio"
-          onChange={ getOrderForm }
+          onClick={ (e) => setOrderForm(e.target.value) }
           id="desc"
           name="orderBy"
           value="DESC"
         />
       </label>
+      <button
+        type="button"
+        onClick={ getOrderForm }
+        data-testid="column-sort-button"
+      >
+        Order Columns
+      </button>
     </div>
   );
 }
