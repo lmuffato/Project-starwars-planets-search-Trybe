@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 function Table() {
-  const { data, fetchPlanets, isLoading, filters } = useContext(PlanetsContext);
+  const { data, fetchPlanets, isLoading,
+    filters, canFilter, setCanFilter } = useContext(PlanetsContext);
   const [heading, setHeading] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
 
@@ -20,15 +21,32 @@ function Table() {
 
   useEffect(() => {
     const filterData = () => {
-      const filter = filters.filterByName.name;
-      if (filter !== '') {
-        setFilteredData(data.filter((planet) => planet.name.includes(filter)));
+      const nameFilter = filters.filterByName.name;
+      if (nameFilter !== '') {
+        setFilteredData(data.filter((planet) => planet.name.includes(nameFilter)));
       } else {
         setFilteredData(data);
       }
     };
     filterData();
   }, [filters]);
+
+  useEffect(() => {
+    const filterData = () => {
+      if (canFilter) {
+        const colu = filters.filterByNumericValues[0].column;
+        const comp = filters.filterByNumericValues[0].comparison;
+        const val = filters.filterByNumericValues[0].value;
+        setFilteredData(filteredData.filter((planet) => {
+          if (comp === 'maior que') return Number(planet[colu]) > Number(val);
+          if (comp === 'menor que') return Number(planet[colu]) < Number(val);
+          return Number(planet[colu]) === Number(val);
+        }));
+      }
+    };
+    filterData();
+    setCanFilter(false);
+  }, [canFilter]);
 
   if (isLoading) return 'Loading';
   return (

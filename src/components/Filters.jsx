@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
+import SelectFilter from './SelectFilter';
 
 function Filters() {
   const { setNameFilter } = useContext(PlanetsContext);
@@ -17,6 +18,7 @@ function Filters() {
         value={ nameInput }
         onChange={ ({ target }) => setNameInput(target.value) }
       />
+      <SelectFilter />
     </div>
   );
 }
