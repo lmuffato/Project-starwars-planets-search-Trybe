@@ -3,10 +3,8 @@ import AppContext from '../../context/context';
 
 function Filters() {
   const [saveColumn, setSaveColumn] = useState('population');
-  const [comparison, setSavecomparison] = useState('maior que');
+  const [saveComparison, setSavecomparison] = useState('maior que');
   const [saveValue, setSaveValue] = useState(0);
-  const [columnOptions, setColumnOptions] = useState(['population',
-    'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
   const { filters, setFilters } = useContext(AppContext);
 
   function filterName({ value }) {
@@ -23,12 +21,60 @@ function Filters() {
       ...filters,
       filterByNumericValues: [...filters.filterByNumericValues, {
         column: saveColumn,
-        comparison,
+        comparison: saveComparison,
         value: saveValue,
       }],
     });
-    columnOptions.splice(columnOptions.indexOf(saveColumn), 1);
-    setColumnOptions(columnOptions);
+  }
+
+  function renderOptions() {
+    let op = ['population',
+      'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+    filters.filterByNumericValues.forEach(({ column }) => {
+      op = op.filter((num) => num !== column);
+    });
+    return op;
+  }
+
+  function handleRemoveFilter(column) {
+    const newFilteredNumberArray = filters.filterByNumericValues
+      .filter((num) => num.column !== column);
+    setFilters({
+      ...filters, filterByNumericValues: newFilteredNumberArray,
+    });
+  }
+
+  function renderFilters() {
+    return (
+      <div>
+        <h3>{filters.filterByNumericValues.length ? 'filtros aplicados' : ''}</h3>
+        <ul>
+          {filters.filterByNumericValues.map(({ column, comparison, value }, index) => (
+            <li key={ index } data-testid="filter">
+              <span>
+                {column}
+                {' '}
+              </span>
+              <span>
+                {comparison}
+                {' '}
+              </span>
+              <span>
+                {value}
+                {' '}
+              </span>
+              <button
+                type="button"
+                onClick={ () => handleRemoveFilter(column) }
+              >
+                X
+
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
   }
 
   return (
@@ -44,7 +90,7 @@ function Filters() {
         name="column"
         onChange={ ({ target }) => setSaveColumn(target.value) }
       >
-        {columnOptions.map((col) => (
+        {renderOptions().map((col) => (
           <option key={ col } value={ col }>{col}</option>
         ))}
       </select>
@@ -70,6 +116,7 @@ function Filters() {
         Filtrar
 
       </button>
+      {renderFilters()}
     </>
   );
 }
