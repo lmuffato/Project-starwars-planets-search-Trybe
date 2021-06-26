@@ -6,6 +6,8 @@ import starwarsContext from './starwarsContext';
 function StarwarsProvider({ children }) {
   const [data, setData] = useState([]);
   const [dataTable, setDataTable] = useState([]);
+  // const [filteredByNumber, setFilteredByNumber] = useState(false);
+  const [filteredByName, setFilteredByName] = useState(false);
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
@@ -25,40 +27,32 @@ function StarwarsProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    console.log('INICIO SET DATA TABLE');
     setDataTable(data);
-    console.log('FIM SET DATA TABLE');
   }, [data]);
 
   useEffect(() => {
-    // const [column, comparison, value] = filters.filterByNumericValues;
-    // setDataTable(data);
-    console.log('CHAMOU MESMO ASSIM');
-    console.log('FILTERS DEPOIS', filters);
+    setFilteredByName(!filters.filterByName.name);
 
-    const filtredByNumber = false; // APAGAR
-    const dataToUse = filtredByNumber ? dataTable : data;
-
-    const filteredResult = dataToUse.filter(
-      (planet) => planet.name.includes(filters.filterByName.name),
+    const filteredResult = data.filter(
+      (planet) => planet.name.includes(filters.filterByName.name)
+        && data.some((planetData) => planetData.name === planet.name),
     );
     setDataTable(filteredResult);
-
-    /*     if (column && comparison && value) {
-      const filteredResult = dataTable.filter(
-        (planet) => {
-          if (comparison === 'maior que') {
-            return planet[column] >= value;
-          }
-          if (comparison === 'igual') {
-            return planet[column] === value;
-          }
-          return planet[column];
-        },
-      );
-      setDataTable(filteredResult);
-    } */
   }, [filters.filterByName]);
+
+  useEffect(() => {
+    const { column, comparison, value } = filters.filterByNumericValues;
+    const dataToUse = filteredByName ? dataTable : data;
+
+    const filteredResult = dataToUse.filter(
+      (planet) => {
+        if (comparison === 'maior que') return planet[column] > Number(value);
+        if (comparison === 'igual a') return planet[column] === value;
+        return planet[column] < Number(value);
+      },
+    );
+    setDataTable(filteredResult);
+  }, [filters.filterByNumericValues]);
 
   return (
     <starwarsContext.Provider value={ { dataTable, filters, setFilters } }>

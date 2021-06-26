@@ -2,33 +2,32 @@ import React, { useContext, useState } from 'react';
 import starwarsContext from '../context/starwarsContext';
 
 export default function NumericFilter() {
- /*  const [filtersInputs, setFiltersInput] = useState({
-    columnInput: '',
-    comparisonInput: '',
-    valueInput: '',
+  const [filtersInputs, setFiltersInput] = useState({
+    columnInput: 'population',
+    comparisonInput: 'maior que',
+    valueInput: 0,
   });
   const { filters, setFilters } = useContext(starwarsContext);
   const { filterByNumericValues: { column, comparison, value } } = filters;
 
   const handleChange = ({ target }) => {
-    console.log(target.name, target.value);
-    setFiltersInput({ [target.name]: target.value });
+    setFiltersInput({ ...filtersInputs, [target.name]: target.value });
   };
 
   const handleClick = () => {
     setFilters({
+      ...filters,
       filterByNumericValues: {
         column: filtersInputs.columnInput,
         comparison: filtersInputs.comparisonInput,
         value: filtersInputs.valueInput,
       },
     });
-    console.log(filters);
-  }; */
+  };
 
   return (
     <div>
-{/*       <label htmlFor="column-filter">
+      <label htmlFor="column-filter">
         Parâmetro:
         <select
           data-testid="column-filter"
@@ -55,15 +54,15 @@ export default function NumericFilter() {
           onChange={ (e) => handleChange(e) }
         >
           <option value="maior que">maior que</option>
+          <option value="igual a">igual a</option>
           <option value="menor que">menor que</option>
-          <option value="igual">igual</option>
         </select>
       </label>
 
       <label htmlFor="value-filter">
         Valor:
         <input
-          type="text"
+          type="number"
           data-testid="value-filter"
           id="value-filter"
           name="valueInput"
@@ -77,7 +76,7 @@ export default function NumericFilter() {
         onClick={ () => handleClick() }
       >
         Acionar filtro
-      </button> */}
+      </button>
     </div>
   );
 }
