@@ -6,8 +6,24 @@ export default function TableBody() {
   const { results: planets } = usePlanets();
   const { filters } = useFilters();
   const nameFilter = filters.filterByName.name;
+  const numericFilters = filters.filterByNumericValues;
 
-  const filteredPlanets = planets.filter((planet) => planet.name.includes(nameFilter));
+  let filteredPlanets = planets.filter((planet) => planet.name.includes(nameFilter));
+
+  numericFilters.forEach((numFilter) => {
+    filteredPlanets = filteredPlanets.filter((planet) => {
+      switch (numFilter.comparison) {
+      case 'maior que':
+        return planet[numFilter.column] > parseFloat(numFilter.value);
+      case 'menor que':
+        return planet[numFilter.column] < parseFloat(numFilter.value);
+      case 'igual a':
+        return planet[numFilter.column] === numFilter.value;
+      default:
+        return false;
+      }
+    });
+  });
 
   return (
     <tbody>
