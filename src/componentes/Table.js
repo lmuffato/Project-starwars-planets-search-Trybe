@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import MyTablecontext from '../context/MyTablecontext';
 
 function Table() {
-  const { data, headers, filter } = useContext(MyTablecontext);
+  const { data, headers, filters } = useContext(MyTablecontext);
   // console.log(headers);
   if (!headers.length) return <h1>Navegando...</h1>;
   function myFilter() {
-    const { filterByName: { name } } = filter;
+    const { filterByName: { name } } = filters;
     const filtro = data.results.filter((namePlanet) => (
       namePlanet.name.includes(name)
     ));
