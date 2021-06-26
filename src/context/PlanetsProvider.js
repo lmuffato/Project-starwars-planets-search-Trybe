@@ -27,6 +27,9 @@ function PlanetsProvider({ children }) {
     setFilters({
       ...filters, filterByNumericValues: [...filters.filterByNumericValues, obj],
     });
+    setColumn(obj.column);
+    setComparison(obj.comparison);
+    setValue(obj.value);
   };
 
   const provider = {

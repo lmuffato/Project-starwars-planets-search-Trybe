@@ -1,20 +1,26 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import planetsContext from '../context/PlanetsContext';
 // import compareColumns from '../util/compareColumns';
 // import comparisonSwitch from '../util/switch';
 
 function Filters() {
-  const { name, setName, setColumn, value, handleFilter, setComparison, setValue,
-    column, comparison, filtersSelect,
-  } = useContext(planetsContext);
+  const {
+    name, setName, handleFilter, filtersSelect } = useContext(planetsContext);
+  const [comparison, setComparison] = useState('maior que');
+  const [value, setValue] = useState('100000');
+  const [column, setColumn] = useState('population');
 
   const handleChange = (target) => {
-    if (target.id === 'name') return setName(target.value);
-    if (target.id === 'column') return setColumn(target.value);
-    if (target.id === 'comparison') return setComparison(target.value);
-    if (target.id === 'value-filter') return setValue(target.value);
+    if (target.id === 'name') setName(target.value);
+    if (target.id === 'column') setColumn(target.value);
+    if (target.id === 'comparison') setComparison(target.value);
+    if (target.id === 'value-filter') setValue(target.value);
   };
   // let columns = '';
+
+  const filterButton = (obj) => {
+    handleFilter(obj);
+  };
 
   return (
     <div>
@@ -70,7 +76,7 @@ function Filters() {
       <button
         type="button"
         data-testid="button-filter"
-        onClick={ () => handleFilter({ column, comparison, value }) }
+        onClick={ () => filterButton({ comparison, value, column }) }
       >
         Filter
       </button>

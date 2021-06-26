@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import TableHead from './TableHead';
 import planetsContext from '../context/PlanetsContext';
 import comparisonSwitch from '../util/switch';
+import '../App.css';
 
 function Table() {
   const {
@@ -19,7 +20,17 @@ function Table() {
   if (planets === '') planets = data;
 
   const allFilters = () => (
-    <p>Filtros</p>
+    <div className={ filterByNumericValues.length > 0 ? 'show-filters' : 'hide-filters' }>
+      <h3>Filtros aplicados</h3>
+      {
+        filterByNumericValues.map((e) => (
+          <p key={ e.column }>
+            {
+              `Nome do filtro: ${e.column}`
+            }
+          </p>))
+      }
+    </div>
   );
 
   return (

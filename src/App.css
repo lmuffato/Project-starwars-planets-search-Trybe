@@ -14,3 +14,11 @@
 .table-head {
   color: black;
 }
+
+.show-filters {
+  align-items: center;
+}
+
+.hide-filters {
+  display: none;
+}
