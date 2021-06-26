@@ -1,7 +1,8 @@
+// requisito feito com ajuda do colega Nilson Ribeiro.
 import React, { useState, useEffect } from 'react';
 import { PropTypes } from 'prop-types';
-import ContextApi from './ContextApi';
 import PlanetsFromApi from '../PlanetsFromApi';
+import ContextApi from './ContextApi';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
