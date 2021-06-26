@@ -2,9 +2,16 @@ import React, { useContext } from 'react';
 import MyTablecontext from '../context/MyTablecontext';
 
 function Table() {
-  const { data, headers } = useContext(MyTablecontext);
+  const { data, headers, filter } = useContext(MyTablecontext);
   // console.log(headers);
   if (!headers.length) return <h1>Navegando...</h1>;
+  function myFilter() {
+    const { filterName: { name } } = filter;
+    const filtro = data.results.filter((namePlanet) => (
+      namePlanet.name.includes(name)
+    ));
+    return filtro;
+  }
   return (
     <table>
       <tbody>
@@ -12,9 +19,9 @@ function Table() {
           {headers.map((head) => <th key={ head }>{head}</th>)}
         </tr>
         {
-          data.results
+          myFilter()
             .map((dataPlan) => (
-              <tr key={ dataPlan }>
+              <tr key={ dataPlan.name }>
                 {
                   headers.map((index) => (
                     <td key={ dataPlan[index] }>

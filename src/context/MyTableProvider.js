@@ -5,12 +5,15 @@ import MyTablecontext from './MyTablecontext';
 function MyTableProvider({ children }) {
   const [data, setData] = useState([]);
   const [headers, setHeaders] = useState([]);
+  const [filter, setFilter] = useState({ filterName: { name: '' } });
 
   const contextValue = {
     data,
     setData,
     headers,
     setHeaders,
+    filter,
+    setFilter,
   };
 
   useEffect(() => {
