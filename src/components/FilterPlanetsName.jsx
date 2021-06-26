@@ -1,8 +1,12 @@
 import React, { useContext } from 'react';
 import MyContext from '../context/myContext';
 
-function FilterPlanets() {
-  const { name, handleChange } = useContext(MyContext);
+function FilterPlanetsName() {
+  const {
+    name,
+    handleChange,
+  } = useContext(MyContext);
+
   return (
     <form>
       <label htmlFor="name">
@@ -19,4 +23,4 @@ function FilterPlanets() {
   );
 }
 
-export default FilterPlanets;
+export default FilterPlanetsName;

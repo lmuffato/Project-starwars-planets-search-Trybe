@@ -1,89 +1,56 @@
 import React, { useContext } from 'react';
+
 import MyContext from '../context/myContext';
+import { category } from '../data';
+import { filterForNumber } from '../utils/functions';
 
-function Table() {
-  const {
-    data: { results },
-    filters: { filterByName: { name } },
-  } = useContext(MyContext);
+function renderColumn(planet) {
+  const values = Object.values(planet);
+  const INDEX_RESIDENT = 9;
+  return (
+    values.map((item, index) => <td key={ index }>{index !== INDEX_RESIDENT && item}</td>)
+  );
+}
 
-  if (!results) return <p>Loading...</p>;
-  if (name !== '') {
-    const filter = results.filter((planets) => planets.name.toLowerCase().includes(name));
-    console.log(filter);
-    return (
-      <table>
-        <tr>
-          <th>Climate</th>
-          <th>Created</th>
-          <th>Diameter</th>
-          <th>Edited</th>
-          <th>Films</th>
-          <th>Gravity</th>
-          <th>Name</th>
-          <th>Orbital Period PopulatioN</th>
-          <th>Population</th>
-          <th>Rotation Period</th>
-          <th>Surface Water</th>
-          <th>Terrain</th>
-          <th>URL</th>
-        </tr>
-        {filter.map((planet) => (
-          <tr key={ planet.name }>
-            <td>{planet.climate}</td>
-            <td>{planet.created}</td>
-            <td>{planet.diameter}</td>
-            <td>{planet.edited}</td>
-            <td>{planet.films}</td>
-            <td>{planet.gravity}</td>
-            <td>{planet.name}</td>
-            <td>{planet.orbital_period}</td>
-            <td>{planet.population}</td>
-            <td>{planet.rotation_period}</td>
-            <td>{planet.surface_water}</td>
-            <td>{planet.terrain}</td>
-            <td>{planet.url}</td>
-          </tr>
-        ))}
-      </table>
-    );
-  }
-
+function renderTable(typeFilter) {
   return (
     <table>
       <tr>
-        <th>Climate</th>
-        <th>Created</th>
-        <th>Diameter</th>
-        <th>Edited</th>
-        <th>Films</th>
-        <th>Gravity</th>
-        <th>Name</th>
-        <th>Orbital Period PopulatioN</th>
-        <th>Population</th>
-        <th>Rotation Period</th>
-        <th>Surface Water</th>
-        <th>Terrain</th>
-        <th>URL</th>
+        {category.map((item) => <th key={ item }>{item}</th>)}
       </tr>
-      {results.map((planet) => (
+      {typeFilter.map((planet) => (
         <tr key={ planet.name }>
-          <td>{planet.climate}</td>
-          <td>{planet.created}</td>
-          <td>{planet.diameter}</td>
-          <td>{planet.edited}</td>
-          <td>{planet.films}</td>
-          <td>{planet.gravity}</td>
-          <td>{planet.name}</td>
-          <td>{planet.orbital_period}</td>
-          <td>{planet.population}</td>
-          <td>{planet.rotation_period}</td>
-          <td>{planet.surface_water}</td>
-          <td>{planet.terrain}</td>
-          <td>{planet.url}</td>
+          {renderColumn(planet)}
         </tr>
       ))}
     </table>
+  );
+}
+
+function Table() {
+  const {
+    data,
+    filterByNumericValues,
+    filters: { filterByName: { name } },
+  } = useContext(MyContext);
+
+  console.log(filterByNumericValues);
+
+  if (!data.length) return <p>Loading...</p>;
+
+  if (name !== '') {
+    const filterName = data.filter((planet) => planet.name.toLowerCase().includes(name));
+    return renderTable(filterName);
+  }
+
+  if (filterByNumericValues.length) {
+    const filterNum = filterForNumber(data, filterByNumericValues[0]);
+    console.log(filterNum);
+    return renderTable(filterNum);
+  }
+
+  return (
+    renderTable(data)
   );
 }
 
