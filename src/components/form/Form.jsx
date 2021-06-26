@@ -4,7 +4,7 @@ import usePlanet from '../../hooks/usePlanet';
 export default function Form() {
   const { filteredByName, setFilteredByName,
     setFilteredByNumbers, filteredByNumbers } = usePlanet();
-  const { filterByNumericValues } = filteredByNumbers;
+  // const { filterByNumericValues } = filteredByNumbers;
 
   const [columnFilter, setColumnFilter] = useState('population');
   const [comparisonFilter, setComparisonFilter] = useState('maior que');
