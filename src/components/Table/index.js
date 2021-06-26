@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import AppContext from '../../context/context';
-import './styles.css';
 
 function Table() {
   const { data } = useContext(AppContext);
