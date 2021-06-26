@@ -5,8 +5,37 @@ export default function Tbody() {
   const { planets, filteredByName, filteredByNumbers } = usePlanet();
   const { filters: { filterByName: { name } } } = filteredByName;
   const { filterByNumericValues } = filteredByNumbers;
-  // const { column, comparison, value } = filterByNumericValues[0];
-  // console.log((filterByNumericValues));
+
+  const size = filterByNumericValues.length;
+  function recursive(tam) {
+    if (tam < 0) {
+      return;
+    }
+    const nexNumber = tam - 1;
+    if (tam >= 0) {
+      recursive(nexNumber);
+    }
+    if (filterByNumericValues[tam] !== undefined) {
+      console.log(filterByNumericValues[tam]);
+      const { column, comparison, value } = filterByNumericValues[tam];
+      const filterByNumbers = planets.filter((planet) => {
+        switch (comparison) {
+        case 'igual a':
+          return +planet[column] === +value;
+        case 'maior que':
+          return +planet[column] > +value;
+        case 'menor que':
+          return +planet[column] < +value;
+        default:
+          return planets;
+        }
+      });
+      // console.log(filterByNumbers);
+      return filterByNumbers;
+    }
+  }
+  recursive(size);
+  console.log(recursive(size));
 
   function FilterPlanetsByName() {
     const filterByName = planets
@@ -18,7 +47,6 @@ export default function Tbody() {
         .filter((planet) => {
           switch (comparison) {
           case 'igual a':
-            console.log(comparison);
             return +planet[column] === +value;
           case 'maior que':
             return +planet[column] > +value;
@@ -30,11 +58,31 @@ export default function Tbody() {
         });
       return filterByNumbers;
     }
-
     return filterByName;
   }
+  // function FilterPlanetsByName() {
+  //   const filterByName = planets
+  //     .filter((planet) => (planet.name.includes(name)));
 
-  console.log(planets);
+  //   if (filterByNumericValues.length > 0) {
+  //     const { column, comparison, value } = filterByNumericValues[0];
+  //     const filterByNumbers = filterByName
+  //       .filter((planet) => {
+  //         switch (comparison) {
+  //         case 'igual a':
+  //           return +planet[column] === +value;
+  //         case 'maior que':
+  //           return +planet[column] > +value;
+  //         case 'menor que':
+  //           return +planet[column] < +value;
+  //         default:
+  //           return planets;
+  //         }
+  //       });
+  //     return filterByNumbers;
+  //   }
+  //   return filterByName;
+  // }
 
   return (
     <tbody>
