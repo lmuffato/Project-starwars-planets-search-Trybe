@@ -9,10 +9,6 @@ body {
   font-family: sans-serif;
 }
 
-.loading {
-
-}
-
 .form-filters {
   align-items: center;
   background-image: url('https://1.bp.blogspot.com/-aJy_YYLV2Og/WN0EeiAr8pI/AAAAAAAAa90/bD3C9fbIAY00u1tYSwKXwVWuqUC02MKtwCLcB/s1600/20%2BGifs%2BStar%2BWars%2B1.gif');
@@ -54,13 +50,13 @@ body {
   box-shadow: 4px 4px 10px rgb(181 181 255);
 }
 
-.filter-removed button{
+.filter-removed button {
   background-color: rgb(210, 210, 255);
   border: none;
   margin-left: 5px;
 }
 
-.filter-removed button:hover{
+.filter-removed button:hover {
   background-color: brown;
 }
 
@@ -158,8 +154,8 @@ body {
 
 .radios-label span {
   color: white;
+  font-family: sans-serif;
   font-size: x-large;
   font-weight: 700;
-  font-family: sans-serif;
   margin: 0;
 }
