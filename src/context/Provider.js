@@ -6,6 +6,7 @@ import fetchAPI from '../services/fetchAPI';
 const Provider = ({ children }) => {
   const [name, setName] = useState(null);
   const [planetList, setPlanetList] = useState(null);
+  const [backupPlanetList, setBackupPlanetList] = useState(null);
   const [tableHeaders, setTableHeaders] = useState(null);
   const [filtersByNumericValues, setFiltersByNumericValues] = useState([]);
 
@@ -13,6 +14,7 @@ const Provider = ({ children }) => {
     results.map((planet) => delete planet.residents);
     const tableData = results;
     setPlanetList(tableData);
+    setBackupPlanetList(tableData);
   };
 
   const filterByValue = ({ column, comparison, value }) => {
@@ -43,7 +45,9 @@ const Provider = ({ children }) => {
   const contextValue = {
     data: {
       planetList,
+      setPlanetList,
       tableHeaders,
+      backupPlanetList,
     },
     filters: {
       filterByName: {
@@ -52,13 +56,6 @@ const Provider = ({ children }) => {
       },
       filterByNumericValues: filtersByNumericValues,
       setFiltersByNumericValues,
-      // filterByNumericValues: [
-      //   {
-      //     column: 'population',
-      //     comparison: 'maior que',
-      //     value: '100000',
-      //   },
-      // ],
       filtersValue: (filters) => {
         filterByValue(filters);
       },
