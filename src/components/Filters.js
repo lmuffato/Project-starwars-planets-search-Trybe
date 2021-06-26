@@ -11,7 +11,7 @@ export default function Filters() {
 
     console.log('FILTERS ANTES', filters);
 
-    setFilters({ filterByName: { name: target.value } });
+    setFilters({ ...filters, filterByName: { name: target.value } });
 
     // console.log('FIM FILTER NAME');
   };

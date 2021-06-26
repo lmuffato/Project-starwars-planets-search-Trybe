@@ -1,26 +1,39 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import starwarsContext from '../context/starwarsContext';
 
 export default function NumericFilter() {
- /*  const { filters, setFilters } = useContext(starwarsContext);
-  const { filterByNumericValues: { column = 'population', comparison, value } } = filters;
+ /*  const [filtersInputs, setFiltersInput] = useState({
+    columnInput: '',
+    comparisonInput: '',
+    valueInput: '',
+  });
+  const { filters, setFilters } = useContext(starwarsContext);
+  const { filterByNumericValues: { column, comparison, value } } = filters;
 
   const handleChange = ({ target }) => {
-    const updateFilterNum = async () => {
-      await setFilters({ ...filters, filterByNumericValues: { [target.name]: target.value } });
-    };
-    updateFilterNum();
-    console.log(filters);
+    console.log(target.name, target.value);
+    setFiltersInput({ [target.name]: target.value });
   };
- */
+
+  const handleClick = () => {
+    setFilters({
+      filterByNumericValues: {
+        column: filtersInputs.columnInput,
+        comparison: filtersInputs.comparisonInput,
+        value: filtersInputs.valueInput,
+      },
+    });
+    console.log(filters);
+  }; */
+
   return (
     <div>
-     {/*  <label htmlFor="column-filter">
+{/*       <label htmlFor="column-filter">
         Parâmetro:
         <select
           data-testid="column-filter"
           id="column-filter"
-          name="column"
+          name="columnInput"
           value={ column }
           onChange={ (e) => handleChange(e) }
         >
@@ -37,7 +50,7 @@ export default function NumericFilter() {
         <select
           data-testid="comparison-filter"
           id="comparison-filter"
-          name="comparison"
+          name="comparisonInput"
           value={ comparison }
           onChange={ (e) => handleChange(e) }
         >
@@ -53,11 +66,18 @@ export default function NumericFilter() {
           type="text"
           data-testid="value-filter"
           id="value-filter"
-          name="value"
+          name="valueInput"
           value={ value }
           onChange={ (e) => handleChange(e) }
         />
-      </label> */}
+      </label>
+      <button
+        type="button"
+        data-testid="button-filter"
+        onClick={ () => handleClick() }
+      >
+        Acionar filtro
+      </button> */}
     </div>
   );
 }

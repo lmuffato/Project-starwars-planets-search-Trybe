@@ -33,8 +33,13 @@ function StarwarsProvider({ children }) {
   useEffect(() => {
     // const [column, comparison, value] = filters.filterByNumericValues;
     // setDataTable(data);
+    console.log('CHAMOU MESMO ASSIM');
+    console.log('FILTERS DEPOIS', filters);
 
-    const filteredResult = data.filter(
+    const filtredByNumber = false; // APAGAR
+    const dataToUse = filtredByNumber ? dataTable : data;
+
+    const filteredResult = dataToUse.filter(
       (planet) => planet.name.includes(filters.filterByName.name),
     );
     setDataTable(filteredResult);
@@ -53,7 +58,7 @@ function StarwarsProvider({ children }) {
       );
       setDataTable(filteredResult);
     } */
-  }, [data, filters]);
+  }, [filters.filterByName]);
 
   return (
     <starwarsContext.Provider value={ { dataTable, filters, setFilters } }>
