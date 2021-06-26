@@ -6,7 +6,7 @@ function FilterByName() {
 
   useEffect(() => (
     setFilter({ filterByName: { name: data } })
-  ), [data]); // eslint-disable-line react-hooks/exhaustive-deps
+  ), [data, setFilter]);
 
   const filterPlanet = (value) => {
     const filtered = data.filter((item) => (

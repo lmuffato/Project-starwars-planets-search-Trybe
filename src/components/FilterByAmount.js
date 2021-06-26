@@ -31,7 +31,7 @@ function FilterByAmount() {
   const greaterThan = () => (
     <select
       onChange={ (e) => setComp(e.target.value) }
-      data-testid="value-filter"
+      data-testid="comparison-filter"
     >
       <option>maior que</option>
       <option>menor que</option>
@@ -53,9 +53,9 @@ function FilterByAmount() {
     function compareValue(number) {
       switch (comp) {
       case 'maior que':
-        return number > value;
+        return Number(number) > value;
       case 'menor que':
-        return number < value;
+        return Number(number) < value;
       default:
         return number === value;
       }
@@ -63,12 +63,11 @@ function FilterByAmount() {
 
     const amountFiltred = data.filter((item) => (
       Object.entries(item)
-        .filter((newItem) => newItem[0] === type && compareValue(newItem[1]))
+        .filter((newItem) => (newItem[0] === type) && compareValue(newItem[1]))
         .length > 0
     ));
 
     setFiltred(amountFiltred);
-    console.log(amountFiltred);
   };
 
   return (
