@@ -4,28 +4,14 @@ import PlanestContext from '../context/PlanetsContext';
 function OrderFilter() {
   const context = useContext(PlanestContext);
   const { setOrderColumn,
-    setData, setOrderSort, data } = context;
+    setOrderSort } = context;
   const [orderBy, setOrderBy] = useState('name');
-  // const [orderForm, setOrderForm] = useState('ASC');
-
-  // consultado método sort em: https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
-  function compare(a, b) {
-    const POSITIONARRAY = -1;
-    if (a < b) return POSITIONARRAY;
-    if (a > b) return 1;
-    return 0;
-  }
-
-  const orderArrByPopulation = () => {
-    const orderArr = data.population.sort(compare);
-    setData(orderArr);
-  };
+  const [orderForm, setOrderForm] = useState('ASC');
 
   const getOrderBy = (event) => {
     const { value } = event.target;
     setOrderBy(value.toLowerCase());
     setOrderColumn(value);
-    orderArrByPopulation();
   };
 
   const getOrderForm = (event) => {
