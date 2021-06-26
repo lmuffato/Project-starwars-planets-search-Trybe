@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import MyTablecontext from '../context/MyTablecontext';
 
 function Filter() {
-  const { filter, setFilter } = useContext(MyTablecontext);
+  const { filters, setFilters } = useContext(MyTablecontext);
 
   /*  handleInputValue = (paran) => {
     setFilter({ ...filter, filterName: { name: paran.target.value } });
@@ -17,11 +17,11 @@ function Filter() {
           type="text"
           name="namePlan"
           id="inputNameFilter"
-          dtaa="name-filter"
+          data="name-filter"
           onChange={
-            (paran) => (
-              setFilter({
-                ...filter, filterByName: { name: paran.target.value },
+            (e) => (
+              setFilters({
+                ...filters, filterByName: { name: e.target.value },
               }))
           }
         />
