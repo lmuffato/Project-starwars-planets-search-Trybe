@@ -2,7 +2,13 @@ import React, { useContext } from 'react';
 import AppContext from '../../context/context';
 
 function Table() {
-  const { data } = useContext(AppContext);
+  const { data, filters } = useContext(AppContext);
+
+  function filter() {
+    const filterName = filters.filterByName.name
+      ? data.filter((planet) => planet.name.includes(filters.filterByName.name)) : data;
+    return filterName;
+  }
 
   return (
     <table>
@@ -24,7 +30,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        {data.map((planet) => (
+        {filter().map((planet) => (
           <tr key={ planet.name }>
             <td>{planet.name}</td>
             <td>{planet.rotation_period}</td>

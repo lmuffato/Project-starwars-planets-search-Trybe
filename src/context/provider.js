@@ -4,6 +4,11 @@ import AppContext from './context';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
+  const [filters, setFilters] = useState({
+    filterByName: {
+      name: '',
+    },
+  });
 
   async function fetchData() {
     const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
@@ -16,6 +21,8 @@ function Provider({ children }) {
   }, []);
 
   const contextValue = {
+    filters,
+    setFilters,
     data,
   };
 
@@ -27,7 +34,7 @@ function Provider({ children }) {
 }
 
 Provider.propTypes = {
-  children: PropType.element.isRequired,
+  children: PropType.arrayOf(PropType.element).isRequired,
 };
 
 export default Provider;
