@@ -14,15 +14,17 @@ function FilterByAmount() {
     return (er.test(str));
   }
 
-  const renderType = () => {
-    const initialName = Object.entries(data[0])
-      .filter((name) => isNumeric(name[1]));
+  const renderDropdown = () => {
+    const names = [];
 
-    const filtredNames = initialName
-      .filter((name) => filtredTypes.find((item) => !Object.values(name).includes(item)));
+    Object.entries(data[0])
+      .filter((name) => isNumeric(name[1]))
+      .forEach((name) => names.push(name[0]));
+
+    const filtredNames = names.filter((x) => !filtredTypes.includes(x));
 
     if (filtredNames.length === 0) {
-      Object.assign(filtredNames, initialName);
+      Object.assign(filtredNames, names);
     }
 
     return (
@@ -31,7 +33,7 @@ function FilterByAmount() {
         data-testid="column-filter"
       >
         { filtredNames.map((item, index) => (
-          <option key={ index }>{Object.values(item)[0]}</option>
+          <option key={ index }>{item}</option>
         ))}
       </select>
     );
@@ -69,7 +71,8 @@ function FilterByAmount() {
     }
 
     setWasFiltred(true);
-    setFiltredTypes([...filtredTypes, type]);
+    const newFiltered = [...filtredTypes, type];
+    setFiltredTypes([...new Set(newFiltered)]);
 
     function compareValue(number) {
       switch (comp) {
@@ -91,9 +94,34 @@ function FilterByAmount() {
     setFiltred(amountFiltred);
   };
 
+  const removeFilter = (item) => {
+    const newItem = filtredTypes.filter((val) => val !== item);
+    setFiltredTypes(newItem);
+  };
+
+  const renderFilters = () => (
+    <div>
+      {filtredTypes.map((item, index) => (
+        <div key={ index }>
+          <span
+            data-testid="filter"
+          >
+            {item}
+          </span>
+          <button
+            onClick={ () => removeFilter(item) }
+            type="button"
+          >
+            X
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+
   return (
     <div>
-      {data[0] && renderType()}
+      {data[0] && renderDropdown()}
       {greaterThan()}
       <input
         onChange={ (e) => setValue(e.target.value) }
@@ -107,6 +135,7 @@ function FilterByAmount() {
       >
         Filter
       </button>
+      { filtredTypes.length > 0 && renderFilters() }
     </div>
   );
 }
