@@ -46,18 +46,6 @@ function PlanetsProvider(props) {
     setAllTypes([...allTypes, type]);
   };
 
-  // function compare(a, b) {
-  //   const POSITIONARRAY = -1;
-  //   if (a < b) return POSITIONARRAY;
-  //   if (a > b) return 1;
-  //   return 0;
-  // }
-
-  // const orderArrByPopulation = () => {
-  //   const orderArr = data.population.sort(compare);
-  //   setData(orderArr);
-  // };
-
   useEffect(() => {
     const load = async () => {
       try {

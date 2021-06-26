@@ -1,11 +1,40 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PlanestContext from '../context/PlanetsContext';
+import { compareNameAsc, compareNameDesc,
+  comparePopulationAsc, comparePopulationDesc } from '../services/orderPlanets';
 
 function OrderFilter() {
   const context = useContext(PlanestContext);
-  const { setOrderSort } = context;
+  const { filters: { order: { column, sort } }, setOrderSort, data, setData } = context;
   const [orderBy, setOrderBy] = useState('name');
   const [orderForm, setOrderForm] = useState('ASC');
+
+  const orderPlanets = (type, form) => {
+    if (type === 'name') {
+      switch (form) {
+      case 'ASC':
+        return setData(data.sort(compareNameAsc));
+      case 'DESC':
+        return setData(data.sort(compareNameDesc));
+      default:
+        break;
+      }
+    }
+    if (type === 'population') {
+      switch (form) {
+      case 'ASC':
+        return setData(data.sort(comparePopulationAsc));
+      case 'DESC':
+        return setData(data.sort(comparePopulationDesc));
+      default:
+        break;
+      }
+    }
+  };
+
+  useEffect(() => {
+    orderPlanets(column, sort);
+  }, [data, column, sort]);
 
   const getOrderForm = () => {
     setOrderSort(orderBy, orderForm);

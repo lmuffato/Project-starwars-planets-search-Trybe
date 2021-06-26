@@ -1,39 +1,11 @@
 import React, { useContext, useEffect } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
-import { compareNameAsc, compareNameDesc, comparePopulationAsc, comparePopulationDesc } from '../services/orderPlanets';
 
 function Table() {
   const context = useContext(PlanetsContext);
   const { data, isLoading, filters, setData, copyResults, resetFilter } = context;
-  const { filterByNumericValues, order: { column, sort } } = filters;
+  const { filterByNumericValues } = filters;
   const { name } = filters.filterByName;
-
-  const orderPlanets = (type, form) => {
-    if (type === 'name') {
-      switch (form) {
-      case 'ASC':
-        return setData(data.sort(compareNameAsc));
-      case 'DESC':
-        return setData(data.sort(compareNameDesc));
-      default:
-        break;
-      }
-    }
-    if (type === 'population') {
-      switch (form) {
-      case 'ASC':
-        return setData(data.sort(comparePopulationAsc));
-      case 'DESC':
-        return setData(data.sort(comparePopulationDesc));
-      default:
-        break;
-      }
-    }
-  };
-
-  useEffect(() => {
-    orderPlanets(column, sort);
-  }, [data, column, sort]);
 
   useEffect(() => {
     if (name.length < 1) return setData(copyResults);
