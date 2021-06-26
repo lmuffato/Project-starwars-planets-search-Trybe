@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import Context from '../context/Context';
 import '../style/Table.css';
+import TableRow from './TableRow';
 
 const Table = () => {
   const {
@@ -15,16 +16,8 @@ const Table = () => {
     } else {
       planetsFiltred = planetList;
     }
-    // console.log(name);
-    // console.log(planetsFiltred);
 
-    const planetsRender = planetsFiltred.map((planet, index) => (
-      <tr key={ index }>
-        {
-          Object.values(planet).map((data, id) => <td key={ id }>{data}</td>)
-        }
-      </tr>
-    ));
+    const planetsRender = <TableRow planetsRender={ planetsFiltred } />;
 
     return (
       <table>
@@ -35,7 +28,7 @@ const Table = () => {
             ))}
           </tr>
         </thead>
-        {planetsRender.length > 0
+        {planetsFiltred.length > 0
           ? <tbody>{planetsRender}</tbody> : false}
       </table>
     );

@@ -9,6 +9,10 @@ const Provider = ({ children }) => {
   const [backupPlanetList, setBackupPlanetList] = useState(null);
   const [tableHeaders, setTableHeaders] = useState(null);
   const [filtersByNumericValues, setFiltersByNumericValues] = useState([]);
+  const [order, setOrder] = useState({
+    column: 'name',
+    sort: 'ASC',
+  });
 
   const filterTableContent = ({ results }) => {
     results.map((planet) => delete planet.residents);
@@ -17,9 +21,9 @@ const Provider = ({ children }) => {
     setBackupPlanetList(tableData);
   };
 
-  const filterByValue = ({ column, comparison, value }) => {
+  const filterByValue = ({ column: columnFilter, comparison, value }) => {
     const filtredPlanets = planetList.filter((planet) => {
-      const planetInfo = Number(planet[column]);
+      const planetInfo = Number(planet[columnFilter]);
       if (comparison === 'menor que') {
         return planetInfo < value;
       }
@@ -60,6 +64,8 @@ const Provider = ({ children }) => {
         filterByValue(filters);
       },
     },
+    order,
+    setOrder,
   };
 
   return (

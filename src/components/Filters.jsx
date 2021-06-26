@@ -1,10 +1,12 @@
 import React, { useContext, useState } from 'react';
 import Context from '../context/Context';
 import { columnArray, comparisonArray } from '../services/options';
+import Select from './Select';
+import Sort from './Sort';
 
 function Filters() {
   const { data: {
-    setPlanetList, backupPlanetList,
+    setPlanetList, backupPlanetList, tableHeaders,
   }, filters: {
     filtersValue, filterByNumericValues, setFiltersByNumericValues,
   } } = useContext(Context);
@@ -29,6 +31,7 @@ function Filters() {
       comparison: null,
       value: null,
     };
+
     const { column, comparison, value } = filters;
     if (column && comparison && value) {
       filtersValue(filters);
@@ -41,16 +44,13 @@ function Filters() {
     const { target: { name } } = e;
     e.preventDefault();
     const resetFilters = filterByNumericValues.filter((filter) => filter.column !== name);
-    console.log(resetFilters);
     setFiltersByNumericValues(resetFilters);
     return setPlanetList(backupPlanetList);
   };
 
   const renderFilters = () => filterByNumericValues.map((currFilter, index) => (
     <div key={ index } data-testid="filter">
-      <p>{currFilter.column}</p>
-      <p>{currFilter.comparison}</p>
-      <p>{currFilter.value}</p>
+      {Object.values(currFilter).map((curr, i) => (<p key={ i }>{curr}</p>))}
       <button
         type="button"
         name={ currFilter.column }
@@ -61,35 +61,26 @@ function Filters() {
     </div>
   ));
 
-  console.log(filterByNumericValues);
   const columnFilters = filterByNumericValues.map((filter) => filter.column);
   const comparisonFilters = filterByNumericValues.map((filter) => filter.comparison);
 
   return (
     <>
       <section>
-        <select
-          data-testid="column-filter"
+        <Select
+          handle={ handleFilters }
+          array={ columnArray }
+          filter={ columnFilters }
           name="column"
-          onChange={ handleFilters }
-          required
-        >
-          {columnArray.filter((column) => !columnFilters.includes(column))
-            .map((col, index) => (
-              <option key={ index }>{col}</option>
-            ))}
-        </select>
-        <select
-          data-testid="comparison-filter"
+          id="column-filter"
+        />
+        <Select
+          handle={ handleFilters }
+          array={ comparisonArray }
+          filter={ comparisonFilters }
           name="comparison"
-          onChange={ handleFilters }
-          required
-        >
-          {comparisonArray.filter((comparison) => !comparisonFilters.includes(comparison))
-            .map((compar, index) => (
-              <option key={ index }>{compar}</option>
-            ))}
-        </select>
+          id="comparison-filter"
+        />
         <input
           type="number"
           data-testid="value-filter"
@@ -105,6 +96,7 @@ function Filters() {
           Add filter
         </button>
       </section>
+      <Sort tableHeaders={ tableHeaders } />
       <section>
         {filterByNumericValues.lenght !== 0 ? renderFilters() : false}
       </section>
