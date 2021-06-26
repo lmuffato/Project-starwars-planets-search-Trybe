@@ -2,12 +2,16 @@ import React, { useContext } from 'react';
 import Context from '../context/Context';
 
 function Table() {
-  const { data, keys, filters: { filterByName: { name } } } = useContext(Context);
+  const { data, keys, filters } = useContext(Context);
   const headerTable = keys.filter((key) => key !== 'residents');
 
   if (!keys.length && !data.length) return <div>...Loading</div>;
 
   const dataFilters = () => {
+    const {
+      filterByName: { name },
+    } = filters;
+
     if (name) {
       return data.filter((planet) => planet.name.includes(name));
     }

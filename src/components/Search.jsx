@@ -1,19 +1,17 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext, useRef } from 'react';
 import Context from '../context/Context';
 
 function Search() {
   const {
     keys,
     setFilters,
-    filters: {
-      filterByName: { name },
-      filterByNumericValues: [{ column, comparison, value }],
-    },
+    filters,
   } = useContext(Context);
 
-  const [coluna, setColuna] = useState('');
-  const [comparacao, setComparacao] = useState('');
-  const [valor, setValor] = useState('');
+  const nameRef = useRef();
+  const coluna = useRef();
+  const comparacao = useRef();
+  const valor = useRef();
 
   const selectorOptions = keys
     .filter((key) => key !== 'name'
@@ -26,28 +24,27 @@ function Search() {
     && key !== 'residents'
     && key !== 'url');
 
-  console.log(selectorOptions);
-
-  const getName = (e) => {
+  const getName = () => {
     setFilters({
+      ...filters,
       filterByName: {
-        name: e.target.value,
+        name: nameRef.current.value,
       },
     });
   };
 
   const sendValuesFilters = () => {
-    setFilters((filters) => ({
-      filters,
+    setFilters({
+      ...filters,
       filterByNumericValues: [
         ...filters.filterByNumericValues,
         {
-          column: coluna,
-          comparison: comparacao,
-          value: valor,
+          column: coluna.current.value,
+          comparison: comparacao.current.value,
+          value: valor.current.value,
         },
       ],
-    }));
+    });
   };
 
   return (
@@ -56,8 +53,8 @@ function Search() {
         <input
           data-testid="name-filter"
           type="text"
-          value={ name }
-          onChange={ (e) => getName(e) }
+          ref={ nameRef }
+          onChange={ getName }
         />
       </section>
       <br />
@@ -67,8 +64,7 @@ function Search() {
             data-testid="column-filter"
             name="selector_One"
             id="Selector_One"
-            value={ column }
-            onChange={ (e) => setColuna(e.target.value) }
+            ref={ coluna }
           >
             { selectorOptions
               .map((option, index) => (
@@ -85,8 +81,7 @@ function Search() {
             data-testid="comparison-filter"
             name="selector_Two"
             id="Selector_Two"
-            value={ comparison }
-            onChange={ (e) => setComparacao(e.target.value) }
+            ref={ comparacao }
           >
             <option value="maior que">maior que</option>
             <option value="menor que">menor que</option>
@@ -99,8 +94,7 @@ function Search() {
         <input
           data-testid="value-filter"
           type="text"
-          value={ valor }
-          onChange={ (e) => setValor(e.target.value) }
+          ref={ valor }
         />
       </section>
       <br />
