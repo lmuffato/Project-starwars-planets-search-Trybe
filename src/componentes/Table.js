@@ -6,7 +6,7 @@ function Table() {
   // console.log(headers);
   if (!headers.length) return <h1>Navegando...</h1>;
   function myFilter() {
-    const { filterName: { name } } = filter;
+    const { filterByName: { name } } = filter;
     const filtro = data.results.filter((namePlanet) => (
       namePlanet.name.includes(name)
     ));

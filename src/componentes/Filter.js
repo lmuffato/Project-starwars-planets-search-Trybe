@@ -21,7 +21,7 @@ function Filter() {
           onChange={
             (paran) => (
               setFilter({
-                ...filter, filterName: { name: paran.target.value },
+                ...filter, filterByName: { name: paran.target.value },
               }))
           }
         />
