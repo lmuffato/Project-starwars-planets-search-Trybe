@@ -3,7 +3,7 @@ import titlesTB from '../services/dataTitles';
 
 function TableHeader() {
   const header = () => (
-    <thead>
+    <thead className="thead">
       <tr>
         {titlesTB.map((titulo, index) => <th key={ index }>{titulo}</th>)}
       </tr>

@@ -28,6 +28,7 @@ function selects({ ...context }) {
         array.length > numberMagic ? 'column-filter' : 'comparison-filter'
       }
       onChange={ handleChange }
+      className="selects"
     >
       <option value="select">selecione</option>
       {array.map((title, index) => (
@@ -42,13 +43,19 @@ function selects({ ...context }) {
   );
 
   const inputNumber = () => (
-    <input name="value" data-testid="value-filter" onChange={ handleChange } />
+    <input
+      name="value"
+      data-testid="value-filter"
+      className="input-Number"
+      onChange={ handleChange }
+    />
   );
 
   const btnSubmit = () => (
     <button
       type="button"
       data-testid="button-filter"
+      className="btn-filter"
       onClick={ handleClick }
     >
       Filtrar
@@ -56,12 +63,12 @@ function selects({ ...context }) {
   );
 
   return (
-    <>
+    <div>
       {valuesForFilter(filtersArray)}
       {valuesForFilter(valueFor)}
       {inputNumber()}
       {btnSubmit()}
-    </>
+    </div>
   );
 }
 

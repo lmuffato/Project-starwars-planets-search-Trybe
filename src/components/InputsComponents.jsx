@@ -12,12 +12,17 @@ function inputs(filters, setFilters) {
   );
 
   const inputSearch = () => (
-    <input
-      data-testid="name-filter"
-      id="name-filter"
-      type="text"
-      onChange={ (e) => handleChange(e) }
-    />
+    <>
+      <span>StarWars Planets</span>
+      <input
+        type="text"
+        id="name-filter"
+        className="input-search"
+        data-testid="name-filter"
+        placeholder="Digite sua busca aqui..."
+        onChange={ (e) => handleChange(e) }
+      />
+    </>
   );
 
   return (

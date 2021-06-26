@@ -11,7 +11,7 @@ function Table() {
   const { data } = useContext(ContextStauo);
 
   const table = () => (
-    <>
+    <div className="main">
       <div className="form-filters">
         <form action="">
           <InputsComponents />
@@ -23,7 +23,7 @@ function Table() {
         <TableHeader />
         <TableBody />
       </table>
-    </>
+    </div>
   );
 
   if (!data.length) return <h1>Loading...</h1>;
