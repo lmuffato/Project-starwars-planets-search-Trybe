@@ -1,10 +1,19 @@
 import React, { useContext, useState } from 'react';
 import PlanetContext from '../context/PlanetContext';
 
+const columnOptions = [
+  'population',
+  'orbital_period',
+  'diameter',
+  'rotation_period',
+  'surface_water',
+];
+
 function Filter() {
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState(0);
+  const [selectedColumns, setSelectedColumns] = useState(columnOptions);
 
   const { filters, setFilters } = useContext(PlanetContext);
   const { filterByNumericValues } = filters;
@@ -25,8 +34,23 @@ function Filter() {
     setValue(event.target.value);
   };
 
+  const blockOptions = () => {
+    const acctualyValues = selectedColumns
+      .filter((columnDelete) => columnDelete !== column);
+    setSelectedColumns(acctualyValues);
+  };
+
+  const createColumnDropdown = () => (
+    <select data-testid="column-filter" onChange={ handleChangeColumn }>
+      {selectedColumns.map((option, index) => (
+        <option key={ index } value={ option }>{ option }</option>)) }
+    </select>
+  );
+
   const handleClick = (event) => {
     event.preventDefault();
+
+    blockOptions();
 
     const filterNumbers = {
       column,
@@ -75,13 +99,7 @@ function Filter() {
       <input type="text" data-testid="name-filter" onChange={ handleChange } />
 
       <div>
-        <select data-testid="column-filter" onChange={ handleChangeColumn }>
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
-        </select>
+        { createColumnDropdown() }
 
         <select data-testid="comparison-filter" onChange={ handleChangeComparison }>
           <option value="maior que">maior que</option>
