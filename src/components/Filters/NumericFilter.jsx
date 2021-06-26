@@ -1,30 +1,14 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import useFilters from '../../hooks/useFilters';
 
-export default function NumericFilter() {
+export default function NumericFilter({ available }) {
   const { filters, setFilters } = useFilters();
   const [columnFilter, setColumnFilter] = useState('');
   const [comparisonFilter, setComparisonFilter] = useState('');
   const [valueFilter, setValueFilter] = useState(0);
 
-  const numericFilterCategories = [
-    'population',
-    'orbital_period',
-    'diameter',
-    'rotation_period',
-    'surface_water',
-  ];
-
-  const usedNumericFilterCategories = filters.filterByNumericValues.map(
-    (numFilter) => numFilter.column,
-  );
-
-  const availableNumericFilterCategories = numericFilterCategories.filter(
-    (numFilter) => !usedNumericFilterCategories.includes(numFilter),
-  );
-
   function handleAddFilter() {
-    console.log(columnFilter, comparisonFilter, valueFilter);
     setFilters({
       ...filters,
       filterByNumericValues: filters.filterByNumericValues.concat({
@@ -33,6 +17,10 @@ export default function NumericFilter() {
         value: valueFilter,
       }),
     });
+
+    setColumnFilter('');
+    setComparisonFilter('');
+    setValueFilter(0);
   }
 
   return (
@@ -43,7 +31,7 @@ export default function NumericFilter() {
           data-testid="column-filter"
           onChange={ (event) => setColumnFilter(event.target.value) }
         >
-          {availableNumericFilterCategories.map((numFilter) => (
+          {available.map((numFilter) => (
             <option key={ numFilter } value={ numFilter }>
               {numFilter}
             </option>))}
@@ -80,3 +68,7 @@ export default function NumericFilter() {
     </div>
   );
 }
+
+NumericFilter.propTypes = {
+  available: PropTypes.arrayOf(PropTypes.string),
+}.isRequired;
