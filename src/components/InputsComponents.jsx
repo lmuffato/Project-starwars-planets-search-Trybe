@@ -1,7 +1,9 @@
 import React, { useContext } from 'react';
 import ContextStauo from '../provider/ContextStauo';
 
-function inputs(filters, setFilters) {
+function InputsComponents() {
+  const { filters, setFilters } = useContext(ContextStauo);
+
   const handleChange = ({ target }) => (
     setFilters({
       ...filters,
@@ -11,7 +13,7 @@ function inputs(filters, setFilters) {
     })
   );
 
-  const inputSearch = () => (
+  return (
     <>
       <span>StarWars Planets</span>
       <input
@@ -23,18 +25,6 @@ function inputs(filters, setFilters) {
         onChange={ (e) => handleChange(e) }
       />
     </>
-  );
-
-  return (
-    inputSearch()
-  );
-}
-
-function InputsComponents() {
-  const { filters, setFilters } = useContext(ContextStauo);
-
-  return (
-    inputs(filters, setFilters)
   );
 }
 

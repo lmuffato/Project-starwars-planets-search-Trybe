@@ -5,17 +5,26 @@ import getApiStauo from '../services/fetchApiStauo';
 import { valuesArray } from '../services/getSelects';
 
 function Provider({ children }) {
-  const initial = {
+  const INITIAL_STATE = {
     filterByName: {
       name: '',
     },
     filterByNumericValues: [],
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
+  };
+
+  const ordenationNumber = {
+    max: 1,
+    min: -1,
   };
 
   const [data, setData] = useState([]);
   const [dataTitle, setDataTitle] = useState([]);
   const [text, setText] = useState('');
-  const [filters, setFilters] = useState(initial);
+  const [filters, setFilters] = useState(INITIAL_STATE);
   const [filtersArray, setFiltersArray] = useState(valuesArray);
   const [removedFilt, setRemovedFilt] = useState([]);
 
@@ -78,7 +87,34 @@ function Provider({ children }) {
   useEffect(() => {
     filtering();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filters]);
+  }, [filters.filterByNumericValues]);
+
+  const ordenedData = () => {
+    const { order: { column, sort } } = filters;
+    const { max, min } = ordenationNumber;
+
+    switch (sort) {
+    case 'ASC':
+      setDataTitle([...dataTitle.sort((itemA, itemB) => (
+        itemA[column] > itemB[column] ? max : min
+      ))]);
+      return dataTitle;
+
+    case 'DESC':
+      setDataTitle([...dataTitle.sort((itemA, itemB) => (
+        itemA[column] < itemB[column] ? max : min
+      ))]);
+      return dataTitle;
+
+    default:
+      return dataTitle;
+    }
+  };
+
+  useEffect(() => {
+    ordenedData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters.order]);
 
   const context = {
     data,

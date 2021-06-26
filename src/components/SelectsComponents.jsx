@@ -55,7 +55,7 @@ function selects({ ...context }) {
     <button
       type="button"
       data-testid="button-filter"
-      className="btn-filter"
+      className="btn"
       onClick={ handleClick }
     >
       Filtrar

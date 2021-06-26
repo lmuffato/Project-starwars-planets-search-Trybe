@@ -9,12 +9,16 @@ body {
   font-family: sans-serif;
 }
 
+.loading {
+
+}
+
 .form-filters {
   align-items: center;
   background-image: url('https://1.bp.blogspot.com/-aJy_YYLV2Og/WN0EeiAr8pI/AAAAAAAAa90/bD3C9fbIAY00u1tYSwKXwVWuqUC02MKtwCLcB/s1600/20%2BGifs%2BStar%2BWars%2B1.gif');
   display: flex;
   flex-direction: column;
-  height: 30vh;
+  height: 50vh;
   justify-content: center;
 }
 
@@ -34,7 +38,30 @@ body {
 
 .filters {
   display: flex;
-  margin-top: 30px;
+  font-size: larger;
+  font-weight: 700;
+}
+
+.filter-removed {
+  background-color: rgb(210, 210, 255);
+  box-shadow: 4px 4px 1px rgb(181 181 255);
+  display: flex;
+  margin: 20px 10px;
+  padding: 5px;
+}
+
+.filter-removed:hover {
+  box-shadow: 4px 4px 10px rgb(181 181 255);
+}
+
+.filter-removed button{
+  background-color: rgb(210, 210, 255);
+  border: none;
+  margin-left: 5px;
+}
+
+.filter-removed button:hover{
+  background-color: brown;
 }
 
 .input-search {
@@ -70,7 +97,7 @@ body {
   text-align: center;
 }
 
-.btn-filter {
+.btn {
   background-color: rgb(210, 210, 255);
   border: none;
   border-radius: 4px;
@@ -94,7 +121,7 @@ body {
   box-shadow: 4px 4px 10px rgb(181, 181, 255);
 }
 
-.btn-filter:hover {
+.btn:hover {
   box-shadow: 4px 4px 10px rgb(181, 181, 255);
 }
 
@@ -117,4 +144,22 @@ body {
   background-color: #272727;
   box-shadow: 2px 2px 10px rgb(39, 39, 39);
   color: white;
+}
+
+.orderned-inputs {
+  align-items: center;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.radios {
+  display: flex;
+}
+
+.radios-label span {
+  color: white;
+  font-size: x-large;
+  font-weight: 700;
+  font-family: sans-serif;
+  margin: 0;
 }

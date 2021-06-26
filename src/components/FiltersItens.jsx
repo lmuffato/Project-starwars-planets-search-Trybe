@@ -22,17 +22,17 @@ function FiltersItens() {
   // }, [data]);
 
   const handleClick = ({ target }) => {
-    const sai = target.parentNode.firstChild.textContent;
-    setFiltersArray([...filtersArray, sai]);
-    const other = removedFilt.filter((item) => item !== sai);
-    setRemovedFilt(other);
+    const text = target.parentNode.firstChild.textContent;
+    setFiltersArray([...filtersArray, text]);
+    const itemRemoved = removedFilt.filter((item) => item !== text);
+    setRemovedFilt(itemRemoved);
     setDataTitle(data);
   };
 
   return (
     <div className="filters">
       {removedFilt.map((item) => (
-        <p key={ item } data-testid="filter">
+        <p key={ item } data-testid="filter" className="filter-removed">
           {item}
           <button type="button" onClick={ handleClick }>X</button>
         </p>

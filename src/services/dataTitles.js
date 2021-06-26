@@ -1,17 +1,19 @@
-const titlesTB = [
-  'name',
-  'rotation_period',
-  'orbital_period',
-  'diameter',
-  'climate',
-  'gravity',
-  'terrain',
-  'surface_water',
-  'population',
-  'films',
-  'created',
-  'edited',
-  'url',
-];
+import { useEffect, useState } from 'react';
+import getApiStauo from './fetchApiStauo';
 
-export default titlesTB;
+function TitlesTB() {
+  const [newData, setNewData] = useState([]);
+
+  const fetchApi = async () => {
+    const result = await getApiStauo();
+    setNewData(result[0]);
+  };
+
+  useEffect(() => {
+    fetchApi();
+  }, []);
+
+  return Object.keys(newData);
+}
+
+export default TitlesTB;
