@@ -6,6 +6,8 @@ function FilterByAmount() {
   const [value, setValue] = useState(0);
   const [comp, setComp] = useState('maior que');
   const [type, setType] = useState('rotation_period');
+  const [wasFiltred, setWasFiltred] = useState(false);
+  const [filtredTypes, setFiltredTypes] = useState([]);
 
   function isNumeric(str) {
     const er = /^[0-9]+$/;
@@ -13,15 +15,22 @@ function FilterByAmount() {
   }
 
   const renderType = () => {
-    const names = Object.entries(data[0])
+    const initialName = Object.entries(data[0])
       .filter((name) => isNumeric(name[1]));
+
+    const filtredNames = initialName
+      .filter((name) => filtredTypes.find((item) => !Object.values(name).includes(item)));
+
+    if (filtredNames.length === 0) {
+      Object.assign(filtredNames, initialName);
+    }
 
     return (
       <select
         onChange={ (e) => setType(e.target.value) }
         data-testid="column-filter"
       >
-        { names.map((item, index) => (
+        { filtredNames.map((item, index) => (
           <option key={ index }>{Object.values(item)[0]}</option>
         ))}
       </select>
@@ -40,15 +49,27 @@ function FilterByAmount() {
   );
 
   const handleClick = () => {
-    const complementar = filters;
-    const addFilter = Object.assign(complementar, {
+    const objNumericValues = {
       filterByNumericValues: [{
         column: type,
         comparasion: comp,
         value,
       }],
-    });
-    setFilter(addFilter);
+    };
+
+    if (!wasFiltred) {
+      const addFilter = Object.assign(filters, objNumericValues);
+      setFilter(addFilter);
+    } else {
+      filters.filterByNumericValues.push({
+        column: type,
+        comparasion: comp,
+        value,
+      });
+    }
+
+    setWasFiltred(true);
+    setFiltredTypes([...filtredTypes, type]);
 
     function compareValue(number) {
       switch (comp) {
