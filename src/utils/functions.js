@@ -1,3 +1,5 @@
+import { dropDrawComparation } from '../data';
+
 const getDataAPI = async () => {
   const request = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
   const data = await request.json();
@@ -13,6 +15,24 @@ export const filterForNumber = (planets, { column, value, comparison }) => {
   });
 
   return newFilter;
+};
+
+export const checkedFilter = (filterNumbers, column) => {
+  let bool = true;
+  filterNumbers.forEach((filter) => {
+    if (filter.column === column) bool = false;
+  });
+  return bool;
+};
+
+export const chekedDropDraw = (filterByNumericValue) => {
+  const keys = filterByNumericValue
+    ? filterByNumericValue.map((item) => item.column)
+    : ['sem filtro'];
+
+  const filterCategory = dropDrawComparation.filter((item) => item !== keys[0]);
+  console.log(filterCategory);
+  return filterCategory;
 };
 
 export default getDataAPI;

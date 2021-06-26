@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react';
-import { dropDrawComparation } from '../data';
 import MyContext from '../context/myContext';
+import { checkedFilter, chekedDropDraw } from '../utils/functions';
 
 function FilterPlanetsNumber() {
   const [column, setColumn] = useState('');
   const [comparison, setComparison] = useState('');
   const [value, setValue] = useState('');
-  const { handleClick } = useContext(MyContext);
+  const { handleClick, filterByNumericValues } = useContext(MyContext);
 
   return (
     <from>
@@ -14,7 +14,7 @@ function FilterPlanetsNumber() {
         data-testid="column-filter"
         onChange={ ({ target }) => setColumn(target.value) }
       >
-        {dropDrawComparation
+        {chekedDropDraw(filterByNumericValues)
           .map((drop) => <option key={ drop } value={ drop }>{drop}</option>)}
       </select>
       <select
@@ -33,7 +33,11 @@ function FilterPlanetsNumber() {
       <button
         data-testid="button-filter"
         type="button"
-        onClick={ () => handleClick(column, comparison, value) }
+        onClick={ () => {
+          if (checkedFilter(filterByNumericValues, column)) {
+            handleClick(column, comparison, value);
+          }
+        } }
       >
         Filtar
       </button>
