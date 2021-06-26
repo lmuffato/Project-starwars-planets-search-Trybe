@@ -5,12 +5,19 @@ import starwarsContext from './starwarsContext';
 
 function StarwarsProvider({ children }) {
   const [data, setData] = useState([]);
+  const [dataTable, setDataTable] = useState([]);
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [
+      {
+        column: '',
+        comparison: '',
+        value: '',
+      },
+    ],
   });
-  const [dataTable, setDataTable] = useState([]);
 
   useEffect(() => {
     fetchApi()
@@ -18,14 +25,35 @@ function StarwarsProvider({ children }) {
   }, []);
 
   useEffect(() => {
+    console.log('INICIO SET DATA TABLE');
     setDataTable(data);
-    if (filters.filterByName.name) {
-      const filteredResult = data.filter(
-        (planet) => planet.name.includes(filters.filterByName.name),
+    console.log('FIM SET DATA TABLE');
+  }, [data]);
+
+  useEffect(() => {
+    // const [column, comparison, value] = filters.filterByNumericValues;
+    // setDataTable(data);
+
+    const filteredResult = data.filter(
+      (planet) => planet.name.includes(filters.filterByName.name),
+    );
+    setDataTable(filteredResult);
+
+    /*     if (column && comparison && value) {
+      const filteredResult = dataTable.filter(
+        (planet) => {
+          if (comparison === 'maior que') {
+            return planet[column] >= value;
+          }
+          if (comparison === 'igual') {
+            return planet[column] === value;
+          }
+          return planet[column];
+        },
       );
       setDataTable(filteredResult);
-    }
-  }, [data, filters.filterByName.name]);
+    } */
+  }, [data, filters]);
 
   return (
     <starwarsContext.Provider value={ { dataTable, filters, setFilters } }>

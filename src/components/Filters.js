@@ -1,16 +1,22 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import starwarsContext from '../context/starwarsContext';
+import NumericFilter from './NumericFilter';
 
 export default function Filters() {
   const { filters, setFilters } = useContext(starwarsContext);
 
   const handleChange = ({ target }) => {
-    const updateFilterName = async () => {
-      await setFilters({ filterByName: { name: target.value } });
-    };
-    updateFilterName();
-    console.log(filters);
+    /* console.log(target.value);
+    console.log('INICIO FILTER NAME'); */
+
+    console.log('FILTERS ANTES', filters);
+
+    setFilters({ filterByName: { name: target.value } });
+
+    // console.log('FIM FILTER NAME');
   };
+
+  // useEffect(() => {}, []);
 
   return (
     <div>
@@ -25,6 +31,7 @@ export default function Filters() {
           onChange={ (e) => handleChange(e) }
         />
       </label>
+      <NumericFilter />
 
     </div>
   );
