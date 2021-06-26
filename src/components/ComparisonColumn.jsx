@@ -2,16 +2,22 @@ import React, { useContext } from 'react';
 import Context from '../context/Context';
 
 function ComparisonColumn() {
-  const { setComparison } = useContext(Context);
+  const { setComparison, setBtn } = useContext(Context);
+
+  const handleChange = (e) => {
+    setComparison(e.target.value);
+    setBtn(false);
+  };
+
   return (
     <select
       name="Comparison"
       data-testid="comparison-filter"
       className="value-input"
-      onChange={ (e) => setComparison(e.target.value) }
+      onChange={ (e) => handleChange(e) }
     >
-      <option value="">
-        Selecione a comparação
+      <option disabled selected>
+        Selecione a Comparação
       </option>
       <option>maior que</option>
       <option>menor que</option>

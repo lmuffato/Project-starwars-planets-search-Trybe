@@ -11,6 +11,7 @@ function NameInput() {
       onChange={ (e) => setName(e.target.value) }
       className="filter-input"
       data-testid="name-filter"
+      placeholder="Filtre por Nome"
     />
   );
 }

@@ -11,6 +11,7 @@ function ValueInput() {
       onChange={ (e) => setValue(e.target.value) }
       className="value-input"
       data-testid="value-filter"
+      placeholder="Defina um Valor"
     />
   );
 }

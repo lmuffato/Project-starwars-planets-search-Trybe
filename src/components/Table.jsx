@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import Context from '../context/Context';
 import './Table.css';
-import NameInput from './NameInput';
+import NameInput from './nameInput';
 import SelectColumn from './SelectColumn';
 import ComparisonColumn from './ComparisonColumn';
 import ValueInput from './ValueInput';
