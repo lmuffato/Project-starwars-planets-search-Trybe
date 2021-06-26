@@ -7,6 +7,11 @@ export default function Provider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [filterPlanets, setFilterPlanets] = useState([]);
   const [name, setName] = useState('');
+  const [inputsChanges, setInputsChanges] = useState({
+    columnFilter: 'population',
+    comparisonFilter: 'maior que',
+    valueFilter: '',
+  });
 
   // requisito 1: tratando a api
   useEffect(() => {
@@ -28,7 +33,18 @@ export default function Provider({ children }) {
     setFilterPlanets(nameFilter);
   };
 
-  const context = { planets, filterPlanets, name, handleFilterChange };
+  // requisito 3 - para selecionar os filtros
+  const handleSelectChange = ({ target }) => {
+    setInputsChanges({ ...inputsChanges, [target.name]: target.value });
+  };
+
+  const context = {
+    planets,
+    filterPlanets,
+    name,
+    handleFilterChange,
+    handleSelectChange,
+  };
   return (
     <Context.Provider value={ context }>
       {children}

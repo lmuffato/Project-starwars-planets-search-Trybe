@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import Context from '../context/Context';
 
 export default function Inputs() {
-  const { handleFilterChange } = useContext(Context);
+  const { handleFilterChange, handleSelectChange } = useContext(Context);
   return (
     <form>
       <label htmlFor="name-filter">
@@ -13,14 +13,22 @@ export default function Inputs() {
           placeholder="Nome do Planeta"
           onChange={ handleFilterChange }
         />
-        <select data-testid="column-filter" id="column-filter">
+        <select
+          data-testid="column-filter"
+          id="column-filter"
+          onChange={ handleSelectChange }
+        >
           <option>population</option>
           <option>orbital_period</option>
           <option>diameter</option>
           <option>rotation_period</option>
           <option>surface_water</option>
         </select>
-        <select data-testid="comparison-filter" id="comparison-filter">
+        <select
+          data-testid="comparison-filter"
+          id="comparison-filter"
+          onChange={ handleSelectChange }
+        >
           <option>maior que</option>
           <option>menor que</option>
           <option>igual a</option>
@@ -29,6 +37,7 @@ export default function Inputs() {
           data-testid="value-filter"
           id="value-filter"
           type="number"
+          onChange={ handleSelectChange }
         />
         <button
           data-testid="button-filter"
