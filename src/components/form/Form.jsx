@@ -4,7 +4,6 @@ import usePlanet from '../../hooks/usePlanet';
 export default function Form() {
   const { filteredByName, setFilteredByName,
     setFilteredByNumbers, filteredByNumbers } = usePlanet();
-  // const { filterByNumericValues } = filteredByNumbers;
 
   const [columnFilter, setColumnFilter] = useState('population');
   const [comparisonFilter, setComparisonFilter] = useState('maior que');
@@ -33,6 +32,11 @@ export default function Form() {
 
   function handleFilterByNumbers(event) {
     event.preventDefault();
+    const disabledColumn = document.getElementById(columnFilter).disabled;
+    if (disabledColumn === true) {
+      return;
+    }
+
     setFilteredByNumbers({
       filterByNumericValues: [
         { column: columnFilter,
@@ -45,7 +49,6 @@ export default function Form() {
   }
 
   const { filters: { filterByName: { name } } } = filteredByName;
-  // const { filterByNumericValues: }
   return (
     <div>
 
