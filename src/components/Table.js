@@ -1,14 +1,21 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PlanetContext from '../context/PlanetContext';
 import planetsApi from '../services/api';
 
 function Table() {
-  const { filters, setData } = useContext(PlanetContext);
-  const [filtred, setFiltred] = useState([]);
+  const { filters, data, setData, filtred, setFiltred } = useContext(PlanetContext);
 
   useEffect(() => {
     if (filters.filterByName) {
       setFiltred(filters.filterByName.name);
+    }
+  }, [filters, setFiltred]);
+
+  useEffect(() => {
+    if (filters.filterByNumericValues) {
+      const { column, comparasion, value } = filters.filterByNumericValues[0];
+
+      console.log(column, comparasion, value);
     }
   }, [filters]);
 
@@ -20,7 +27,7 @@ function Table() {
   const renderObjects = () => (
     <tbody>
       <tr>
-        {Object.keys(filtred[0]).map((item, index) => (<th key={ index }>{item}</th>))}
+        {Object.keys(data[0]).map((item, index) => (<th key={ index }>{item}</th>))}
       </tr>
       {filtred.map((item, index) => (
         <tr key={ index }>

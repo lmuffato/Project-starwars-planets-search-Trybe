@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import PlanetContext from '../context/PlanetContext';
 
 function FilterByAmount() {
-  const { data, filters, setFilter } = useContext(PlanetContext);
+  const { data, filters, setFilter, setFiltred } = useContext(PlanetContext);
   const [value, setValue] = useState(0);
   const [comp, setComp] = useState('maior que');
   const [type, setType] = useState('rotation_period');
@@ -39,33 +39,36 @@ function FilterByAmount() {
     </select>
   );
 
-  function compareValue(number) {
-    switch (comp) {
-    case 'maior que':
-      return number > value;
-    case 'menor que':
-      return number < value;
-    default:
-      return number === value;
-    }
-  }
-
-  const submitFilter = () => {
-    const amountFiltred = data.filter((item) => (
-      Object.entries(item)
-        .filter((newItem) => newItem[0] === type && compareValue(newItem[1]))
-        .length > 0
-    ));
-
-    const addFilter = Object.assign(filters, {
+  const handleClick = () => {
+    const complementar = filters;
+    const addFilter = Object.assign(complementar, {
       filterByNumericValues: [{
         column: type,
         comparasion: comp,
         value,
       }],
     });
-
     setFilter(addFilter);
+
+    function compareValue(number) {
+      switch (comp) {
+      case 'maior que':
+        return number > value;
+      case 'menor que':
+        return number < value;
+      default:
+        return number === value;
+      }
+    }
+
+    const amountFiltred = data.filter((item) => (
+      Object.entries(item)
+        .filter((newItem) => newItem[0] === type && compareValue(newItem[1]))
+        .length > 0
+    ));
+
+    setFiltred(amountFiltred);
+    console.log(amountFiltred);
   };
 
   return (
@@ -78,7 +81,7 @@ function FilterByAmount() {
         type="number"
       />
       <button
-        onClick={ () => submitFilter() }
+        onClick={ () => handleClick() }
         type="button"
         data-testid="button-filter"
       >

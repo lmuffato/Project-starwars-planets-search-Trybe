@@ -5,11 +5,14 @@ import PlanetContext from '../context/PlanetContext';
 function PlanetProvider({ children }) {
   const [data, setData] = useState([]);
   const [filters, setFilter] = useState([]);
+  const [filtred, setFiltred] = useState([]);
   const context = {
     data,
     setData,
     filters,
     setFilter,
+    filtred,
+    setFiltred,
   };
   return (
     <PlanetContext.Provider value={ context }>
