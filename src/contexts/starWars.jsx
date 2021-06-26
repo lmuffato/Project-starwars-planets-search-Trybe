@@ -1,5 +1,10 @@
 import { createContext } from 'react';
 
-const data = createContext({});
-
-export default data;
+export const data = createContext({});
+export const filters = createContext({
+  filters: {
+    filterByName: {
+      name: '',
+    },
+  },
+});

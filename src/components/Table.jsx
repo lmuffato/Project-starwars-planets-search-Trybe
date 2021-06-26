@@ -1,25 +1,17 @@
-import React, { useContext } from 'react';
-import StarWarsContext from '../contexts/starWars';
+import React, { useContext, useState, useEffect } from 'react';
+import { Table } from 'react-bootstrap';
+import { data } from '../contexts/starWars';
 import TableRow from './TableRow';
 
-export default function Table() {
-  const { planets } = useContext(StarWarsContext);
+export default function TableData() {
+  const { planets, filteredPlanets, filters } = useContext(data);
+  const [planetsState, setPlanetsState] = useState(planets);
+
+  useEffect(() => {
+    setPlanetsState(filteredPlanets.length ? filteredPlanets : planets);
+  }, [filteredPlanets, planets]);
 
   const tableCollumns = [
-    // 'name',
-    // 'rotation_period',
-    // 'orbital_period',
-    // 'diameter',
-    // 'climate',
-    // 'gravity',
-    // 'terrain',
-    // 'surface_water',
-    // 'population',
-    // 'residents',
-    // 'films',
-    // 'created',
-    // 'edited',
-    // 'url',
     'nome',
     'período de rotação',
     'período orbital',
@@ -36,15 +28,23 @@ export default function Table() {
   ];
 
   return (
-    <table className="table">
+    <Table bordered hover>
       <thead>
         <tr>
-          {tableCollumns.map((collumn, i) => <th key={ i }>{collumn.toUpperCase()}</th>)}
+          {tableCollumns.map((collumn, i) => (
+            <th key={ i }>{collumn.toUpperCase()}</th>
+          ))}
         </tr>
       </thead>
-      <tbody>
-        {planets.map((planet, i) => <TableRow key={ i } planet={ planet } />)}
-      </tbody>
-    </table>
+      {filters.filterByName.name && !filteredPlanets.length ? (
+        <tbody><tr><td><span>Nenhum planeta encontrado</span></td></tr></tbody>
+      ) : (
+        <tbody>
+          {planetsState.map((planet, i) => (
+            <TableRow key={ i } planet={ planet } />
+          ))}
+        </tbody>
+      )}
+    </Table>
   );
 }

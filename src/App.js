@@ -1,7 +1,10 @@
 import React from 'react';
-import './css/App.css';
 import Home from './pages/Home';
 import StarWarsProvider from './providers/starWars';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './css/App.css';
+import './css/Home.css';
+import './css/Loading.css';
 
 function App() {
   return (

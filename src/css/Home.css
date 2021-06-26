@@ -1,16 +1,26 @@
 .home-page {
-  background-color: #dddce5;
   font-size: 1.6rem;
   height: 100vh;
   width: 100%;
 }
 
-/* .home-page div {
-  height: 100%;
-  width: 100%;
-} */
+.table {
+  width: 100vw;
+}
 
-/* .home-page div img {
-  height: 100%;
-  width: 100%;
-} */
+.table thead {
+  background-color: #130c0e;
+  color: #dddce5;
+}
+
+.table thead th {
+  border: none;
+}
+
+.filters-container {
+  background-color: #a9a2a4;
+  height: 200px;
+  margin: 15px auto;
+  width: 50%;
+}
+
