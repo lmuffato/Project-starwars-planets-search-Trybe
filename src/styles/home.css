@@ -4,8 +4,8 @@ body {
   padding: 0;
 }
 
-.main{
-  background-color: #f5f5f5;
+.main {
+  background-color: whitesmoke;
   font-family: sans-serif;
 }
 
@@ -75,8 +75,8 @@ body {
   border: none;
   border-radius: 4px;
   box-shadow: 4px 4px 1px rgb(181 181 255);
-  font-weight: 600;
   font-size: medium;
+  font-weight: 600;
   height: 4vh;
   margin: 0 5px;
   width: 100px;
