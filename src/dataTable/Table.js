@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 
 function Table() {
-  const { planetsData, filteredByName } = useContext(StarWarsContext);
+  const { planetsData, filtered } = useContext(StarWarsContext);
   const { data } = planetsData;
   const columns = data[0] && Object.keys(data[0]);
 
@@ -19,7 +19,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        {filteredByName.map((row) => (
+        {filtered.map((row) => (
           <tr key={ Math.random() * 100 }>
             {
               columns.map((column) => (

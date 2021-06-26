@@ -6,7 +6,11 @@ function Select() {
     setColumn,
     setComparison,
     setValue,
+    planetsData,
+    handleFilterByNumbers,
   } = useContext(StarWarsContext);
+  const { filterByNumericValues } = planetsData;
+  const { column, comparison, value } = filterByNumericValues;
   return (
     <form>
       <label htmlFor="column">
@@ -15,8 +19,10 @@ function Select() {
           data-testid="column-filter"
           name="column"
           id="column"
+          value={ column }
           onChange={ (ev) => setColumn(ev.target.value) }
         >
+          <option value=""> </option>
           <option value="population">population</option>
           <option value="orbital_period">orbital_period</option>
           <option value="diameter">diameter</option>
@@ -30,8 +36,10 @@ function Select() {
           data-testid="comparison-filter"
           name="comparison"
           id="comparison"
+          value={ comparison }
           onChange={ (ev) => setComparison(ev.target.value) }
         >
+          <option value=""> </option>
           <option value="maior que">maior que</option>
           <option value="menor que">menor que</option>
           <option value="igual a">igual a</option>
@@ -43,6 +51,7 @@ function Select() {
           data-testid="value-filter"
           id="value-filter"
           type="number"
+          value={ value }
           onChange={ (ev) => setValue(ev.target.value) }
 
         />
@@ -50,6 +59,8 @@ function Select() {
       <button
         data-testid="button-filter"
         type="button"
+        onClick={ handleFilterByNumbers }
+
       >
         Pesquisar
       </button>

@@ -8,7 +8,7 @@ import StartWarsContext from './StarWarsContext';
 function StarWarsProvider({ children }) {
   const [data, setData] = useState([]);
   const [name, setName] = useState('');
-  const [filteredByName, setFilteredByName] = useState([]);
+  const [filtered, setFiltered] = useState([]);
   const [column, setColumn] = useState('');
   const [comparison, setComparison] = useState('');
   const [value, setValue] = useState('');
@@ -20,12 +20,43 @@ function StarWarsProvider({ children }) {
 
   const getPlanets = async () => {
     const planets = await getStarWarsPlanets();
-    const filtered = planets.filter((planet) => delete planet.residents);
-    setData(filtered);
+    const filteredPlanets = planets.filter((planet) => delete planet.residents);
+    setData(filteredPlanets);
+  };
+
+  const handleFilterByNumbers = () => {
+    switch (comparison) {
+    case 'maior que':
+      setFiltered(
+        data.filter((planet) => (
+          (planet[column]) > (Number(value)))),
+      );
+      console.log('maior');
+      break;
+    case 'menor que':
+      setFiltered(
+        data.filter((planet) => (
+          (planet[column]) < (Number(value)))),
+      );
+      break;
+    case 'igual a':
+      setFiltered(
+        data.filter((planet) => (
+          (planet[column]) === (Number(value)))),
+      );
+      break;
+
+    default:
+      return value;
+    }
   };
 
   useEffect(() => {
-    setFilteredByName(
+    handleFilterByNumbers();
+  }, [data]);
+
+  useEffect(() => {
+    setFiltered(
       data.filter((planet) => (
         planet.name.toLowerCase().includes(name.toLowerCase()))),
     );
@@ -43,7 +74,8 @@ function StarWarsProvider({ children }) {
         setComparison,
         setValue,
         setName,
-        filteredByName,
+        filtered,
+        handleFilterByNumbers,
       } }
     >
       {children}
