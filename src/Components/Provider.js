@@ -7,10 +7,14 @@ import ContextApi from './ContextApi';
 function Provider({ children }) {
   const [data, setData] = useState([]);
   const [keys, setKeys] = useState([]);
+  const [name, setSearchedName] = useState('');
+  const toSetSearchedName = (value) => setSearchedName(value);
 
   const contextValue = {
     data,
     keys,
+    toSetSearchedName,
+    filters: { filterByName: { name } },
   };
   useEffect(() => {
     PlanetsFromApi().then(({ results }) => setData(results));
@@ -21,6 +25,7 @@ function Provider({ children }) {
       setKeys(keysLength);
     }
   }, [data]);
+
   return (
     <ContextApi.Provider value={ contextValue }>
       {children}
