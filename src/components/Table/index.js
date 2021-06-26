@@ -5,9 +5,20 @@ function Table() {
   const { data, filters } = useContext(AppContext);
 
   function filter() {
-    const filterName = filters.filterByName.name
+    let dataFiltered = filters.filterByName.name
       ? data.filter((planet) => planet.name.includes(filters.filterByName.name)) : data;
-    return filterName;
+
+    filters.filterByNumericValues.forEach(({ column, comparison, value }) => {
+      if (comparison === 'menor que') {
+        dataFiltered = dataFiltered.filter((selPlan) => +selPlan[column] < +value);
+      } else if (comparison === 'maior que') {
+        dataFiltered = dataFiltered.filter((selPlan) => +selPlan[column] > +value);
+      } else if (comparison === 'igual a') {
+        dataFiltered = dataFiltered.filter((selPlan) => +selPlan[column] === +value);
+      }
+    });
+
+    return dataFiltered;
   }
 
   return (
