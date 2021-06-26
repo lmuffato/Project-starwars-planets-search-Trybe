@@ -41,7 +41,7 @@ function StarWarsProvider({ children }) {
     case 'igual a':
       setFiltered(
         data.filter((planet) => (
-          (planet[column]) === (Number(value)))),
+          (planet[column]) === (value))),
       );
       break;
 
