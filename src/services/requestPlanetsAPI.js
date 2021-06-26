@@ -12,13 +12,13 @@ const requestPlanetsAPI = async () => {
       delete result.residents;
       return ({
         name: result.name,
-        rotationPeriod: result.rotation_period,
-        orbitalPeriod: result.orbital_period,
+        rotation_period: result.rotation_period,
+        orbital_period: result.orbital_period,
         diameter: result.diameter,
         climate: result.climate,
         gravity: result.gravity,
         terrain: result.terrain,
-        surfaceWater: result.surface_water,
+        surface_water: result.surface_water,
         population: result.population,
         films: result.films,
         created: result.created,

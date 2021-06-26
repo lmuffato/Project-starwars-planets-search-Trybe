@@ -4,6 +4,7 @@ import usePlanet from '../../hooks/usePlanet';
 export default function Form() {
   const { filteredByName, setFilteredByName,
     setFilteredByNumbers, filteredByNumbers } = usePlanet();
+  const { filterByNumericValues } = filteredByNumbers;
 
   const [columnFilter, setColumnFilter] = useState('population');
   const [comparisonFilter, setComparisonFilter] = useState('maior que');
@@ -40,6 +41,7 @@ export default function Form() {
         ...filteredByNumbers.filterByNumericValues,
       ],
     });
+    document.getElementById(columnFilter).disabled = true;
   }
 
   const { filters: { filterByName: { name } } } = filteredByName;
@@ -67,20 +69,20 @@ export default function Form() {
           onChange={ handleOnChangeFilterByNumbers }
           value={ columnFilter }
         >
-          <option value="population">
-            Population
+          <option value="population" id="population">
+            population
           </option>
-          <option value="orbitalPeriod">
-            Orbital Period
+          <option value="orbital_period" id="orbital_period">
+            orbital_period
           </option>
-          <option value="diameter">
-            Diameter
+          <option value="diameter" id="diameter">
+            diameter
           </option>
-          <option value="rotationPeriod">
-            Rotation Period
+          <option value="rotation_period" id="rotation_period">
+            rotation_period
           </option>
-          <option value="surfaceWater">
-            Surface Water
+          <option value="surface_water" id="surface_water">
+            surface_water
           </option>
         </select>
 
