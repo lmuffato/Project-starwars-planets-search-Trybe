@@ -4,11 +4,6 @@ import MyTablecontext from '../context/MyTablecontext';
 function Filter() {
   const { filters, setFilters } = useContext(MyTablecontext);
 
-  /*  handleInputValue = (paran) => {
-    setFilter({ ...filter, filterName: { name: paran.target.value } });
-  };
- */
-
   return (
     <form>
       <label htmlFor="inputNameFilter">
@@ -17,7 +12,7 @@ function Filter() {
           type="text"
           name="namePlan"
           id="inputNameFilter"
-          data="name-filter"
+          data-testid="name-filter"
           onChange={
             (e) => (
               setFilters({
