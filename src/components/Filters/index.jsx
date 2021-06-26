@@ -1,67 +1,64 @@
 import React, { useContext, useState, useEffect } from 'react';
-import starWarsPlanets from '../../context';
 import { columnObj, comparisonObj } from './data';
+import starWarsPlanets from '../../context';
 import Select from '../Select';
 
 function Filters() {
+  const INITIAL_LOCAL_OBJ = { column: '', comparison: 'maior que', value: '' };
   const { filters, setFilters, setData, backup } = useContext(starWarsPlanets);
-  const [position, setPosition] = useState(0);
-  const [localObj, setLocalObj] = useState({
-    column: '',
-    comparison: 'maior que',
-    value: '',
-  });
-  const {
-    filterByName: { name },
-    filterByNumericValues,
-  } = filters;
-  const { column, comparison, value: size } = filterByNumericValues[position];
-  const toSelectColumn = columnObj;
+  const { filterByName: { name }, filterByNumericValues } = filters;
+  const [localObj, setLocalObj] = useState(INITIAL_LOCAL_OBJ);
+  const [toSelectColumn, setSelectColumn] = useState(columnObj);
+
+  const currentFilters = filterByNumericValues
+    .map((filter, index) => ({ filter: filter.column, index }));
 
   const handleChange = ({ target: { value } }) => {
     setFilters({
       ...filters,
       filterByName: { ...filters.filterByName, name: value },
     });
-
-    const filteredArray = backup.filter((planet) => planet.name.includes(value));
-    setData(filteredArray);
   };
 
   const handleChange2 = ({ target: { name: nameAttribute, value } }) => {
-    setLocalObj({
-      ...localObj,
-      [nameAttribute]: value,
-    });
+    setLocalObj({ ...localObj, [nameAttribute]: value });
   };
 
   const handleClick = () => {
     setFilters({
       ...filters,
-      filterByNumericValues: filters.filterByNumericValues.concat(localObj),
+      filterByNumericValues: [...filters.filterByNumericValues, localObj],
     });
-    setPosition((old) => old + 1);
     const index = toSelectColumn.options.indexOf(localObj.column);
-    delete toSelectColumn.options[index];
-    setLocalObj({ column: '', comparison: 'maior que', value: '' });
+    toSelectColumn.options.splice(index, 1);
+    const newOptions = { ...toSelectColumn };
+    setSelectColumn(newOptions);
+    setLocalObj(INITIAL_LOCAL_OBJ);
   };
 
+  // filters did update
   useEffect(() => {
-    let filteredArray = [];
-
-    if (comparison === 'maior que') {
-      filteredArray = backup.filter((planet) => (
-        parseInt(planet[column], 10) > parseInt(size, 10)));
-    } else if (comparison === 'menor que') {
-      filteredArray = backup.filter((planet) => (
-        planet[column] < size || planet[column] === 'unknown'));
-    } else {
-      filteredArray = backup.filter((planet) => (
-        planet[column] === size));
-    }
-
-    setData(filteredArray);
-  }, [filterByNumericValues]);
+    const dofilter = () => {
+      let array = backup;
+      if (name !== '') { array = array.filter((planet) => planet.name.includes(name)); }
+      if (filterByNumericValues.length !== 0) {
+        filterByNumericValues.forEach(({ column, comparison, value }) => {
+          if (comparison === 'maior que') {
+            array = array.filter((planet) => (
+              parseInt(planet[column], 10) > parseInt(value, 10)));
+          } else if (comparison === 'menor que') {
+            array = array.filter((planet) => (
+              planet[column] < value || planet[column] === 'unknown'));
+          } else {
+            array = array.filter((planet) => (
+              planet[column] === value));
+          }
+        });
+      }
+      setData(array);
+    };
+    dofilter();
+  }, [filters]);
 
   return (
     <div>
@@ -71,8 +68,16 @@ function Filters() {
         onChange={ handleChange }
         data-testid="name-filter"
       />
-      <Select selectData={ toSelectColumn } onChange={ handleChange2 } />
-      <Select selectData={ comparisonObj } onChange={ handleChange2 } />
+      <Select
+        selectData={ toSelectColumn }
+        onChange={ handleChange2 }
+        value={ localObj.column }
+      />
+      <Select
+        selectData={ comparisonObj }
+        onChange={ handleChange2 }
+        value={ localObj.comparison }
+      />
       <input
         type="number"
         name="value"
@@ -86,6 +91,24 @@ function Filters() {
       >
         Filtrar
       </button>
+      { currentFilters.map((filterText) => (
+        <button
+          type="button"
+          key={ `${filterText.filter}-button` }
+          data-testid="filter"
+          onClick={ () => {
+            filterByNumericValues.splice(filterText.index, 1);
+            const newOptions = {
+              ...toSelectColumn,
+              options: toSelectColumn.options.concat(filterText.filter),
+            };
+            setSelectColumn(newOptions);
+            setFilters({ ...filters });
+          } }
+        >
+          { `x ${filterText.filter}`}
+        </button>
+      ))}
     </div>
   );
 }

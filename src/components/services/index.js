@@ -14,7 +14,7 @@ function GetData() {
     };
 
     getPlanets();
-  }, []);
+  }, [setBackup, setData]);
 
   return (<span>Hello</span>);
 }
