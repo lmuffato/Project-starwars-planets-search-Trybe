@@ -1,9 +1,14 @@
 import React from 'react';
 import './App.css';
+// import { Switch, Route } from 'react-router-dom';
+import Provider from './context/Provider';
+import Table from './components/Table';
 
 function App() {
   return (
-    <span>Hello, App!</span>
+    <Provider>
+      <Table />
+    </Provider>
   );
 }
 
