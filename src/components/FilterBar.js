@@ -3,9 +3,16 @@ import AppContext from '../context/AppContext';
 
 const FilterBar = () => {
   const { filters, setFilters } = useContext(AppContext);
-  const [column, setColumn] = useState('population');
+  const [savedColumn, setSavedColumn] = useState('population');
   const [filterBy, setFilterBy] = useState('maior que');
   const [saveValue, setSaveValue] = useState(0);
+  const [options, setOptions] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
 
   const filterByName = ({ value }) => {
     setFilters({
@@ -20,11 +27,13 @@ const FilterBar = () => {
     setFilters({
       ...filters,
       filterByNumericValues: [...filters.filterByNumericValues, {
-        column,
+        column: savedColumn,
         filterBy,
         value: saveValue,
       }],
     });
+    options.splice(options.indexOf(savedColumn), 1);
+    setOptions(options);
   };
 
   return (
@@ -39,13 +48,11 @@ const FilterBar = () => {
       <select
         data-testid="column-filter"
         name="column"
-        onChange={ ({ target }) => setColumn(target.value) }
+        onChange={ ({ target }) => setSavedColumn(target.value) }
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        {options.map((column) => (
+          <option key={ column } value={ column }>{column}</option>
+        ))}
       </select>
       <select
         data-testid="comparison-filter"
