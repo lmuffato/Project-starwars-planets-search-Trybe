@@ -4,7 +4,8 @@ import React, { useContext, useEffect } from 'react';
 import PlanetContext from '../context/PlanetsContext';
 
 function Table() {
-  const { isLoading, data, fetchData } = useContext(PlanetContext);
+  const { isLoading, data, filters, fetchData } = useContext(PlanetContext);
+  const regName = new RegExp(filters.filterByName.name, 'i');
   useEffect(() => {
     const fetchDataAPI = async () => {
       await fetchData();
@@ -28,7 +29,7 @@ function Table() {
       <tbody>
         {
           data.length
-            ? data.map((planet, id) => (
+            ? data.filter((item) => regName.test(item.name)).map((planet, id) => (
               <tr key={ id }>
                 { Object.keys(planet).map((entrie) => (
                   <td key={ entrie }>{planet[entrie]}</td>
