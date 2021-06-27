@@ -9,6 +9,7 @@ const AppProvider = ({ children }) => {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [],
   });
 
   const fetchPlanets = async () => {

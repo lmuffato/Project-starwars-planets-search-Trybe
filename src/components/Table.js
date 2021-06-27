@@ -5,11 +5,22 @@ import TableHead from './factory/TableHead';
 const Table = () => {
   const { data, filters } = useContext(AppContext);
 
+  // Lógica do filtro https://github.com/tryber/sd-010-a-project-starwars-planets-search/pull/89/commits/c49a273c1000974f138da90e5f422d46ae664959
+  // A ideia é retornar um filter antes do map, achei interessante :)
   const filter = () => {
-    const filterName = filters.filterByName.name
+    let dataFilters = filters.filterByName.name
       ? data.filter((planet) => planet.name.includes(filters.filterByName.name)) : data;
 
-    return filterName;
+    filters.filterByNumericValues.forEach(({ column, filterBy, value }) => {
+      if (filterBy === 'menor que') {
+        dataFilters = dataFilters.filter((selected) => +selected[column] < +value);
+      } else if (filterBy === 'maior que') {
+        dataFilters = dataFilters.filter((selected) => +selected[column] > +value);
+      } else if (filterBy === 'igual a') {
+        dataFilters = dataFilters.filter((selected) => +selected[column] === +value);
+      }
+    });
+    return dataFilters;
   };
 
   return (
