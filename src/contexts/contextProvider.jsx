@@ -4,12 +4,26 @@ import planetsContext from './planetsContext';
 import FETCH_PLANETS from '../services/MayTheFetchBeWithYou';
 
 function PlanetsProvider({ children }) {
+  const filteredPlanetName = {
+    filterByName: {
+      name: '',
+    },
+  };
   const [data, setdata] = useState([]);
   const [theadData, settheadData] = useState([]);
+  const [planetInput, setPlanetInput] = useState(filteredPlanetName);
+  const [filteredPlanet, setFilteredPlanet] = useState([]);
 
   useEffect(() => {
     FETCH_PLANETS().then(({ results }) => setdata(results));
   }, []);
+
+  useEffect(() => {
+    const lookingForPlanet = data
+      .filter((planet) => (planet.name
+        .includes(planetInput.filterByName.name)));
+    setFilteredPlanet(lookingForPlanet);
+  }, [data, planetInput]);
 
   useEffect(() => {
     if (data.length > 0) {
@@ -22,6 +36,8 @@ function PlanetsProvider({ children }) {
   const contextValue = {
     data,
     theadData,
+    setPlanetInput,
+    filteredPlanet,
   };
 
   return (
