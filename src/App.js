@@ -6,16 +6,28 @@ import Filter from './components/filter';
 function App() {
   const [data, setData] = useState([]);
   const [name, searchName] = useState('');
+  const [numericValues, setNumericValues] = useState([]);
+  const [column, setColumn] = useState('');
+  const [comparison, setComparison] = useState('');
+  const [value, setValue] = useState('');
 
   const planets = {
     data,
-    setData,
     filters: {
       filterByName: {
         name,
       },
+      filterByNumericValues: numericValues,
     },
+    column,
+    comparison,
+    value,
+    setData,
     searchName,
+    setNumericValues,
+    setColumn,
+    setComparison,
+    setValue,
   };
 
   useEffect(() => {
