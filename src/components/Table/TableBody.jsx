@@ -2,16 +2,15 @@ import React from 'react';
 import useFilters from '../../hooks/useFilters';
 import usePlanets from '../../hooks/usePlanets';
 
-export default function TableBody() {
-  const { results: planets } = usePlanets();
-  const { filters } = useFilters();
-  const nameFilter = filters.filterByName.name;
-  const numericFilters = filters.filterByNumericValues;
+import numericFilterCategories from '../../helpers/numericFilterCategories';
 
-  let filteredPlanets = planets.filter((planet) => planet.name.includes(nameFilter));
+function nameFilter(planets, name) {
+  return planets.filter((planet) => planet.name.includes(name));
+}
 
+function numericFilter(planets, numericFilters) {
   numericFilters.forEach((numFilter) => {
-    filteredPlanets = filteredPlanets.filter((planet) => {
+    planets = planets.filter((planet) => {
       switch (numFilter.comparison) {
       case 'maior que':
         return planet[numFilter.column] > parseFloat(numFilter.value);
@@ -25,11 +24,57 @@ export default function TableBody() {
     });
   });
 
+  return planets;
+}
+
+function sortPlanets(planets, sortOptions) {
+  const columnSort = sortOptions.column;
+  const sortType = sortOptions.sort;
+  const isNumeric = numericFilterCategories.includes(columnSort);
+  const NEGATIVE = -1;
+
+  function numericSort(a, b) {
+    if (sortType === 'ASC') {
+      return a[columnSort] - b[columnSort];
+    }
+    return b[columnSort] - a[columnSort];
+  }
+
+  function alphabeticSort(a, b) {
+    if (sortType === 'ASC') {
+      if (a[columnSort] > b[columnSort]) return 1;
+      return NEGATIVE;
+    }
+    if (a[columnSort] > b[columnSort]) return NEGATIVE;
+    return 1;
+  }
+
+  return planets.sort(
+    isNumeric ? numericSort : alphabeticSort,
+  );
+}
+
+export default function TableBody() {
+  const { results: planets } = usePlanets();
+  const { filters } = useFilters();
+  const { name } = filters.filterByName;
+  const numericFilters = filters.filterByNumericValues;
+  const sortOptions = filters.order;
+
+  // Apply name filter
+  const NameFilteredPlanets = nameFilter(planets, name);
+
+  // Apply numeric filter
+  const NumericFilteredPlanets = numericFilter(NameFilteredPlanets, numericFilters);
+
+  // Apply sorting
+  const sortedPlanets = sortPlanets(NumericFilteredPlanets, sortOptions);
+
   return (
     <tbody>
-      {filteredPlanets.map((planet) => (
+      {sortedPlanets.map((planet) => (
         <tr key={ planet.name }>
-          <td>{planet.name}</td>
+          <td data-testid="planet-name">{planet.name}</td>
           <td>{planet.rotation_period}</td>
           <td>{planet.orbital_period}</td>
           <td>{planet.diameter}</td>
