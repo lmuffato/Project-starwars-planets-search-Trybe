@@ -20,6 +20,7 @@ li {
 td {
   border: 1px solid #f6fadf;
   text-align: center;
+  height: 140px;
 }
 
 th {
