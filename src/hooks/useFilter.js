@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react';
 import { PlanetsContext } from '../context/PlanetsContext';
 
 const useFilter = () => {
-  const { filters, setFilters, planets, setData, data } = useContext(PlanetsContext);
+  const { filters, setFilters, planets, setData } = useContext(PlanetsContext);
 
   const filterByName = (name) => {
     setFilters({
@@ -48,11 +48,12 @@ const useFilter = () => {
 
   useEffect(() => {
     const filterPlanets = async () => {
-      // await setData(planets);
       const numFilters = filters.filterByNumericValues;
 
+      let filteredPlanets = planets;
+
       numFilters.forEach((filter) => {
-        setData(data.filter((planet) => {
+        filteredPlanets = filteredPlanets.filter((planet) => {
           switch (filter.comparison) {
           case 'maior que':
             return Number(planet[filter.column]) > Number(filter.value);
@@ -63,14 +64,14 @@ const useFilter = () => {
           default:
             return planet;
           }
-        }));
+        });
       });
+
+      setData(filteredPlanets);
     };
 
     filterPlanets();
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filters.filterByNumericValues]);
+  }, [filters.filterByNumericValues, planets, setData]);
 
   return {
     filterByName,

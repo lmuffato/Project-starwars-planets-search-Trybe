@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import useFilter from '../../hooks/useFilter';
 import NameFilter from './NameFilter';
 import NumericFilters from './NumericFilters';
@@ -11,10 +11,10 @@ const Filters = () => {
   const [comparisonValue, setComparisonValue] = useState('');
   const { filterByName, filterByNum } = useFilter();
 
-  useEffect(() => {
-    filterByName(planetName);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [planetName]);
+  const handleInputChange = ({ target }) => {
+    setPlanetName(target.value);
+    filterByName(target.value);
+  };
 
   const handleFilterClick = (e) => {
     e.preventDefault();
@@ -28,7 +28,7 @@ const Filters = () => {
     <div>
       <NameFilter
         value={ planetName }
-        onChange={ ({ target }) => setPlanetName(target.value) }
+        onChange={ handleInputChange }
       />
 
       <NumericFilters
