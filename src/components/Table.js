@@ -3,13 +3,20 @@ import AppContext from '../context/AppContext';
 import TableHead from './factory/TableHead';
 
 const Table = () => {
-  const { data } = useContext(AppContext);
+  const { data, filters } = useContext(AppContext);
+
+  const filter = () => {
+    const filterName = filters.filterByName.name
+      ? data.filter((planet) => planet.name.includes(filters.filterByName.name)) : data;
+
+    return filterName;
+  };
 
   return (
     <table>
       <TableHead />
       <tbody>
-        {data.map((planet) => (
+        {filter().map((planet) => (
           <tr key={ planet.name }>
             <td>{planet.name}</td>
             <td>{planet.rotation_period}</td>

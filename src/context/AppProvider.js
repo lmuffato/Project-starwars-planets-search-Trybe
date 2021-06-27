@@ -5,6 +5,11 @@ import fetchData from '../services/api';
 
 const AppProvider = ({ children }) => {
   const [data, setData] = useState([]);
+  const [filters, setFilters] = useState({
+    filterByName: {
+      name: '',
+    },
+  });
 
   const fetchPlanets = async () => {
     const planetData = await fetchData();
@@ -18,6 +23,8 @@ const AppProvider = ({ children }) => {
   const contexts = {
     data,
     setData,
+    filters,
+    setFilters,
   };
 
   return (
