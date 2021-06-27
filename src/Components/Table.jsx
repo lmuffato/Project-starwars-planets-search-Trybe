@@ -3,12 +3,13 @@ import responseApi from '../Services/RequestAPI';
 import MyContext from '../Context/MyContext';
 
 function Table() {
-  const { data, setData } = useContext(MyContext);
+  const { newData, setData, setNewData } = useContext(MyContext);
   const [header, setHeader] = useState([]);
   useEffect(() => {
     const requestStarWarsAPI = async () => {
       const starWarsAPI = await responseApi();
       setData(starWarsAPI);
+      setNewData(starWarsAPI);
       setHeader(Object.keys(starWarsAPI[0])
         .filter((e) => e !== 'residents'));
     };
@@ -21,7 +22,7 @@ function Table() {
           .length && header.map((title) => <th key={ title }>{title}</th>) }
       </tr>
       {
-        data
+        newData
           .map((element, i) => (
             <tr key={ i }>
               <td>
@@ -66,7 +67,7 @@ function Table() {
             </tr>
           ))
       }
-      { console.log(data, header) }
+      { console.log(newData, header) }
     </table>
   );
 }

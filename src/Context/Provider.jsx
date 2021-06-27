@@ -6,7 +6,16 @@ import MyContext from './MyContext';
 function Provider({ children }) {
   const [nickName, setNickName] = useState('V');
   const [data, setData] = useState([]);
-  const values = { nickName, setNickName, data, setData };
+  const [name, setFilterName] = useState('');
+  const [newData, setNewData] = useState([]);
+  const values = { nickName,
+    setNickName,
+    data,
+    setData,
+    filter: { filterByName: { name } },
+    setFilterName,
+    newData,
+    setNewData };
   return (
     <MyContext.Provider value={ values }>
       { children }
