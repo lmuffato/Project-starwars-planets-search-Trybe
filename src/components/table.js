@@ -1,12 +1,43 @@
 import React, { useContext } from 'react';
 import Context from '../context/Context';
 
-function Table() {
-  const { data, filters: { filterByName: { name } } } = useContext(Context);
+function nameFilter(data, name) {
   data.forEach((planet) => delete planet.residents);
-
   const dataFilter = [...data]
     .filter((planet) => planet.name.toLowerCase().includes(name));
+
+  return dataFilter;
+}
+
+function valuesFilter(data, numericValues) {
+  if (numericValues.length === 0) { return data; }
+  const { comparison, column, value } = numericValues[0];
+
+  switch (comparison) {
+  case 'maior que':
+    return data.filter((planet) => planet[column] > Number(value));
+  case 'menor que':
+    return data.filter((planet) => planet[column] < Number(value));
+  case 'igual a':
+    return data.filter((planet) => Number(planet[column]) === Number(value));
+  default:
+    return data;
+  }
+}
+
+function Table() {
+  const {
+    data,
+    filters: {
+      filterByName: {
+        name,
+      },
+      filterByNumericValues,
+    },
+  } = useContext(Context);
+
+  let dataFilter = nameFilter(data, name);
+  dataFilter = valuesFilter(dataFilter, filterByNumericValues);
   const columns = dataFilter[0] && Object.keys(dataFilter[0]);
 
   return (
