@@ -1,0 +1,15 @@
+thead {
+  border: 1px solid black;
+  border-spacing: 10px;
+}
+
+td {
+  border: 1px solid black;
+  padding: auto;
+}
+
+tr th {
+  border: 1px solid black;
+  border-spacing: 10px;
+  padding: auto;
+}
