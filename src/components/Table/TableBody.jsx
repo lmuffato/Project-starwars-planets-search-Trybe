@@ -4,59 +4,9 @@ import usePlanets from '../../hooks/usePlanets';
 
 import numericFilterCategories from '../../helpers/numericFilterCategories';
 
-function nameFilter(planets, name) {
-  return planets.filter((planet) => planet.name.includes(name));
-}
-
-function numericFilter(planets, numericFilters) {
-  numericFilters.forEach((numFilter) => {
-    planets = planets.filter((planet) => {
-      switch (numFilter.comparison) {
-      case 'maior que':
-        return planet[numFilter.column] > parseFloat(numFilter.value);
-      case 'menor que':
-        return planet[numFilter.column] < parseFloat(numFilter.value);
-      case 'igual a':
-        return planet[numFilter.column] === numFilter.value;
-      default:
-        return false;
-      }
-    });
-  });
-
-  return planets;
-}
-
-function sortPlanets(planets, sortOptions) {
-  const columnSort = sortOptions.column;
-  const sortType = sortOptions.sort;
-  const isNumeric = numericFilterCategories.includes(columnSort);
-  const NEGATIVE = -1;
-
-  function numericSort(a, b) {
-    if (sortType === 'ASC') {
-      return a[columnSort] - b[columnSort];
-    }
-    return b[columnSort] - a[columnSort];
-  }
-
-  function alphabeticSort(a, b) {
-    if (sortType === 'ASC') {
-      if (a[columnSort] > b[columnSort]) return 1;
-      return NEGATIVE;
-    }
-    if (a[columnSort] > b[columnSort]) return NEGATIVE;
-    return 1;
-  }
-
-  return planets.sort(
-    isNumeric ? numericSort : alphabeticSort,
-  );
-}
-
 export default function TableBody() {
   const { results: planets } = usePlanets();
-  const { filters } = useFilters();
+  const { filters, nameFilter, numericFilter, sortPlanets } = useFilters();
   const { name } = filters.filterByName;
   const numericFilters = filters.filterByNumericValues;
   const sortOptions = filters.order;
@@ -68,7 +18,11 @@ export default function TableBody() {
   const NumericFilteredPlanets = numericFilter(NameFilteredPlanets, numericFilters);
 
   // Apply sorting
-  const sortedPlanets = sortPlanets(NumericFilteredPlanets, sortOptions);
+  const sortedPlanets = sortPlanets(
+    NumericFilteredPlanets,
+    sortOptions,
+    numericFilterCategories,
+  );
 
   return (
     <tbody>
