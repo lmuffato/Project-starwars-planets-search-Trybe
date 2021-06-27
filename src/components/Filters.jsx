@@ -3,6 +3,8 @@ import React from 'react';
 import NameFilter from './Filters/NameFilter';
 import NumericFilter from './Filters/NumericFilter';
 import AppliedNumericFilter from './Filters/AppliedNumericFilter';
+import SortFilter from './Filters/SortFilter';
+
 import useFilters from '../hooks/useFilters';
 
 export default function Filters() {
@@ -29,6 +31,7 @@ export default function Filters() {
         <AppliedNumericFilter appliedNumFilter={ filter } key={ filter.column } />
       ))}
       <NumericFilter available={ availableNumericFilterCategories } />
+      <SortFilter />
     </div>
   );
 }
