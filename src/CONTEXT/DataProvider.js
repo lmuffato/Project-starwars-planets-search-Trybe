@@ -9,7 +9,6 @@ function DataProvider({ children }) {
     const getAPI = async () => {
       const URL = 'https://swapi-trybe.herokuapp.com/api/planets/';
       const { results } = await fetch(URL).then((info) => info.json());
-      console.log(results);
       setData(results);
     };
 
