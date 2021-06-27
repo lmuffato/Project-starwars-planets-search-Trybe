@@ -8,16 +8,32 @@ export const PlanetsContext = createContext({});
 const PlanetsProvider = ({
   children,
 }) => {
-  const [data, setData] = useState([]);
+  const [planets, setPlanets] = useState([]);
+  const [data, setData] = useState(planets);
+  const [filters, setFilters] = useState({
+    filterByName: { name: '' },
+    filterByNumericValues: [],
+  });
 
   useEffect(() => {
-    const setPlanets = async () => setData(await getPlanets());
+    const setPlanetsResult = async () => {
+      setPlanets(await getPlanets());
+      setData(await getPlanets());
+    };
 
-    setPlanets();
+    setPlanetsResult();
   }, []);
 
   return (
-    <PlanetsContext.Provider value={ { data, setData } }>
+    <PlanetsContext.Provider
+      value={ {
+        data,
+        setData,
+        planets,
+        filters,
+        setFilters,
+      } }
+    >
       { children }
     </PlanetsContext.Provider>
   );
