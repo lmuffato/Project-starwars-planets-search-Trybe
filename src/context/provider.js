@@ -4,6 +4,8 @@ import myContext from './mycontext';
 
 function Provider({ children }) {
   const [data, setData] = useState([{}]);
+  const [backup, setBackup] = useState([]);
+  const [planetName, setPlanetName] = useState('');
   useEffect(() => {
     const fetchPlanets = async () => {
       const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
@@ -13,7 +15,13 @@ function Provider({ children }) {
     fetchPlanets();
   }, []);
   return (
-    <myContext.Provider value={ { data } }>
+    <myContext.Provider
+      value={ { backup,
+        data,
+        setPlanetName,
+        planetName,
+        setBackup } }
+    >
       {children}
     </myContext.Provider>
   );
