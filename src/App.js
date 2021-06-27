@@ -1,18 +1,13 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
 import Provider from './context/Provider';
-import Table from './pages/Table';
-import Header from './components/Header';
+import StarWars from './pages/StarWars';
 import './App.css';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Provider>
-        <Header />
-        <Table />
-      </Provider>
-    </BrowserRouter>
+    <Provider>
+      <StarWars />
+    </Provider>
   );
 }
 

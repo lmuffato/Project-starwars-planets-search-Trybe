@@ -2,24 +2,105 @@ import React, { useContext } from 'react';
 import StarWarsContext from '../context/starWarsContext';
 import './Header.css';
 
-export default function Header() {
-  // const inputRef = useRef('');
-  const { filters, setFilters } = useContext(StarWarsContext);
-  const { name } = filters.filterByName;
+function Header() {
+  const {
+    setFilters, filters, optionFilter, setOptionFilter } = useContext(StarWarsContext);
 
-  // console.log(filters.filterByName.name);
-  console.log(name);
+  const handleFilterChange = ({ target }) => {
+    setOptionFilter({
+      ...optionFilter,
+      [target.name]: target.value,
+    });
+  };
+
+  const handleChange = ({ target }) => setFilters({
+    ...filters,
+    filterByName: {
+      name: target.value,
+    },
+  });
+
+  const handleClick = () => {
+    const { filterByNumericValues } = filters;
+    if (filterByNumericValues.length === 1 && filterByNumericValues[0].column === '') {
+      setFilters({
+        ...filters,
+        filterByNumericValues: [
+          {
+            column: optionFilter.columnFilter,
+            comparison: optionFilter.comparisonFilter,
+            value: optionFilter.valueFilter,
+          },
+        ],
+      });
+    } else {
+      setFilters({
+        ...filters,
+        filterByNumericValues: [
+          ...filterByNumericValues.concat(
+            {
+              column: optionFilter.columnFilter,
+              comparison: optionFilter.comparisonFilter,
+              value: optionFilter.valueFilter,
+            },
+          ),
+        ],
+      });
+    }
+  };
+
   return (
-    <div className="header">
-      <form>
+    <form>
+      <label htmlFor="name-filter">
+        Nome:
         <input
           type="text"
           data-testid="name-filter"
-          placeholder="Nome do Planeta"
-          value={ name }
-          onChange={ (e) => setFilters({ filterByName: { name: e.target.value } }) }
+          id="name-filter"
+          onChange={ handleChange }
         />
-      </form>
-    </div>
+      </label>
+      <label htmlFor="column-filter">
+        Filtrar:
+        <select
+          data-testid="column-filter"
+          id="column-filter"
+          name="columnFilter"
+          onChange={ handleFilterChange }
+        >
+          <option>population</option>
+          <option>orbital_period</option>
+          <option>diameter</option>
+          <option>rotation_period</option>
+          <option>surface_water</option>
+        </select>
+      </label>
+      <select
+        data-testid="comparison-filter"
+        id="comparison-filter"
+        name="comparisonFilter"
+        onChange={ handleFilterChange }
+      >
+        <option>maior que</option>
+        <option>menor que</option>
+        <option>igual a</option>
+      </select>
+      <input
+        type="number"
+        data-testid="value-filter"
+        id="value-filter"
+        name="valueFilter"
+        onChange={ handleFilterChange }
+      />
+      <button
+        data-testid="button-filter"
+        type="button"
+        onClick={ handleClick }
+      >
+        Buscar
+      </button>
+    </form>
   );
 }
+
+export default Header;
