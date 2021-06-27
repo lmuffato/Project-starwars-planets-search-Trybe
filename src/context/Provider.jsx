@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { object } from 'prop-types';
-// import fetchAPI from '../services/starWarsAPI';
+import fetchAPI from '../services/starWarsAPI';
 import StarWarsContext from './starWarsContext';
 
 function Provider({ children }) {
