@@ -3,7 +3,7 @@ import Context from '../context/Context';
 // Requisito 01 realizado com consolta aos PR de Luan Ramalho e Iago Ferreira Turma 10A
 
 function Table() {
-  const { dataApi, tableHeader } = useContext(Context);
+  const { tableHeader, filteredPlanet } = useContext(Context);
   // console.log(dataApi);
   // console.log(tableHeader);
 
@@ -17,7 +17,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        { dataApi.map((planet, index) => (
+        { filteredPlanet.map((planet, index) => (
           <tr key={ index }>
             <td>{planet.name}</td>
             <td>{planet.rotation_period}</td>

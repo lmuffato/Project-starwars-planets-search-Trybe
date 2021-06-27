@@ -4,8 +4,15 @@ import getStarWarsAPI from '../services/getStarWarsAPI';
 import Context from './Context';
 
 function Provider({ children }) {
+  const objectValue = {
+    filterByName: {
+      name: '',
+    },
+  };
   const [dataApi, setDataApi] = useState([]);
   const [tableHeader, setTableHeader] = useState([]);
+  const [inputValue, setInputValue] = useState(objectValue);
+  const [filteredPlanet, setFilteredPlanet] = useState([]);
 
   useEffect(() => {
     getStarWarsAPI().then((results) => setDataApi(results));
@@ -19,9 +26,17 @@ function Provider({ children }) {
     }
   }, [dataApi]);
 
+  useEffect(() => {
+    const searchedPlanet = dataApi.filter((planet) => (
+      planet.name.includes(inputValue.filterByName.name)));
+    setFilteredPlanet(searchedPlanet);
+  }, [dataApi, inputValue]);
+
   const contextValue = {
     dataApi,
     tableHeader,
+    setInputValue,
+    filteredPlanet,
   };
 
   return (
