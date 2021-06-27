@@ -6,10 +6,35 @@ function NumericFilters() {
   const [columFilter, setColumFilter] = useState('population');
   const [comparisonFilter, setComparisonFilter] = useState('maior que');
   const [valueFilter, setValueFilter] = useState(0);
+  const [populationOption, setpopulationOption] = useState(
+    <option id="population" value="population">population</option>,
+  );
+  const [orbitalPeriodOprion, setOrbitalPeriodOption] = useState(
+    <option id="orbital_period" value="orbital_period">orbital_period</option>,
+  );
+  const [diameterOption, setDiameterOption] = useState(
+    <option id="diameter" value="diameter">diameter</option>,
+  );
+  const [rotationPeriodOption, setRotationPeriodOption] = useState(
+    <option id="rotation_period" value="rotation_period">rotation_period</option>,
+  );
+  const [surfaceWaterOption, setSurfaceWaterOption] = useState(
+    <option id="surface_water" value="surface_water">surface_water</option>,
+  );
+
+  function hideOptionsFilter(value) {
+    if (value === 'population') setpopulationOption('');
+    if (value === 'orbital_period') setOrbitalPeriodOption('');
+    if (value === 'diameter') setDiameterOption(true);
+    if (value === 'rotation_period') setRotationPeriodOption('');
+    if (value === 'surface_water') setSurfaceWaterOption('');
+  }
 
   function handleClick(e) {
     e.preventDefault();
+    const columnFilterValue = document.getElementById('column-filter').value;
     getNumericFilters(columFilter, comparisonFilter, valueFilter, true);
+    hideOptionsFilter(columnFilterValue);
   }
 
   function handleChange({ target }) {
@@ -27,14 +52,20 @@ function NumericFilters() {
     default:
     }
   }
+
   return (
     <div>
-      <select data-testid="column-filter" onChange={ handleChange } name="columFilter">
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+      <select
+        data-testid="column-filter"
+        id="column-filter"
+        onChange={ handleChange }
+        name="columFilter"
+      >
+        { populationOption }
+        { orbitalPeriodOprion }
+        { diameterOption }
+        { rotationPeriodOption }
+        { surfaceWaterOption }
       </select>
       <select
         data-testid="comparison-filter"
