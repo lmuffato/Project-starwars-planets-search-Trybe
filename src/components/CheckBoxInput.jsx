@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import ContextStauo from '../provider/ContextStauo';
 import titlesTB from '../services/dataTitles';
+import Buttons from './Buttons';
 
 function CheckBoxInput() {
   const { filters, setFilters } = useContext(ContextStauo);
@@ -10,13 +11,6 @@ function CheckBoxInput() {
     serOrder({
       ...order,
       [name]: value,
-    });
-  };
-
-  const handleClick = () => {
-    setFilters({
-      ...filters,
-      order: { ...order },
     });
   };
 
@@ -49,16 +43,33 @@ function CheckBoxInput() {
     </select>
   );
 
-  const btn = () => (
-    <button
-      type="button"
-      data-testid="column-sort-button"
-      className="btn"
-      onClick={ () => handleClick() }
-    >
-      Ordenar
-    </button>
-  );
+  const handleClick = () => {
+    setFilters({
+      ...filters,
+      order: { ...order },
+    });
+  };
+
+  // const btn = () => (
+  //   <button
+  //     type="button"
+  //     data-testid="column-sort-button"
+  //     className="btn"
+  //     // onClick={ handleClick }
+  //   >
+  //     Ordenar
+  //   </button>
+  // );
+
+  const btn2 = () => {
+    const text = 'Ordenar';
+    const dataTestid = 'column-sort-button';
+    const funcHandleClick = handleClick;
+
+    const obj = { text, dataTestid, funcHandleClick };
+
+    return <Buttons params={ obj } />;
+  };
 
   return (
     <div className="orderned-inputs">
@@ -67,7 +78,7 @@ function CheckBoxInput() {
         {radioInput('ASC')}
         {radioInput('DESC')}
       </div>
-      {btn()}
+      {btn2()}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-// import getApiStauo from '../services/fetchApiStauo';
 import ContextStauo from '../provider/ContextStauo';
+import Buttons from './Buttons';
 import '../styles/home.css';
 
 function FiltersItens() {
@@ -13,14 +13,6 @@ function FiltersItens() {
     setDataTitle,
   } = useContext(ContextStauo);
 
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const result = await getApiStauo();
-  //     setData(result);
-  //   }
-  //   fetchData();
-  // }, [data]);
-
   const handleClick = ({ target }) => {
     const text = target.parentNode.firstChild.textContent;
     setFiltersArray([...filtersArray, text]);
@@ -29,12 +21,21 @@ function FiltersItens() {
     setDataTitle(data);
   };
 
+  const btn = () => {
+    const dataTestid = '';
+    const funcHandleClick = handleClick;
+    const text = 'X';
+
+    const obj = { text, dataTestid, funcHandleClick };
+    return <Buttons params={ obj } />;
+  };
+
   return (
     <div className="filters">
       {removedFilt.map((item) => (
         <p key={ item } data-testid="filter" className="filter-removed">
           {item}
-          <button type="button" onClick={ handleClick }>X</button>
+          {btn()}
         </p>
       ))}
     </div>

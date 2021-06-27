@@ -4,23 +4,35 @@ import ContextStauo from './ContextStauo';
 import getApiStauo from '../services/fetchApiStauo';
 import { valuesArray } from '../services/getSelects';
 
+const INITIAL_STATE = {
+  filterByName: {
+    name: '',
+  },
+  filterByNumericValues: [],
+  order: {
+    column: 'name',
+    sort: 'ASC',
+  },
+};
+
+const ordenationNumber = {
+  max: 1,
+  min: -1,
+};
+
+const compairOne = (column) => (itemA, itemB) => {
+  if (itemA[column] > itemB[column]) return ordenationNumber.max;
+  if (itemA[column] < itemB[column]) return ordenationNumber.min;
+  return 0;
+};
+
+const compairTwo = (column) => (itemA, itemB) => {
+  if (itemA[column] > itemB[column]) return ordenationNumber.min;
+  if (itemA[column] < itemB[column]) return ordenationNumber.max;
+  return 0;
+};
+
 function Provider({ children }) {
-  const INITIAL_STATE = {
-    filterByName: {
-      name: '',
-    },
-    filterByNumericValues: [],
-    order: {
-      column: 'name',
-      sort: 'ASC',
-    },
-  };
-
-  const ordenationNumber = {
-    max: 1,
-    min: -1,
-  };
-
   const [data, setData] = useState([]);
   const [dataTitle, setDataTitle] = useState([]);
   const [text, setText] = useState('');
@@ -91,20 +103,15 @@ function Provider({ children }) {
 
   const ordenedData = () => {
     const { order: { column, sort } } = filters;
-    const { max, min } = ordenationNumber;
 
     switch (sort) {
     case 'ASC':
-      setDataTitle([...dataTitle.sort((itemA, itemB) => (
-        itemA[column] > itemB[column] ? max : min
-      ))]);
-      return dataTitle;
+      dataTitle.sort(compairOne(column));
+      return setDataTitle([...dataTitle]);
 
     case 'DESC':
-      setDataTitle([...dataTitle.sort((itemA, itemB) => (
-        itemA[column] < itemB[column] ? max : min
-      ))]);
-      return dataTitle;
+      dataTitle.sort(compairTwo(column));
+      return setDataTitle([...dataTitle]);
 
     default:
       return dataTitle;
