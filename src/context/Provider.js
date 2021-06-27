@@ -4,6 +4,8 @@ import MyContext from './MyContext';
 
 function Provider({ children }) {
   const [data, setData] = useState([{}]);
+  const [planetName, setPlanetName] = useState('');
+  const [backup, setBackup] = useState([]);
 
   useEffect(() => {
     const fetchPlanets = async () => {
@@ -15,7 +17,7 @@ function Provider({ children }) {
   }, []);
 
   return (
-    <MyContext.Provider value={ { data } }>
+    <MyContext.Provider value={ { data, planetName, setPlanetName, backup, setBackup } }>
       {children}
     </MyContext.Provider>
   );
