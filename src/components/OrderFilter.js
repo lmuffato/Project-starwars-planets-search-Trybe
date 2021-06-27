@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import PlanestContext from '../context/PlanetsContext';
 import { compareNameAsc, compareNameDesc,
   comparePopulationAsc, comparePopulationDesc } from '../services/orderPlanets';
@@ -32,11 +32,12 @@ function OrderFilter() {
     }
   };
 
-  useEffect(() => {
-    orderPlanets(column, sort);
-  }, [data, column, sort]);
+  // useEffect(() => {
+  //   orderPlanets(column, sort);
+  // }, [data, column, sort]);
 
   const getOrderForm = () => {
+    orderPlanets(column, sort);
     setOrderSort(orderBy, orderForm);
   };
 
