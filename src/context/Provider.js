@@ -55,6 +55,8 @@ export default function Provider({ children }) {
     return setFilterPlanets(newFilter);
   };
 
+  // requisito 3 - handleClick que seta os selects no estado e é adicionada
+  // no onClick do component Inputs
   const handleSelectClick = () => {
     const {
       filterByNumericValues,
@@ -95,3 +97,9 @@ export default function Provider({ children }) {
 Provider.propTypes = {
   children: PropTypes.node.isRequired,
 };
+
+// Referências:
+// filterInputs - criada com o auxílio do Adão Jr - Turma 10B
+// parseInt - https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/parseInt
+// parseInt - https://www.alura.com.br/artigos/convertendo-string-para-numero-em-javascript
+// parseInt e radix parameter - https://stackoverflow.com/questions/7818903/jslint-says-missing-radix-parameter
