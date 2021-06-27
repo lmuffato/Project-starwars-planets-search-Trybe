@@ -20,7 +20,15 @@ export default function Table() {
         { data.map((planet, index1) => (
           <tr key={ `planet.name${index1}` }>
             { tableHeaders.map((header, index2) => (
-              <td key={ `${planet.name}${index2}` }>{ planet[header] }</td>
+              header === 'name'
+                ? (
+                  <td
+                    key={ `${planet.name}${index2}` }
+                    data-testid="planet-name"
+                  >
+                    { planet[header] }
+                  </td>)
+                : <td key={ `${planet.name}${index2}` }>{ planet[header] }</td>
             )) }
           </tr>
         ))}

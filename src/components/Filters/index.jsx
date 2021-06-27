@@ -1,14 +1,17 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { columnObj, comparisonObj } from './data';
+import { columnObj, comparisonObj, orderObj } from './data';
 import starWarsPlanets from '../../context';
 import Select from '../Select';
 
 function Filters() {
-  const INITIAL_LOCAL_OBJ = { column: '', comparison: 'maior que', value: '' };
-  const { filters, setFilters, setData, backup } = useContext(starWarsPlanets);
-  const { filterByName: { name }, filterByNumericValues } = filters;
+  const INITIAL_LOCAL_OBJ = { column: 'population', comparison: 'maior que', value: '' };
+  const { filters, setFilters, setData, backup, setBackup } = useContext(starWarsPlanets);
+  const { filterByName: { name }, filterByNumericValues, order } = filters;
   const [localObj, setLocalObj] = useState(INITIAL_LOCAL_OBJ);
   const [toSelectColumn, setSelectColumn] = useState(columnObj);
+  const [localOrder, setLocalOrder] = useState(
+    { column: 'name', sort: 'ASC' },
+  );
 
   const currentFilters = filterByNumericValues
     .map((filter, index) => ({ filter: filter.column, index }));
@@ -24,6 +27,17 @@ function Filters() {
     setLocalObj({ ...localObj, [nameAttribute]: value });
   };
 
+  const handleChange3 = ({ target: { value, name: keyName } }) => {
+    setLocalOrder({ ...localOrder, [keyName]: value });
+  };
+
+  const handleClickOrder = () => {
+    setFilters({
+      ...filters,
+      order: localOrder,
+    });
+  };
+
   const handleClick = () => {
     setFilters({
       ...filters,
@@ -36,7 +50,36 @@ function Filters() {
     setLocalObj(INITIAL_LOCAL_OBJ);
   };
 
-  // filters did update
+  const handleSort = ((orderType, array) => {
+    const NEGATIVE = -1;
+    if (orderType.column === 'name') {
+      array = array.sort((a, b) => {
+        if (a.name < b.name) { return NEGATIVE; }
+        if (a.name > b.name) { return 1; }
+        return 0;
+      });
+    } else {
+      array = array.sort((planet1, planet2) => (
+        order.sort === 'ASC'
+          ? planet2[orderType.column] - planet1[orderType.column]
+          : planet1[orderType.column] - planet2[orderType.column]
+      ));
+    }
+    return array;
+  });
+
+  useEffect(() => {
+    const getPlanets = async () => {
+      const { results } = await fetch('https://swapi-trybe.herokuapp.com/api/planets/')
+        .then((dat) => dat.json());
+
+      const sorted = handleSort(order, results);
+      setData(sorted);
+      setBackup(sorted);
+    };
+    getPlanets();
+  }, []);
+
   useEffect(() => {
     const dofilter = () => {
       let array = backup;
@@ -55,7 +98,8 @@ function Filters() {
           }
         });
       }
-      setData(array);
+      const filtered = handleSort(order, array);
+      setData(filtered);
     };
     dofilter();
   }, [filters]);
@@ -71,12 +115,10 @@ function Filters() {
       <Select
         selectData={ toSelectColumn }
         onChange={ handleChange2 }
-        value={ localObj.column }
       />
       <Select
         selectData={ comparisonObj }
         onChange={ handleChange2 }
-        value={ localObj.comparison }
       />
       <input
         type="number"
@@ -91,7 +133,39 @@ function Filters() {
       >
         Filtrar
       </button>
-      { currentFilters.map((filterText) => (
+      <div>
+        <Select selectData={ orderObj } onChange={ handleChange3 } />
+        <label htmlFor="ASC">
+          ASC
+          <input
+            type="radio"
+            name="sort"
+            data-testid="column-sort-input-asc"
+            id="ASC"
+            value="ASC"
+            onChange={ handleChange3 }
+          />
+        </label>
+        <label htmlFor="DESC">
+          DESC
+          <input
+            type="radio"
+            name="sort"
+            data-testid="column-sort-input-desc"
+            id="DESC"
+            value="DESC"
+            onChange={ handleChange3 }
+          />
+        </label>
+        <button
+          type="button"
+          onClick={ () => handleClickOrder() }
+          data-testid="column-sort-button"
+        >
+          Ordenar
+        </button>
+      </div>
+      {currentFilters.map((filterText) => (
         <button
           type="button"
           key={ `${filterText.filter}-button` }
@@ -106,7 +180,7 @@ function Filters() {
             setFilters({ ...filters });
           } }
         >
-          { `x ${filterText.filter}`}
+          {`x ${filterText.filter}`}
         </button>
       ))}
     </div>

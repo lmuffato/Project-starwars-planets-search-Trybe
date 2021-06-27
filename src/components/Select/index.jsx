@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Select({ selectData, onChange, value }) {
+function Select({ selectData, onChange }) {
   const { testeId, options, tagName } = selectData;
 
   return (
@@ -9,7 +9,6 @@ function Select({ selectData, onChange, value }) {
       onChange={ onChange }
       data-testid={ testeId }
       name={ tagName }
-      value={ value }
     >
       {options.map((optionText) => (
         <option
@@ -29,7 +28,6 @@ Select.propTypes = {
     tagName: PropTypes.string,
   }).isRequired,
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
 };
 
 export default Select;

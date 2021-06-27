@@ -11,3 +11,12 @@ export const comparisonObj = {
   options: ['maior que', 'menor que', 'igual a'],
   tagName: 'comparison',
 };
+
+export const orderObj = {
+  testeId: 'column-sort',
+  options: [
+    'name',
+    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
+  ],
+  tagName: 'column',
+};
