@@ -3,15 +3,36 @@ import StarWarsContext from '../context/StarWarsContext';
 
 export default function RenderDataOfTable(arrayPlanets) {
   let planets = [...arrayPlanets];
-  const { filterByName, filterByNumericValues } = useContext(StarWarsContext);
+  const { filterByName,
+    filterByNumericValues,
+    clickedButtonFilters } = useContext(StarWarsContext);
   const { name: filterText } = filterByName;
   const {
     column: filterColumn, comparison: filterComparison,
-    value: filterValue } = filterByNumericValues;
+    value: filterValue } = filterByNumericValues[0];
 
-  if (filterText !== '') {
+  if (clickedButtonFilters || filterText) {
     planets = arrayPlanets
-      .filter(({ name }) => name.toLowerCase().includes(filterText.toLowerCase()));
+      .filter((planet) => {
+        let numericComparacion;
+        switch (filterComparison) {
+        case 'maior que':
+          numericComparacion = parseFloat(planet[filterColumn]) > parseFloat(filterValue);
+          break;
+        case 'menor que':
+          numericComparacion = parseFloat(planet[filterColumn]) < parseFloat(filterValue);
+          break;
+        case 'igual a':
+          numericComparacion = planet[filterColumn] === filterValue;
+          break;
+        default:
+        }
+        if (filterText && !clickedButtonFilters) {
+          return planet.name.toLowerCase().includes(filterText.toLowerCase());
+        } if (!filterText && clickedButtonFilters) return numericComparacion;
+        return planet.name.toLowerCase()
+          .includes(filterText.toLowerCase()) && numericComparacion;
+      });
   }
   const dataRender = planets.map(({
     name,

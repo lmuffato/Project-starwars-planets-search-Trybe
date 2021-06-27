@@ -17,6 +17,7 @@ function StarWarsProvider({ children }) {
       },
     ],
   });
+  const [clickedButtonFilters, setClickedButtonFilters] = useState(false);
 
   function getText({ target }) {
     setFilters({ ...filters,
@@ -25,7 +26,7 @@ function StarWarsProvider({ children }) {
       } });
   }
 
-  function getNumericFilters(columFilter, comparisonFilter, valueFilter) {
+  function getNumericFilters(columFilter, comparisonFilter, valueFilter, clickedFilter) {
     setFilters({ ...filters,
       filterByNumericValues: [
         {
@@ -35,6 +36,7 @@ function StarWarsProvider({ children }) {
         },
       ],
     });
+    setClickedButtonFilters(clickedFilter);
   }
 
   useEffect(() => {
@@ -42,11 +44,15 @@ function StarWarsProvider({ children }) {
   }, []);
 
   const { filterByName, filterByNumericValues } = filters;
- 
   return (
     <StarWarsContext.Provider
       value={
-        { data, getText, filterByName, getNumericFilters, filterByNumericValues }
+        { data,
+          getText,
+          filterByName,
+          getNumericFilters,
+          filterByNumericValues,
+          clickedButtonFilters }
       }
     >
       { children }

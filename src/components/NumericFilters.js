@@ -3,13 +3,13 @@ import StarWarsContext from '../context/StarWarsContext';
 
 function NumericFilters() {
   const { getNumericFilters } = useContext(StarWarsContext);
-  const [columFilter, setColumFilter] = useState('');
-  const [comparisonFilter, setComparisonFilter] = useState('');
-  const [valueFilter, setValueFilter] = useState('');
+  const [columFilter, setColumFilter] = useState('population');
+  const [comparisonFilter, setComparisonFilter] = useState('maior que');
+  const [valueFilter, setValueFilter] = useState(0);
 
   function handleClick(e) {
     e.preventDefault();
-    getNumericFilters(columFilter, comparisonFilter, valueFilter);
+    getNumericFilters(columFilter, comparisonFilter, valueFilter, true);
   }
 
   function handleChange({ target }) {
@@ -32,6 +32,7 @@ function NumericFilters() {
       <select data-testid="column-filter" onChange={ handleChange } name="columFilter">
         <option value="population">population</option>
         <option value="orbital_period">orbital_period</option>
+        <option value="diameter">diameter</option>
         <option value="rotation_period">rotation_period</option>
         <option value="surface_water">surface_water</option>
       </select>
@@ -53,7 +54,7 @@ function NumericFilters() {
       <button
         type="button"
         onClick={ handleClick }
-        testid="button-filter"
+        data-testid="button-filter"
       >
         {' '}
         Adicionar Filtro
