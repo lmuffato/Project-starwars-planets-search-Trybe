@@ -4,40 +4,50 @@ import { data } from '../contexts/starWars';
 import TableRow from './TableRow';
 
 export default function TableData() {
-  const { planets, filteredPlanets, filters } = useContext(data);
+  const {
+    planets,
+    filteredPlanets,
+    filters: { filterByName, filterByNumericValues },
+  } = useContext(data);
   const [planetsState, setPlanetsState] = useState(planets);
 
   useEffect(() => {
     setPlanetsState(filteredPlanets.length ? filteredPlanets : planets);
   }, [filteredPlanets, planets]);
 
-  const tableCollumns = [
-    'nome',
-    'período de rotação',
-    'período orbital',
-    'diâmetro',
-    'clima',
-    'gravidade',
-    'terreno',
-    'água da superfície',
-    'população',
-    'filmes',
-    'criada',
-    'editado',
-    'url',
-  ];
+  const checkIsFiltering = () => {
+    if (
+      (filterByName.name && !filteredPlanets.length)
+      || (filterByNumericValues.length && !filteredPlanets.length)
+    ) {
+      return true;
+    }
+    return false;
+  };
+
+  const renderCollumns = () => {
+    if (planets.length) {
+      return Object.keys(planets[0]).map((collumn, i) => (
+        <th key={ i }>{collumn.toUpperCase()}</th>
+      ));
+    }
+  };
 
   return (
     <Table bordered hover>
       <thead>
         <tr>
-          {tableCollumns.map((collumn, i) => (
-            <th key={ i }>{collumn.toUpperCase()}</th>
-          ))}
+          {renderCollumns()}
         </tr>
       </thead>
-      {filters.filterByName.name && !filteredPlanets.length ? (
-        <tbody><tr><td><span>Nenhum planeta encontrado</span></td></tr></tbody>
+      {checkIsFiltering() ? (
+        <tbody>
+          <tr>
+            <td>
+              <span>Nenhum planeta encontrado</span>
+            </td>
+          </tr>
+        </tbody>
       ) : (
         <tbody>
           {planetsState.map((planet, i) => (
