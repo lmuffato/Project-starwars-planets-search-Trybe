@@ -56,7 +56,7 @@ export default function Provider({ children }) {
   };
 
   // requisito 3 - handleClick que seta os selects no estado e é adicionada
-  // no onClick do component Inputs
+  // no component Inputs
   const handleSelectClick = () => {
     const {
       filterByNumericValues,
