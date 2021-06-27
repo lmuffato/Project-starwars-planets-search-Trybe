@@ -4,21 +4,13 @@ import Context from '../context/Context';
 const Table = () => {
   // este componente deve ser provido pelo Provider.
   const { dataRead } = useContext(Context); // posso ter x variáveis no mesmo contexto
-  // console.log(dataRead);
-  // console.log(dataRead[0]);
-  // const keys = returnKey(dataRead);
+
   if (dataRead.length === 0) return <div><h2>Loading...</h2></div>;
 
   dataRead.forEach((obj) => {
-    // const keysFilter = Object.keys(obj);
     delete obj.residents;
   });
-  // console.log(dataRead[0]);
 
-  // console.log(data.results);
-  // returnKey(obj) {
-  //   return Object.keys(obj);
-  // }
   const lineTable = (planet) => (
     <tbody>
       <tr key={ planet.name }>
@@ -61,11 +53,11 @@ const Table = () => {
     </thead>
   );
 
-  // if (!dataRead) return <div><h2>Loading...</h2></div>;
   return (
     <table>
       {lineHeadTable()}
-      {lineTable(dataRead[0])}
+      {dataRead.map((planet) => lineTable(planet))}
+      {/* {lineTable(dataRead[0])} */}
     </table>
   );
 };
