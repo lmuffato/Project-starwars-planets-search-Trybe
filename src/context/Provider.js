@@ -7,30 +7,20 @@ export default function Provider({ children }) {
   const [filterPlanets, setFilterPlanets] = useState([]);
   const [name, setName] = useState('');
   const [filters, setFilters] = useState({
-    filters:
-    {
-      filterByName: {
-        name: '',
-      },
-      filterByNumericValues: [
-        {
-          column: '',
-          comparison: '',
-          value: '',
-        },
-      ],
-    },
-  });
-  const [inputsChanges, setInputsChanges] = useState({
     columnFilter: 'population',
     comparisonFilter: 'maior que',
     valueFilter: '',
+    filterByName: {
+      name: '',
+    },
+    filterByNumericValues: [],
   });
 
   // requisito 1: tratando a api
   useEffect(() => {
     const fetchPlanets = async () => {
-      const edpoint = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
+      const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
+      const edpoint = await fetch(url);
       const response = await edpoint.json();
       const { results } = response;
       setPlanets(results);
@@ -52,39 +42,44 @@ export default function Provider({ children }) {
     setFilters({ ...filters, [target.name]: target.value });
   };
 
+  // requisito 3 - criando filtro
+  const filterInputs = () => {
+    const { columnFilter, comparisonFilter, valueFilter } = filters;
+    const newFilter = filterPlanets.filter((planet) => {
+      if (comparisonFilter === 'maior que') {
+        return parseInt(planet[columnFilter], 10) > parseInt(valueFilter, 10);
+      } if (comparisonFilter === 'menor que') {
+        return parseInt(planet[columnFilter], 10) < parseInt(valueFilter, 10);
+      } return parseInt(planet[columnFilter], 10) === parseInt(valueFilter, 10);
+    });
+    return setFilterPlanets(newFilter);
+  };
+
   const handleSelectClick = () => {
-    const { filterByNumericValues } = filters;
-    if (filterByNumericValues === 1 && filterByNumericValues[0].column === '') {
-      setInputsChanges({
-        ...filters,
-        filterByNumericValues: [
-          {
-            column: inputsChanges.columnFilter,
-            comparison: inputsChanges.comparisonFilter,
-            value: inputsChanges.valueFilter,
-          },
-        ],
-      });
-    } else {
-      setFilters({
-        ...filters,
-        filterByNumericValues: [
-          ...filterByNumericValues.concat(
-            {
-              column: formsChanges.columnFilter,
-              comparison: formsChanges.comparisonFilter,
-              value: formsChanges.valueFilter,
-            },
-          ),
-        ],
-      });
-    }
+    const {
+      filterByNumericValues,
+      columnFilter,
+      comparisonFilter,
+      valueFilter } = filters;
+    setFilters({
+      ...filters,
+      filterByNumericValues: [
+        ...filterByNumericValues,
+        {
+          column: columnFilter,
+          comparison: comparisonFilter,
+          value: valueFilter,
+        },
+      ],
+    });
+    filterInputs();
   };
 
   const context = {
     planets,
     filterPlanets,
     name,
+    filters,
     handleFilterChange,
     handleSelectChange,
     handleSelectClick,
