@@ -46,7 +46,6 @@ function Filters() {
     const obj = { column: filterByType, comparison: filtercomparison, value: number };
     addType(filterByType);
     sendFilterNumeric(obj);
-    // setFilterTypes(types.filter((type) => !allTypes.includes(type)));
     setFilterTypes(types.filter((type) => type !== filterByType));
   };
 

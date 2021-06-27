@@ -60,6 +60,7 @@ function PlanetsProvider(props) {
         setIsLoading(false);
       }
     };
+
     load();
   }, []);
 

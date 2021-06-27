@@ -8,7 +8,6 @@ import PlanetsProvider from './context/PlanetsProvider';
 function App() {
   return (
     <PlanetsProvider>
-      <span>Hello, App!</span>
       <OrderFilter />
       <Filters />
       <Table />
