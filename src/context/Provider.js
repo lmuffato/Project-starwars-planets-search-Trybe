@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import context from './context';
+import dataAPI from '../services/planetsAPI';
 
 function Provider({ children }) {
-  const [planets, setPlanets] = useState('');
+  const [dataPlanets, setData] = useState('');
+
+  useEffect(() => {
+    dataAPI().then(({ results }) => setData(results));
+  }, []);
 
   const contextValue = {
-    planets,
-    setPlanets,
+    dataPlanets,
+    setData,
   };
 
   return (
@@ -22,3 +27,5 @@ Provider.propTypes = {
 };
 
 export default Provider;
+
+// Explicação e orientação sobre refatoração do Provider para corrigir a forma de usar estados do Guilherme Dornelles - Turma 10A
