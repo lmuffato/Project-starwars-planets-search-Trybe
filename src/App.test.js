@@ -32,14 +32,14 @@ describe('1 - Faça uma requisição para o endpoint `/planets` da API de Star W
   beforeAll(mockFetch);
   beforeEach(cleanup);
 
-  it.skip('Realize uma requisição para a API', async () => {
+  it('Realize uma requisição para a API', async () => {
     await act(async () => {
       render(<App />);
     });
     expect(global.fetch).toHaveBeenCalled();
   });
 
-  it.skip('Preencha a tabela com os dados retornados', async () => {
+  it('Preencha a tabela com os dados retornados', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -67,15 +67,15 @@ describe('1 - Faça uma requisição para o endpoint `/planets` da API de Star W
     };
   });
 
-  it.skip('Verifique se a tabela tem 13 colunas', async () => {
+  it('Verifique se a tabela tem 13 colunas', async () => {
     await act(async () => {
       render(<App />);
     });
     // a requisição (mock) retorna 14 chaves em cada planeta, mas a chave `residents` não deve ser exibida totalizando 13 colunas
-    expect.skip(await screen.findAllByRole(COLUMN_ROLE_SELECTOR)).toHaveLength(13);
+    expect(await screen.findAllByRole(COLUMN_ROLE_SELECTOR)).toHaveLength(13);
   });
 
-  it.skip('Verifique se a tabela tem uma linha para cada planeta retornado', async () => {
+  it('Verifique se a tabela tem uma linha para cada planeta retornado', async () => {
     await act(async () => {
       render(<App />);
     });
