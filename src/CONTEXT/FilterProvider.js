@@ -1,12 +1,19 @@
-import React from 'react'; // , { useState }
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import FilterContext from './FilterContext';
 
 function FilterProvider({ children }) {
-  // const [filter, setFilter] = useState(); falta passar o value no filterContext.Provider
+  const [planetName, setPlanetName] = useState('');
+
+  const contextFilter = {
+    planetName,
+    setPlanetName,
+    filters: { filterByName: { name: { planetName } },
+    },
+  };
 
   return (
-    <FilterContext.Provider>
+    <FilterContext.Provider value={ contextFilter }>
       {children}
     </FilterContext.Provider>
   );

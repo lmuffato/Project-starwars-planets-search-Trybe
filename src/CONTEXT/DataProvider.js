@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import MyContext from './Context';
+import MyContext from './DataContext';
 
 function DataProvider({ children }) {
   const [data, setData] = useState();
+  // const [copyData, setCopyData] = useState();
 
   useEffect(() => {
     const getAPI = async () => {
@@ -14,6 +15,7 @@ function DataProvider({ children }) {
 
     getAPI();
   }, []);
+
   return (
     <MyContext.Provider value={ data }>
       {children}

@@ -1,16 +1,14 @@
 import React from 'react';
 import './App.css';
 import DataProvider from './CONTEXT/DataProvider';
-import FilterProvider from './CONTEXT/FiltreProvider';
+import FilterProvider from './CONTEXT/FilterProvider';
 import Table from './COMPONENTS/Table';
-import Filter from './COMPONENTS/Filter';
 
 function App() {
   return (
     <div>
       <DataProvider>
         <FilterProvider>
-          <Filter />
           <Table />
         </FilterProvider>
       </DataProvider>
