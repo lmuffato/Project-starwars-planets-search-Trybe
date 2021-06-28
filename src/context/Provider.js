@@ -5,16 +5,26 @@ import getPlanets from '../services/data';
 
 function Provider({ children }) {
   const [allPlanets, setallPlanets] = useState([]);
+  const [filterByName, setFilterByName] = useState('');
+  const [filteredArray, setFilteredArray] = useState([]);
+  const [reset, setReset] = useState(0);
   useEffect(() => {
     async function searchApi() {
       const responseApi = await getPlanets();
       setallPlanets(responseApi);
+      setFilteredArray(responseApi);
     }
     searchApi();
   }, []);
 
   const data = {
     allPlanets,
+    filterByName,
+    setFilterByName,
+    filteredArray,
+    setFilteredArray,
+    reset,
+    setReset,
   };
 
   return (
