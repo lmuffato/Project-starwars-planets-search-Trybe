@@ -5,13 +5,12 @@ import Select from '../Select';
 
 function Filters() {
   const INITIAL_LOCAL_OBJ = { column: 'population', comparison: 'maior que', value: '' };
+  const INITIAL_LOCAL_ORDER = { column: 'name', sort: 'ASC' };
   const { filters, setFilters, setData, backup, setBackup } = useContext(starWarsPlanets);
   const { filterByName: { name }, filterByNumericValues, order } = filters;
   const [localObj, setLocalObj] = useState(INITIAL_LOCAL_OBJ);
   const [toSelectColumn, setSelectColumn] = useState(columnObj);
-  const [localOrder, setLocalOrder] = useState(
-    { column: 'name', sort: 'ASC' },
-  );
+  const [localOrder, setLocalOrder] = useState(INITIAL_LOCAL_ORDER);
 
   const currentFilters = filterByNumericValues
     .map((filter, index) => ({ filter: filter.column, index }));
@@ -69,21 +68,25 @@ function Filters() {
   });
 
   useEffect(() => {
+    console.log('did mount');
     const getPlanets = async () => {
       const { results } = await fetch('https://swapi-trybe.herokuapp.com/api/planets/')
         .then((dat) => dat.json());
 
+      console.log('mount sort');
       const sorted = handleSort(order, results);
       setData(sorted);
-      setBackup(sorted);
+      setBackup(results);
     };
     getPlanets();
   }, []);
 
   useEffect(() => {
+    console.log('did update');
     const dofilter = () => {
       let array = backup;
       if (name !== '') { array = array.filter((planet) => planet.name.includes(name)); }
+
       if (filterByNumericValues.length !== 0) {
         filterByNumericValues.forEach(({ column, comparison, value }) => {
           if (comparison === 'maior que') {
@@ -98,8 +101,12 @@ function Filters() {
           }
         });
       }
-      const filtered = handleSort(order, array);
-      setData(filtered);
+      // LOG
+      console.log('update sort');
+      console.log(order);
+      array = handleSort(order, array);
+      console.log(array);
+      setData(array);
     };
     dofilter();
   }, [filters]);
@@ -144,6 +151,7 @@ function Filters() {
             id="ASC"
             value="ASC"
             onChange={ handleChange3 }
+            defaultChecked
           />
         </label>
         <label htmlFor="DESC">

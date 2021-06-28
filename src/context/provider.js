@@ -14,7 +14,7 @@ function Provider({ children }) {
   const [backup, setBackup] = useState([]);
 
   const contextValue = {
-    data,
+    data: [...data],
     setData,
     filters,
     setFilters,

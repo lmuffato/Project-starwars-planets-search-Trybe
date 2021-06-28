@@ -1,8 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import starWarsPlanets from '../../context';
 
 export default function Table() {
-  const { data } = useContext(starWarsPlanets);
+  const { data, filters } = useContext(starWarsPlanets);
+  console.log('line 6', data);
+
+  useEffect(() => {
+    console.log('effect', data);
+  }, [filters]);
 
   const tableHeaders = Object.keys(data[0]);
   const residentsIndex = tableHeaders.indexOf('residents');
