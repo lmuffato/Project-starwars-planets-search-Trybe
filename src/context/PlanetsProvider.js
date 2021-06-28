@@ -5,6 +5,7 @@ import Context from './Context';
 
 function PlanetsProvider({ children }) {
   const [planets, setPlanets] = useState([]);
+  const [name, setName] = useState('');
 
   useEffect(() => {
     getApi().then((data) => setPlanets(data));
@@ -13,7 +14,9 @@ function PlanetsProvider({ children }) {
   return (
     <Context.Provider
       value={
-        { planets }
+        { planets,
+          name,
+          setName }
       }
     >
       {children}

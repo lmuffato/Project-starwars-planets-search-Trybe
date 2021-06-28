@@ -3,7 +3,19 @@ import Context from '../context/Context';
 import './Table.css';
 
 function Table() {
-  const { planets } = useContext(Context);
+  const { planets, name } = useContext(Context);
+
+  const filter = () => {
+    const search = name.toLowerCase();
+    let filteredPlanets = planets;
+    if (name === '') {
+      filteredPlanets = planets;
+    } else if (search !== '') {
+      filteredPlanets = planets.filter((planet) => (
+        planet.name.toLowerCase().includes(search)));
+    }
+    return filteredPlanets;
+  };
 
   return (
     <>
@@ -26,7 +38,7 @@ function Table() {
       </thead>
       <tbody>
         {
-          planets.map((planet, index) => (
+          filter().map((planet, index) => (
             <tr key={ index }>
               <td>{planet.name}</td>
               <td>{planet.rotationPeriod}</td>
