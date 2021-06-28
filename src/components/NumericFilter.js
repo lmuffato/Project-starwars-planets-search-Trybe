@@ -7,14 +7,14 @@ export default function NumericFilter() {
     comparisonInput: 'maior que',
     valueInput: 0,
   });
-  const { filters, setFilters } = useContext(starwarsContext);
+  const { filters, setFilters, columns, setColumns } = useContext(starwarsContext);
   const { filterByNumericValues } = filters;
 
   const handleChange = ({ target }) => {
     setFiltersInput({ ...filtersInputs, [target.name]: target.value });
   };
 
-  const availableOptions = () => {
+  /*  const availableOptions = () => {
     const options = [
       'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
     ];
@@ -23,7 +23,7 @@ export default function NumericFilter() {
     return options.filter(
       (option) => !usedOptions.some((usedOption) => usedOption === option),
     );
-  };
+  }; */
 
   const handleClick = () => {
     setFilters({
@@ -31,31 +31,37 @@ export default function NumericFilter() {
       filterByNumericValues: [
         ...filters.filterByNumericValues,
         {
-          column: filtersInputs.columnInput || availableOptions()[0],
+          column: filtersInputs.columnInput || columns[0],
           comparison: filtersInputs.comparisonInput,
           value: filtersInputs.valueInput,
         },
       ],
     });
+    console.log('FILTERS INPUT COLUMN INPUT', filtersInputs.columnInput);
+    console.log('COLUMNS NA POSICAO 0', columns[0]);
+    const availableColumns = columns.filter(
+      (column) => (filtersInputs.columnInput
+        ? column !== filtersInputs.columnInput
+        : column !== columns[0]),
+    );
+
+    console.log(availableColumns);
+    setColumns(availableColumns);
   };
 
   const renderOptions = () => {
-    const options = [
-      'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
-    ];
-    if (filterByNumericValues.length === 0) {
-      return (
-        options.map(
-          (option, index) => <option key={ index } value={ option }>{option}</option>,
-        )
-      );
-    }
-    return (
+    console.log(columns);
+    return columns.map(
+      (column, index) => <option key={ index } value={ column }>{ column }</option>,
+    );
+  };
+
+  /*    return (
       availableOptions().map(
         (option, index) => <option key={ index } value={ option }>{option}</option>,
       )
-    );
-  };
+    ); */
+  // };
 
   return (
     <div>

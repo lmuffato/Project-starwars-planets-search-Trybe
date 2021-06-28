@@ -7,7 +7,9 @@ function StarwarsProvider({ children }) {
   const [data, setData] = useState([]);
   const [dataTable, setDataTable] = useState([]);
   const [numberOfFilters, setNumberOfFilters] = useState(0);
-  const [usedOptions, setUsedOptions] = useState(false);
+  const [columns, setColumns] = useState([
+    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
+  ]);
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
@@ -83,8 +85,8 @@ function StarwarsProvider({ children }) {
         setFilters,
         numberOfFilters,
         setNumberOfFilters,
-        usedOptions,
-        setUsedOptions,
+        columns,
+        setColumns,
       } }
     >
       { children }
