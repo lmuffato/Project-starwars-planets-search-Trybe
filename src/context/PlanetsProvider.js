@@ -7,12 +7,14 @@ import fetchStarWars from '../services/fetchStarWarsAPI';
 function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
   const [filters, setFilters] = useState({ filterByName: {}, filterByNumericValues: [] });
+  const [filterByNumericValue, setFilterByNumericValue] = useState([]);
   const [name, setName] = useState('');
   const [columns, setColumns] = useState(['population', 'orbital_period', 'diameter',
     'rotation_period', 'surface_water']);
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState('100000');
   const [column, setColumn] = useState('population');
+  const [addColumn, setAddColumn] = useState('');
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -22,15 +24,9 @@ function PlanetsProvider({ children }) {
     getPlanets();
   }, []);
 
-  // useEffect(() => {
-  //  const { filterByNumericValues } = filters;
-  //  console.log(filterByNumericValues);
-  // });
-
   const handleFilter = (obj) => {
-    setFilters({
-      ...filters, filterByNumericValues: [...filters.filterByNumericValues, obj],
-    });
+    setFilterByNumericValue([...filterByNumericValue, obj]);
+    setFilters({ ...filters, filterByNumericValues: filterByNumericValue });
     setColumn(obj.column);
     setValue(obj.value);
     setComparison(obj.comparison);
@@ -48,6 +44,10 @@ function PlanetsProvider({ children }) {
     value,
     comparison,
     column,
+    addColumn,
+    setAddColumn,
+    filterByNumericValue,
+    setFilterByNumericValue,
   };
 
   return (

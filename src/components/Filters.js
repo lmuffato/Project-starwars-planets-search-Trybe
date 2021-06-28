@@ -1,31 +1,24 @@
 import React, { useContext, useState } from 'react';
 import planetsContext from '../context/PlanetsContext';
-// import compareColumns from '../util/compareColumns';
-// import comparisonSwitch from '../util/switch';
+import FilterByName from './FilterByName';
 
 function Filters() {
   const {
-    name, setName, handleFilter, columns, filters: { filterByNumericValues },
-  } = useContext(planetsContext);
+    handleFilter, columns, filterByNumericValue } = useContext(planetsContext);
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState('100000');
   const [column, setColumn] = useState('population');
 
   const handleChange = (target) => {
-    if (target.id === 'name') setName(target.value);
     if (target.id === 'column') setColumn(target.value);
     if (target.id === 'comparison') setComparison(target.value);
     if (target.id === 'value-filter') setValue(target.value);
   };
 
-  const filterButton = (obj) => {
-    handleFilter(obj);
-  };
-
   const options = columns;
-  if (filterByNumericValues.length > 0) {
+  if (filterByNumericValue.length > 0) {
     columns.forEach((item, index) => {
-      filterByNumericValues.forEach((filter) => {
+      filterByNumericValue.forEach((filter) => {
         if (item === filter.column) {
           options.splice(index, 1);
         }
@@ -33,33 +26,29 @@ function Filters() {
     });
   }
 
+  const renderColumns = () => (
+    <label htmlFor="column">
+      <select
+        id="column"
+        data-testid="column-filter"
+        value={ column }
+        onChange={ (e) => handleChange(e.target) }
+      >
+        {
+          options.map((e, index) => (
+            <option key={ index }>{e}</option>
+          ))
+        }
+      </select>
+    </label>
+  );
+
   return (
     <div>
       <div>
-        <label htmlFor="name">
-          Name
-          <input
-            id="name"
-            value={ name }
-            data-testid="name-filter"
-            onChange={ (e) => handleChange(e.target) }
-          />
-        </label>
+        {FilterByName()}
       </div>
-      <label htmlFor="column">
-        <select
-          id="column"
-          data-testid="column-filter"
-          value={ column }
-          onChange={ (e) => handleChange(e.target) }
-        >
-          {
-            options.map((e, index) => (
-              <option key={ index }>{e}</option>
-            ))
-          }
-        </select>
-      </label>
+      {renderColumns()}
       <label htmlFor="comparison">
         <select
           id="comparison"
@@ -84,7 +73,7 @@ function Filters() {
       <button
         type="button"
         data-testid="button-filter"
-        onClick={ () => filterButton({ comparison, value, column }) }
+        onClick={ () => handleFilter({ comparison, value, column }) }
       >
         Filter
       </button>

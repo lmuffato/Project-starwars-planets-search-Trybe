@@ -7,26 +7,39 @@ import '../App.css';
 
 function Table() {
   const {
-    data, name, filters: { filterByNumericValues }, column, value, comparison,
-  } = useContext(planetsContext);
+    data, name, filterByNumericValue, setFilterByNumericValue, column, value,
+    comparison } = useContext(planetsContext);
 
   let planets = data;
   if (name !== '') planets = data.filter((e) => e.name.includes(name));
-  if (filterByNumericValues.length > 0) {
+  if (filterByNumericValue.length > 0) {
     planets = data.filter((planet) => (
       comparisonSwitch(planet, column, comparison, value)
     ));
   }
+
+  const removeFilter = (col) => {
+    filterByNumericValue.forEach((filter) => {
+      if (col === filter.column) {
+        setFilterByNumericValue(filterByNumericValue.filter((e) => e.column !== col));
+      }
+    });
+  };
   const allFilters = () => (
-    <div className={ filterByNumericValues.length > 0 ? 'show-filters' : 'hide-filters' }>
-      <h3>Filtros aplicados</h3>
+    <div className={ filterByNumericValue.length > 0 ? 'show-filters' : 'hide-filters' }>
+      <h2>Filtros aplicados</h2>
       {
-        filterByNumericValues.map((e) => (
-          <p key={ e.column }>
-            {
-              `Filtro: ${e.column} ${e.comparison} ${e.value}`
-            }
-          </p>))
+        filterByNumericValue.map((e) => (
+          <p key={ e.column } data-testid="filter">
+            {`Filtro: ${e.column} ${e.comparison} ${e.value}`}
+            <button
+              type="button"
+              onClick={ () => removeFilter(e.column) }
+            >
+              X
+            </button>
+          </p>
+        ))
       }
     </div>
   );
