@@ -8,11 +8,12 @@ function FilterProvider({ children }) {
   const { data, filtered, setFiltered } = contextData;
 
   const [planetName, setPlanetName] = useState('');
-  const [filterColumn, setFilterColumn] = useState();
-  const [filterComparison, setFilterComparison] = useState();
+  const [filterColumn, setFilterColumn] = useState('population');
+  const [filterComparison, setFilterComparison] = useState('maior que');
   const [filterValue, setFilterValue] = useState();
 
-  const [btnFilter, setBtnFilter] = useState(false);
+  const [optionsColumn, setOptionsColumn] = useState(['population',
+    'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
   const [filter, setFilter] = useState({ filters: {
     filterByName: {
       name: { planetName } },
@@ -28,17 +29,14 @@ function FilterProvider({ children }) {
     const { filterByNumericValues } = filter.filters;
     filterByNumericValues.forEach((fils) => {
       if (fils.comparison === 'maior que') {
-        console.log('maior que');
         ultimateFilter = ultimateFilter.filter((planet) => (
           Number(planet[fils.column]) > Number(fils.value)
         ));
       } else if (fils.comparison === 'menor que') {
-        console.log('menor que');
         ultimateFilter = ultimateFilter.filter((planet) => (
           (Number(planet[fils.column]) < Number(fils.value))
         ));
       } else if (fils.comparison === 'igual a') {
-        console.log('igual a');
         ultimateFilter = ultimateFilter.filter((planet) => (
           Number(planet[fils.column]) === Number(fils.value)
         ));
@@ -70,11 +68,10 @@ function FilterProvider({ children }) {
     setFilterComparison,
     filterValue,
     setFilterValue,
-    btnFilter,
-    setBtnFilter,
+    optionsColumn,
+    setOptionsColumn,
     filtered,
     setFiltered,
-    // filterTable,
     filter,
     setFilter,
   };

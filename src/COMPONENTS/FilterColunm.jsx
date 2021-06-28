@@ -10,7 +10,8 @@ function FilterColunm() {
     setFilterComparison,
     filterValue,
     setFilterValue,
-    // setBtnFilter,
+    optionsColumn,
+    setOptionsColumn,
     filter,
     setFilter } = contextFilter;
 
@@ -26,8 +27,11 @@ function FilterColunm() {
       filterByNumericValues: [...filter.filters.filterByNumericValues, objFilterOnly],
     } };
     setFilter(objFilter);
-    // setBtnFilter(true);
-    // enviar dados locais, column, comparison e value como objeto para dentro do filter // req. 4
+    // fazer um novo array, sem o objFilterOnly.column, e
+    const newArrayOfOptions = optionsColumn.filter((option) => (
+      option !== objFilterOnly.column
+    ));
+    setOptionsColumn(newArrayOfOptions);
   }
 
   return (
@@ -37,11 +41,9 @@ function FilterColunm() {
         value={ filterColumn }
         onChange={ (e) => setFilterColumn(e.target.value) }
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        {optionsColumn.map((option, index) => (
+          <option key={ index }>{ option }</option>
+        ))}
       </select>
 
       <select
