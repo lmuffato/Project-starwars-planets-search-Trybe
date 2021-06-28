@@ -134,23 +134,26 @@ export default function Form() {
         </button>
       </form>
 
-      <div>
-        <h2>Filtros Aplicados:</h2>
-        {filterByNumericValues && filterByNumericValues
-          .map(({ column, comparison, value }, index) => (
-            <div key={ index }>
-              <span>{`${column} ${comparison} ${value}`}</span>
-              <button
-                type="button"
-                data-testid="filter"
-                onClick={ handleRemoveFilter }
-                data-column={ column }
-              >
-                x
-              </button>
-            </div>
-          ))}
-      </div>
+      { filterByNumericValues.length > 0 && (
+        <div>
+          <h2>Filtros Aplicados:</h2>
+          {filterByNumericValues && filterByNumericValues
+            .map(({ column, comparison, value }, index) => (
+              <div key={ index }>
+                <span>{`${column} ${comparison} ${value}`}</span>
+                <button
+                  type="button"
+                  data-testid="filter"
+                  onClick={ handleRemoveFilter }
+                  data-column={ column }
+                >
+                  x
+                </button>
+              </div>
+            ))}
+        </div>
+      )}
+
     </div>
   );
 }
