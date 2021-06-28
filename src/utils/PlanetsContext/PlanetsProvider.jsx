@@ -14,10 +14,6 @@ export default function PlanetsProvider({ children }) {
     filterByNumericValues: [],
   });
 
-  // const size = filteredByNumbers.filterByNumericValues.length - 1;
-
-  // const [indexFilter, setIndexFilter] = useState(size);
-
   return (
     <PlanetsContext.Provider
       value={

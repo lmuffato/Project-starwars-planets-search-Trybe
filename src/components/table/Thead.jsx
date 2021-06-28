@@ -1,22 +1,15 @@
 import React from 'react';
+import usePlanet from '../../hooks/usePlanet';
 
 export default function Thead() {
+  const { planets } = usePlanet();
+  const headPlanets = planets[0] && Object.keys(planets[0]);
   return (
     <thead>
       <tr>
-        <th>name</th>
-        <th>rotation_period</th>
-        <th>orbital_period</th>
-        <th>diameter</th>
-        <th>climate</th>
-        <th>gravity</th>
-        <th>terrain</th>
-        <th>surface_water</th>
-        <th>population</th>
-        <th>films</th>
-        <th>created</th>
-        <th>edited</th>
-        <th>url</th>
+        { headPlanets && headPlanets.map((th) => (
+          <th key={ th }>{th}</th>
+        ))}
       </tr>
     </thead>
   );
