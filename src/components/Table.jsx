@@ -3,10 +3,8 @@ import Context from '../context/Context';
 
 const Table = () => {
   // este componente deve ser provido pelo Provider.
-  const { dataRead } = useContext(Context); // posso ter x variáveis no mesmo contexto
-
+  const { dataRead, dataFilter } = useContext(Context); // posso ter x variáveis no mesmo contexto
   if (dataRead.length === 0) return <div><h2>Loading...</h2></div>;
-
   dataRead.forEach((obj) => {
     delete obj.residents;
   });
@@ -56,8 +54,8 @@ const Table = () => {
   return (
     <table>
       {lineHeadTable()}
-      {dataRead.map((planet) => lineTable(planet))}
-      {/* {lineTable(dataRead[0])} */}
+      {dataFilter.length > 0 ? dataFilter.map((planet) => lineTable(planet))
+        : dataRead.map((planet) => lineTable(planet))}
     </table>
   );
 };

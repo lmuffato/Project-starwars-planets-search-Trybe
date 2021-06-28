@@ -5,19 +5,29 @@ import Context from './Context';
 
 function Provider({ children }) {
   const [dataRead, dataWrite] = useState([]);
-  // const [keys, altKes]
+  const [dataFilter, dataFilterWrite] = useState([]); // este dataFilter será acessado no Provider?! mas escrito aqui.
+  const [filters, filtersWrite] = useState({ filteredByName: { name: '' } });
   const requestAPI = async () => {
     const response = await fetchAPI();
-    // console.log(response);
     dataWrite(response.results);
   };
-
+  // console.log(filters);
   useEffect(() => {
-    requestAPI();
+    requestAPI(); // a requisição sempre deve ser feita aqui
   }, []);
 
-  const dataValue = {
+  // const filterObj = {
+  //     filterByName: {
+  //       name: '',
+  //   },
+  // };
+
+  const dataValue = { // devo colocar os valores filtrados aqui
     dataRead,
+    dataFilterWrite,
+    dataFilter,
+    filtersWrite,
+    filters,
   };
 
   return (
