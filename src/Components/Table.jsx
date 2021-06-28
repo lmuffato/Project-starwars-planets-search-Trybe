@@ -14,7 +14,7 @@ function Table() {
         .filter((e) => e !== 'residents'));
     };
     requestStarWarsAPI();
-  }, [setData]);
+  }, []);
   return (
     <table>
       <tr>
@@ -67,7 +67,6 @@ function Table() {
             </tr>
           ))
       }
-      { console.log(newData, header) }
     </table>
   );
 }

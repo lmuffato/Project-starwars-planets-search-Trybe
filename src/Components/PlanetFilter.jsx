@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import MyContext from '../Context/MyContext';
 
 function PlanetFilter() {
-  const { filter: { filterByName: { name } },
+  const { filters: { filterByName: { name } },
     setFilterName,
     data,
     setNewData } = useContext(MyContext);
