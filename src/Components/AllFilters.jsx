@@ -10,7 +10,6 @@ function Allfilters() {
       <Comparefilter />
       <Numberfilter />
       <button type="button" data-testid="button-filter">Filtrar...</button>
-
     </div>
   );
 }
