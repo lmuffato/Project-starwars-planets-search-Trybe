@@ -10,6 +10,19 @@ export default function Filters() {
     setFilters({ ...filters, filterByName: { name: target.value } });
   };
 
+  const handleClick = (column) => {
+    console.log('ENTROU NO CLICK');
+    console.log(filterByNumericValues);
+    const filtredResult = filterByNumericValues.filter(
+      (filter) => filter.column !== column,
+    );
+    console.log(filtredResult);
+    setFilters({
+      ...filters,
+      filterByNumericValues: filtredResult,
+    });
+  };
+
   return (
     <div>
       <label htmlFor="input-filter">
@@ -24,14 +37,26 @@ export default function Filters() {
         />
       </label>
       <NumericFilter />
-      { filterByNumericValues.length > 0 && filterByNumericValues.map(
-        (filter, index) => (
-          <span key={ index }>
-            {
-              `${filter.column} ${filter.comparison} ${filter.value}`
-            }
-          </span>),
-      )}
+      {filterByNumericValues.length >= 1 ? filterByNumericValues.map(
+        (filter, index) => {
+          if (filter.column) {
+            return (
+              <div key={ index }>
+                <span>
+                  { `${filter.column} ${filter.comparison} ${filter.value}`}
+                </span>
+                <button
+                  type="button"
+                  data-testid="filter"
+                  onClick={ () => handleClick(filter.column) }
+                >
+                  X
+                </button>
+              </div>);
+          }
+          return '';
+        },
+      ) : 'No filters'}
     </div>
   );
 }

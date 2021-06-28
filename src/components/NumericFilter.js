@@ -19,9 +19,13 @@ export default function NumericFilter() {
     const options = [
       'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
     ];
-    const opUsadas = filterByNumericValues.map(
-      (filter) => filter.column,
-    ).filter((_, index) => index < filterByNumericValues.length);
+    const opUsadas = filterByNumericValues.map((filter) => { // TEM QUE FICAR DENTRO DE UM USEEFECCT
+      console.log(filter);
+      return filter.column;
+    });
+    console.log(filterByNumericValues.length);
+    console.log(opUsadas);
+    // .filter((_, index) => index < filterByNumericValues.length);
 
     return options.filter(
       (option) => !opUsadas.some((usedOption) => usedOption === option),
@@ -29,28 +33,29 @@ export default function NumericFilter() {
   };
 
   const handleClick = () => {
-    console.log(filterByNumericValues.length);
-    if (filterByNumericValues.length === 0) {
-      setFilters({
-        ...filters,
-        filterByNumericValues: [
-          {
-            column: filtersInputs.columnInput || availableOptions()[0],
-            comparison: filtersInputs.comparisonInput,
-            value: filtersInputs.valueInput,
-          },
-        ],
-      });
-    } else {
-      setFilters({
-        ...filters,
-        filterByNumericValues: filters.filterByNumericValues.concat({
+    console.log('FILTER NUM LENGTH', filterByNumericValues.length);
+    // if (filterByNumericValues.length === 1) {
+    setFilters({
+      ...filters,
+      filterByNumericValues: [
+        ...filters.filterByNumericValues,
+        {
           column: filtersInputs.columnInput || availableOptions()[0],
           comparison: filtersInputs.comparisonInput,
           value: filtersInputs.valueInput,
-        }),
+        },
+      ],
+    });
+    /* } else {
+      setFilters({
+        ...filters,
+        filterByNumericValues: [...filters.filterByNumericValues, {
+          column: filtersInputs.columnInput || availableOptions()[0],
+          comparison: filtersInputs.comparisonInput,
+          value: filtersInputs.valueInput,
+        }],
       });
-    }
+    } */
   };
 
   const renderOptions = () => {
@@ -65,7 +70,6 @@ export default function NumericFilter() {
         )
       );
     }
-
     return (
       availableOptions().map(
         (option, index) => <option key={ index } value={ option }>{option}</option>,
