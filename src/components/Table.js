@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
-import StarWarsContext from '../services/StarWarsContext';
+import React, { useContext, useCallback } from 'react';
+import StarWarsContext from '../context/StarWarsContext';
+import FilterOrdenBy from './FilterOrdenBy';
 
-// Utilização do Context - modelo de estudo e crédito total { Bruno Sordi T7 }
-
+// Utilização do Context - modelo de estudo e crédito total { Bruno Sordi T07}
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function Table() {
   const {
     data,
@@ -10,8 +11,8 @@ function Table() {
     setFilters,
     filterHandler,
     setFilterHandler,
-    sortOption,
   } = useContext(StarWarsContext);
+  const negative = -1;
 
   // Filtro por nome, a cada novo filter, pega o array original e filtra por nome
   function handleChangeName({ target }) {
@@ -87,16 +88,33 @@ function Table() {
     const { filterByNumericValues } = filters;
     const renderedFilters = filterByNumericValues.map((filter, index) => (
       <div data-testid="filter" key={ index }>
-        { `${filter.column} ${filter.comparison} ${filter.value}  `}
+        { `${filter.column} ${filter.comparison} ${filter.value}` }
         <button type="button" onClick={ () => deleteFilter(filter.column) }>x</button>
       </div>
     ));
     return renderedFilters;
   }
 
+  const filterby = useCallback((sorting, column) => {
+    switch (column) {
+    case 'name':
+      return setFilters([...data].sort(({ [column]: a }, { [column]: b }) => {
+        if (sorting === 'DESC') return b > a ? 1 : negative;
+        return a > b ? 1 : negative;
+      }));
+    case 'orbital_period':
+      return setFilters([...data].sort(({ [column]: a }, { [column]: b }) => {
+        if (sorting === 'DESC') return b - a;
+        return a - b;
+      }));
+    default:
+      return null;
+    }
+  }, [data, negative]);
+
   return (
     <div>
-      <div key={ sortOption }>
+      <div>
         <label htmlFor="filter-text">
           Filter By Name:
           <input
@@ -107,7 +125,7 @@ function Table() {
             onChange={ handleChangeName }
           />
         </label>
-        {renderOptions()}
+        { renderOptions() }
         <label htmlFor="comparison">
           <select
             name="comparison"
@@ -141,7 +159,7 @@ function Table() {
         <table>
           <thead>
             <tr>
-              { Object.keys(data[0]).map((element, index) => (
+              {Object.keys(data[0]).map((element, index) => (
                 <th key={ index }>{ element }</th>
               ))}
             </tr>
@@ -157,6 +175,7 @@ function Table() {
           </tbody>
         </table>
       )}
+      <FilterOrdenBy filterby={ filterby } />
     </div>
   );
 }
