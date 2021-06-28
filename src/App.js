@@ -1,9 +1,13 @@
 import React from 'react';
+import Provider from './store/Provider';
+import TableInput from './components/Table';
 import './App.css';
 
 function App() {
   return (
-    <span>Hello, App!</span>
+    <Provider>
+      <TableInput />
+    </Provider>
   );
 }
 
