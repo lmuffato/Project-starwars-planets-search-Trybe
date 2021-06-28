@@ -39,7 +39,7 @@ function Table() {
             <td>
               <ul>
                 {planet.films.map((film) => (
-                  <li key={ `${film}${Math.random()}` }>{film}</li>
+                  <li key={ `${film}${Math.random()}` }>{film}</li> // Random para não dar o mesmo nome de key
                 ))}
               </ul>
             </td>
