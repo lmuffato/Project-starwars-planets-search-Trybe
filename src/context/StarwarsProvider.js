@@ -6,7 +6,6 @@ import starwarsContext from './starwarsContext';
 function StarwarsProvider({ children }) {
   const [data, setData] = useState([]);
   const [dataTable, setDataTable] = useState([]);
-  const [numberOfFilters, setNumberOfFilters] = useState(0);
   const [columns, setColumns] = useState([
     'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
   ]);
@@ -28,6 +27,7 @@ function StarwarsProvider({ children }) {
 
   useEffect(() => {
     const { filterByNumericValues, filterByName } = filters;
+
     let filteredResult = data.filter(
       (planet) => planet.name.includes(filterByName.name),
     );
@@ -45,46 +45,14 @@ function StarwarsProvider({ children }) {
       });
     }
     setDataTable(filteredResult);
-  }, [filters]); // deals with numeric filter
+  }, [filters]); // deals with filters
 
-  /* useEffect(() => {
-    setFilteredByName(!filters.filterByName.name);
-
-    const filteredResult = data.filter(
-      (planet) => planet.name.includes(filters.filterByName.name)
-        && data.some((planetData) => planetData.name === planet.name),
-    );
-    setDataTable(filteredResult);
-  }, [filters.filterByName]); // deals with name filter
-
-  useEffect(() => {
-    console.log('CHAMOU O USE EFFECT');
-    const { filterByNumericValues } = filters;
-    // const { column, comparison, value } = filters.filterByNumericValues[0];
-    const dataToUse = filteredByName ? dataTable : data;
-    // console.log(filters);
-
-    filterByNumericValues.forEach((numFilter) => {
-      const { column, comparison, value } = numFilter;
-      const filteredResult = dataToUse.filter(
-        (planet) => {
-          if (comparison === 'maior que') return planet[column] > Number(value);
-          if (comparison === 'igual a') return planet[column] === value;
-          return planet[column] < Number(value);
-        },
-      );
-      setDataTable(filteredResult);
-    });
-  }, [filters.filterByNumericValues]); // deals with numeric filter
- */
   return (
     <starwarsContext.Provider
       value={ {
         dataTable,
         filters,
         setFilters,
-        numberOfFilters,
-        setNumberOfFilters,
         columns,
         setColumns,
       } }

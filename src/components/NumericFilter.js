@@ -8,22 +8,10 @@ export default function NumericFilter() {
     valueInput: 0,
   });
   const { filters, setFilters, columns, setColumns } = useContext(starwarsContext);
-  const { filterByNumericValues } = filters;
 
   const handleChange = ({ target }) => {
     setFiltersInput({ ...filtersInputs, [target.name]: target.value });
   };
-
-  /*  const availableOptions = () => {
-    const options = [
-      'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
-    ];
-    const usedOptions = filterByNumericValues.map((filter) => filter.column);
-
-    return options.filter(
-      (option) => !usedOptions.some((usedOption) => usedOption === option),
-    );
-  }; */
 
   const handleClick = () => {
     setFilters({
@@ -37,31 +25,25 @@ export default function NumericFilter() {
         },
       ],
     });
-    console.log('FILTERS INPUT COLUMN INPUT', filtersInputs.columnInput);
-    console.log('COLUMNS NA POSICAO 0', columns[0]);
     const availableColumns = columns.filter(
       (column) => (filtersInputs.columnInput
         ? column !== filtersInputs.columnInput
         : column !== columns[0]),
     );
 
-    console.log(availableColumns);
     setColumns(availableColumns);
   };
 
-  const renderOptions = () => {
-    console.log(columns);
-    return columns.map(
-      (column, index) => <option key={ index } value={ column }>{ column }</option>,
-    );
-  };
-
-  /*    return (
-      availableOptions().map(
-        (option, index) => <option key={ index } value={ option }>{option}</option>,
-      )
-    ); */
-  // };
+  const renderOptions = () => columns.map(
+    (column, index) => (
+      <option
+        key={ index }
+        value={ column }
+      >
+        { column }
+      </option>
+    ),
+  );
 
   return (
     <div>
