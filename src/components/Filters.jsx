@@ -1,25 +1,12 @@
-import React, { useContext } from 'react';
-import ContextPlanets from '../store/ContextPlanets';
+import React from 'react';
+import FilterByName from './FilterByName';
+import FilterByNumbers from './FilterByNumbers';
 
 export default function Filters() {
-  const { filters, setFilters } = useContext(ContextPlanets);
-
-  const handleChange = ({ target: { value } }) => {
-    const filter = {
-      filterByName: {
-        name: value,
-      } };
-    setFilters(filter);
-  };
-
   return (
     <div>
-      <input
-        type="text"
-        data-testid="name-filter"
-        value={ filters.filterByName.name }
-        onChange={ handleChange }
-      />
+      <FilterByName />
+      <FilterByNumbers />
     </div>
   );
 }

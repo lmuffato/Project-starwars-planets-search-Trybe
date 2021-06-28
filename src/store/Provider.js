@@ -5,11 +5,13 @@ import starWarsPlanetAPI from '../Service/starWarsPlanetAPI';
 
 export default function Provider({ children }) {
   const [data, setData] = useState([]);
+  const [planets, setPlanets] = useState([]);
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
-    } });
-  const [planets, setPlanets] = useState([]);
+    },
+    filterByNumericValues: [],
+  });
 
   const contextValue = {
     filters,
@@ -26,11 +28,57 @@ export default function Provider({ children }) {
     fetchPlanetsAPI();
   }, []);
 
+  function filteringByName(incomingText) {
+    let filteredPlanets = planets;
+    if (incomingText) {
+      filteredPlanets = data
+        .filter((planet) => planet.name
+          .toLowerCase().includes(incomingText.toLowerCase()));
+      setPlanets(filteredPlanets);
+    } else {
+      setPlanets(data);
+    }
+    return filteredPlanets;
+  }
+
+  function filteringByNumbers(planet, filter, incomingText, planetsFilteredByName) {
+    console.log(planet, filter, incomingText, planetsFilteredByName);
+    if (filter.comparison === 'maior que'
+    && parseInt(planet[filter.column], 10) > parseInt(filter.value, 10)) {
+      return planet;
+    } if (filter.comparison === 'menor que'
+    && parseInt(planet[filter.column], 10) < parseInt(filter.value, 10)) {
+      return planet;
+    } if (filter.comparison === 'igual a'
+    && parseInt(planet[filter.column], 10) === parseInt(filter.value, 10)) {
+      return planet;
+    }
+  }
+
   useEffect(() => {
     const incomingText = filters.filterByName.name;
-    const filteredPlanets = data
-      .filter((planet) => planet.name.toLowerCase().includes(incomingText.toLowerCase()));
-    setPlanets(filteredPlanets);
+    const planetsFilteredByName = filteringByName(incomingText);
+    const numericFilter = filters.filterByNumericValues;
+    if (numericFilter.length) {
+      numericFilter.forEach((filter) => {
+        const filtros = planetsFilteredByName
+          .filter((planet) => filteringByNumbers(planet,
+            filter, incomingText, planetsFilteredByName));
+        // if (filter.comparison === 'maior que'
+        // && parseInt(planet[filter.column], 10) > parseInt(filter.value, 10)) {
+        //   return planet;
+        // } if (filter.comparison === 'menor que'
+        // && parseInt(planet[filter.column], 10) < parseInt(filter.value, 10)) {
+        //   return planet;
+        // } if (filter.comparison === 'igual a'
+        // && parseInt(planet[filter.column], 10) === parseInt(filter.value, 10)) {
+        //   return planet;
+        // } if (!incomingText) {
+        //   return setPlanets(data););
+        console.log(filtros);
+        return setPlanets(filtros);
+      });
+    }
   }, [filters]);
 
   return (
