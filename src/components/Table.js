@@ -10,15 +10,13 @@ function Table() {
     data, name, filters: { filterByNumericValues }, column, value, comparison,
   } = useContext(planetsContext);
 
-  let planets = '';
+  let planets = data;
   if (name !== '') planets = data.filter((e) => e.name.includes(name));
   if (filterByNumericValues.length > 0) {
     planets = data.filter((planet) => (
       comparisonSwitch(planet, column, comparison, value)
     ));
   }
-  if (planets === '') planets = data;
-
   const allFilters = () => (
     <div className={ filterByNumericValues.length > 0 ? 'show-filters' : 'hide-filters' }>
       <h3>Filtros aplicados</h3>
@@ -26,7 +24,7 @@ function Table() {
         filterByNumericValues.map((e) => (
           <p key={ e.column }>
             {
-              `Nome do filtro: ${e.column}`
+              `Filtro: ${e.column} ${e.comparison} ${e.value}`
             }
           </p>))
       }
@@ -39,7 +37,6 @@ function Table() {
       <table>
         {TableHead()}
         <tbody>
-          {console.log(planets)}
           {
             planets.map((e) => (
               <tr key={ e.name }>

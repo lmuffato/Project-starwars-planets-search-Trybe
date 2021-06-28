@@ -8,12 +8,11 @@ function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
   const [filters, setFilters] = useState({ filterByName: {}, filterByNumericValues: [] });
   const [name, setName] = useState('');
-  const [column, setColumn] = useState('population');
+  const [columns, setColumns] = useState(['population', 'orbital_period', 'diameter',
+    'rotation_period', 'surface_water']);
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState('100000');
-  const [filtersSelect, setFiltersSelect] = useState(
-    ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
-  );
+  const [column, setColumn] = useState('population');
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -23,13 +22,18 @@ function PlanetsProvider({ children }) {
     getPlanets();
   }, []);
 
+  // useEffect(() => {
+  //  const { filterByNumericValues } = filters;
+  //  console.log(filterByNumericValues);
+  // });
+
   const handleFilter = (obj) => {
     setFilters({
       ...filters, filterByNumericValues: [...filters.filterByNumericValues, obj],
     });
     setColumn(obj.column);
-    setComparison(obj.comparison);
     setValue(obj.value);
+    setComparison(obj.comparison);
   };
 
   const provider = {
@@ -39,14 +43,11 @@ function PlanetsProvider({ children }) {
     setFilters,
     name,
     setName,
-    column,
-    setColumn,
-    comparison,
-    setComparison,
+    columns,
+    setColumns,
     value,
-    setValue,
-    filtersSelect,
-    setFiltersSelect,
+    comparison,
+    column,
   };
 
   return (

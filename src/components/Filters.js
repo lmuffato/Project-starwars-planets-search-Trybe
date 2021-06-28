@@ -5,7 +5,8 @@ import planetsContext from '../context/PlanetsContext';
 
 function Filters() {
   const {
-    name, setName, handleFilter, filtersSelect } = useContext(planetsContext);
+    name, setName, handleFilter, columns, filters: { filterByNumericValues },
+  } = useContext(planetsContext);
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState('100000');
   const [column, setColumn] = useState('population');
@@ -16,11 +17,21 @@ function Filters() {
     if (target.id === 'comparison') setComparison(target.value);
     if (target.id === 'value-filter') setValue(target.value);
   };
-  // let columns = '';
 
   const filterButton = (obj) => {
     handleFilter(obj);
   };
+
+  const options = columns;
+  if (filterByNumericValues.length > 0) {
+    columns.forEach((item, index) => {
+      filterByNumericValues.forEach((filter) => {
+        if (item === filter.column) {
+          options.splice(index, 1);
+        }
+      });
+    });
+  }
 
   return (
     <div>
@@ -43,10 +54,7 @@ function Filters() {
           onChange={ (e) => handleChange(e.target) }
         >
           {
-            // filterByNumericValues.length === 0 ? filtersSelect.forEach((element) => {
-            //   columns = compareColumns(element, filterByNumericValues[0].column);
-            // }) :
-            filtersSelect.map((e, index) => (
+            options.map((e, index) => (
               <option key={ index }>{e}</option>
             ))
           }
