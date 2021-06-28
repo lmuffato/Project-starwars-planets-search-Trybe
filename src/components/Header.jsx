@@ -4,7 +4,11 @@ import './Header.css';
 
 function Header() {
   const {
-    setFilters, filters, optionFilter, setOptionFilter } = useContext(StarWarsContext);
+    setFilters,
+    filters,
+    optionFilter,
+    setOptionFilter,
+  } = useContext(StarWarsContext);
 
   const handleFilterChange = ({ target }) => {
     setOptionFilter({
@@ -20,6 +24,7 @@ function Header() {
     },
   });
 
+  // Funções feitas com ajuda da Elisa França
   const handleClick = () => {
     const { filterByNumericValues } = filters;
     if (filterByNumericValues.length === 1 && filterByNumericValues[0].column === '') {
