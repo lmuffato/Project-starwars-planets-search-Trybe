@@ -1,25 +1,79 @@
 import React, { useState, useContext } from 'react';
-import { filters as filtersContext } from '../../contexts/starWars';
+import {
+  filters as filtersContext,
+  data as dataContext,
+} from '../../contexts/starWars';
 import Option from '../Option';
 
 export default function FilterByNumericValues() {
-  const [collumn, setColumn] = useState('');
-  const [comparison, setComparison] = useState('');
+  const [collumnValue, setColumn] = useState('');
+  const [comparisonValue, setComparison] = useState('');
   const [valueToFilter, setValue] = useState(0);
-  const { setFilteredNumeric } = useContext(filtersContext);
+  const {
+    filters: { filterByNumericValues },
+    filters,
+    setFilteredPlanetsByNumeric,
+    collumns,
+  } = useContext(filtersContext);
+  const { planets, currentPlanets, setCurrentPlanets } = useContext(dataContext);
 
-  const collumns = [
-    'population',
-    'orbital_period',
-    'diameter',
-    'rotation_period',
-    'surface_water',
-  ];
   const comparisons = ['maior que', 'menor que', 'igual a'];
+
+  const filterPlanetsByNumericValues = (arrayToFilter) => {
+    filterByNumericValues.forEach(({ comparison, collumn, value }) => {
+      if (comparison === 'maior que') {
+        setFilteredPlanetsByNumeric(
+          arrayToFilter.filter((planet) => planet[collumn] > Number(value)),
+        );
+        setCurrentPlanets(
+          arrayToFilter.filter((planet) => planet[collumn] > Number(value)),
+        );
+      }
+      if (comparison === 'menor que') {
+        setFilteredPlanetsByNumeric(
+          arrayToFilter.filter((planet) => planet[collumn] < Number(value)),
+        );
+        setCurrentPlanets(
+          arrayToFilter.filter((planet) => planet[collumn] < Number(value)),
+        );
+      }
+      if (comparison === 'igual a') {
+        setFilteredPlanetsByNumeric(
+          arrayToFilter.filter((planet) => planet[collumn] === value),
+        );
+        setCurrentPlanets(
+          arrayToFilter.filter((planet) => planet[collumn] === value),
+        );
+      }
+    });
+  };
+
+  const handleClick = () => {
+    filters.filterByNumericValues.push({
+      collumn: collumnValue,
+      comparison: comparisonValue,
+      value: valueToFilter,
+    });
+    if (currentPlanets.length) {
+      filterPlanetsByNumericValues(currentPlanets);
+    } else {
+      filterPlanetsByNumericValues(planets);
+    }
+    collumns.splice(collumns.indexOf(collumnValue), 1);
+  };
+
+  // useEffect(() => {
+  //   setFilteredNumeric({
+  //     collumn: collumnValue,
+  //     comparasion: comparisonValue,
+  //     value: valueToFilter,
+  //   });
+  // }, [collumnValue, comparisonValue, setFilteredNumeric, valueToFilter]);
+
   return (
     <div>
       <select
-        value={ collumn }
+        value={ collumnValue }
         onChange={ ({ target: { value } }) => setColumn(value) }
         data-testid="column-filter"
       >
@@ -28,7 +82,7 @@ export default function FilterByNumericValues() {
         ))}
       </select>
       <select
-        value={ comparison }
+        value={ comparisonValue }
         onChange={ ({ target: { value } }) => setComparison(value) }
         data-testid="comparison-filter"
       >
@@ -41,13 +95,7 @@ export default function FilterByNumericValues() {
         onChange={ ({ target: { value } }) => setValue(value) }
         data-testid="value-filter"
       />
-      <button
-        type="button"
-        onClick={ () => {
-          setFilteredNumeric([{ collumn, comparison, value: valueToFilter }]);
-        } }
-        data-testid="button-filter"
-      >
+      <button type="button" onClick={ handleClick } data-testid="button-filter">
         Filtrar
       </button>
     </div>

@@ -1,29 +1,29 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Table } from 'react-bootstrap';
-import { data } from '../contexts/starWars';
+import { data as dataContext } from '../contexts/starWars';
 import TableRow from './TableRow';
 
 export default function TableData() {
   const {
     planets,
-    filteredPlanets,
-    filters: { filterByName, filterByNumericValues },
-  } = useContext(data);
+    filteredPlanetsByNumeric,
+    currentPlanets,
+  } = useContext(dataContext);
   const [planetsState, setPlanetsState] = useState(planets);
 
   useEffect(() => {
-    setPlanetsState(filteredPlanets.length ? filteredPlanets : planets);
-  }, [filteredPlanets, planets]);
+    setPlanetsState(currentPlanets.length ? currentPlanets : planets);
+  }, [currentPlanets, filteredPlanetsByNumeric, planets]);
 
-  const checkIsFiltering = () => {
-    if (
-      (filterByName.name && !filteredPlanets.length)
-      || (filterByNumericValues.length && !filteredPlanets.length)
-    ) {
-      return true;
-    }
-    return false;
-  };
+  // const checkIsFiltering = () => {
+  //   if (
+  //     (filterByName.name && !filteredPlanetsByNumeric.length)
+  //     || (filterByNumericValues.length && !filteredPlanetsByNumeric.length)
+  //   ) {
+  //     return true;
+  //   }
+  //   return false;
+  // };
 
   const renderCollumns = () => {
     if (planets.length) {
@@ -40,7 +40,7 @@ export default function TableData() {
           {renderCollumns()}
         </tr>
       </thead>
-      {checkIsFiltering() ? (
+      {/* {checkIsFiltering() ? (
         <tbody>
           <tr>
             <td>
@@ -48,13 +48,13 @@ export default function TableData() {
             </td>
           </tr>
         </tbody>
-      ) : (
-        <tbody>
-          {planetsState.map((planet, i) => (
-            <TableRow key={ i } planet={ planet } />
-          ))}
-        </tbody>
-      )}
+      ) : ( */}
+      <tbody>
+        {planetsState.map((planet, i) => (
+          <TableRow key={ i } planet={ planet } />
+        ))}
+      </tbody>
+      {/* )} */}
     </Table>
   );
 }

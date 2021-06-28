@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
   data as StarWarsContext,
@@ -6,22 +6,25 @@ import {
 } from '../contexts/starWars';
 
 export default function StarWarsProvider({ children }) {
-  const { filters } = useContext(FiltersContext);
+  const {
+    filters,
+  } = useContext(FiltersContext);
   const [planets, setPlanets] = useState([]);
   const [isLoading, setLoading] = useState(false);
-  const [filteredName, setFilteredName] = useState([]);
-  const [filteredNumeric, setFilteredNumeric] = useState([]);
-  const [filteredPlanets, setFilteredPlanets] = useState([]);
+  const [filteredPlanetsByNumeric, setFilteredPlanetsByNumeric] = useState([]);
   const [currentPlanets, setCurrentPlanets] = useState([]);
-
-  filters.filterByName.name = filteredName;
-  filters.filterByNumericValues = filteredNumeric;
-
-  // useEffect(() => {
-  //   if (!currentPlanets.length) {
-  //     setCurrentPlanets(planets);
-  //   }
-  // }, [currentPlanets.length, planets, filteredName]);
+  const [collumns, setCollumns] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
+  const [comparisons, setComparisons] = useState([
+    'maior que',
+    'menor que',
+    'igual a',
+  ]);
 
   return (
     <StarWarsContext.Provider
@@ -31,7 +34,7 @@ export default function StarWarsProvider({ children }) {
         isLoading,
         setLoading,
         filters,
-        filteredPlanets,
+        filteredPlanetsByNumeric,
         currentPlanets,
         setCurrentPlanets,
       } }
@@ -39,9 +42,12 @@ export default function StarWarsProvider({ children }) {
       <FiltersContext.Provider
         value={ {
           filters,
-          setFilteredName,
-          setFilteredNumeric,
-          setFilteredPlanets,
+          setFilteredPlanetsByNumeric,
+          filteredPlanetsByNumeric,
+          collumns,
+          setCollumns,
+          comparisons,
+          setComparisons,
         } }
       >
         {children}
