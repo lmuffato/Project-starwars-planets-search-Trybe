@@ -139,11 +139,10 @@ export default function Form() {
           <h2>Filtros Aplicados:</h2>
           {filterByNumericValues && filterByNumericValues
             .map(({ column, comparison, value }, index) => (
-              <div key={ index }>
+              <div key={ index } data-testid="filter">
                 <span>{`${column} ${comparison} ${value}`}</span>
                 <button
                   type="button"
-                  data-testid="filter"
                   onClick={ handleRemoveFilter }
                   data-column={ column }
                 >
