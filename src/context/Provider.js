@@ -6,17 +6,18 @@ import AppContext from './Context';
 function Provider({ children }) {
   const [data, setData] = useState([]);
   const [keys, setKeys] = useState([]);
+  const [name, setSearch] = useState('');
+  const toSetSearch = (value) => setSearch(value);
 
-  //   const x = await fetchPlanet();
-  //   console.log(x);
   const contextvalue = {
     data,
     keys,
+    toSetSearch,
+    filters: { filterByName: { name } },
   };
   useEffect(() => {
     fetchPlanet().then(({ results }) => setData(results));
   }, []);
-  console.log('xx', data, keys);
   useEffect(() => {
     if (data.length !== 0) {
       const keyData = Object.keys(data[0]);
