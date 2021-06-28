@@ -4,10 +4,23 @@ import MainContext from './MainContext';
 
 export default function MainProvider({ children }) {
   const [planets, setPlanets] = useState([]);
-  const [filters, setFilters] = useState({ filterByName: { name: '' } });
+  const [filters, setFilters] = useState({
+    filterByName: {
+      name: '',
+    },
+    filterByNumericValues: [
+      {
+        column: '',
+        comparison: '',
+        value: '',
+      },
+    ],
+  });
 
   const fecthPlanets = async () => {
-    const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
+    const response = await fetch(
+      'https://swapi-trybe.herokuapp.com/api/planets/',
+    );
     const data = await response.json();
     setPlanets(data.results);
   };

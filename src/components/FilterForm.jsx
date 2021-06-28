@@ -1,25 +1,18 @@
-import React, { useContext } from 'react';
-import MainContext from '../context/MainContext';
+import React from 'react';
+import FilterByName from './FilterFormComponents/FilterByName';
+import ColumnFilter from './FilterFormComponents/ColumnFilter';
+import ComparisonFilter from './FilterFormComponents/ComparisonFilter';
+import ValueFilter from './FilterFormComponents/ValueFilter';
+import Button from './FilterFormComponents/Button';
 
 export default function FilterForm() {
-  const { setFilters } = useContext(MainContext);
-
-  const handleChange = (event) => {
-    setFilters({
-      filterByName: {
-        name: event.target.value,
-      },
-    });
-  };
   return (
     <form>
-      <label htmlFor="input-text">
-        <input
-          type="text"
-          data-testid="name-filter"
-          onChange={ (event) => handleChange(event) }
-        />
-      </label>
+      <FilterByName />
+      <ColumnFilter />
+      <ComparisonFilter />
+      <ValueFilter />
+      <Button />
     </form>
   );
 }
