@@ -11,6 +11,7 @@ function Table() {
     getFilteredPlanets,
     filterByNumericValues,
   } = useStarWars();
+
   useEffect(() => {
     getFilteredPlanets();
     // eslint-disable-next-line react-hooks/exhaustive-deps
