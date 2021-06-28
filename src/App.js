@@ -1,9 +1,15 @@
 import React from 'react';
-import './App.css';
+import Table from './Components/Table';
+import PlanetsProvider from './PlanetsContext/PlanetsProvider';
 
 function App() {
   return (
-    <span>Hello, App!</span>
+    <PlanetsProvider>
+      <center>
+        <h1>Star Wars Planets: </h1>
+        <Table />
+      </center>
+    </PlanetsProvider>
   );
 }
 
