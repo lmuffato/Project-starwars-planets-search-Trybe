@@ -2,24 +2,10 @@ import React, { useContext, useState } from 'react';
 import SWContext from '../context/SWContext';
 
 function NumericFilter() {
-  // const [column, setColumn] = useState(['population', 'orbital_period', 'diameter',
-  //   'rotation_period', 'surface_water']);
   const [columnFilter, setColumnFilter] = useState('population');
   const [operation, setOperation] = useState('maior que');
   const [number, setNumber] = useState();
   const { setNumericFilters, numericFilters, column, setColumn } = useContext(SWContext);
-
-  function handleColumn(event) {
-    setColumnFilter(event.target.value);
-  }
-
-  function handleOperation(event) {
-    setOperation(event.target.value);
-  }
-
-  function handleChange(event) {
-    setNumber(event.target.value);
-  }
 
   function handleClick() {
     setNumericFilters([...numericFilters, { columnFilter, operation, number }]);
@@ -35,7 +21,7 @@ function NumericFilter() {
           name="property"
           data-testid="column-filter"
           value={ columnFilter }
-          onChange={ handleColumn }
+          onChange={ (event) => setColumnFilter(event.target.value) }
           className="numeric-filter"
         >
           {column.map((string, index) => (
@@ -46,7 +32,7 @@ function NumericFilter() {
           name="property"
           data-testid="comparison-filter"
           value={ operation }
-          onChange={ handleOperation }
+          onChange={ (event) => setOperation(event.target.value) }
           className="numeric-filter"
         >
           <option value="maior que">maior que</option>
@@ -55,7 +41,7 @@ function NumericFilter() {
         </select>
         <input
           type="number"
-          onChange={ handleChange }
+          onChange={ (event) => setNumber(event.target.value) }
           value={ number }
           data-testid="value-filter"
           className="numeric-filter"
