@@ -19,7 +19,7 @@ function Table() {
       setFound(false);
     } else setFound(true);
     setFilteredPlanets(filterPlanets);
-  }, [name]);
+  }, [name, planets, setFilteredPlanets, setFound]);
 
   return (
     <table>
