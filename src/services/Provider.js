@@ -5,7 +5,6 @@ import StarWarsContext from './StarWarsContext';
 function Provider({ children }) {
   const [data, setData] = useState([]);
   const [dataApi, setDataApi] = useState([]);
-
   const [filterHandler, setFilterHandler] = useState({
     column: 'population', comparison: 'maior que', value: '',
   });
@@ -13,7 +12,7 @@ function Provider({ children }) {
   // Filtros Salvos
   const [filters, setFilters] = useState({
     filterByName: {
-      name: '',
+      name: 'name',
     },
     filterByNumericValues: [],
   });
@@ -21,45 +20,28 @@ function Provider({ children }) {
   // Filtrando por valor populacional a partir do reultado da optionBox
 
   function filterNumericValues(results) {
+    let filterPlanets = [];
     const numericValues = filters.filterByNumericValues;
     if (!numericValues.length) {
       return setData(results);
     }
     const value = results.filter((result) => (
-      numericValues.every((numericFilter) => {
-        switch (numericFilter.comparison) {
-        case 'maior que':
-          if (
-            Number(result[numericFilter.column])
-            > parseInt(numericFilter.value, 10)
-            && parseInt(numericFilter.value, 10) !== 'unknown'
-          ) {
-            return true;
+      numericValues.every((fil) => {
+        switch (fil.comparison) {
+          case 'maior que':
+            filterPlanets = result.filter((row) => row[fil.column] > parseInt(fil.value, 10));
+            return setData(filterPlanets);
+          case 'menor que':
+            filterPlanets = result.filter((row) => row[fil.column] < parseInt(fil.value, 10));
+            return setData(filterPlanets);
+          case 'igual a':
+            filterPlanets = result.filter((row) => row[fil.column] === fil.value);
+            return setData(filterPlanets);
+          default:
+            filterName(result);
           }
-          return false;
-
-        case 'menor que':
-          if (
-            Number(result[numericFilter.column])
-            < parseInt(numericFilter.value, 10)
-            && parseInt(numericFilter.value, 10) !== 'unknown'
-          ) {
-            return true;
-          }
-          return false;
-        case 'igual a':
-          if (
-            parseInt(result[numericFilter.column], 10)
-            === parseInt(numericFilter.value, 10)
-            && parseInt(numericFilter.value, 10) !== 'unknown'
-          ) {
-            return true;
-          } break;
-        default:
-          return false;
-        }
-      })
-    ));
+        })
+      ));
     setData(value);
   }
 
