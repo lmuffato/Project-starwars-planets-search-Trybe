@@ -5,7 +5,9 @@ import myContext from './mycontext';
 function Provider({ children }) {
   const [data, setData] = useState([{}]);
   const [backup, setBackup] = useState([]);
-  const [filters, setFilters] = useState({ filteredByName: { name: '' } });
+  const [filters, setFilters] = useState({
+    filteredByName: { name: '' },
+    filterByNumericValues: { column: '', comparison: '', number: '' } });
   useEffect(() => {
     const fetchPlanets = async () => {
       const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
