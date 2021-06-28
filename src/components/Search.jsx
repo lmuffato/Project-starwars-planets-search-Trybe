@@ -47,6 +47,15 @@ function Search() {
     });
   };
 
+  const deleteOptions = () => {
+    if (coluna.current) {
+      return selectorOptions.filter((option) => option !== coluna.current.value);
+    }
+    return selectorOptions;
+  };
+
+  const options = deleteOptions();
+
   return (
     <header>
       <section>
@@ -66,7 +75,7 @@ function Search() {
             id="Selector_One"
             ref={ coluna }
           >
-            { selectorOptions
+            { options
               .map((option, index) => (
                 <option key={ index } value={ option }>
                   { option }
