@@ -5,10 +5,11 @@ import fetchPlanets from '../services/api';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
+  const [dataOriginal, setDataOriginal] = useState([]);
   const [name, setName] = useState('');
   const [planets, setPlanets] = useState([]);
   const [column, setColumn] = useState('population');
-  const [comparison, setComparison] = useState('>');
+  const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState('0');
   const [filterByNumericValues, setFilter] = useState([]);
   const [options, setOptions] = useState([
@@ -23,6 +24,7 @@ function Provider({ children }) {
     const fetchApi = async () => {
       const dataPlanets = await fetchPlanets();
       setData(dataPlanets);
+      setDataOriginal(dataPlanets);
     };
     fetchApi();
   }
@@ -49,6 +51,7 @@ function Provider({ children }) {
   };
 
   const getFilter = (cl, cm, vl) => {
+    setColumn(options.find((option) => option !== cl));
     const planetsFilter = data.filter((planet) => {
       const columOptins = Number(planet[cl]);
       const valueFilter = Number(vl);
@@ -64,9 +67,17 @@ function Provider({ children }) {
   function handleClick() {
     handleFilter();
     getFilter(column, comparison, value);
-    console.log('teste');
   }
-  // ComponentDidMount
+
+  // Requisito 5 - Exclui os filtros criados e retorna a tabela ao valor original;
+  const deleteFilters = (cl) => {
+    setPlanets(dataOriginal);
+    const newFilter = filterByNumericValues.filter((f) => f.column !== cl && f);
+    console.log(newFilter);
+    setFilter(newFilter);
+  };
+
+  // ComponentDidMounts
   useEffect(getPlanets, []);
   // 2 Defini o filtro dos planetas pelo o que é digitado no input e compara com o nome do Planeta
   // https://codesandbox.io/embed/react-hooks-search-filter-4gnwc
@@ -85,6 +96,7 @@ function Provider({ children }) {
     setComparison,
     setValue,
     handleClick,
+    deleteFilters,
     options,
     filters: {
       filterByName: { name },
