@@ -5,17 +5,20 @@ import PlanetsContext from './ContextPlanets';
 
 const PlanetsProvider = ({ children }) => {
   const [planets, setPlanets] = useState([]);
-  const [filters, setFilters] = useState([{
+  const [filteredPlanets, setFilteredPlanets] = useState([]);
+  const [planetsFound, setFound] = useState(true);
+  const [filters, setFilters] = useState({
     filterByName: {
       name: '',
     },
     filterByNumericValues: [],
     order: { column: 'name', sort: 'ASC' },
-  }]);
+  });
   useEffect(() => {
     (async () => {
       const data = await fetchPlanets();
       setPlanets(data);
+      setFilteredPlanets(data);
     })();
   }, []);
   const setFilterByName = (event) => {
@@ -27,8 +30,12 @@ const PlanetsProvider = ({ children }) => {
       value={ {
         planets,
         setPlanets,
+        filteredPlanets,
+        setFilteredPlanets,
         filters,
         setFilterByName,
+        planetsFound,
+        setFound,
       } }
     >
       {children}

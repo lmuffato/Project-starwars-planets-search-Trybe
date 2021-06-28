@@ -1,14 +1,31 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PlanetsContext from '../context/ContextPlanets';
 import TableHead from './TableHead';
 
 function Table() {
-  const { planets } = useContext(PlanetsContext);
+  const {
+    planets,
+    filteredPlanets,
+    setFilteredPlanets,
+    setFound,
+    filters: { filterByName: { name } },
+  } = useContext(PlanetsContext);
+  useEffect(() => {
+    if (name.length < 1) return setFilteredPlanets(planets);
+    const filterPlanets = planets
+      .filter((planet) => planet.name.toLowerCase().includes(name));
+    if (filterPlanets.length < 1) {
+      setFilteredPlanets([]);
+      setFound(false);
+    } else setFound(true);
+    setFilteredPlanets(filterPlanets);
+  }, [name]);
+
   return (
     <table>
       <TableHead />
       <tbody>
-        {planets.map((planet) => (
+        {filteredPlanets.map((planet) => (
           <tr key={ planet.name }>
             <td>{planet.name}</td>
             <td>{planet.rotation_period}</td>
@@ -22,7 +39,7 @@ function Table() {
             <td>
               <ul>
                 {planet.films.map((film) => (
-                  <li key={ film }>{film}</li>
+                  <li key={ `${film}${Math.random()}` }>{film}</li>
                 ))}
               </ul>
             </td>

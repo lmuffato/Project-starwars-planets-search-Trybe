@@ -3,7 +3,12 @@ body {
   color: #f6fadf;
   font-family: Helvetica , sans-serif;
   margin: 0;
-  text-shadow: 1px 1px 2px #5794a1;
+}
+
+header {
+  background-color: #57626e;
+  padding: 10px;
+  text-align: center;
 }
 
 ul {
