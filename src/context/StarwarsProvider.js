@@ -38,29 +38,25 @@ function StarwarsProvider({ children }) {
           .filter((value) => parseFloat(value[filter.column])
           > parseFloat(getValue));
         return dataWithNumericFilter;
-        // console.log(dataWithNumericFilter);
       }
       if (getComparison === 'menor que') {
         dataWithNumericFilter = data
           .filter((value) => parseFloat(value[filter.column]) < parseFloat(getValue));
         return dataWithNumericFilter;
-        // console.log(dataWithNumericFilter);
       }
       if (getComparison === 'igual a') {
         dataWithNumericFilter = data
           .filter((value) => parseFloat(value[filter.column]) === parseFloat(getValue));
         return dataWithNumericFilter;
-        // console.log(dataWithNumericFilter);
       }
       return dataWithNumericFilter;
     });
     setData(dataWithNumericFilter);
-    setValidationFilter(true);
   };
 
-  // useEffect(() => {
-  //   setValidationFilter(false);
-  // }, []);
+  useEffect(() => {
+    setValidationFilter(false);
+  }, []);
 
   useEffect(() => {
     if (filters.filterByName.name === '' && validationFilter === false) {
@@ -70,8 +66,10 @@ function StarwarsProvider({ children }) {
     filterNumerically();
   }, [filters]);
 
+  const providerState = { data, loading, filters, setFilters, setValidationFilter };
+
   return (
-    <StarwarsContext.Provider value={ { data, loading, filters, setFilters } }>
+    <StarwarsContext.Provider value={ providerState }>
       {children}
     </StarwarsContext.Provider>
   );

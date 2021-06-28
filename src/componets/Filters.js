@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import StarwarsContext from '../context/StarwarsContext';
 
 function Filters() {
-  const { setFilters, filters } = useContext(StarwarsContext);
+  const { setFilters, filters, setValidationFilter } = useContext(StarwarsContext);
   const [numericFilter, setNumericFilter] = useState({
     column: 'population',
     comparison: 'maior que',
@@ -30,7 +30,7 @@ function Filters() {
       ...filters,
       filterByNumericValues: [numericFilter],
     });
-    // setValidationFilter(false);
+    setValidationFilter(true);
   }
 
   return (
