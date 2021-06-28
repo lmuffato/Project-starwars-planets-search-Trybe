@@ -4,7 +4,7 @@ import MyContext from './MyContext';
 
 function Provider({ children }) {
   const [data, setData] = useState([{}]);
-  const [planetName, setPlanetName] = useState('');
+  const [filters, setFilters] = useState({ filterByName: { name: '' } });
   const [backup, setBackup] = useState([]);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ function Provider({ children }) {
   }, []);
 
   return (
-    <MyContext.Provider value={ { data, planetName, setPlanetName, backup, setBackup } }>
+    <MyContext.Provider value={ { data, filters, setFilters, backup, setBackup } }>
       {children}
     </MyContext.Provider>
   );

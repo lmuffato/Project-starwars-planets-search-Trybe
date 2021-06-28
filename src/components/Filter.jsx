@@ -2,11 +2,17 @@ import React, { useContext } from 'react';
 import MyContext from '../context/MyContext';
 
 function Filter() {
-  const { data, planetName, setPlanetName, setBackup } = useContext(MyContext);
+  const { data, filters, setFilters, setBackup } = useContext(MyContext);
 
+  const { filterByName: { name } } = filters;
   const handleChange = ({ target }) => {
-    setPlanetName(target.value);
-    const filteredPlanets = data.filter(({ name }) => name.includes(target.value));
+    setFilters({
+      ...filters,
+      filterByName: {
+        name: target.value,
+      },
+    });
+    const filteredPlanets = data.filter((planet) => planet.name.includes(target.value));
     setBackup(filteredPlanets);
   };
 
@@ -17,8 +23,8 @@ function Filter() {
         type="text"
         placeholder="Pesquise pelo nome"
         data-testid="name-filter"
-        value={ planetName }
-        name="planetName"
+        value={ name }
+        name="name"
         onChange={ handleChange }
       />
     </label>
