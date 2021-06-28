@@ -1,30 +1,27 @@
 import React, { useContext, useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import starwarsContext from '../context/starwarsContext';
 
-export default function NumericFilter({ id }) {
+export default function NumericFilter() {
   const [filtersInputs, setFiltersInput] = useState({
-    columnInput: '', // PENSAR EM OUTRA FORMA DE INICIALIZAÇÃO
-    comparisonInput: 'maior que', // PENSAR EM OUTRA FORMA DE INICIALIZAÇÃO
+    columnInput: '',
+    comparisonInput: 'maior que',
     valueInput: 0,
   });
-  const { filters, setFilters, numberOfFilters, setNumberOfFilters, usedOptions, setUsedOptions } = useContext(starwarsContext);
+  const { filters, setFilters } = useContext(starwarsContext);
   const { filterByNumericValues } = filters;
-
-  useEffect(() => {
-    if (numberOfFilters >= 5) setUsedOptions(true);
-  }, [numberOfFilters, setUsedOptions]);
 
   const handleChange = ({ target }) => {
     setFiltersInput({ ...filtersInputs, [target.name]: target.value });
   };
 
   const availableOptions = () => {
-    const options = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+    const options = [
+      'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
+    ];
     const opUsadas = filterByNumericValues.map(
       (filter) => filter.column,
-    ).filter((_, index) => index < id);
-    // aconsole.log(opUsadas);
+    ).filter((_, index) => index < filterByNumericValues.length);
 
     return options.filter(
       (option) => !opUsadas.some((usedOption) => usedOption === option),
@@ -32,7 +29,8 @@ export default function NumericFilter({ id }) {
   };
 
   const handleClick = () => {
-    if (numberOfFilters === 0) {
+    console.log(filterByNumericValues.length);
+    if (filterByNumericValues.length === 0) {
       setFilters({
         ...filters,
         filterByNumericValues: [
@@ -43,9 +41,7 @@ export default function NumericFilter({ id }) {
           },
         ],
       });
-      setNumberOfFilters(numberOfFilters + 1);
     } else {
-      // console.log(filters.filterByNumericValues);
       setFilters({
         ...filters,
         filterByNumericValues: filters.filterByNumericValues.concat({
@@ -55,23 +51,20 @@ export default function NumericFilter({ id }) {
         }),
       });
     }
-    numberOfFilters < 4 ? setNumberOfFilters(numberOfFilters + 1) : setUsedOptions(true);
   };
 
   const renderOptions = () => {
-    const options = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
-    /*     const filteredOptions = options.filter(
-      (option) => !usedOptions.some((usedOption) => usedOption === option),
-    ); */
-    if (id === 0) {
+    const options = [
+      'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'
+    ];
+
+    if (filterByNumericValues.length === 0) {
       return (
         options.map(
           (option, index) => <option key={ index } value={ option }>{option}</option>,
         )
       );
-    }console.log('FILTER NUMERIC', filterByNumericValues);
-    // console.log('USED OPTIONS', usedOptions);
-    console.log('ID', id);
+    }
 
     return (
       availableOptions().map(
@@ -92,11 +85,6 @@ export default function NumericFilter({ id }) {
           onChange={ (e) => handleChange(e) }
         >
           {renderOptions()}
-          {/* <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option> */}
         </select>
       </label>
 
@@ -131,12 +119,12 @@ export default function NumericFilter({ id }) {
         data-testid="button-filter"
         onClick={ () => handleClick() }
       >
-        Acionar filtro
+        Filtrar
       </button>
     </div>
   );
 }
 
-NumericFilter.propTypes = {
+/* NumericFilter.propTypes = {
   id: PropTypes.number.isRequired,
-};
+}; */
