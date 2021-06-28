@@ -8,7 +8,9 @@ function Table() {
 
   useEffect(() => {
     getElements();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  // Fonte desse comentário acima: https://stackoverflow.com/questions/55840294/how-to-fix-missing-dependency-warning-when-using-useeffect-react-hook
 
   return (
     <table>
