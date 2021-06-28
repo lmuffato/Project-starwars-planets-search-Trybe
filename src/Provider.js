@@ -24,7 +24,7 @@ function Provider({ children }) {
       const results = Object.keys(jsonThreatment.results[0])
         .filter((response) => response !== 'residents');
       setData(jsonThreatment);
-      setHeaders(results);
+      setHeader(results);
     };
     resquestApi();
   }, []);
@@ -39,3 +39,5 @@ function Provider({ children }) {
 Provider.propTypes = {
   children: PropTypes.node.isRequired,
 };
+
+export default Provider;
