@@ -1,0 +1,12 @@
+.table_planets {
+  border: 1px solid black;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.border {
+  background-color: white;
+  border: 1px solid black;
+  /* height: 40px; */
+  /* width: 40px; */
+}
