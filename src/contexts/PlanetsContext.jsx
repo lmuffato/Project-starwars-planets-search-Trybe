@@ -9,7 +9,10 @@ export function PlanetsProvider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [tableHeads, setTableHeads] = useState([]);
   const [columnsToSelect, setColumnsToSelect] = useState([]);
-  const [textFilter, setTextFilter] = useState('');
+  const [filters, setFilters] = useState({
+    filterByName: { name: '' },
+    filterByNumericValues: [],
+  });
 
   async function getPlanets() {
     const planetsResults = await fetchPlanets();
@@ -35,36 +38,29 @@ export function PlanetsProvider({ children }) {
   }
 
   function filterByText(filter) {
+    setFilters({ ...filters, filterByName: { name: filter } });
+
     const filteredPlanets = initialPlanets.filter(
       (planet) => planet.name.toLowerCase().includes(filter.toLowerCase()),
     );
+
     setPlanets(filteredPlanets);
-    setTextFilter(filter);
   }
 
   function filterByComparisons(event, { column, comparison, value }) {
     event.preventDefault();
 
-    const planetsWithTextFilter = initialPlanets.filter(
-      (planet) => planet.name.toLowerCase().includes(textFilter.toLowerCase()),
-    );
-
-    let filteredPlanets = [];
-    if (comparison === '+') {
-      filteredPlanets = planetsWithTextFilter.filter(
-        (planet) => Number(planet[column]) > Number(value),
-      );
-    } else if (comparison === '-') {
-      filteredPlanets = planetsWithTextFilter.filter(
-        (planet) => Number(planet[column]) < Number(value),
-      );
-    } else {
-      filteredPlanets = planetsWithTextFilter.filter(
-        (planet) => Number(planet[column]) === Number(value),
-      );
-    }
-
-    setPlanets(filteredPlanets);
+    setFilters({
+      ...filters,
+      filterByNumericValues: [
+        ...filters.filterByNumericValues,
+        {
+          column,
+          comparison,
+          value,
+        },
+      ],
+    });
   }
 
   useEffect(() => {
@@ -86,6 +82,40 @@ export function PlanetsProvider({ children }) {
       getColumnsToSelect(tableHeads);
     }
   }, [tableHeads]);
+
+  useEffect(() => {
+    function filterPlanets() {
+      const { filterByName: { name: nameFilter }, filterByNumericValues } = filters;
+
+      let filteredPlanets = [];
+
+      filteredPlanets = initialPlanets.filter(
+        (planet) => planet.name.toLowerCase().includes(nameFilter.toLowerCase()),
+      );
+
+      if (filterByNumericValues.length > 0) {
+        filterByNumericValues.forEach((filter) => {
+          if (filter.comparison === 'maior que') {
+            filteredPlanets = filteredPlanets.filter(
+              (planet) => Number(planet[filter.column]) > Number(filter.value),
+            );
+          } else if (filter.comparison === 'menor que') {
+            filteredPlanets = filteredPlanets.filter(
+              (planet) => Number(planet[filter.column]) < Number(filter.value),
+            );
+          } else {
+            filteredPlanets = filteredPlanets.filter(
+              (planet) => Number(planet[filter.column]) === Number(filter.value),
+            );
+          }
+
+          setPlanets(filteredPlanets);
+        });
+      }
+    }
+
+    filterPlanets();
+  }, [filters, initialPlanets]);
 
   return (
     <PlanetsContext.Provider

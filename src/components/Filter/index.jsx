@@ -8,8 +8,8 @@ function Filter() {
     columnsToSelect,
   } = useContext(PlanetsContext);
 
-  const [column, setColumn] = useState('');
-  const [comparison, setComparison] = useState('');
+  const [column, setColumn] = useState('rotation_period');
+  const [comparison, setComparison] = useState('+');
   const [valueForComparison, setValueForComparison] = useState('');
 
   return (
@@ -36,9 +36,9 @@ function Filter() {
           data-testid="comparison-filter"
           onChange={ ({ target: { value } }) => setComparison(value) }
         >
-          <option value="+">maior que</option>
-          <option value="-">menor que</option>
-          <option value="=">igual a</option>
+          <option value="maior que">maior que</option>
+          <option value="menor que">menor que</option>
+          <option value="igual a">igual a</option>
         </select>
         <input
           type="number"
