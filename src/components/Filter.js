@@ -2,10 +2,16 @@ import React, { useContext } from 'react';
 import myContext from '../context/mycontext';
 
 function Filter() {
-  const { data, planetName, setPlanetName, setBackup } = useContext(myContext);
+  const { data, filters, setFilters, setBackup } = useContext(myContext);
+  const { filteredByName: { name } } = filters;
   const handleChange = ({ target }) => {
-    setPlanetName(target.value);
-    const filteredPlanets = data.filter(({ name }) => name.includes(target.value));
+    setFilters({
+      ...filters,
+      filteredByName: {
+        name: target.value,
+      },
+    });
+    const filteredPlanets = data.filter((planet) => planet.name.includes(target.value));
     setBackup(filteredPlanets);
   };
   return (
@@ -14,9 +20,10 @@ function Filter() {
       <input
         type="text"
         data-testid="name-filter"
-        value={ planetName }
+        value={ name }
         onChange={ handleChange }
         id="planet"
+        name="name"
       />
     </label>
   );

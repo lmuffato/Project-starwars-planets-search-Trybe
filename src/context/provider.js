@@ -5,7 +5,7 @@ import myContext from './mycontext';
 function Provider({ children }) {
   const [data, setData] = useState([{}]);
   const [backup, setBackup] = useState([]);
-  const [planetName, setPlanetName] = useState('');
+  const [filters, setFilters] = useState({ filteredByName: { name: '' } });
   useEffect(() => {
     const fetchPlanets = async () => {
       const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
@@ -18,8 +18,8 @@ function Provider({ children }) {
     <myContext.Provider
       value={ { backup,
         data,
-        setPlanetName,
-        planetName,
+        setFilters,
+        filters,
         setBackup } }
     >
       {children}
@@ -28,7 +28,7 @@ function Provider({ children }) {
 }
 
 Provider.propTypes = {
-  children: PropTypes.string.isRequired,
+  children: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default Provider;
