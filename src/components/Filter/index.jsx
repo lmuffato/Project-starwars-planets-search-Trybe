@@ -1,16 +1,23 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { PlanetsContext } from '../../contexts/PlanetsContext';
+
+import FilterApplied from '../FilterApplied';
 
 function Filter() {
   const {
     filterByText,
     filterByComparisons,
     columnsToSelect,
+    filters,
   } = useContext(PlanetsContext);
 
-  const [column, setColumn] = useState('rotation_period');
-  const [comparison, setComparison] = useState('+');
+  const [column, setColumn] = useState('');
+  const [comparison, setComparison] = useState('maior que');
   const [valueForComparison, setValueForComparison] = useState('');
+
+  useEffect(() => {
+    setColumn(columnsToSelect[0]);
+  }, [columnsToSelect]);
 
   return (
     <>
@@ -19,6 +26,17 @@ function Filter() {
         onChange={ ({ target: { value } }) => filterByText(value) }
         data-testid="name-filter"
       />
+      { filters.filterByNumericValues.map((filter) => (
+        <FilterApplied
+          key={ filter.column }
+          column={ filter.column }
+          comparison={ filter.comparison }
+          value={ filter.value }
+          setColumn={ setColumn }
+          setComparison={ setComparison }
+          serValueForComparison={ setValueForComparison }
+        />
+      )) }
       <form
         onSubmit={ (event) => filterByComparisons(event, {
           column, comparison, value: valueForComparison,

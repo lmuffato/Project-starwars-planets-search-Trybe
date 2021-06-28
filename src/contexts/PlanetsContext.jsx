@@ -25,18 +25,6 @@ export function PlanetsProvider({ children }) {
     setTableHeads(firstPlanetKeys);
   }
 
-  function getColumnsToSelect(tableHeadsFromState) {
-    const options = [
-      'population',
-      'orbital_period',
-      'diameter',
-      'rotation_period',
-      'surface_water',
-    ];
-    const heads = tableHeadsFromState.filter((head) => options.includes(head));
-    setColumnsToSelect(heads);
-  }
-
   function filterByText(filter) {
     setFilters({ ...filters, filterByName: { name: filter } });
 
@@ -76,12 +64,30 @@ export function PlanetsProvider({ children }) {
   }, [planets]);
 
   useEffect(() => {
+    function getColumnsToSelect(tableHeadsFromState) {
+      let options = [
+        'population',
+        'orbital_period',
+        'diameter',
+        'rotation_period',
+        'surface_water',
+      ];
+
+      filters.filterByNumericValues.forEach((filter) => {
+        const columnSelected = filter.column;
+        options = options.filter((option) => option !== columnSelected);
+      });
+
+      const heads = tableHeadsFromState.filter((head) => options.includes(head));
+      setColumnsToSelect(heads);
+    }
+
     const headsWereLoaded = tableHeads.length > 0;
 
     if (headsWereLoaded) {
       getColumnsToSelect(tableHeads);
     }
-  }, [tableHeads]);
+  }, [filters.filterByNumericValues, tableHeads]);
 
   useEffect(() => {
     function filterPlanets() {
@@ -125,6 +131,7 @@ export function PlanetsProvider({ children }) {
         columnsToSelect,
         filterByText,
         filterByComparisons,
+        filters,
       } }
     >
       {children}
