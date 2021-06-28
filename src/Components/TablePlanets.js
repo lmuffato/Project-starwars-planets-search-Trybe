@@ -90,14 +90,6 @@ function TablePlanets() {
           ))}
         </tbody>
       </table>
-      <button
-        type="button"
-        className="del-btn"
-        data-testid="delete-btn"
-        onClick={ console.log('click!') }
-      >
-        X
-      </button>
     </div>
   );
 }

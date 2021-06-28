@@ -4,13 +4,19 @@ import './App.css';
 import Provider from './Components/Provider';
 import TablePlanets from './Components/TablePlanets';
 import PlanetFilters from './Components/PlanetFilters';
+import ClearFilterButton from './Components/ClearFilterButton';
 
 function App() {
   return (
-    <Provider>
-      <PlanetFilters />
-      <TablePlanets />
-    </Provider>
+    <div className="scifiUI">
+      <Provider>
+        <header>
+          <PlanetFilters />
+          <ClearFilterButton />
+        </header>
+        <TablePlanets />
+      </Provider>
+    </div>
   );
 }
 
