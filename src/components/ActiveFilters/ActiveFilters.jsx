@@ -19,10 +19,10 @@ function ActiveFilters() {
 
   const handleRemoveFilter = useCallback((event, id) => {
     event.preventDefault();
-    // console.log('click');
+    console.log(id);
     if (filterByNumericValues.length > 0) {
       const filtered = filterByNumericValues
-        .filter((item, indice) => item[indice] !== id);
+        .map((item, indice) => item[indice] !== id);
       // setFiltersByNumericValue(filtered);
       tryFilter(filtered);
       setSoughtPlanets(data);
@@ -32,7 +32,7 @@ function ActiveFilters() {
 
   return (
     <div>
-      { filterByNumericValues.length > 0
+      { filterByNumericValues
       && filterByNumericValues.map((filtro, index) => (
         <div key={ index } data-testid="filter" id={ filtro }>
           <span>
@@ -40,7 +40,7 @@ function ActiveFilters() {
             ${filtro.filterComparisonType}
             ${filtro.filterValue}`}
           </span>
-          <Button onClick={ (event, id) => handleRemoveFilter(event, id) }>X</Button>
+          <Button onClick={ (event) => handleRemoveFilter(event) }>X</Button>
         </div>
       ))}
     </div>);
