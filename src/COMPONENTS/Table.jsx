@@ -1,37 +1,21 @@
 import React, { useContext } from 'react';
-import MyContext from '../CONTEXT/DataContext';
+// import MyContext from '../CONTEXT/DataContext';
 import FilterName from './FilterName';
+import FilterColunm from './FilterColunm';
 import FilterContext from '../CONTEXT/FilterContext';
 
 function Table() {
-  const data = useContext(MyContext);
+  // const data = useContext(MyContext);
   const contextFilter = useContext(FilterContext);
-  console.log('contextFilter');
-  console.log(contextFilter);
-  const { planetName } = contextFilter;
-  console.log(planetName);
+  const { filtered } = contextFilter;
 
-  const filterTable = () => {
-    const planetSearch = planetName.toLowerCase();
-    const newData = data;
-    console.log('newData');
-    console.log(newData);
-    if (planetSearch === '') {
-      return newData;
-    } if (planetSearch !== '') {
-      const setData = newData.filter((planet) => (
-        planet.name.toLowerCase().includes(planetSearch)));
-      return setData;
-    }
-  };
-
-  if (data === undefined) {
+  if (filtered === undefined) {
     return <div>Loading</div>;
   }
   return (
     <div>
       <FilterName />
-      <p>tabela</p>
+      <FilterColunm />
       <table>
         <tr>
           <th>name</th>
@@ -48,7 +32,7 @@ function Table() {
           <th>edited</th>
           <th>url</th>
         </tr>
-        {filterTable().map((planet) => (
+        {filtered.map((planet) => (
           <tr key={ planet.name }>
             <td>{planet.name}</td>
             <td>{planet.rotation_period}</td>

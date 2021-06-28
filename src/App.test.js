@@ -116,7 +116,7 @@ describe('2 - Filtre a tabela através de um texto, inserido num *campo de texto
 
     const input = await screen.findByTestId(INPUT_FILTER_NAME_SELECTOR);
     fireEvent.change(input, { target: { value: 'oo' } });
-    expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(3);
+    expect(await screen.findAllByRole([ROW_ROLE_SELECTOR])).toHaveLength(3);
     const planetNames = ['Naboo', 'Tatooine'];
     for (let planetName of planetNames) {
       expect(await screen.findByText(planetName)).toBeInTheDocument();
@@ -159,7 +159,7 @@ describe('2 - Filtre a tabela através de um texto, inserido num *campo de texto
   });
 });
 
-describe.skip('3 - Crie um filtro para valores numéricos', () => {
+describe('3 - Crie um filtro para valores numéricos', () => {
   beforeAll(mockFetch);
   beforeEach(cleanup);
 
