@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import context from './context';
-import { getPlanets } from '../services/getPlanets';
+import getPlanets from '../services/getPlanets';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
@@ -11,20 +12,24 @@ function Provider({ children }) {
       const thePlanets = await getPlanets();
       setData([...thePlanets]);
       setLoading(false);
-    }
+    };
     setThePlanets();
   }, []);
 
   const store = {
     data,
     isLoading,
-  }
+  };
 
   return (
     <context.Provider value={ store }>
       { children }
     </context.Provider>
-  )
+  );
 }
 
-export default Provider
+Provider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+export default Provider;

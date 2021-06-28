@@ -12,28 +12,29 @@ function Table() {
         values.pop();
         return (
           <tr key={ values[index][0] }>
-            { values.map((value, index) => (
-            <td key={ value } className="tableData">
-              { value }
-            </td>)) }
+            { values.map((value) => (
+              <td key={ value } className="tableData">
+                { value }
+              </td>)) }
           </tr>
-      )}));
-  }
+        );
+      }));
+  };
 
   const renderTableHeader = () => {
     const headers = Object.keys(data[0]);
     headers.pop();
     return (
       <tr>
-        { 
-        headers.map((ele) => (
-          <th className="tableHeader" key={ ele }>
-            { ele }
-          </th>))
+        {
+          headers.map((ele) => (
+            <th className="tableHeader" key={ ele }>
+              { ele }
+            </th>))
         }
       </tr>
     );
-  }
+  };
 
   const renderTable = () => (
     <table>
@@ -43,7 +44,7 @@ function Table() {
       <tbody>
         { renderTableBody() }
       </tbody>
-    </table>)
+    </table>);
 
   return (
     <div>
