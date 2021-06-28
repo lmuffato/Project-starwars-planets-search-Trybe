@@ -4,7 +4,7 @@ import Context from '../context/Context';
 
 function Table() {
   const { tableHeader, filteredPlanet } = useContext(Context);
-  // console.log(dataApi);
+  // console.log(filteredPlanet);
   // console.log(tableHeader);
 
   return (

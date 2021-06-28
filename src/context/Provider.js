@@ -2,20 +2,28 @@ import React, { useState, useEffect } from 'react';
 import { object } from 'prop-types';
 import getStarWarsAPI from '../services/getStarWarsAPI';
 import Context from './Context';
-
+// Requisito 03 realizado com ajuda de Pollyana Oliveira Turma 10A e Adão Benites Jr turma 10B
 function Provider({ children }) {
-  const objectValue = {
+  const [dataApi, setDataApi] = useState([]);
+  const [tableHeader, setTableHeader] = useState([]);
+  const [filteredPlanet, setFilteredPlanet] = useState([]);
+  const [filters, setFilters] = useState({
+    columnFilter: 'population',
+    comparisonFilter: 'maior que',
+    valueFilter: '',
     filterByName: {
       name: '',
     },
-  };
-  const [dataApi, setDataApi] = useState([]);
-  const [tableHeader, setTableHeader] = useState([]);
-  const [inputValue, setInputValue] = useState(objectValue);
-  const [filteredPlanet, setFilteredPlanet] = useState([]);
+    filterByNumericValues: [],
+  });
 
   useEffect(() => {
-    getStarWarsAPI().then((results) => setDataApi(results));
+    const fetch = async () => {
+      const results = await getStarWarsAPI();
+      setDataApi(results);
+      setFilteredPlanet(results);
+    };
+    fetch();
   }, []);
 
   useEffect(() => {
@@ -26,17 +34,54 @@ function Provider({ children }) {
     }
   }, [dataApi]);
 
-  useEffect(() => {
-    const searchedPlanet = dataApi.filter((planet) => (
-      planet.name.includes(inputValue.filterByName.name)));
+  const filtersValueFunc = () => {
+    const { columnFilter, comparisonFilter, valueFilter } = filters;
+    const filterByValue = filteredPlanet.filter((planet) => {
+      if (comparisonFilter === 'maior que') {
+        return Number(planet[columnFilter]) > Number(valueFilter);
+      } if (comparisonFilter === 'menor que') {
+        return Number(planet[columnFilter]) < Number(valueFilter);
+      } return Number(planet[columnFilter]) === Number(valueFilter);
+    });
+    return setFilteredPlanet(filterByValue);
+  };
+
+  const handlePlanetFiltered = ({ target: { value } }) => {
+    const searchedPlanet = dataApi.filter((planet) => planet.name.includes(value));
     setFilteredPlanet(searchedPlanet);
-  }, [dataApi, inputValue]);
+  };
+
+  const handleSelectChange = ({ target }) => {
+    setFilters({ ...filters, [target.name]: target.value });
+  };
+
+  const handleSubmitFilter = () => {
+    const {
+      filterByNumericValues,
+      columnFilter,
+      comparisonFilter,
+      valueFilter } = filters;
+    setFilters({
+      ...filters,
+      filterByNumericValues: [
+        ...filterByNumericValues,
+        {
+          column: columnFilter,
+          comparison: comparisonFilter,
+          value: valueFilter,
+        },
+      ],
+    });
+    filtersValueFunc();
+  };
 
   const contextValue = {
-    dataApi,
     tableHeader,
-    setInputValue,
+    setFilters,
     filteredPlanet,
+    handleSelectChange,
+    handleSubmitFilter,
+    handlePlanetFiltered,
   };
 
   return (
@@ -52,6 +97,10 @@ Provider.propTypes = {
 
 export default Provider;
 
+// useEffect(() => {
+//   getStarWarsAPI().then((results) => setDataApi(results));
+// }, []);
+
 // forma de fazer um useEffect com async/await
 // useEffect(() => {
 //   const fetch = async () => {
@@ -62,3 +111,21 @@ export default Provider;
 //   };
 //   fetch();
 // }, []);
+
+// useEffect(() => {
+//   const searchedPlanet = dataApi.filter((planet) => (
+//     planet.name.includes(filters.filterByName.name)));
+//   setFilteredPlanet(searchedPlanet);
+// }, [dataApi, filters]);
+
+// const filtersValueFunc = () => {
+//   const { columnFilter, comparisonFilter, valueFilter } = filters;
+//   const filterByValue = filteredPlanet.filter((planet) => {
+//     if (comparisonFilter === 'maior que') {
+//       return parseInt(planet[columnFilter], 10) > parseInt(valueFilter, 10);
+//     } if (comparisonFilter === 'menor que') {
+//       return parseInt(planet[columnFilter], 10) < parseInt(valueFilter, 10);
+//     } return parseInt(planet[columnFilter], 10) === parseInt(valueFilter, 10);
+//   });
+//   return setFilteredPlanet(filterByValue);
+// };

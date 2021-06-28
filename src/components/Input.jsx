@@ -3,15 +3,18 @@ import Context from '../context/Context';
 // Requisito 02 realizado com ajuda de Luan Ramalho turma 10a
 
 function Input() {
-  const { setInputValue } = useContext(Context);
+  const { handlePlanetFiltered } = useContext(Context);
+
   return (
-    <div>
+    <label htmlFor="name-filter">
       <input
         type="text"
+        placeholder="Search for a Planet"
+        id="name-filter"
         data-testid="name-filter"
-        onChange={ (e) => setInputValue({ filterByName: { name: e.target.value } }) }
+        onChange={ (e) => handlePlanetFiltered(e) }
       />
-    </div>
+    </label>
   );
 }
 
