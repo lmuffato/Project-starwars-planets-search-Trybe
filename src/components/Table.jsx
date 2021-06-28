@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 import NameFilters from './NameFilter';
+import NumericValuesFilter from './NumericValuesFilter';
 
 function PlanetsList() {
   const { fetchPlanets, filterName } = useContext(PlanetsContext);
@@ -16,6 +17,7 @@ function PlanetsList() {
       </div>
       <div>
         <NameFilters />
+        <NumericValuesFilter />
       </div>
       <table>
         <thead>

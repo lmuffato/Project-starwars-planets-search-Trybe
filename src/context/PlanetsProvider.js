@@ -8,7 +8,7 @@ function PlanetsProvider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setPlanets] = useState([]);
   const [filterName, setFilterName] = useState([]);
-  const [search, setSearch] = useState('');
+  const [lookForPlanetName, setLookForPlanetName] = useState('');
 
   async function fetchPlanets() {
     setIsLoading(true);
@@ -20,7 +20,14 @@ function PlanetsProvider({ children }) {
   return (
     <PlanetsContext.Provider
       value={ {
-        isLoading, data, fetchPlanets, filterName, setFilterName, search, setSearch } }
+        isLoading,
+        data,
+        fetchPlanets,
+        filterName,
+        setFilterName,
+        lookForPlanetName,
+        setLookForPlanetName,
+      } }
     >
       {children}
     </PlanetsContext.Provider>

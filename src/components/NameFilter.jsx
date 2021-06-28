@@ -2,19 +2,25 @@ import React, { useContext, useEffect } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 function MakeFilter() {
-  const { data, setFilterName, search, setSearch } = useContext(PlanetsContext);
+  const { data,
+    setFilterName,
+    lookForPlanetName,
+    setLookForPlanetName,
+  } = useContext(PlanetsContext);
 
   useEffect(() => {
     setFilterName(
-      data.filter((planet) => planet.name.toLowerCase().includes(search.toLowerCase())),
+      data
+        .filter((planet) => planet.name.toLowerCase()
+          .includes(lookForPlanetName.toLowerCase())),
     );
-  }, [search, data]);
+  }, [lookForPlanetName, data]);
 
   return (
     <input
       type="text"
       data-testid="name-filter"
-      onChange={ (e) => setSearch(e.target.value) }
+      onChange={ (e) => setLookForPlanetName(e.target.value) }
     />
   );
 }
