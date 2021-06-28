@@ -12,7 +12,7 @@ function sortASC(arr, col) {
   );
 }
 
-function sortParseASC() {
+function sortParseASC(arr, col) {
   const param = -1;
   return (
     arr.sort((a, b) => {
@@ -43,12 +43,12 @@ function sortArr(arr, col, sor) {
   }
   if (sor === 'DESC' && Number.isNaN(parseFloat(arr[0][col]))) {
     return (
-      sortDESC()
+      sortDESC(arr, col)
     );
   }
   if (sor === 'ASC' && !Number.isNaN(parseFloat(arr[0][col]))) {
     return (
-      sortParseASC()
+      sortParseASC(arr, col)
     );
   }
   if (sor === 'DESC' && !Number.isNaN(parseFloat(arr[0][col]))) {
