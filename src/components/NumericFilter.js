@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 // import PropTypes from 'prop-types';
 import starwarsContext from '../context/starwarsContext';
 
@@ -55,7 +55,7 @@ export default function NumericFilter() {
 
   const renderOptions = () => {
     const options = [
-      'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'
+      'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
     ];
 
     if (filterByNumericValues.length === 0) {
