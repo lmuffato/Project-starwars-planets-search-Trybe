@@ -51,6 +51,17 @@ export function PlanetsProvider({ children }) {
     });
   }
 
+  function removeFilter(column) {
+    const updatedFilters = filters.filterByNumericValues.filter(
+      (filter) => filter.column !== column,
+    );
+
+    setFilters({
+      ...filters,
+      filterByNumericValues: updatedFilters,
+    });
+  }
+
   useEffect(() => {
     getPlanets();
   }, []);
@@ -114,10 +125,10 @@ export function PlanetsProvider({ children }) {
               (planet) => Number(planet[filter.column]) === Number(filter.value),
             );
           }
-
-          setPlanets(filteredPlanets);
         });
       }
+
+      setPlanets(filteredPlanets);
     }
 
     filterPlanets();
@@ -132,6 +143,7 @@ export function PlanetsProvider({ children }) {
         filterByText,
         filterByComparisons,
         filters,
+        removeFilter,
       } }
     >
       {children}

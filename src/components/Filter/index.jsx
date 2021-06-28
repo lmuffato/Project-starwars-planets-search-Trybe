@@ -32,9 +32,6 @@ function Filter() {
           column={ filter.column }
           comparison={ filter.comparison }
           value={ filter.value }
-          setColumn={ setColumn }
-          setComparison={ setComparison }
-          serValueForComparison={ setValueForComparison }
         />
       )) }
       <form

@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import { PlanetsContext } from '../../contexts/PlanetsContext';
 
 function FilterApplied({
   column: columnSelected,
   comparison: comparisonSelected,
   value: valueSelected,
 }) {
+  const { removeFilter } = useContext(PlanetsContext);
   return (
-    <form>
+    <form data-testid="filter">
       <select disabled>
         <option value={ columnSelected }>
           {columnSelected}
@@ -23,6 +25,7 @@ function FilterApplied({
         value={ valueSelected }
         disabled
       />
+      <button type="button" onClick={ () => removeFilter(columnSelected) }>X</button>
     </form>
   );
 }
