@@ -3,9 +3,6 @@ import Button from '../Generics/Button';
 import useStarWars from '../../hooks/useStarWars';
 
 function ActiveFilters() {
-  // const [activeFilter, setActiveFilter] = useState(false);
-  // const [filtrosAtivos, setFiltrosAtivos] = useState([]);
-
   const {
     filterByNumericValues,
     setFiltersByNumericValue,
@@ -13,6 +10,7 @@ function ActiveFilters() {
     data,
   } = useStarWars();
 
+  // Requisito 05
   const handleRemoveFilter = useCallback((event, id) => {
     event.preventDefault();
     // console.log(id);
@@ -28,7 +26,7 @@ function ActiveFilters() {
     <div>
       { filterByNumericValues.length > 0
       && filterByNumericValues.map((filtro, index) => (
-        <div key={ index } data-testid="filter" id={ filtro }>
+        <div key={ index } data-testid="filter">
           <span>
             {`${filtro.filterColumn}
                 ${filtro.filterComparisonType}

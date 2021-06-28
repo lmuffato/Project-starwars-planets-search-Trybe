@@ -36,6 +36,7 @@ function NumericFilters() {
     ));
   }, [filterByNumericValues.filterColumn]);
 
+  // Requisito 03 - add filtros -- parte do req. 05 tbm
   const handleClickOnFilterButton = useCallback((event) => {
     event.preventDefault();
     setFiltersByNumericValue(
@@ -46,7 +47,6 @@ function NumericFilters() {
       }),
     );
     console.log(filterByNumericValues);
-    // setActiveFilter(true);
     handleHideItemFromOptionsList();
   }, [filterByNumericValues,
     filterColumn,
@@ -90,3 +90,15 @@ function NumericFilters() {
 }
 
 export default NumericFilters;
+
+// Sobre o hook useCallback:
+// --> https://pt-br.reactjs.org/docs/hooks-reference.html#usecallback
+// Para função handleHideItemFromOptionsList foi consultado o PR abaixo:
+// ---> https://github.com/tryber/sd-07-project-starwars-datatable-hooks/pull/108/files
+// Referências sobre componentes controlados utilizando React Hooks:
+// --> https://www.udemy.com/share/102AiqAEYecl5QRnoJ/
+// --> https://joaopedro.dev/simplificando-formularios-com-hooks/
+// --> https://stackoverflow.com/questions/55757761/handle-an-input-with-react-hooks
+// Referências consultadas para entender lógica de filtros:
+// --> https://stackoverflow.com/questions/39204823/on-off-toggle-for-filtering-content-react
+// --> https://betterprogramming.pub/creating-a-multi-filter-function-to-filter-out-multiple-attributes-javascript-react-rails-5aad8e272142

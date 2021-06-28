@@ -11,7 +11,6 @@ export function StarWarsContextProvider({ children }) {
   const [soughtPlanets, setSoughtPlanets] = useState([]); // segundo estado pra gerenciar mudanças nos filtros
   const [isLoading, setLoading] = useState(true); // booleana para renderização do loading
   const [filterByNumericValues, setFiltersByNumericValue] = useState([]); // gerencia os filtros
-  const [activeFilter, setActiveFilter] = useState(false);
 
   // Requisito 1
   async function fetchPlanetsAPI() {
@@ -44,7 +43,6 @@ export function StarWarsContextProvider({ children }) {
         ),
       );
       return soughtPlanets;
-      // break;
     case 'menor que':
       setSoughtPlanets(
         [...apiPlanets].filter(
@@ -52,7 +50,6 @@ export function StarWarsContextProvider({ children }) {
         ),
       );
       return soughtPlanets;
-      // break;
     case 'igual a':
       setSoughtPlanets(
         [...apiPlanets].filter(
@@ -60,7 +57,6 @@ export function StarWarsContextProvider({ children }) {
         ),
       );
       return soughtPlanets;
-      // break;
     default:
       return apiPlanets;
     }
@@ -95,11 +91,8 @@ export function StarWarsContextProvider({ children }) {
     soughtPlanets, // array de planetas buscados pelos filtros (SearchBar, maior/menor/igual)
     setFiltersByNumericValue, // setState dos filtros numéricos
     setSoughtPlanets,
-    filter: filterByNumericValues,
     filterByNumericValues, // estado dos filtros numéricos
     getFilteredPlanets, // fn itera sobre o array de filtros e faz o switch case de cada tipo de operador
-    activeFilter,
-    setActiveFilter,
   };
 
   return (
@@ -114,4 +107,7 @@ StarWarsContextProvider.propTypes = {
 };
 
 // https://fb.me/react-hooks-data-fetching
-// https://pt-br.reactjs.org/docs/hooks-reference.html#usecallback
+// Ideia de utilizar um switch case na função comparingNumericFilters surgiu após consulta a este PR:
+// --> https://github.com/tryber/sd-09-project-starwars-planets-search/pull/39/files
+// Referência para a função getFilteredPlanets (que faz o filtro no componente SearchBar):
+// --> https://www.youtube.com/watch?v=-HQaDfVPCtg
