@@ -30,6 +30,7 @@ function Filters() {
       ...filters,
       filterByNumericValues: [numericFilter],
     });
+    // setValidationFilter(false);
   }
 
   return (

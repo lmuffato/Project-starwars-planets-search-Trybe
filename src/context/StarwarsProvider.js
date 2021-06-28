@@ -6,6 +6,7 @@ import StarwarsContext from './StarwarsContext';
 function StarwarsProvider({ children }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [validationFilter, setValidationFilter] = useState(false);
   const [filters, setFilters] = useState(
     {
       filterByName: {
@@ -25,22 +26,47 @@ function StarwarsProvider({ children }) {
   };
 
   const filterNumerically = () => {
+    let dataWithNumericFilter = [];
+    dataWithNumericFilter = data.filter((planet) => planet.name
+      .includes(filters.filterByName.name));
     filters.filterByNumericValues.map((filter) => {
       const getFiltersValues = Object.values(filter);
-      const getColumn = data.map((planets) => planets[[getFiltersValues[0]]]);
-      console.log(getColumn);
+      const getComparison = getFiltersValues[1];
+      const getValue = getFiltersValues[2];
+      if (getComparison === 'maior que') {
+        dataWithNumericFilter = data
+          .filter((value) => parseFloat(value[filter.column])
+          > parseFloat(getValue));
+        return dataWithNumericFilter;
+        // console.log(dataWithNumericFilter);
+      }
+      if (getComparison === 'menor que') {
+        dataWithNumericFilter = data
+          .filter((value) => parseFloat(value[filter.column]) < parseFloat(getValue));
+        return dataWithNumericFilter;
+        // console.log(dataWithNumericFilter);
+      }
+      if (getComparison === 'igual a') {
+        dataWithNumericFilter = data
+          .filter((value) => parseFloat(value[filter.column]) === parseFloat(getValue));
+        return dataWithNumericFilter;
+        // console.log(dataWithNumericFilter);
+      }
+      return dataWithNumericFilter;
     });
+    setData(dataWithNumericFilter);
+    setValidationFilter(true);
   };
 
+  // useEffect(() => {
+  //   setValidationFilter(false);
+  // }, []);
+
   useEffect(() => {
-    if (filters.filterByName.name === '') {
+    if (filters.filterByName.name === '' && validationFilter === false) {
       getDataApi();
     }
-    const filterName = data.filter((planet) => {
-      const findPlanet = planet.name.includes(filters.filterByName.name);
-      return findPlanet;
-    });
-    setData(filterName);
+    console.log(data);
     filterNumerically();
   }, [filters]);
 
