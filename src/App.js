@@ -1,13 +1,13 @@
 import React from 'react';
 import './App.css';
 import Provider from './context/provider';
-// import Main from './components/Main';
 import Table from './components/Table';
+import Filter from './components/Filter';
 
 function App() {
   return (
     <Provider>
-      {/* <Main /> */}
+      <Filter />
       <Table />
     </Provider>
   );

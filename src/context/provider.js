@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import context from './context';
 
 function Provider({ children }) {
   const [planets, setPlanets] = useState([]);
-  console.log(planets);
+  const [filters, setFilters] = useState({
+    filterByName: {
+      name: '',
+    },
+  });
+  // const [name, setName] = useState('');
+
   async function getPlanets() {
     const results = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
     const data = await results.json();
@@ -12,9 +18,16 @@ function Provider({ children }) {
     setPlanets(data.results);
   }
 
+  useEffect(() => {
+    getPlanets();
+  }, []);
+
+  console.log(planets);
+
   const contextValue = {
     planets,
-    getPlanets,
+    filters,
+    setFilters,
   };
 
   return (

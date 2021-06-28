@@ -1,18 +1,30 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import context from '../context/context';
 
 function Table() {
-  const [isLoading, setIsLoading] = useState(true);
-  const { planets, getPlanets } = useContext(context);
+  // const [isLoading, setIsLoading] = useState(true);
+  const { planets, filters } = useContext(context);
+  const { name } = filters.filterByName;
+  console.log(name);
 
-  useEffect(() => {
-    getPlanets()
-      .then(setIsLoading(false));
-  }, [getPlanets]);
+  const filterByName = planets.filter((planet) => planet.name.includes(name));
+  console.log(filterByName);
 
-  if (isLoading === true) {
-    console.log(planets);
-    return <h1>loading</h1>;
+  let array = [];
+  if (name === '') {
+    array = planets;
+  } else {
+    array = filterByName;
+  }
+
+  console.log(array);
+
+  // if (isLoading === true) {
+  //   console.log(planets);
+  //   return <h1>loading</h1>;
+  // }
+  if (planets === []) {
+    return <h2> loading </h2>;
   }
 
   return (
@@ -33,7 +45,7 @@ function Table() {
         <th>url</th>
       </tr>
 
-      { planets.map((planet, index) => (
+      { array.map((planet, index) => (
         <tr key={ index }>
           <td>{planet.name}</td>
           <td>{planet.rotation_period}</td>
