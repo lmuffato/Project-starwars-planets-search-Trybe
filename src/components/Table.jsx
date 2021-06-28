@@ -22,6 +22,7 @@ function Table() {
       <td>{planet.url}</td>
     </tr>
   ));
+
   return (
     <section>
       <table>

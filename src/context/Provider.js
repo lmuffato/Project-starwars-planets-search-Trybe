@@ -4,7 +4,10 @@ import MyContext from './MyContext';
 
 function Provider({ children }) {
   const [data, setData] = useState([{}]);
-  const [filters, setFilters] = useState({ filterByName: { name: '' } });
+  const [filters, setFilters] = useState({
+    filterByName: { name: '' },
+    filterByNumericValues: { column: '', comparison: '', value: '' },
+  });
   const [backup, setBackup] = useState([]);
 
   useEffect(() => {
@@ -17,7 +20,16 @@ function Provider({ children }) {
   }, []);
 
   return (
-    <MyContext.Provider value={ { data, filters, setFilters, backup, setBackup } }>
+    <MyContext.Provider
+      value={ {
+        data,
+        setData,
+        filters,
+        setFilters,
+        backup,
+        setBackup,
+      } }
+    >
       {children}
     </MyContext.Provider>
   );
