@@ -5,7 +5,6 @@ import Context from './Context';
 export default function Provider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [filterPlanets, setFilterPlanets] = useState([]);
-  const [name, setName] = useState('');
   const [filters, setFilters] = useState({
     columnFilter: 'population',
     comparisonFilter: 'maior que',
@@ -32,7 +31,12 @@ export default function Provider({ children }) {
   // requisito 2: para habilitar o input e filtrar a busca dos planetas
   // pelo valor digitado
   const handleFilterChange = ({ target: { value } }) => {
-    setName(value);
+    setFilters({
+      ...filters,
+      filterByName: {
+        name: value,
+      },
+    });
     const nameFilter = planets.filter((planet) => planet.name.includes(value));
     setFilterPlanets(nameFilter);
   };
@@ -80,7 +84,6 @@ export default function Provider({ children }) {
   const context = {
     planets,
     filterPlanets,
-    name,
     filters,
     handleFilterChange,
     handleSelectChange,
