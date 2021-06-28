@@ -5,6 +5,7 @@ import './App.css';
 import MyContext from './Context/MyContext';
 import Button from './Components/Button';
 import PlanetFilter from './Components/PlanetFilter';
+import NumberFilter from './Components/NumberFilter';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Button />
         <h1>Project Star Wars Planets presents:</h1>
         <PlanetFilter />
+        <NumberFilter />
         <Table />
       </div>
     </Provider>
