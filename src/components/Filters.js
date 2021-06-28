@@ -3,7 +3,7 @@ import starwarsContext from '../context/starwarsContext';
 import NumericFilter from './NumericFilter';
 
 export default function Filters() {
-  const { filters, setFilters } = useContext(starwarsContext);
+  const { filters, setFilters, numberOfFilters } = useContext(starwarsContext);
 
   const handleChange = ({ target }) => {
     setFilters({ ...filters, filterByName: { name: target.value } });
@@ -22,7 +22,9 @@ export default function Filters() {
           onChange={ (e) => handleChange(e) }
         />
       </label>
-      <NumericFilter />
+      { Array.from({ length: numberOfFilters + 1 }).map(
+        (_, index) => (<NumericFilter key={ index } id={ index } />),
+      )}
 
     </div>
   );

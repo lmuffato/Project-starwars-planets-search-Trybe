@@ -6,7 +6,8 @@ import starwarsContext from './starwarsContext';
 function StarwarsProvider({ children }) {
   const [data, setData] = useState([]);
   const [dataTable, setDataTable] = useState([]);
-  // const [filteredByNumber, setFilteredByNumber] = useState(false);
+  const [numberOfFilters, setNumberOfFilters] = useState(0);
+  const [usedOptions, setUsedOptions] = useState(false);
   const [filteredByName, setFilteredByName] = useState(false);
   const [filters, setFilters] = useState({
     filterByName: {
@@ -24,11 +25,11 @@ function StarwarsProvider({ children }) {
   useEffect(() => {
     fetchApi()
       .then((result) => setData(result));
-  }, []);
+  }, []); // stores api data
 
   useEffect(() => {
     setDataTable(data);
-  }, [data]);
+  }, [data]); // puts data into a changeble state
 
   useEffect(() => {
     setFilteredByName(!filters.filterByName.name);
@@ -38,11 +39,12 @@ function StarwarsProvider({ children }) {
         && data.some((planetData) => planetData.name === planet.name),
     );
     setDataTable(filteredResult);
-  }, [filters.filterByName]);
+  }, [filters.filterByName]); // deals with name filter
 
   useEffect(() => {
     const { column, comparison, value } = filters.filterByNumericValues[0];
     const dataToUse = filteredByName ? dataTable : data;
+    // console.log(filters);
 
     const filteredResult = dataToUse.filter(
       (planet) => {
@@ -52,10 +54,10 @@ function StarwarsProvider({ children }) {
       },
     );
     setDataTable(filteredResult);
-  }, [filters.filterByNumericValues]);
+  }, [filters.filterByNumericValues]); // deals with numeric filter
 
   return (
-    <starwarsContext.Provider value={ { dataTable, filters, setFilters } }>
+    <starwarsContext.Provider value={ { dataTable, filters, setFilters, numberOfFilters, setNumberOfFilters, usedOptions, setUsedOptions } }>
       { children }
     </starwarsContext.Provider>
   );
