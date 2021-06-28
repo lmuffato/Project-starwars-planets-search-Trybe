@@ -3,8 +3,7 @@ import { StarWarsContext } from '../provider/Provider';
 import SelectFilter from './SelectFilter';
 
 const Table = () => {
-  const { data, filters, setFilters } = React.useContext(StarWarsContext);
-  console.log(data);
+  const { data, filters, setFilters, setData } = React.useContext(StarWarsContext);
 
   const thead = () => (
     <thead>
@@ -39,7 +38,7 @@ const Table = () => {
   return (
     <table>
       { inputSearch() }
-      <SelectFilter setFilters={ setFilters } filters={ filters } />
+      <SelectFilter setFilters={ setFilters } filters={ filters } setData={ setData } />
       { thead() }
       { tbody() }
     </table>
