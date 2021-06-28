@@ -1,15 +1,12 @@
-import React, { useContext } from 'react';
-import Context from '../context/Context';
+import React from 'react';
+import Input from './Input';
+import Select from './Select.';
 
-const Filter = () => {
-  const { handleinput } = useContext(Context);
-  return (
-    <input
-      data-testid="name-filter"
-      type="text"
-      onChange={ (event) => handleinput(event) }
-    />
-  );
-};
+const Filter = () => (
+  <div>
+    <Input />
+    <Select />
+  </div>
+);
 
 export default Filter;
