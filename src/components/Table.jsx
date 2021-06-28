@@ -1,30 +1,8 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import ContextPlanets from '../context/Context';
 
 function Table() {
-  const { data, filters: { filterByName: { name } } } = useContext(ContextPlanets);
-  const [arr, setArr] = useState(data);
-
-  const filterData = () => {
-    console.log(name);
-    const res = name.length > 0 ? data
-      .filter((planet) => planet.name.includes(name)) : data;
-    setArr(res);
-  };
-
-  useEffect(() => {
-    setArr(data);
-  }, [data]);
-
-  useEffect(() => {
-    // const filterData = () => {
-    //   console.log(name);
-    //   const res = name.length > 0 ? data
-    //     .filter((planet) => planet.name.includes(name)) : data;
-    //   setArr(res);
-    // };
-    filterData();
-  }, [name]);
+  const { dataRender } = useContext(ContextPlanets);
 
   return (
     <div>
@@ -47,7 +25,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {arr.map((planet, index) => (
+          {dataRender.map((planet, index) => (
             <tr key={ index }>
               <td>{planet.name}</td>
               <td>{planet.rotation_period}</td>
