@@ -13,6 +13,7 @@ function SWProvider({ children }) {
     'rotation_period', 'surface_water']);
 
   function handleSort({ columnSort, order }, array) {
+    // source: https://stackoverflow.com/questions/6712034/sort-array-by-firstname-alphabetically-in-javascript
     if (order === 'ASC' && columnSort === 'name') {
       const sortedAsc = array.sort((a, b) => {
         const textA = a.name.toUpperCase();
