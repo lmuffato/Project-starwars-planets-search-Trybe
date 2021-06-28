@@ -13,34 +13,28 @@ function ActiveFilters() {
     data,
   } = useStarWars();
 
-  const tryFilter = useCallback((filtered) => {
-    setFiltersByNumericValue(filtered);
-  }, [setFiltersByNumericValue]);
-
   const handleRemoveFilter = useCallback((event, id) => {
     event.preventDefault();
-    console.log(id);
+    // console.log(id);
     if (filterByNumericValues.length > 0) {
       const filtered = filterByNumericValues
-        .map((item, indice) => item[indice] !== id);
-      // setFiltersByNumericValue(filtered);
-      tryFilter(filtered);
+        .filter((item) => item !== id);
+      setFiltersByNumericValue(filtered);
       setSoughtPlanets(data);
     }
-    // setActiveFilter(false);
-  }, [data, filterByNumericValues, setSoughtPlanets, tryFilter]);
+  }, [data, filterByNumericValues, setFiltersByNumericValue, setSoughtPlanets]);
 
   return (
     <div>
-      { filterByNumericValues
+      { filterByNumericValues.length > 0
       && filterByNumericValues.map((filtro, index) => (
         <div key={ index } data-testid="filter" id={ filtro }>
           <span>
             {`${filtro.filterColumn}
-            ${filtro.filterComparisonType}
-            ${filtro.filterValue}`}
+                ${filtro.filterComparisonType}
+                ${filtro.filterValue}`}
           </span>
-          <Button onClick={ (event) => handleRemoveFilter(event) }>X</Button>
+          <Button onClick={ (event) => handleRemoveFilter(event, filtro) }>X</Button>
         </div>
       ))}
     </div>);
