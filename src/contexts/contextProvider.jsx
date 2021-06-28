@@ -8,7 +8,7 @@ function PlanetsProvider({ children }) {
     filterByName: {
       name: '',
     },
-    filterByNumericValues: [{ column: '', comparison: '', value: 5000 }] };
+    filterByNumericValues: [{ column: 'diameter', comparison: 'maior que', value: 5000 }] };
 
   const [data, setdata] = useState([]);
   const [theadData, settheadData] = useState([]);
@@ -31,10 +31,15 @@ function PlanetsProvider({ children }) {
   }, [planetInput.filterByName.name]);
 
   const handleClickFilter = useCallback((arr) => {
-    const filterbyDiameter = arr.filter((planet) => planet.diameter > filteredPlanetName.filterByNumericValues[0].value);
-    return filterbyDiameter;
+    const filterClick = arr.filter((planet) => {
+      const { column, value } = filteredPlanetName.filterByNumericValues[0];
+      const filtratedPlanet = planet[column] > value;
+      return filtratedPlanet;
+    });
+    return filterClick;
   },
-  [filteredPlanetName.filterByNumericValues]);
+
+  [filteredPlanet, filteredPlanetName.filterByNumericValues]);
 
   useEffect(() => {
     let lookingForPlanet = data;
