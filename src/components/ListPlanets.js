@@ -2,19 +2,23 @@ import React, { useContext } from 'react';
 import context from '../context/context';
 
 const ListPlanets = () => {
-  const { dataPlanets } = useContext(context);
+  const { handleNameFilter, filteredPlanet } = useContext(context);
 
   return (
     <section>
       <header>
-        <input type="text" value="" onChange="" />
+        <input
+          type="text"
+          data-testid="name-filter"
+          onChange={ (event) => handleNameFilter(event.target.value) }
+        />
       </header>
       <section>
-        {dataPlanets.length > 0 && (
+        {filteredPlanet.length > 0 && (
           <table>
             <thead>
               <tr>
-                {Object.keys(dataPlanets[0])
+                {Object.keys(filteredPlanet[0])
                   .filter((headers) => (headers !== 'residents'))
                   .map((header, index) => (
                     <th key={ index } value={ header }>{header}</th>
@@ -22,7 +26,7 @@ const ListPlanets = () => {
               </tr>
             </thead>
             <tbody>
-              {dataPlanets.length > 0 && dataPlanets.map((planet) => (
+              {filteredPlanet.length > 0 && filteredPlanet.map((planet) => (
                 <tr key={ planet.name }>
                   <td value={ planet.name }>{planet.name}</td>
                   <td value={ planet.rotation_period }>{planet.rotation_period}</td>
