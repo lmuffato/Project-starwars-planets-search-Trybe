@@ -9,6 +9,7 @@ function NumericFilters() {
   const [filterColumn, setFilterColumn] = useState('population');
   const [filterComparisonType, setFilterComparisonType] = useState('maior que');
   const [filterValue, setFilterValue] = useState('');
+  const [filterOptions, setFilterOptions] = useState(optionsColumnObj);
 
   const {
     filterByNumericValues,
@@ -27,6 +28,14 @@ function NumericFilters() {
     setFilterValue(event.target.value);
   };
 
+  const handleHideItemFromOptionsList = useCallback(() => {
+    setFilterOptions((prevState) => (
+      prevState.filter((item) => (
+        item !== filterByNumericValues.filterColumn
+      ))
+    ));
+  }, [filterByNumericValues.filterColumn]);
+
   const handleClickOnFilterButton = useCallback((event) => {
     event.preventDefault();
     setFiltersByNumericValue(
@@ -37,15 +46,19 @@ function NumericFilters() {
       }),
     );
     console.log(filterByNumericValues);
+    // setActiveFilter(true);
+    handleHideItemFromOptionsList();
   }, [filterByNumericValues,
-    filterColumn, filterComparisonType, filterValue, setFiltersByNumericValue]);
+    filterColumn,
+    filterComparisonType,
+    filterValue, handleHideItemFromOptionsList, setFiltersByNumericValue]);
 
   return (
     <div>
       <Select
         name="filterColumn"
         dataTestid="column-filter"
-        options={ optionsColumnObj }
+        options={ filterOptions }
         value={ filterColumn }
         onChange={ handleChangeColumn }
         placeholder="Selecione uma opção"

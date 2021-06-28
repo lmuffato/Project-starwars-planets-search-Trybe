@@ -1,4 +1,5 @@
 import React from 'react';
+import ActiveFilters from '../components/ActiveFilters/ActiveFilters';
 import NumericFilters from '../components/ControlPanel/NumericFilters';
 import SortFilters from '../components/ControlPanel/SortFilters';
 import SearchBar from '../components/SearchBar/SearchBar';
@@ -10,6 +11,7 @@ function Home() {
       <SearchBar />
       <NumericFilters />
       <SortFilters />
+      <ActiveFilters />
       <Table />
     </>
   );

@@ -11,6 +11,7 @@ export function StarWarsContextProvider({ children }) {
   const [soughtPlanets, setSoughtPlanets] = useState([]); // segundo estado pra gerenciar mudanças nos filtros
   const [isLoading, setLoading] = useState(true); // booleana para renderização do loading
   const [filterByNumericValues, setFiltersByNumericValue] = useState([]); // gerencia os filtros
+  const [activeFilter, setActiveFilter] = useState(false);
 
   // Requisito 1
   async function fetchPlanetsAPI() {
@@ -93,8 +94,12 @@ export function StarWarsContextProvider({ children }) {
     filteredPlanets, // fn que filtra pelo nome do planeta
     soughtPlanets, // array de planetas buscados pelos filtros (SearchBar, maior/menor/igual)
     setFiltersByNumericValue, // setState dos filtros numéricos
+    setSoughtPlanets,
+    filter: filterByNumericValues,
     filterByNumericValues, // estado dos filtros numéricos
     getFilteredPlanets, // fn itera sobre o array de filtros e faz o switch case de cada tipo de operador
+    activeFilter,
+    setActiveFilter,
   };
 
   return (
