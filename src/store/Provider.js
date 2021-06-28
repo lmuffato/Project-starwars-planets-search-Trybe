@@ -6,6 +6,11 @@ import planetsAPI from '../services/planetsAPI';
 const Provider = ({ children }) => {
   const [data, setData] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [filters, setFilters] = useState({
+    filterByName: {
+      name: '',
+    },
+  });
   useEffect(() => {
     setIsLoading(true);
 
@@ -18,8 +23,6 @@ const Provider = ({ children }) => {
       return setData(results);
     }
 
-    // fetchPlanets().then(({ results }) => setData(results));
-
     fetchPlanets();
     setIsLoading(false);
   }, []);
@@ -27,6 +30,8 @@ const Provider = ({ children }) => {
   const contextValue = {
     data,
     isLoading,
+    filters,
+    setFilters,
   };
   return (
     <context.Provider value={ contextValue }>
