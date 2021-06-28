@@ -27,7 +27,7 @@ const SelectFilter = ({ setFilters, filters, setData }) => {
     const filteredValues = valuesArray
       .filter((elem) => elem !== inputFilters.column);
     setValuesArray(filteredValues);
-  }, [inputFilters, valuesArray]);
+  }, [inputFilters]);
 
   const valuesForFilter = () => {
     setFilters({
