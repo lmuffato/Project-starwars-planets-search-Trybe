@@ -4,9 +4,12 @@ import PlanetsProvider from './context/PlanetsProvider';
 import Table from './components/Table';
 
 function App() {
+  const DOCUMENT_TITLE = 'Star Wars Planets Search';
+  document.title = DOCUMENT_TITLE;
+
   return (
     <PlanetsProvider>
-      <span>Hello, App!</span>
+      <h1>{ DOCUMENT_TITLE }</h1>
       <Table />
     </PlanetsProvider>
   );
