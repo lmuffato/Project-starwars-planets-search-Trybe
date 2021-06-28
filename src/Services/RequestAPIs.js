@@ -1,6 +1,19 @@
-async function getPlanetsApi() {
-  const responsePlanetsApi = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
-  return responsePlanetsApi.json();
-}
+// async function getPlanetsApi() {
+//   const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
+//   const responsePlanetsApi = await fetch(endpoint);
+//   return responsePlanetsApi.json();
+//   // return responsePlanetsApi.then((data) => data.json());
+// }
 
-export default getPlanetsApi;
+// const getPlanetsApi = async () => {
+//   const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
+//   const { results } = await fetch(endpoint).then((data) => data.json());
+//   console.log(results);
+//   // return responsePlanetsApi.json();
+//   // return responsePlanetsApi.then((data) => data.json());
+
+//   };
+
+// };
+
+// export default getPlanetsApi;
