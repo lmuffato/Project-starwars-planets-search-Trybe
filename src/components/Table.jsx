@@ -38,6 +38,12 @@ function Table() {
     return filteredPlanets;
   };
 
+  const handleClick = () => {
+    setBtn(true);
+    document.getElementById(comparison).remove();
+    document.getElementById(column).remove();
+  };
+
   return (
     <>
       <NameInput />
@@ -49,7 +55,7 @@ function Table() {
           type="button"
           className="button-filter"
           data-testid="button-filter"
-          onClick={ () => setBtn(true) }
+          onClick={ () => handleClick() }
         >
           Filtrar
         </button>

@@ -1,6 +1,14 @@
 import React, { useContext } from 'react';
 import Context from '../context/Context';
 
+const values = [
+  'population',
+  'orbital_period',
+  'diameter',
+  'rotation_period',
+  'surface_water',
+];
+
 function SelectColumn() {
   const { setColumn, setBtn } = useContext(Context);
 
@@ -16,17 +24,9 @@ function SelectColumn() {
       className="value-input"
       onChange={ (e) => handleChange(e) }
     >
-      <option
-        disabled
-        selected
-      >
-        Selecione a Coluna
-      </option>
-      <option>population</option>
-      <option>orbital_period</option>
-      <option>diameter</option>
-      <option>rotation_period</option>
-      <option>surface_water</option>
+      {values.map((value, index) => (
+        <option key={ index } id={ value }>{value}</option>
+      ))}
     </select>
   );
 }
