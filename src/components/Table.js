@@ -6,7 +6,7 @@ export default function Table() {
 
   return (
     <div>
-      { dataTable.length === 0 ? <span>Loading...</span>
+      { dataTable.length === 0 ? <span>Nenhum planeta encontrado</span>
         : (
           <table>
             <thead>

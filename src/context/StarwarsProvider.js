@@ -42,22 +42,36 @@ function StarwarsProvider({ children }) {
   }, [filters.filterByName]); // deals with name filter
 
   useEffect(() => {
-    const { column, comparison, value } = filters.filterByNumericValues[0];
+    const { filterByNumericValues } = filters;
+    // const { column, comparison, value } = filters.filterByNumericValues[0];
     const dataToUse = filteredByName ? dataTable : data;
     // console.log(filters);
 
-    const filteredResult = dataToUse.filter(
-      (planet) => {
-        if (comparison === 'maior que') return planet[column] > Number(value);
-        if (comparison === 'igual a') return planet[column] === value;
-        return planet[column] < Number(value);
-      },
-    );
-    setDataTable(filteredResult);
+    filterByNumericValues.forEach((numFilter) => {
+      const { column, comparison, value } = numFilter;
+      const filteredResult = dataToUse.filter(
+        (planet) => {
+          if (comparison === 'maior que') return planet[column] > Number(value);
+          if (comparison === 'igual a') return planet[column] === value;
+          return planet[column] < Number(value);
+        },
+      );
+      setDataTable(filteredResult);
+    });
   }, [filters.filterByNumericValues]); // deals with numeric filter
 
   return (
-    <starwarsContext.Provider value={ { dataTable, filters, setFilters, numberOfFilters, setNumberOfFilters, usedOptions, setUsedOptions } }>
+    <starwarsContext.Provider
+      value={ {
+        dataTable,
+        filters,
+        setFilters,
+        numberOfFilters,
+        setNumberOfFilters,
+        usedOptions,
+        setUsedOptions,
+      } }
+    >
       { children }
     </starwarsContext.Provider>
   );

@@ -16,9 +16,6 @@ export default function NumericFilter({ id }) {
   }, [numberOfFilters, setUsedOptions]);
 
   const handleChange = ({ target }) => {
-    console.log('ID', id);
-    console.log('FILTER', filterByNumericValues);
-    // console.log('FILTER ESPECÍFICO', filterByNumericValues[numberOfFilters]);
     setFiltersInput({ ...filtersInputs, [target.name]: target.value });
   };
 
@@ -75,14 +72,7 @@ export default function NumericFilter({ id }) {
     }console.log('FILTER NUMERIC', filterByNumericValues);
     // console.log('USED OPTIONS', usedOptions);
     console.log('ID', id);
-    /*     const opUsadas = filterByNumericValues.map(
-      (filter) => filter.column,
-    ).filter((_, index) => index < id);
-    console.log(opUsadas);
 
-    const filteredOptions = options.filter(
-      (option) => !opUsadas.some((usedOption) => usedOption === option),
-    ); */
     return (
       availableOptions().map(
         (option, index) => <option key={ index } value={ option }>{option}</option>,
@@ -140,7 +130,6 @@ export default function NumericFilter({ id }) {
         type="button"
         data-testid="button-filter"
         onClick={ () => handleClick() }
-        disabled={ usedOptions }
       >
         Acionar filtro
       </button>

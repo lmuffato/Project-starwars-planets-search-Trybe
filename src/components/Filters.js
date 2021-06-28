@@ -3,7 +3,8 @@ import starwarsContext from '../context/starwarsContext';
 import NumericFilter from './NumericFilter';
 
 export default function Filters() {
-  const { filters, setFilters, numberOfFilters } = useContext(starwarsContext);
+  const { filters, setFilters } = useContext(starwarsContext);
+  const { filterByNumericValues, filterByName } = filters;
 
   const handleChange = ({ target }) => {
     setFilters({ ...filters, filterByName: { name: target.value } });
@@ -18,14 +19,19 @@ export default function Filters() {
           data-testid="name-filter"
           id="input-filter"
           name="input-filter"
-          value={ filters.filterByName.name }
+          value={ filterByName.name }
           onChange={ (e) => handleChange(e) }
         />
       </label>
-      { Array.from({ length: numberOfFilters + 1 }).map(
-        (_, index) => (<NumericFilter key={ index } id={ index } />),
+      <NumericFilter />
+      { filterByNumericValues.length > 0 && filterByNumericValues.map(
+        (filter, index) => (
+          <span key={ index }>
+            {
+              `${filter.column} ${filter.comparison} ${filter.value}`
+            }
+          </span>),
       )}
-
     </div>
   );
 }
