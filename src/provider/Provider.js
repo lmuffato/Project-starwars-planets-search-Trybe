@@ -5,7 +5,12 @@ import reqAPI from '../services/reqAPI';
 const StarWarsContext = React.createContext();
 
 const Provider = ({ children }) => {
+  const initial = {
+    filterByName: '',
+    filterByNumericValues: [],
+  };
   const [data, setData] = React.useState([]);
+  const [filters, setFilters] = React.useState(initial);
 
   const fetchData = async () => {
     const planets = await reqAPI();
@@ -16,7 +21,7 @@ const Provider = ({ children }) => {
     fetchData();
   }, []);
 
-  const value = data;
+  const value = { data, filters, setFilters, setData };
 
   return (
     <StarWarsContext.Provider value={ value }>

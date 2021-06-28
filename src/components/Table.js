@@ -1,10 +1,10 @@
 import React from 'react';
 import { StarWarsContext } from '../provider/Provider';
+import SelectFilter from './SelectFilter';
 
 const Table = () => {
-  const data = React.useContext(StarWarsContext);
-  const [filterByName, setFilterByName] = React.useState('');
-  console.log(Object.keys({ ...data[0] }));
+  const { data, filters, setFilters } = React.useContext(StarWarsContext);
+  console.log(data);
 
   const thead = () => (
     <thead>
@@ -16,7 +16,7 @@ const Table = () => {
 
   const tbody = () => (
     <tbody>
-      {data.filter((planet) => planet.name.toLowerCase().includes(filterByName))
+      {data.filter((planet) => planet.name.toLowerCase().includes(filters.filterByName))
         .map((elem) => (
           <tr key={ elem.name }>
             {Object.values(elem)
@@ -28,14 +28,18 @@ const Table = () => {
   const inputSearch = () => (
     <input
       data-testid="name-filter"
-      value={ filterByName }
-      onChange={ (e) => setFilterByName(e.target.value) }
+      value={ filters.filterByName }
+      onChange={ (e) => setFilters({
+        ...filters,
+        filterByName: e.target.value.toLowerCase(),
+      }) }
     />
   );
 
   return (
     <table>
       { inputSearch() }
+      <SelectFilter setFilters={ setFilters } filters={ filters } />
       { thead() }
       { tbody() }
     </table>
