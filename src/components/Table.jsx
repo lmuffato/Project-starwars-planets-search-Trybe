@@ -15,6 +15,18 @@ function Table() {
     getPlanets();
   }, [setPlanets]);
 
+  const sortPlanets = (planetList, column) => {
+    const reOrder = -1;
+    const notReorder = 1;
+    if (Number.isNaN(Number(planetList[0][column]))) {
+      return planetList.sort((a, b) => {
+        if (a.name < b.name) return reOrder;
+        return notReorder;
+      });
+    }
+    return planetList.sort((a, b) => a[column] - b[column]);
+  };
+
   useEffect(() => {
     const nameFilter = (planetList) => planetList.filter((planet) => (
       planet.name.toLowerCase().includes(
@@ -33,7 +45,16 @@ function Table() {
       })
     ));
 
-    setFilteredPlanet(numericFilter(nameFilter(planets)));
+    const checkPlanets = (planetList) => {
+      if (!planetList.length) return planetList;
+      const { sort, column } = planetFilter.filters.order;
+      const sortedList = sortPlanets(planetList, column);
+
+      if (sort === 'DESC') return sortedList.reverse();
+      return sortedList;
+    };
+
+    setFilteredPlanet(checkPlanets(numericFilter(nameFilter(planets))));
   }, [planetFilter, planets, name, filterByNumericValues]);
 
   return (
@@ -61,7 +82,13 @@ function Table() {
           return (
             <tr key={ `${planet.name}-line` }>
               { objectKeys.map((key) => (
-                <td className="cell" key={ planet[key] }>{ planet[key] }</td>
+                <td
+                  className="cell"
+                  key={ planet[key] }
+                  data-testid={ key === 'name' ? 'planet-name' : null }
+                >
+                  { planet[key] }
+                </td>
               )) }
             </tr>
           );

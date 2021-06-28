@@ -9,12 +9,21 @@ function Provider({ children }) {
       name: '',
     },
     filterByNumericValues: [],
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
   } });
+
+  const options = ['population', 'orbital_period',
+    'diameter', 'rotation_period', 'surface_water'];
+
   const contextValue = {
     planets,
     setPlanets,
     planetFilter,
     setPlanetFilter,
+    options,
   };
 
   return (

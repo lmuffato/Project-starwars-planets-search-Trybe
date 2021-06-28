@@ -24,7 +24,7 @@ function DisplayFilters() {
     <div>
       { filterByNumericValues.map(({ column, comparison, value }) => (
         <span key={ column } data-testid="filter">
-          { `${column} | ${comparison} | ${value}` }
+          { `${column} | ${comparison} | ${value} ` }
           <button
             id={ column }
             type="button"

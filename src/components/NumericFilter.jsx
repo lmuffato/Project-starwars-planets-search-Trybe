@@ -6,7 +6,7 @@ function NumericFilter() {
   const [comparison, setComparison] = useState('maior que');
   const [number, setNumber] = useState('');
 
-  const { planetFilter, setPlanetFilter } = useContext(PlanetsContext);
+  const { planetFilter, setPlanetFilter, options } = useContext(PlanetsContext);
 
   const submit = (event) => {
     event.preventDefault();
@@ -33,18 +33,11 @@ function NumericFilter() {
     setNumber('');
   };
 
-  const checkFilter = (options) => {
+  const checkFilter = () => {
     const { filters: { filterByNumericValues } } = planetFilter;
 
     return options.filter((option) => !filterByNumericValues
       .find((filter) => filter.column === option));
-  };
-
-  const columnOptions = () => {
-    const options = ['population', 'orbital_period',
-      'diameter', 'rotation_period', 'surface_water'];
-
-    return checkFilter(options);
   };
 
   return (
@@ -55,7 +48,7 @@ function NumericFilter() {
         data-testid="column-filter"
         onChange={ ({ target: { value } }) => setColumn(value) }
       >
-        { columnOptions().map((option) => (
+        { checkFilter().map((option) => (
           <option key={ option } value={ option }>{ option }</option>)) }
       </select>
       <select
