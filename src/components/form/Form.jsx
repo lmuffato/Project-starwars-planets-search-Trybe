@@ -48,7 +48,17 @@ export default function Form() {
     document.getElementById(columnFilter).disabled = true;
   }
 
+  function handleRemoveFilter(event) {
+    const { column } = event.target.dataset;
+    const { filterByNumericValues } = filteredByNumbers;
+    const newFiltersByNumbers = filterByNumericValues
+      .filter((filter) => filter.column !== column);
+    setFilteredByNumbers({ filterByNumericValues: newFiltersByNumbers });
+    document.getElementById(column).disabled = false;
+  }
+
   const { filters: { filterByName: { name } } } = filteredByName;
+  const { filterByNumericValues } = filteredByNumbers;
   return (
     <div>
 
@@ -123,6 +133,26 @@ export default function Form() {
           FilterByNumbers
         </button>
       </form>
+
+      { filterByNumericValues.length > 0 && (
+        <div>
+          <h2>Filtros Aplicados:</h2>
+          {filterByNumericValues && filterByNumericValues
+            .map(({ column, comparison, value }, index) => (
+              <div key={ index } data-testid="filter">
+                <span>{`${column} ${comparison} ${value}`}</span>
+                <button
+                  type="button"
+                  onClick={ handleRemoveFilter }
+                  data-column={ column }
+                >
+                  x
+                </button>
+              </div>
+            ))}
+        </div>
+      )}
+
     </div>
   );
 }

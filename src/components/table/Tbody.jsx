@@ -1,4 +1,5 @@
 import React from 'react';
+import filtersPlanets from '../../utils/filtersPlanets';
 import usePlanet from '../../hooks/usePlanet';
 
 export default function Tbody() {
@@ -6,31 +7,11 @@ export default function Tbody() {
   const { filters: { filterByName: { name } } } = filteredByName;
   const { filterByNumericValues } = filteredByNumbers;
 
-  function FilterPlanetsByName() {
-    let filtered = planets
-      .filter((planet) => (planet.name.toLowerCase().includes(name.toLowerCase())));
-    if (filterByNumericValues.length > 0) {
-      filterByNumericValues.forEach(({ column, comparison, value }) => {
-        filtered = filtered.filter((planet) => {
-          switch (comparison) {
-          case 'igual a':
-            return +planet[column] === +value;
-          case 'maior que':
-            return +planet[column] > +value;
-          case 'menor que':
-            return +planet[column] < +value;
-          default:
-            return planets;
-          }
-        });
-      });
-    }
-    return filtered;
-  }
+  const planetsFiltered = filtersPlanets(planets, filterByNumericValues, name);
 
   return (
     <tbody>
-      {FilterPlanetsByName().map((planet, index) => (
+      {planetsFiltered.map((planet, index) => (
         <tr key={ index }>
           <td>{planet.name}</td>
           <td>{planet.rotation_period}</td>
