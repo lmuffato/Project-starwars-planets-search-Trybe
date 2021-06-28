@@ -8,25 +8,73 @@ function App() {
   const [loadingApi, setLoadingApi] = useState(true);
   const [planets, setPlanets] = useState([]);
   const [filteredPlanets, setFilteredPlanets] = useState([]);
-  const [filters, setFilters] = useState({ filterByName: { name: '' } });
+  const [filters, setFilters] = useState({
+    filterByName: { name: '' },
+    filterByNumericValues:
+      { column: 'population', comparison: 'maior que', value: 0, }
+  });
+  const { filterByName, filterByNumericValues } = filters;
+  // requisição á api
 
   useEffect(() => {
     fetchApi().then((response) => setPlanets(response.results))
       .then(() => setLoadingApi(false));
   }, []);
 
+  // filtro pela searchBar
+
   useEffect(() => {
-    setFilteredPlanets(filters.filterByName.name === '' ? planets : planets
-      .filter((planet) => planet.name.includes(filters.filterByName.name)));
-  }, [filters, planets]);
+    if (filterByName.name === '' && filterByNumericValues.value === 0) {
+      setFilteredPlanets(planets)
+    }
+    if (filterByName.name !== '' && filterByNumericValues.value === 0) {
+      setFilteredPlanets(planets
+        .filter((planet) => planet.name.includes(filterByName.name)));
+    }
+    // if (filterByNumericValues !== 0) {
+
+    // }
+  }, [filterByName.name, planets, filterByNumericValues.value]);
 
   function setfilterByName(name) {
-    setFilters({ filterByName: { name } });
+    setFilters({ ...filters, filterByName: { name } });
+  }
+
+  // filtro pelos selects
+
+  function filterByNumber(column, comparison, value) {
+    setFilters({ ...filters, filterByNumericValues: [{ column, comparison, value, }] })
+    filterBySelect();
+  };
+
+  function filterBySelect() {
+    const { filterByNumericValues } = filters;
+    switch (filterByNumericValues.comparison) {
+      case 'maior que':
+        setFilteredPlanets(filteredPlanets.filter((filteredPlanet) => {
+          console.log((Number(filteredPlanet[filterByNumericValues.column]) > Number(filterByNumericValues.value)))
+          return Number(filteredPlanet[filterByNumericValues.column]) > Number(filterByNumericValues.value)
+
+        }));
+        break;
+      case 'menor que':
+        setFilteredPlanets(filteredPlanets.filter((filteredPlanet) =>
+          filteredPlanet[filterByNumericValues.column] < filterByNumericValues.value
+        ));
+        break;
+      case 'igual a':
+        setFilteredPlanets(filteredPlanets.filter((filteredPlanet) =>
+          filteredPlanet[filterByNumericValues.column] === filterByNumericValues.value
+        ));
+        break;
+      default:
+        return filteredPlanets;
+    }
   }
 
   return (
     <MyContext.Provider
-      value={{ data: filteredPlanets, loadingApi, filters, setfilterByName }}
+      value={{ data: filteredPlanets, loadingApi, filters, setfilterByName, filterByNumber }}
     >
       <Home />
     </MyContext.Provider>

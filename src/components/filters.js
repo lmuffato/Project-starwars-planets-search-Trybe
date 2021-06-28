@@ -1,10 +1,30 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import MyContext from '../context/myContext';
 
 function Filters() {
-  const { setfilterByName, filters } = useContext(MyContext);
+  const [column, setColumn] = useState('population');
+  const [comparison, setComparison] = useState('maior que');
+  const [value, setValue] = useState('');
+  const { setfilterByName, filters, filterByNumber } = useContext(MyContext);
   function handleInputText(e) {
     setfilterByName(e.target.value);
+  }
+
+  function handleColumn({ target }) {
+    const { value } = target;
+    setColumn(value)
+  };
+  function handleComparison({ target }) {
+    const { value } = target;
+    setComparison(value);
+  }
+  function handleValue({ target }) {
+    const { value } = target;
+    setValue(value);
+  }
+
+  function filterByClick() {
+    filterByNumber(column, comparison, value);
   }
 
   return (
@@ -15,6 +35,20 @@ function Filters() {
         data-testid="name-filter"
         onChange={handleInputText}
       />
+      <select data-testid='column-filter' name="column" value={column} onChange={handleColumn}>
+        <option>population</option>
+        <option>orbital_period</option>
+        <option>diameter</option>
+        <option>rotation_period</option>
+        <option>surface_water</option>
+      </select>
+      <select data-testid='comparison-filter' nama="comparison" value={comparison} onChange={handleComparison}>
+        <option>maior que</option>
+        <option>menor que</option>
+        <option>igual a</option>
+      </select>
+      <input type="text" data-testid='value-filter' name="value" value={value} onChange={handleValue} />
+      <button type="button" data-testid='button-filter' onClick={filterByClick}>Filtrar</button>
     </form>
   );
 }
