@@ -47,6 +47,12 @@ function Provider({ children }) {
   };
 
   const handlePlanetFiltered = ({ target: { value } }) => {
+    setFilters({
+      ...filters,
+      filterByName: {
+        name: value,
+      },
+    });
     const searchedPlanet = dataApi.filter((planet) => planet.name.includes(value));
     setFilteredPlanet(searchedPlanet);
   };
@@ -82,6 +88,7 @@ function Provider({ children }) {
     handleSelectChange,
     handleSubmitFilter,
     handlePlanetFiltered,
+    filters,
   };
 
   return (
