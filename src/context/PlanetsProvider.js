@@ -5,6 +5,17 @@ import PlanetsContext from './PlanetsContext';
 function PlanetsProvider(props) {
   const { children } = props;
   const [APIData, setAPIData] = useState({});
+  const [filterName, setFilterName] = useState('');
+
+  const context = {
+    data: APIData,
+    filters: {
+      filterByName: {
+        name: filterName,
+      },
+    },
+    setFilterName,
+  };
 
   useEffect(() => {
     const fetchPlanets = async () => {
@@ -17,7 +28,7 @@ function PlanetsProvider(props) {
   }, []);
 
   return (
-    <PlanetsContext.Provider value={ { data: APIData } }>
+    <PlanetsContext.Provider value={ context }>
       { children }
     </PlanetsContext.Provider>
   );
