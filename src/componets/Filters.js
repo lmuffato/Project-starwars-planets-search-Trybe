@@ -19,16 +19,21 @@ function Filters() {
 
   function handleChange(e) {
     const { name, value } = e.target;
-    setNumericFilter({
-      ...numericFilter,
-      [name]: value,
-    });
+    setNumericFilter(
+      {
+        ...numericFilter,
+        [name]: value,
+      },
+    );
   }
 
   function addFilter() {
     setFilters({
       ...filters,
-      filterByNumericValues: [numericFilter],
+      filterByNumericValues: [
+        ...filters.filterByNumericValues,
+        numericFilter,
+      ],
     });
     setValidationFilter(true);
   }
