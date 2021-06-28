@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Table } from 'react-bootstrap';
-import { data as dataContext } from '../contexts/starWars';
+import { data as dataContext, filters as filtersContext } from '../contexts/starWars';
 import TableRow from './TableRow';
 
 export default function TableData() {
@@ -9,21 +9,22 @@ export default function TableData() {
     filteredPlanetsByNumeric,
     currentPlanets,
   } = useContext(dataContext);
+  const { filters: { filterByName, filterByNumericValues } } = useContext(filtersContext);
   const [planetsState, setPlanetsState] = useState(planets);
 
   useEffect(() => {
     setPlanetsState(currentPlanets.length ? currentPlanets : planets);
   }, [currentPlanets, filteredPlanetsByNumeric, planets]);
 
-  // const checkIsFiltering = () => {
-  //   if (
-  //     (filterByName.name && !filteredPlanetsByNumeric.length)
-  //     || (filterByNumericValues.length && !filteredPlanetsByNumeric.length)
-  //   ) {
-  //     return true;
-  //   }
-  //   return false;
-  // };
+  const checkIsFiltering = () => {
+    if (
+      (filterByName.name && !currentPlanets.length)
+      || (filterByNumericValues.length && !currentPlanets.length)
+    ) {
+      return true;
+    }
+    return false;
+  };
 
   const renderCollumns = () => {
     if (planets.length) {
@@ -40,7 +41,7 @@ export default function TableData() {
           {renderCollumns()}
         </tr>
       </thead>
-      {/* {checkIsFiltering() ? (
+      {checkIsFiltering() ? (
         <tbody>
           <tr>
             <td>
@@ -48,13 +49,13 @@ export default function TableData() {
             </td>
           </tr>
         </tbody>
-      ) : ( */}
-      <tbody>
-        {planetsState.map((planet, i) => (
-          <TableRow key={ i } planet={ planet } />
-        ))}
-      </tbody>
-      {/* )} */}
+      ) : (
+        <tbody>
+          {planetsState.map((planet, i) => (
+            <TableRow key={ i } planet={ planet } />
+          ))}
+        </tbody>
+      )}
     </Table>
   );
 }

@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react';
+import ActiveFilters from '../components/ActiveFilters';
 import Filters from '../components/Filters';
 import Loading from '../components/Loading';
 import Table from '../components/Table';
@@ -35,6 +36,7 @@ export default function Home() {
   return (
     <section className="home-page">
       <Filters />
+      <ActiveFilters />
       <Table />
     </section>
   );
