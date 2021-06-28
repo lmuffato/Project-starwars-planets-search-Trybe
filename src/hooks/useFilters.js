@@ -1,9 +1,10 @@
 import { useState } from 'react';
 
-import filterByName from '../config/filters';
+import { filterByName, filterByNumericValues } from '../config/filters';
 
 const initialFilters = {
   filterByName,
+  filterByNumericValues,
 };
 
 const useFilters = () => {

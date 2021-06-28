@@ -8,6 +8,7 @@ import PlanetContext from './PlanetsContext';
 import useFilters from '../hooks/useFilters';
 
 function PlanetProvider({ children }) {
+  const [applyFilter, setApplyFilter] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
 
@@ -34,15 +35,43 @@ function PlanetProvider({ children }) {
     });
   }
 
+  function handleSelectValue({ target: { name, value } }) {
+    const { filterByNumericValues: filterNumerics } = filters;
+    const filterByNumericValues = [
+      {
+        ...filterNumerics[0],
+        [name]: value,
+      },
+    ];
+    setFilters({
+      ...filters,
+      filterByNumericValues,
+    });
+  }
+
+  const value = {
+    applyFilter,
+    isLoading,
+    data,
+    filters,
+    setApplyFilter,
+    handleName,
+    handleSelectValue,
+    fetchData,
+  };
+
   return (
-    <PlanetContext.Provider value={ { isLoading, data, filters, handleName, fetchData } }>
+    <PlanetContext.Provider value={ value }>
       {children}
     </PlanetContext.Provider>
   );
 }
 
 PlanetProvider.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
 };
 
 export default PlanetProvider;
