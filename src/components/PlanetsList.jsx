@@ -31,6 +31,24 @@ function PlanetsList() {
           <th>
             Gravity
           </th>
+          <th>
+            Rotation Period
+          </th>
+          <th>
+            Surface Water
+          </th>
+          <th>
+            Films
+          </th>
+          <th>
+            Created in
+          </th>
+          <th>
+            Edited in
+          </th>
+          <th>
+            Link
+          </th>
         </tr>
       </thead>
       <tbody>

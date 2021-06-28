@@ -10,7 +10,14 @@ function PlanetCard(props) {
     terrain,
     orbital_period: orbitalPeriod,
     diameter,
-    gravity } = planet;
+    gravity,
+    films,
+    created,
+    edited,
+    rotation_period: rotationPeriod,
+    surface_water: surfaceWater,
+    url,
+  } = planet;
   return (
     <tr>
       <td>
@@ -33,6 +40,27 @@ function PlanetCard(props) {
       </td>
       <td>
         { gravity }
+      </td>
+      <td>
+        { rotationPeriod }
+      </td>
+      <td>
+        { surfaceWater }
+      </td>
+      <td>
+        { films.map((film, index) => (
+          <a href={ film } target="_blank" rel="noreferrer" key={ index }>
+            { `filme ${index + 1}` }
+          </a>))}
+      </td>
+      <td>
+        { created }
+      </td>
+      <td>
+        { edited }
+      </td>
+      <td>
+        { url }
       </td>
     </tr>
   );
