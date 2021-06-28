@@ -1,14 +1,19 @@
 import React from 'react';
+import FilterProvider from './providers/FilterProvider';
+import DataProvider from './providers/DataProvider';
+import Filter from './components/Filter';
 import Table from './components/Table';
-import Provider from './Provider';
 import './styles/Table.css';
 import './styles/App.css';
 
 function App() {
   return (
-    <Provider>
-      <Table />
-    </Provider>
+    <DataProvider>
+      <FilterProvider>
+        <Filter />
+        <Table />
+      </FilterProvider>
+    </DataProvider>
   );
 }
 
