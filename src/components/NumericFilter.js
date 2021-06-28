@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-// import PropTypes from 'prop-types';
 import starwarsContext from '../context/starwarsContext';
 
 export default function NumericFilter() {
@@ -19,22 +18,14 @@ export default function NumericFilter() {
     const options = [
       'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
     ];
-    const opUsadas = filterByNumericValues.map((filter) => { // TEM QUE FICAR DENTRO DE UM USEEFECCT
-      console.log(filter);
-      return filter.column;
-    });
-    console.log(filterByNumericValues.length);
-    console.log(opUsadas);
-    // .filter((_, index) => index < filterByNumericValues.length);
+    const usedOptions = filterByNumericValues.map((filter) => filter.column);
 
     return options.filter(
-      (option) => !opUsadas.some((usedOption) => usedOption === option),
+      (option) => !usedOptions.some((usedOption) => usedOption === option),
     );
   };
 
   const handleClick = () => {
-    console.log('FILTER NUM LENGTH', filterByNumericValues.length);
-    // if (filterByNumericValues.length === 1) {
     setFilters({
       ...filters,
       filterByNumericValues: [
@@ -46,23 +37,12 @@ export default function NumericFilter() {
         },
       ],
     });
-    /* } else {
-      setFilters({
-        ...filters,
-        filterByNumericValues: [...filters.filterByNumericValues, {
-          column: filtersInputs.columnInput || availableOptions()[0],
-          comparison: filtersInputs.comparisonInput,
-          value: filtersInputs.valueInput,
-        }],
-      });
-    } */
   };
 
   const renderOptions = () => {
     const options = [
       'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
     ];
-
     if (filterByNumericValues.length === 0) {
       return (
         options.map(
@@ -128,7 +108,3 @@ export default function NumericFilter() {
     </div>
   );
 }
-
-/* NumericFilter.propTypes = {
-  id: PropTypes.number.isRequired,
-}; */

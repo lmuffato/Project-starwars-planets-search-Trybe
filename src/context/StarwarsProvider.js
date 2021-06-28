@@ -12,13 +12,7 @@ function StarwarsProvider({ children }) {
     filterByName: {
       name: '',
     },
-    filterByNumericValues: [
-    /*    {
-        column: '',
-        comparison: '',
-        value: '',
-      }, */
-    ],
+    filterByNumericValues: [],
   });
 
   useEffect(() => {
@@ -31,35 +25,23 @@ function StarwarsProvider({ children }) {
   }, [data]); // puts data into a changeble state
 
   useEffect(() => {
-    console.log('CHAMOU O USE EFFECT');
     const { filterByNumericValues, filterByName } = filters;
-    console.log('FILTER BY NUMERIC VALUE', filterByNumericValues);
     let filteredResult = data.filter(
       (planet) => planet.name.includes(filterByName.name),
     );
-    console.log('RESULT 1', filteredResult);
 
     if (filterByNumericValues) {
       filterByNumericValues.forEach((numFilter) => {
         const { column, comparison, value } = numFilter;
         filteredResult = filteredResult.filter(
           (planet) => {
-            if (comparison === 'maior que') {
-              console.log('TESTE 1', planet[column] > Number(value));
-              return planet[column] > Number(value);
-            }
-            if (comparison === 'igual a') {
-              console.log('TESTE 2', planet[column] === value);
-              return planet[column] === value;
-            }
-            console.log('TESTE 3', planet[column] < Number(value));
+            if (comparison === 'maior que') return planet[column] > Number(value);
+            if (comparison === 'igual a') return planet[column] === value;
             return planet[column] < Number(value);
           },
         );
       });
     }
-    // }
-    console.log('RESULT 2', filteredResult);
     setDataTable(filteredResult);
   }, [filters]); // deals with numeric filter
 

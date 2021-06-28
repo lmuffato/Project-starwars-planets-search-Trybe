@@ -11,12 +11,9 @@ export default function Filters() {
   };
 
   const handleClick = (column) => {
-    console.log('ENTROU NO CLICK');
-    console.log(filterByNumericValues);
     const filtredResult = filterByNumericValues.filter(
       (filter) => filter.column !== column,
     );
-    console.log(filtredResult);
     setFilters({
       ...filters,
       filterByNumericValues: filtredResult,
@@ -41,13 +38,12 @@ export default function Filters() {
         (filter, index) => {
           if (filter.column) {
             return (
-              <div key={ index }>
+              <div key={ index } data-testid="filter">
                 <span>
                   { `${filter.column} ${filter.comparison} ${filter.value}`}
                 </span>
                 <button
                   type="button"
-                  data-testid="filter"
                   onClick={ () => handleClick(filter.column) }
                 >
                   X
