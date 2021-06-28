@@ -10,15 +10,37 @@ function Table() {
   const dataFilters = () => {
     const {
       filterByName: { name },
+      filterByNumericValues,
     } = filters;
 
     if (name) {
       return data.filter((planet) => planet.name.includes(name));
     }
 
+    if (filterByNumericValues.length > 0) {
+      // Essa parte da lógica (linha 24 à 38) redireciono os méritos ao meu colega Marcelo Maurício:
+      // Link: https://github.com/tryber/sd-010-a-project-starwars-planets-search/pull/53/commits/ac334f26d16e4c7f4af9650d2bfe42af1f649a04
+
+      const filterNumber = filterByNumericValues.map((numberFilter) => {
+        const { column, comparison, value } = numberFilter;
+
+        switch (comparison) {
+        case 'maior que':
+          return data.filter((planet) => Number(planet[column]) > Number(value));
+        case 'menor que':
+          return data.filter((planet) => Number(planet[column]) < Number(value));
+        case 'igual a':
+          return data
+            .filter((planet) => Number(planet[column]) === Number(value));
+        default:
+          return data;
+        }
+      });
+      return filterNumber[filterNumber.length - 1];
+    }
+
     return data;
   };
-
   const planets = dataFilters();
 
   return (
