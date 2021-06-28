@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import SWContext from '../services/SWContext';
+import StarWarsContext from '../services/StarWarsContext';
 
 export const SortTable = () => {
   const {
@@ -7,7 +7,7 @@ export const SortTable = () => {
     setSortFilter,
     sortFilter,
     sortOption
-  } = useContext(SWContext);
+  } = useContext(StarWarsContext);
 
   const handleSortChange = (name, value) => {
     setSortFilter({ ...sortFilter, [name]: value });
@@ -22,17 +22,17 @@ export const SortTable = () => {
   ];
 
   return (
-    <div key={sortOption}>
+    <div key={ sortOption }>
       <select
         name="column"
         data-testid="column-sort"
         onChange={({ target: { name, value } }) => handleSortChange(name, value)}
       >
-        {sortColumns.map((item) => <option key={item}>{item}</option>)}
+        {sortColumns.map((item) => <option key={ item }>{item}</option>)}
       </select>
       <label htmlFor="radio">
         Crescente
-        <input
+            <input
           type="radio"
           data-testid="column-sort-input-asc"
           value="ASC"
@@ -42,7 +42,7 @@ export const SortTable = () => {
       </label>
       <label htmlFor="radio">
         Decrescente
-        <input
+            <input
           type="radio"
           data-testid="column-sort-input-desc"
           value="DESC"
@@ -56,7 +56,7 @@ export const SortTable = () => {
         data-testid="column-sort-button"
       >
         Ordenar
-      </button>
+          </button>
     </div>
   );
 };

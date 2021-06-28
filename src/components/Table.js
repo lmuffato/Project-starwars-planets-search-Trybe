@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import SWContext from '../services/SWContext';
+import StarWarsContext from '../services/StarWarsContext';
 
 // Utilização do Context - modelo de estudo e crédito total { Bruno Sordi T7 }
 
@@ -11,7 +11,7 @@ function Table() {
     filterHandler,
     setFilterHandler,
     sortOption,
-  } = useContext(SWContext);
+  } = useContext(StarWarsContext);
 
   // Filtro por nome, a cada novo filter, pega o array original e filtra por nome
   function handleChangeName({ target }) {
@@ -59,12 +59,12 @@ function Table() {
         <select
           name="column"
           data-testid="column-filter"
-          value={filters.filterByNumericValues.column}
-          onChange={handleChangeSelected}
+          value={ filters.filterByNumericValues.column }
+          onChange={ handleChangeSelected }
         >
           {arrayRendered.map((comparison, index) => (
-            <option key={index} value={comparison}>
-              {comparison}
+            <option key={ index } value={ comparison }>
+              { comparison }
             </option>
           ))}
         </select>
@@ -86,9 +86,9 @@ function Table() {
   function renderFilters() {
     const { filterByNumericValues } = filters;
     const renderedFilters = filterByNumericValues.map((filter, index) => (
-      <div data-testid="filter" key={index}>
-        {`${filter.column} ${filter.comparison} ${filter.value}  `}
-        <button type="button" onClick={() => deleteFilter(filter.column)}>x</button>
+      <div data-testid="filter" key={ index }>
+        { `${filter.column} ${filter.comparison} ${filter.value}  `}
+        <button type="button" onClick={ () => deleteFilter(filter.column) }>x</button>
       </div>
     ));
     return renderedFilters;
@@ -96,15 +96,15 @@ function Table() {
 
   return (
     <div>
-      <div key={sortOption}>
+      <div key={ sortOption }>
         <label htmlFor="filter-text">
           Filter By Name:
           <input
             type="text"
             name="filter-text"
             data-testid="name-filter"
-            value={filters.filterByName.name}
-            onChange={handleChangeName}
+            value={ filters.filterByName.name }
+            onChange={ handleChangeName }
           />
         </label>
         {renderOptions()}
@@ -112,8 +112,8 @@ function Table() {
           <select
             name="comparison"
             data-testid="comparison-filter"
-            value={filters.filterByNumericValues.comparison}
-            onChange={handleChangeSelected}
+            value={ filters.filterByNumericValues.comparison }
+            onChange={ handleChangeSelected }
           >
             <option value="maior que">maior que</option>
             <option value="igual a">igual a</option>
@@ -124,15 +124,15 @@ function Table() {
           <input
             data-testid="value-filter"
             name="value"
-            value={filters.filterByNumericValues.value}
-            onChange={handleChangeSelected}
+            value={ filters.filterByNumericValues.value }
+            onChange={ handleChangeSelected }
           />
         </label>
-        <button type="button" data-testid="button-filter" onClick={addFilter}>
+        <button type="button" data-testid="button-filter" onClick={ addFilter }>
           Add Filters
         </button>
         <div>
-          {renderFilters()}
+          { renderFilters() }
         </div>
       </div>
       {!data.length ? (
@@ -141,16 +141,16 @@ function Table() {
         <table>
           <thead>
             <tr>
-              {Object.keys(data[0]).map((element, index) => (
-                <th key={index}>{element}</th>
+              { Object.keys(data[0]).map((element, index) => (
+                <th key={ index }>{ element }</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {data.map((item, keys) => (
-              <tr key={keys}>
-                {Object.values(item).map((element, index) => (
-                  <td key={index}>{element}</td>
+              <tr key={ keys }>
+                { Object.values(item).map((element, index) => (
+                  <td key={ index }>{ element }</td>
                 ))}
               </tr>
             ))}

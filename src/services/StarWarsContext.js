@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 
-const SWContext = createContext();
+const StarWarsContext = createContext();
 
-export default SWContext;
+export default StarWarsContext;
 
 // Criando um ContextAPI { Bruno Sordi T7}

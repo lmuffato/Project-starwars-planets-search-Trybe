@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import SWContext from './SWContext';
+import StarWarsContext from './StarWarsContext';
 import planetsFetch from '../services/Api';
 
 function Provider({ children }) {
@@ -142,12 +142,12 @@ function Provider({ children }) {
       const json = await request.json();
       return json.results;
     }
-  }, []);
-  useEffect(() => {
-    const results = dataApi;
-    const filteredName = filterName(results);
-    filterNumericValues(filteredName);
-  }, [filters]);
+    }, []);
+    useEffect(() => {
+      const results = dataApi;
+      const filteredName = filterName(results);
+      filterNumericValues(filteredName);
+    }, [filters]);
 
 
   const context = {
@@ -163,9 +163,9 @@ function Provider({ children }) {
     sortOption,
   };
   return (
-    <SWContext.Provider value={context}>
+    <StarWarsContext.Provider value={context}>
       {children}
-    </SWContext.Provider>
+    </StarWarsContext.Provider>
   );
 }
 
