@@ -49,7 +49,7 @@ function PlanetCard(props) {
       </td>
       <td>
         { films.map((film, index) => (
-          <a href={ film } target="_blank" rel="noreferrer" key={ index }>
+          <a href={ film } target="_blank" rel="noopener noreferrer" key={ index }>
             { `filme ${index + 1}` }
           </a>))}
       </td>
