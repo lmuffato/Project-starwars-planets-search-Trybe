@@ -1,5 +1,7 @@
 import React, { useContext } from 'react';
+import { AiFillCloseCircle } from 'react-icons/ai';
 
+import CollunsDropdown from './CollunsDropdown';
 import PlanetsContext from '../context/PlanetsContext';
 
 function FilterForm() {
@@ -8,6 +10,13 @@ function FilterForm() {
     wasFiltered,
     filterByName,
     submitFilters } = useContext(PlanetsContext);
+  const showFilters = () => (
+    <div>
+      <p>
+        { JSON.stringify(filters) }
+        <AiFillCloseCircle />
+      </p>
+    </div>);
   return (
     <>
       <form
@@ -27,8 +36,9 @@ function FilterForm() {
           />
         </label>
       </form>
+      <CollunsDropdown />
       <div>
-        {wasFiltered ? <p>{ JSON.stringify(filters) }</p> : ''}
+        { wasFiltered && showFilters() }
       </div>
     </>
   );

@@ -5,12 +5,6 @@ import PlanetCard from './PlanetCard';
 
 function PlanetsList() {
   const { filteredPlanets, planets, getPlanets } = useContext(PlanetsContext);
-  let filterCondition;
-  if (filteredPlanets) {
-    filterCondition = filteredPlanets.length > 0;
-  } else {
-    filterCondition = false;
-  }
   useEffect(() => { getPlanets(); }, [getPlanets]);
   return (
     <table>
@@ -59,7 +53,7 @@ function PlanetsList() {
       </thead>
       <tbody>
         {
-          planets ? (filterCondition ? filteredPlanets : planets)
+          planets ? filteredPlanets
             .map((planet, index) => <PlanetCard key={ index } planet={ planet } />)
             : <tr><td> ...loading </td></tr>
         }
