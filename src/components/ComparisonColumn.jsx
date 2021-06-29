@@ -8,19 +8,15 @@ const values = [
 ];
 
 function ComparisonColumn() {
-  const { setComparison, setBtn } = useContext(Context);
-
-  const handleChange = (e) => {
-    setComparison(e.target.value);
-    setBtn(false);
-  };
+  const { setComparison } = useContext(Context);
 
   return (
     <select
       name="Comparison"
       data-testid="comparison-filter"
+      id="comparison-filter"
       className="value-input"
-      onChange={ (e) => handleChange(e) }
+      onChange={ (e) => setComparison(e.target.value) }
     >
       {values.map((value, index) => (
         <option key={ index } id={ value }>{value}</option>

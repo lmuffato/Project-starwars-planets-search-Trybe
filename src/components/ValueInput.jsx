@@ -2,18 +2,13 @@ import React, { useContext } from 'react';
 import Context from '../context/Context';
 
 function ValueInput() {
-  const { value, setValue, setBtn } = useContext(Context);
-
-  const handleChange = (e) => {
-    setValue(e.target.value);
-    setBtn(false);
-  };
+  const { value, setValue } = useContext(Context);
 
   return (
     <input
       type="text"
       value={ value }
-      onChange={ (e) => handleChange(e) }
+      onChange={ (e) => setValue(e.target.value) }
       className="value-input"
       id="value-filter"
       data-testid="value-filter"

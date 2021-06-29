@@ -10,19 +10,15 @@ const values = [
 ];
 
 function SelectColumn() {
-  const { setColumn, setBtn } = useContext(Context);
-
-  const handleChange = (e) => {
-    setColumn(e.target.value);
-    setBtn(false);
-  };
+  const { setColumn } = useContext(Context);
 
   return (
     <select
       name="Column"
       data-testid="column-filter"
+      id="column-filter"
       className="value-input"
-      onChange={ (e) => handleChange(e) }
+      onChange={ (e) => setColumn(e.target.value) }
     >
       {values.map((value, index) => (
         <option key={ index } id={ value }>{value}</option>

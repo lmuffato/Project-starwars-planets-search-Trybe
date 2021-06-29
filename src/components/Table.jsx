@@ -13,35 +13,43 @@ function Table() {
     column,
     comparison,
     value,
-    btn,
-    setBtn,
+    setFilterNum,
+    filterNum,
+    planetsList,
+    setPlanetsList,
+    setValue,
+    setColumn,
+    setComparison,
+    handleFilter,
   } = useContext(Context);
 
-  const tableFilter = () => {
-    const search = name.toLowerCase();
-    let filteredPlanets = data;
-    if (name === '' && btn === false) {
-      filteredPlanets = data;
-    } else if (search !== '' && btn === false) {
-      filteredPlanets = data.filter((planet) => (
-        planet.name.toLowerCase().includes(search)));
-    } else if (btn && comparison === 'maior que') {
-      filteredPlanets = data.filter((planet) => (
-        planet[column] > Number(value)));
-    } else if (btn && comparison === 'menor que') {
-      filteredPlanets = data.filter((planet) => (
-        planet[column] < Number(value)));
-    } else if (btn && comparison === 'igual a') {
-      filteredPlanets = data.filter((planet) => (
-        planet[column] === value));
-    }
-    return filteredPlanets;
-  };
+  let filteredPlanets = planetsList;
+  const search = name.toLowerCase();
+  if (search !== '') {
+    filteredPlanets = planetsList.filter((planet) => (
+      planet.name.toLowerCase().includes(search)));
+  }
 
   const handleClick = () => {
-    setBtn(true);
+    if (comparison === 'maior que') {
+      filteredPlanets = data.filter((planet) => (
+        planet[column] > Number(value)));
+      setPlanetsList(filteredPlanets);
+    } else if (comparison === 'menor que') {
+      filteredPlanets = data.filter((planet) => (
+        planet[column] < Number(value)));
+      setPlanetsList(filteredPlanets);
+    } else if (comparison === 'igual a') {
+      filteredPlanets = data.filter((planet) => (
+        planet[column] === value));
+      setPlanetsList(filteredPlanets);
+    }
+    setFilterNum([...filterNum, { value, column, comparison }]);
     document.getElementById(comparison).remove();
     document.getElementById(column).remove();
+    setColumn('orbital_period');
+    setComparison('menor que');
+    setValue('');
   };
 
   return (
@@ -60,16 +68,32 @@ function Table() {
           Filtrar
         </button>
       </div>
+      {(filterNum !== '')
+        ? filterNum.map((filter, index) => (
+          <div key={ index } className="filter-values" data-testid="filter">
+            <p>
+              {`Filtro Aplicado: ${filter.column} ${filter.comparison} ${filter.value}`}
+            </p>
+            <button
+              type="button"
+              id={ `button${index}` }
+              onClick={ (event) => handleFilter(event) }
+            >
+              X
+            </button>
+          </div>
+        ))
+        : <p className="filter-values">Nenhum filtro numérico aplicado</p>}
       <table className="table">
         <thead>
           <tr>
-            {header.map((head, index) => (
-              <th key={ index }>{head}</th>
+            {header.map((head) => (
+              <th key={ head }>{head}</th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {tableFilter().map((planet, index) => (
+          {filteredPlanets.map((planet, index) => (
             <tr key={ index }>
               <td>{planet.name}</td>
               <td>{planet.rotation_period}</td>

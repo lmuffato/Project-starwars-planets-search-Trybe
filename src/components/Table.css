@@ -42,3 +42,21 @@ th, td {
   margin-top: 8px;
   width: 100px;
 }
+
+.filter-values {
+  color: white;
+  display: flex;
+  font-family: Helvetica , Arial , sans-serif;
+  font-size: 12px;
+  justify-content: center;
+  text-align: center;
+}
+
+.filter-values button {
+  border: unset;
+  border-radius: 50%;
+  height: 25px;
+  margin-left: 10px;
+  margin-top: 5px;
+  width: 25px;
+}
