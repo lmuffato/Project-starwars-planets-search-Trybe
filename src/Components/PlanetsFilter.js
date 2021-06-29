@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import PlanetContext from '../Context/PlanetContext';
+import PlanetContext from '../Context/ContextPlanets';
 
-export default function FilteringPlanets() {
+function FilteringPlanets() {
   const { column, setColumn, data, newData, setNewData, ValueColumn, setValueColumn,
     number, comparison, setComparison, setNumber } = useContext(PlanetContext);
   const bigOrNot = ['maior que', 'menor que', 'igual a'];
@@ -96,3 +96,5 @@ export default function FilteringPlanets() {
     </div>
   );
 }
+
+export default FilteringPlanets;

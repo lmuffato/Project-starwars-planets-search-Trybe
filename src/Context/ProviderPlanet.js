@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import PlanetContext from './PlanetContext';
+import Proptypes from 'prop-types';
+import PlanetContext from './ContextPlanets';
 
-export default function ProviderPlanet({ children }) {
+function ProviderPlanet({ children }) {
   const [data, setData] = useState([]);
   const [newData, setNewData] = useState([]);
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
   const [number, setNumber] = useState(0);
-  const [valueColumn, setValueColumn] = useState(['population', 'orbital_period',
+  const [ValueColumn, setValueColumn] = useState(['population', 'orbital_period',
     'diameter', 'rotation_period', 'surface_water']);
-
   const val = {
-    valueColumn,
+    ValueColumn,
     setValueColumn,
     data,
     setData,
@@ -28,11 +27,13 @@ export default function ProviderPlanet({ children }) {
 
   return (
     <PlanetContext.Provider value={ val }>
-      { children }
+      {children}
     </PlanetContext.Provider>
   );
 }
 
 ProviderPlanet.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: Proptypes.node.isRequired,
 };
+
+export default ProviderPlanet;

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
-import PlanetContext from '../Context/PlanetContext';
+import PlanetContext from '../Context/ContextPlanets';
 import FilteringPlanets from './PlanetsFilter';
-// import SortByColumn from './SortByColumn';
+import SortByColumn from './SortByColumn';
 
 export default function Table() {
   const { data, newData, setData, setNewData } = useContext(PlanetContext);
@@ -13,7 +13,8 @@ export default function Table() {
         setData(json.results);
         setNewData(json.results);
       });
-  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const filteringPlanetsName = ({ target }) => {
     const filtered = data.filter(({ name }) => name.toUpperCase()
@@ -21,8 +22,7 @@ export default function Table() {
     setNewData(filtered);
   };
 
-  if (data.length === 0) return <h2>Loading...</h2>;
-
+  if (data.length === 0) return <h2>Loading</h2>;
   return (
     <div>
       <label htmlFor="planet">
@@ -35,7 +35,7 @@ export default function Table() {
         />
       </label>
       <FilteringPlanets />
-      {/* <SortByColumn /> */}
+      <SortByColumn />
       <table>
         <thead>
           <tr>
