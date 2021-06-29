@@ -7,7 +7,7 @@ function MyTableProvider({ children }) {
   const [headers, setHeaders] = useState([]);
   const [filters, setFilters] = useState({
     filterByName: { name: '' },
-    filterByNumericValoues: [],
+    filterByNumericValues: [],
   });
 
   const contextValue = {

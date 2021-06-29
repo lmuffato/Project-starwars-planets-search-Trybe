@@ -8,7 +8,7 @@ function Table() {
     const { filterByNumericValues } = filters;
     if (!filterByNumericValues.length) return paramArray;
 
-    let newArray = array;
+    let newArray = paramArray;
 
     filterByNumericValues.forEach((filt) => {
       const { comparison, column, value } = filt;
@@ -43,16 +43,15 @@ function Table() {
           {headers.map((head) => <th key={ head }>{head}</th>)}
         </tr>
         {
-          fullFilt()
-            .map((dataPlan) => (
-              <tr key={ dataPlan.name }>
-                {
-                  headers.map((index) => (
-                    <td key={ dataPlan[index] }>
-                      { dataPlan[index] }
-                    </td>))
-                }
-              </tr>))
+          fullFilt().map((dataPlan) => (
+            <tr key={ dataPlan.name }>
+              {
+                headers.map((index) => (
+                  <td key={ dataPlan[index] }>
+                    { dataPlan[index] }
+                  </td>))
+              }
+            </tr>))
         }
       </tbody>
     </table>
