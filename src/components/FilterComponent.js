@@ -2,8 +2,11 @@ import React, { useContext, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 function FilterComponent() {
+  const [columnsFilter, setColumnsFilter] = useState(
+    ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
+  );
   const [numberFilter, setNumberFilter] = useState({
-    column: 'population',
+    column: columnsFilter[0],
     comparison: 'maior que',
     value: '0',
   });
@@ -18,6 +21,9 @@ function FilterComponent() {
   }
 
   function onClick() {
+    setColumnsFilter(
+      columnsFilter.filter((column) => column !== numberFilter.column),
+    );
     setfilterByNumericValues((prevFilter) => ([
       ...prevFilter,
       numberFilter,
@@ -44,11 +50,16 @@ function FilterComponent() {
             data-testid="column-filter"
             id="column"
           >
-            <option value="population">population</option>
-            <option value="orbital_period">orbital_period</option>
-            <option value="diameter">diameter</option>
-            <option value="rotation_period">rotation_period</option>
-            <option value="surface_water">surface_water</option>
+            { columnsFilter.includes('population')
+              && <option value="population">population</option> }
+            { columnsFilter.includes('orbital_period')
+            && <option value="orbital_period">orbital_period</option> }
+            { columnsFilter.includes('diameter')
+              && <option value="diameter">diameter</option> }
+            { columnsFilter.includes('rotation_period')
+            && <option value="rotation_period">rotation_period</option> }
+            { columnsFilter.includes('surface_water')
+            && <option value="surface_water">surface_water</option> }
           </select>
         </label>
         { ' ' }
