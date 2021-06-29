@@ -11,6 +11,10 @@ class PlanetsProvider extends Component {
           name: '',
         },
         filterByNumericValues: [],
+        order: {
+          column: 'name',
+          sort: 'ASC',
+        },
       },
       filteredPlanets: undefined,
       planets: '',
@@ -22,12 +26,23 @@ class PlanetsProvider extends Component {
     this.toggleWasFiltered = this.toggleWasFiltered.bind(this);
     this.filterByValue = this.filterByValue.bind(this);
     this.clearFilters = this.clearFilters.bind(this);
+    this.getOrderData = this.getOrderData.bind(this);
+    this.SortPlanets = this.SortPlanets.bind(this);
+    this.sortDESC = this.sortDESC.bind(this);
   }
 
   async getPlanets() {
     const rawApiData = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
     const apiData = await rawApiData.json();
-    this.setState({ planets: apiData.results, filteredPlanets: apiData.results });
+    this.setState({
+      planets: apiData.results, filteredPlanets: apiData.results,
+    }, () => this.SortPlanets());
+  }
+
+  getOrderData(order) {
+    const { filters } = this.state;
+    this.setState({
+      filters: { ...filters, order: { ...order } } }, () => this.SortPlanets());
   }
 
   submitFilters() {
@@ -100,6 +115,37 @@ class PlanetsProvider extends Component {
       filters: { ...filters, filterByNumericValues } }, () => this.submitFilters());
   }
 
+  sortDESC(arr) {
+    return arr.sort((a, b) => {
+      const neg1 = -1;
+      if (a.name < b.name) { return 1; }
+      if (a.name > b.name) { return neg1; }
+      return 0;
+    });
+  }
+
+  SortPlanets() {
+    const { filters: { order } } = this.state;
+    let { filteredPlanets } = this.state;
+    if (order.column === 'name' && order.sort === 'ASC') {
+      filteredPlanets = filteredPlanets.sort((a, b) => {
+        const neg1 = -1;
+        if (a.name < b.name) { return neg1; }
+        if (a.name > b.name) { return 1; }
+        return 0;
+      });
+    } else if (order.column === 'name' && order.sort === 'DESC') {
+      filteredPlanets = this.sortDESC(filteredPlanets);
+    } else if (order.sort === 'ASC') {
+      filteredPlanets = filteredPlanets
+        .sort((a, b) => a[order.column] - b[order.column]);
+    } else if (order.sort === 'DESC') {
+      filteredPlanets = filteredPlanets
+        .sort((a, b) => b[order.column] - a[order.column]);
+    }
+    this.setState({ filteredPlanets });
+  }
+
   toggleWasFiltered() {
     const { filters: { filterByName, filterByNumericValues } } = this.state;
     if (filterByName.name === '' && filterByNumericValues.length === 0) {
@@ -121,6 +167,7 @@ class PlanetsProvider extends Component {
           toggleWasFiltered: this.toggleWasFiltered,
           filterByValue: this.filterByValue,
           clearFilters: this.clearFilters,
+          getOrderData: this.getOrderData,
         } }
       >
         { children }

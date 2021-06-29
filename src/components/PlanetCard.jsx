@@ -20,7 +20,7 @@ function PlanetCard(props) {
   } = planet;
   return (
     <tr>
-      <td>
+      <td data-testid="planet-name">
         { name }
       </td>
       <td>
