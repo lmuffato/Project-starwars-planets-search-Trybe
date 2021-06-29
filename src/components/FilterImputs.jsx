@@ -47,27 +47,28 @@ const FilterInputs = () => {
   const handleClick = () => {
     let filteredPlanets = [];
 
-    if (comparison === 'maior que') {
+    if (comparison === 'menor que') {
+      filteredPlanets = data.filter(
+        (planet) => Number(planet[column]) < Number(value)
+          || planet[column] === 'unknown',
+      );
+    } else if (comparison === 'maior que') {
       filteredPlanets = data.filter(
         (planet) => Number(planet[column]) > Number(value),
-      );
-    } else if (comparison === 'menor que') {
-      filteredPlanets = data.filter(
-        (planet) => Number(planet[column]) < Number(value),
       );
     } else {
       filteredPlanets = data.filter((planet) => planet[column] === value);
     }
-
     setDataToUse(filteredPlanets);
   };
 
   return (
     <form>
-      <label htmlFor="name-filter">
+      <label htmlFor="nameFilter">
         Busque por planetas:
         {' '}
         <input
+          id="nameFilter"
           type="text"
           name="name"
           value={ name }
@@ -76,9 +77,9 @@ const FilterInputs = () => {
           placeholder="Digite o nome do planeta"
         />
       </label>
-      <label htmlFor="column">
+      <label htmlFor="columnSel">
         <select
-          id="column"
+          id="columnSel"
           value={ column }
           name="column"
           data-testid="column-filter"
@@ -91,9 +92,9 @@ const FilterInputs = () => {
           <option value="rotation_water">surface_water</option>
         </select>
       </label>
-      <label htmlFor="comparison">
+      <label htmlFor="comparisonSel">
         <select
-          id="comparison"
+          id="comparisonSel"
           value={ comparison }
           name="comparison"
           data-testid="comparison-filter"
@@ -104,13 +105,16 @@ const FilterInputs = () => {
           <option value="igual a">igual a</option>
         </select>
       </label>
-      <input
-        type="number"
-        name="value"
-        value={ value }
-        data-testid="value-filter"
-        onChange={ handleSelect }
-      />
+      <label htmlFor="valueInp">
+        <input
+          id="valueInp"
+          type="number"
+          name="value"
+          value={ value }
+          data-testid="value-filter"
+          onChange={ handleSelect }
+        />
+      </label>
       <button type="button" data-testid="button-filter" onClick={ handleClick }>
         Filtrar
       </button>
