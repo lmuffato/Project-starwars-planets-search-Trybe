@@ -6,11 +6,13 @@ import Table from './components/Table';
 
 import './App.css';
 import ControlPanel from './components/ControlPanel';
+import Filters from './components/Filters';
 
 function App() {
   return (
     <PlanetProvider>
       <ControlPanel />
+      <Filters />
       <Table />
     </PlanetProvider>
   );

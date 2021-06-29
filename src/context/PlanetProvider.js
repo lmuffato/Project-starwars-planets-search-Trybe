@@ -63,6 +63,15 @@ function PlanetProvider({ children }) {
     });
   }
 
+  function removeFilter(toRemove) {
+    const { filterByNumericValues: filterNumerics } = filters;
+    const newFilters = filterNumerics.filter((filter) => filter !== toRemove);
+    setFilters({
+      ...filters,
+      filterByNumericValues: [...newFilters],
+    });
+  }
+
   const value = {
     applyFilter,
     isLoading,
@@ -71,6 +80,7 @@ function PlanetProvider({ children }) {
     setApplyFilter,
     addFilter,
     handleName,
+    removeFilter,
     handleSelectValue,
     fetchData,
   };
