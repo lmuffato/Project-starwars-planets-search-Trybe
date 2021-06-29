@@ -5,36 +5,28 @@ import context from './context';
 
 const Provider = ({ children }) => {
   const [data, setData] = useState([]);
-  const [name, setName] = useState('');
-  const [filter, setFilter] = useState({
-    filterByName: {
-      name: '',
-    },
+  const [filters, setFilters] = useState({
+    filterByName: {name: ''},
+    filterByNumericValues: { column: '', comparison: '', value: ''},
   });
-  const [selects, setSelects] = useState({
-    filerByNumericValues: [
-      {
-        column: '',
-        comparison: '',
-        value: '',
-      },
-    ],
-  });
+  const [dataToUse, setDataToUse] = useState([])
+  const [dataToSelect, setDataToSelect] = useState([])
   const contextValue = {
     data,
     setData,
-    filter,
-    setFilter,
-    selects,
-    setSelects,
-    name,
-    setName,
+    filters,
+    setFilters,
+    dataToUse,
+    setDataToUse,
+    dataToSelect,
+    setDataToSelect,
   };
 
   useEffect(() => {
     requestAPI().then(({ results }) => setData(results));
   }, []);
 
+ 
   return (
     <context.Provider value={ contextValue }>
       {children}

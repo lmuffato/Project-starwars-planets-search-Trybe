@@ -1,28 +1,120 @@
-import React, { useContext } from 'react';
-import context from '../context/context';
+import React, { useContext } from "react";
+import context from "../context/context";
 
 const FilterInputs = () => {
-  const { name, setName } = useContext(context);
+  const { data, filters, setFilters, setDataToUse, setDataToSelect } = useContext(context);
 
-  // const handleChange = ({ target }) => {
-  //   setData(
-  //     data.filter((planets) => planets.name.toLowerCase().includes(target.value)),
-  //   );
-  //   return data;
-  // };
+  const {
+    filterByName: { name },
+    filterByNumericValues: { column, comparison, value },
+  } = filters;
+
+  const handleText = ({ target }) => {
+    setFilters({
+      ...filters,
+      filterByName: {
+        name: target.value,
+      },
+    });
+    const filteredData = data.filter((planet) =>
+      planet.name.toLowerCase().includes(target.value.toLowerCase())
+    );
+    setDataToUse(filteredData);
+  };
+
+  const handleSelect = ({ target: { name: nameSel, value: valueSel } }) => {
+    setFilters({
+      ...filters,
+      filterByNumericValues: {
+        ...filters.filterByNumericValues,
+        [nameSel]: valueSel,
+      },
+    });
+  };
+
+  // const handleClick = () => {
+  //   let filterPLanets = [];
+  //   setDataToSelect(filterPLanets);
+  //   switch (comparison) {
+  //     case 'maior que':
+  //       return filterPLanets = data.filter((planet) => Number(planet[column]) > Number(value));
+  //     case 'menor que':
+  //       return filterPLanets = data.filter((planet) => Number(planet[column]) < Number(value));
+  //     case 'igual a':
+  //       return filterPLanets = data.filter((planet) => Number(planet[column]) === Number(value));
+  //     default: return '';    
+  //   };
+  // }
+  const handleClick = () => {
+    let filteredPlanets = [];
+
+    if (comparison === 'maior que') {
+      filteredPlanets = data.filter((planet) => (
+        Number(planet[column]) > Number(value)));
+    } else if (comparison === 'menor que') {
+      filteredPlanets = data.filter((planet) => (
+        Number(planet[column]) < Number(value)));
+    } else {
+      filteredPlanets = data.filter((planet) => (
+        planet[column] === value));
+    }
+
+    setDataToUse(filteredPlanets);
+  };
+
 
   return (
-    <label htmlFor="name-filter">
-      Busque por planetas:
-      {' '}
+    <form>
+      <label htmlFor="name-filter">
+        Busque por planetas:{" "}
+        <input
+          type="text"
+          name="name"
+          value={name}
+          data-testid="name-filter"
+          onChange={handleText}
+          placeholder="Digite o nome do planeta"
+        />
+      </label>
+      <label htmlFor="column">
+        <select
+          id="column"
+          value={column}
+          name="column"
+          data-testid="column-filter"
+          onChange={handleSelect}
+        >
+          <option value="population">population</option>
+          <option value="orbital_period">orbital_period</option>
+          <option value="diameter">diameter</option>
+          <option value="rotation_period">rotation_period</option>
+          <option value="rotation_water">surface_water</option>
+        </select>
+      </label>
+      <label htmlFor="comparison">
+        <select
+          id="comparison"
+          value={comparison}
+          name="comparison"
+          data-testid="comparison-filter"
+          onChange={handleSelect}
+        >
+          <option value="maior que">maior que</option>
+          <option value="menor que">menor que</option>
+          <option value="igual a">igual a</option>
+        </select>
+      </label>
       <input
-        type="text"
-        value={ name }
-        data-testid="name-filter"
-        onChange={ (e) => setName(e.target.value) }
-        placeholder="Digite o nome do planeta"
+        type="number"
+        name="value"
+        value={value}
+        data-testid="value-filter"
+        onChange={handleSelect}
       />
-    </label>
+      <button type="button" data-testid="button-filter" onClick={ handleClick }>
+        Filtrar
+      </button>
+    </form>
   );
 };
 
