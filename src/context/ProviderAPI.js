@@ -8,6 +8,14 @@ function ProviderAPI({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const [resultsApi, setResultsApi] = useState([]);
 
+  const [filter, setFilter] = useState({
+    filters: {
+      filterByName: {
+        name: '',
+      },
+    },
+  });
+
   useEffect(() => {
     setIsLoading(true);
     const getApi = async () => {
@@ -18,13 +26,36 @@ function ProviderAPI({ children }) {
     getApi();
   }, []);
 
-  const [filter, setFilter] = useState({
-    filters: {
-      filterByName: {
-        name: '',
-      },
-    },
-  });
+  useEffect(() => {
+    function filterData() {
+      const { filterByNumericValues } = filter;
+      if (filterByNumericValues !== undefined) {
+        filterByNumericValues.map((element) => {
+          const { column, comparison, value } = element;
+          switch (comparison) {
+          case 'maior que':
+            return setResultsApi([...resultsApi
+              .filter((planet) => Number(planet[column]) > Number(value))]);
+          case 'menor que':
+            return setResultsApi([...resultsApi
+              .filter((planet) => Number(planet[column]) < Number(value))]);
+          case 'igual a':
+            return setResultsApi([...resultsApi
+              .filter((planet) => Number(planet[column]) === Number(value))]);
+          default:
+            return resultsApi;
+          }
+        });
+      }
+    }
+    filterData();
+  }, [filter]);
+  // obtive ajuda do colega Perycles na resolução deste requisito.
+
+  const [filterColumn, setFilterColumn] = useState('');
+  const [filterComparison, setFilterComparison] = useState('');
+  const [filterValue, setFilterValue] = useState('');
+
   function handleChange({ target }) {
     setFilter({
       filters: {
@@ -35,8 +66,31 @@ function ProviderAPI({ children }) {
     });
   }
 
+  function handleClick() {
+    setFilter({
+      ...filter,
+      filterByNumericValues: [
+        {
+          column: filterColumn,
+          comparison: filterComparison,
+          value: filterValue,
+        },
+      ],
+    });
+  }
+
   return (
-    <ContextAPI.Provider value={ { resultsApi, isLoading, handleChange, filter } }>
+    <ContextAPI.Provider
+      value={ { resultsApi,
+        isLoading,
+        handleChange,
+        filter,
+        setFilterColumn,
+        setFilterComparison,
+        setFilterValue,
+        handleClick,
+      } }
+    >
       {children}
     </ContextAPI.Provider>
   );

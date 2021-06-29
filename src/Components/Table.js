@@ -3,11 +3,9 @@ import ContextAPI from '../context/ContextAPI';
 
 function Table() {
   const { resultsApi, filter } = useContext(ContextAPI);
-
   const filterPlanets = resultsApi
     .filter(({ name }) => name
       .includes(filter.filters.filterByName.name));
-
   return (
     <div>
       <table>
