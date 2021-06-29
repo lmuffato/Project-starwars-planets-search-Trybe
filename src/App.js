@@ -42,34 +42,32 @@ function App() {
 
   // filtro pelos selects
 
-  function filterBySelect() {
-    switch (filterByNumericValues.comparison) {
+  function filterBySelect(column, comparison, value) {
+    switch (comparison) {
     case 'maior que':
       setFilteredPlanets(filteredPlanets.filter((filteredPlanet) => {
-        console.log((Number(filteredPlanet[filterByNumericValues.column])
-        > Number(filterByNumericValues.value)));
-        return Number(filteredPlanet[filterByNumericValues.column])
-        > Number(filterByNumericValues.value);
+        console.log(Number(value));
+        return Number(filteredPlanet[column])
+        > Number(value);
       }));
       break;
     case 'menor que':
-      setFilteredPlanets(filteredPlanets
-        .filter((filteredPlanet) => filteredPlanet[filterByNumericValues.column]
-      < filterByNumericValues.value));
-      break;
+      return setFilteredPlanets(filteredPlanets
+        .filter((filteredPlanet) => Number(filteredPlanet[column])
+      < Number(value)));
     case 'igual a':
-      setFilteredPlanets(filteredPlanets
-        .filter((filteredPlanet) => filteredPlanet[filterByNumericValues.column]
-         === filterByNumericValues.value));
-      break;
+      return setFilteredPlanets(filteredPlanets
+        .filter((filteredPlanet) => Number(filteredPlanet[column])
+         === Number(value)));
     default:
       return filteredPlanets;
     }
   }
 
   function filterByNumber(column, comparison, value) {
-    setFilters({ ...filters, filterByNumericValues: [{ column, comparison, value }] });
-    filterBySelect();
+    setFilters({ ...filters,
+      filterByNumericValues: [{ column, comparison, value }] });
+    filterBySelect(column, comparison, value);
   }
 
   return (
