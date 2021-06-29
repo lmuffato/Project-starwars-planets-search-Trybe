@@ -29,6 +29,25 @@ function Provider({ children }) {
     fetchPlanets();
   }, []);
 
+  // const filter = () => {
+  //   let filteredPlanets = planetsList;
+  //   console.log(comp, val, col);
+  //   if (comp === 'maior que') {
+  //     filteredPlanets = data.filter((planet) => (
+  //       planet[col] > Number(val)));
+  //     console.log(filteredPlanets, 1);
+  //   } else if (comp === 'menor que') {
+  //     filteredPlanets = data.filter((planet) => (
+  //       planet[col] < Number(val)));
+  //     setPlanetsList(filteredPlanets);
+  //   } else if (comp === 'igual a') {
+  //     filteredPlanets = data.filter((planet) => (
+  //       planet[col] === value));
+  //     setPlanetsList(filteredPlanets);
+  //   }
+  //   console.log('filtrou');
+  // };
+
   const handleFilter = (event) => {
     const columnSelect = document.getElementById('column-filter');
     const columnOption = document.createElement('option');
@@ -51,20 +70,7 @@ function Provider({ children }) {
       comparisonOption.innerText = filterNum[0].comparison;
       comparisonSelect.appendChild(comparisonOption);
       const newFilter = filterNum.pop();
-      setFilterNum([newFilter]);
-      if (filterNum[0].comparison === 'maior que') {
-        const filteredPlanets = data.filter((planet) => (
-          planet[filterNum[0].column] > Number(filterNum[0].value)));
-        setPlanetsList(filteredPlanets);
-      } else if (filterNum[0].comparison === 'menor que') {
-        const filteredPlanets = data.filter((planet) => (
-          planet[filterNum[0].column] < Number(filterNum[0].value)));
-        setPlanetsList(filteredPlanets);
-      } else if (filterNum[0].comparison === 'igual a') {
-        const filteredPlanets = data.filter((planet) => (
-          planet[filterNum[0].column] === filterNum[0].value));
-        setPlanetsList(filteredPlanets);
-      }
+      console.log(newFilter);
     } else if (filterNum.length > 1 && event.target.id === 'button1') {
       columnOption.setAttribute('id', filterNum[1].column);
       columnOption.innerText = filterNum[1].column;
@@ -73,20 +79,7 @@ function Provider({ children }) {
       comparisonOption.innerText = filterNum[1].comparison;
       comparisonSelect.appendChild(comparisonOption);
       const newFilter = filterNum.shift();
-      setFilterNum([newFilter]);
-      if (filterNum[0].comparison === 'maior que') {
-        const filteredPlanets = data.filter((planet) => (
-          planet[filterNum[0].column] > Number(filterNum[0].value)));
-        setPlanetsList(filteredPlanets);
-      } else if (filterNum[0].comparison === 'menor que') {
-        const filteredPlanets = data.filter((planet) => (
-          planet[filterNum[0].column] < Number(filterNum[0].value)));
-        setPlanetsList(filteredPlanets);
-      } else if (filterNum[0].comparison === 'igual a') {
-        const filteredPlanets = data.filter((planet) => (
-          planet[filterNum[0].column] === filterNum[0].value));
-        setPlanetsList(filteredPlanets);
-      }
+      console.log(newFilter);
     }
   };
 
