@@ -2,8 +2,12 @@ import React, { useContext } from 'react';
 import PlanetsContext from '../PlanetsContext/PlanetsContext';
 
 function Table() {
-  const planetsList = useContext(PlanetsContext);
+  const planetsContext = useContext(PlanetsContext);
+  const filteredPlanets = planetsContext.planets
+    .filter((filteredPlanet) => (filteredPlanet.name
+      .includes(planetsContext.filters.filterByName.name)));
 
+  console.log(filteredPlanets);
   return (
     <table>
       <thead>
@@ -24,8 +28,8 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        {planetsList.map((planet) => (
-          <tr key={ planet.name }>
+        {filteredPlanets.map((planet, index) => (
+          <tr key={ index }>
             <td key={ planet.name }>
               {planet.climate}
             </td>
