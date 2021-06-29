@@ -11,13 +11,7 @@ function FilterForm() {
     filterByName,
     clearFilters,
     submitFilters } = useContext(PlanetsContext);
-  const showFilters = () => (
-    <div>
-      <p>
-        { JSON.stringify(filters) }
-        <AiFillCloseCircle onClick={ clearFilters } />
-      </p>
-    </div>);
+  const filtersUI = Object.values(filters.filterByNumericValues);
   return (
     <>
       <form
@@ -39,7 +33,16 @@ function FilterForm() {
       </form>
       <CollunsDropdown />
       <div>
-        { wasFiltered && showFilters() }
+        { wasFiltered && filtersUI.map((filter, index) => (
+          <div data-testid="filter" key={ index }>
+            <p>
+              { JSON.stringify(filter) }
+              <button type="button" onClick={ () => clearFilters(filter.column) }>
+                <AiFillCloseCircle />
+              </button>
+            </p>
+          </div>
+        ))}
       </div>
     </>
   );

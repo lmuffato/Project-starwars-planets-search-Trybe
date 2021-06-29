@@ -80,13 +80,15 @@ class PlanetsProvider extends Component {
     this.setState({ filteredPlanets }, () => this.toggleWasFiltered());
   }
 
-  clearFilters() {
-    const { filters, planets } = this.state;
+  clearFilters(column) {
+    const { filters, filters: { filterByNumericValues } } = this.state;
+    const filterToClear = filterByNumericValues
+      .filter((filter) => filter.column === column).shift();
+    const index = filterByNumericValues.indexOf(filterToClear);
+    filterByNumericValues.splice(index, 1);
     this.setState({
-      filters: { ...filters, filterByNumericValues: [] },
-      wasFiltered: false,
-      filteredPlanets: planets,
-    });
+      filters: { ...filters, filterByNumericValues },
+    }, this.submitFilters());
   }
 
   filterByName(e) {
