@@ -23,6 +23,9 @@ export function StarWarsContextProvider({ children }) {
 
   useEffect(() => {
     fetchPlanetsAPI();
+    // if (data) {
+    //   const sortPlanets =
+    // }
   }, []);
 
   // Parte do requisito 3 - estabelece comparação entre os operadores
