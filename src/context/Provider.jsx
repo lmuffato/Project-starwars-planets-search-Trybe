@@ -15,7 +15,7 @@ function Provider({ children }) {
     },
     filterByNumericValues: [],
   });
-  // useStates feitos com ajuda do estudo do PR da Elisa França
+  // useStates feitos com ajuda do estudo do PR da Elisa França e do seguinte site https://codesandbox.io/embed/react-hooks-search-filter-4gnwc
 
   useEffect(() => {
     const fetch = async () => {
