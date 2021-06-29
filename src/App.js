@@ -1,15 +1,17 @@
 import React from 'react';
-import './App.css';
+import FilterProvider from './providers/FilterProvider';
+import DataProvider from './providers/DataProvider';
+import Filter from './components/Filter';
+import Table from './components/Table';
 
 function App() {
   return (
-    <>
-      <span>Hello, Bia!</span>
-      <thead>
-        <th>Cat1</th>
-        <th>Cat1</th>
-      </thead>
-    </>
+    <DataProvider>
+      <FilterProvider>
+        <Filter />
+        <Table />
+      </FilterProvider>
+    </DataProvider>
   );
 }
 
