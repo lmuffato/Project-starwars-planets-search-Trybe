@@ -21,7 +21,7 @@ class PlanetsProvider extends Component {
     this.submitFilters = this.submitFilters.bind(this);
     this.toggleWasFiltered = this.toggleWasFiltered.bind(this);
     this.filterByValue = this.filterByValue.bind(this);
-    // this.filterArr = this.filterArr.bind(this);
+    this.clearFilters = this.clearFilters.bind(this);
   }
 
   async getPlanets() {
@@ -80,6 +80,15 @@ class PlanetsProvider extends Component {
     this.setState({ filteredPlanets }, () => this.toggleWasFiltered());
   }
 
+  clearFilters() {
+    const { filters, planets } = this.state;
+    this.setState({
+      filters: { ...filters, filterByNumericValues: [] },
+      wasFiltered: false,
+      filteredPlanets: planets,
+    });
+  }
+
   filterByName(e) {
     const { filters } = this.state;
     if (e !== '' && e !== undefined) {
@@ -126,6 +135,7 @@ class PlanetsProvider extends Component {
           submitFilters: this.submitFilters,
           toggleWasFiltered: this.toggleWasFiltered,
           filterByValue: this.filterByValue,
+          clearFilters: this.clearFilters,
         } }
       >
         { children }

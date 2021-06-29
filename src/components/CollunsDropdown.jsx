@@ -3,7 +3,12 @@ import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 function CollunsDropdown() {
-  const { filterByValue } = useContext(PlanetsContext);
+  const {
+    filters: { filterByNumericValues },
+    filterByValue,
+  } = useContext(PlanetsContext);
+  const optCond = (value) => filterByNumericValues
+    .some((filter) => filter.column === value);
   return (
     <form
       onSubmit={ (e) => {
@@ -18,11 +23,11 @@ function CollunsDropdown() {
       <label htmlFor="column">
         Filtrar por Coluna
         <select name="column" id="column" data-testid="column-filter">
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          { !optCond('population') && <option>population</option> }
+          { !optCond('orbital_period') && <option>orbital_period</option> }
+          {!optCond('diameter') && <option>diameter</option>}
+          {!optCond('rotation_period') && <option>rotation_period</option>}
+          {!optCond('surface_water') && <option>surface_water</option>}
         </select>
       </label>
       <label htmlFor="comparison">

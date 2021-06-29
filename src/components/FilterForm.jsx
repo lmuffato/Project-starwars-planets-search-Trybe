@@ -9,12 +9,13 @@ function FilterForm() {
     filters,
     wasFiltered,
     filterByName,
+    clearFilters,
     submitFilters } = useContext(PlanetsContext);
   const showFilters = () => (
     <div>
       <p>
         { JSON.stringify(filters) }
-        <AiFillCloseCircle />
+        <AiFillCloseCircle onClick={ clearFilters } />
       </p>
     </div>);
   return (
