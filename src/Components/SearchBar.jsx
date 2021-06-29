@@ -9,6 +9,7 @@ function SearchInput() {
         Type your Planet
         <input
           type="text"
+          id="name-filter"
           data-testid="name-filter"
           onChange={ handlePlanetFiltered }
         />
