@@ -63,7 +63,7 @@ function FilteringPlanets() {
             key={ i }
             value={ val }
           >
-            {val}
+            { val }
           </option>
         ))}
       </select>

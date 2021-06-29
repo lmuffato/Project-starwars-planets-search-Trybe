@@ -13,8 +13,7 @@ export default function Table() {
         setData(json.results);
         setNewData(json.results);
       });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [setData, setNewData]);
 
   const filteringPlanetsName = ({ target }) => {
     const filtered = data.filter(({ name }) => name.toUpperCase()
