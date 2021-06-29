@@ -3,18 +3,28 @@ import PlanetContext from '../context/PlanetContext';
 
 /* 1 - Faça uma requisição para o endpoint /planets da API de Star Wars e preencha uma tabela com os dados retornados, com exceção dos da coluna residents */
 function Table() {
-  const { planets, names } = useContext(PlanetContext);
+  const { query } = useContext(PlanetContext);
   return (
     <table className="table table-hover">
       <thead>
         <tr>
-          { names.map((planet) => (
-            <th key={ planet }>{planet.name}</th>
-          )) }
+          <th>NAME</th>
+          <th>ROTATION PERIOD</th>
+          <th>ORBITAL PERIOD</th>
+          <th>PLANET DIAMETER</th>
+          <th>CLIMATE</th>
+          <th>GRAVITY</th>
+          <th>TERRAIN</th>
+          <th>SURFACE WATER</th>
+          <th>POPULATION</th>
+          <th>FILMS</th>
+          <th>CREATED</th>
+          <th>EDITED</th>
+          <th>URL</th>
         </tr>
       </thead>
       <tbody>
-        { planets.map((planet) => (
+        { query.map((planet) => (
           /* - Preenche a tabela com os dados retornados
           - Verifica se a tabela tem 13 colunas
         - Verifica se a tabela tem uma linha para cada planeta retornado */

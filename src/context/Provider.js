@@ -4,23 +4,30 @@ import getAPI from '../services/getAPIs';
 import PlanetContext from './PlanetContext';
 
 function Provider({ children }) {
+  const INITIAL_STATE = {
+    filterByName: {
+      name: '',
+    },
+  };
+
   const [planets, dispatchPlanets] = useState([]);
-  const [planetData, dispatchData] = useState([]);
+  const [query, dispatchQuery] = useState([planets]);
+  const [filters, filterDispatch] = useState(INITIAL_STATE);
 
   useEffect(() => {
     getAPI().then((results) => dispatchPlanets(results));
   }, []);
 
   useEffect(() => {
-    if (planets.length > 0) {
-      const getNames = Object.keys(planets[0]);
-      dispatchData(getNames);
-    }
-  }, [planets]);
+    const results = planets.filter((planet) => (
+      planet.name.includes(filters.filterByName.name)));
+    dispatchQuery(results);
+  }, [filters, planets]);
 
   const contextData = {
-    planets,
-    names: planetData,
+    filterDispatch,
+    query,
+    filters,
   };
 
   return (
