@@ -1,9 +1,10 @@
 import React from 'react';
+import InputText from './InputText';
 
 function SearchBar() {
   return (
     <div>
-      Aqui vai ter um campo de pesquisa!
+      <InputText />
     </div>
   );
 }
