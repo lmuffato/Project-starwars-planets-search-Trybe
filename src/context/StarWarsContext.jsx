@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import fetchDataFromStarWarsAPI, {
   dataWithoutResidents,
@@ -12,20 +12,31 @@ export function StarWarsContextProvider({ children }) {
   const [isLoading, setLoading] = useState(true); // booleana para renderização do loading
   const [filterByNumericValues, setFiltersByNumericValue] = useState([]); // gerencia os filtros
 
+  const handleASCSorting = useCallback((firstVal, sndValue) => {
+    const POSITIVE = 1;
+    const NEGATIVE = -1;
+    const ZERO = 0;
+    if (firstVal.name > sndValue.name) return POSITIVE;
+    if (firstVal.name < sndValue.name) return NEGATIVE;
+    return ZERO;
+  }, []);
+
+  const sortingArr = (planets) => [...planets].sort((a, b) => handleASCSorting(a, b));
+
   // Requisito 1
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   async function fetchPlanetsAPI() {
     const planets = await fetchDataFromStarWarsAPI();
     const planetsData = [...planets.results];
     dataWithoutResidents(planetsData);
-    setPlanets(planetsData);
+    const sortedPlanets = sortingArr(planetsData);
+    setPlanets(sortedPlanets);
     setLoading(false);
   }
 
   useEffect(() => {
     fetchPlanetsAPI();
-    // if (data) {
-    //   const sortPlanets =
-    // }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Parte do requisito 3 - estabelece comparação entre os operadores

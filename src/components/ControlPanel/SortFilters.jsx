@@ -7,16 +7,16 @@ import useStarWars from '../../hooks/useStarWars';
 function SortFilters() {
   const [sortFilt, setSort] = useState('ASC');
   const [column, setColumn] = useState('name');
-  const { apiPlanets, setSoughtPlanets, soughtPlanets } = useStarWars();
+  const { data, setSoughtPlanets } = useStarWars();
 
   const handleASCSorting = useCallback((firstVal, sndValue, columnFilt) => {
     const POSITIVE = 1;
     const NEGATIVE = -1;
     const ZERO = 0;
-    if (Number(firstVal[column]) > Number(sndValue[columnFilt])) return POSITIVE;
-    if (Number(firstVal[column]) < Number(sndValue[columnFilt])) return NEGATIVE;
+    if (Number(firstVal[columnFilt]) > Number(sndValue[columnFilt])) return POSITIVE;
+    if (Number(firstVal[columnFilt]) < Number(sndValue[columnFilt])) return NEGATIVE;
     return ZERO;
-  }, [column]);
+  }, []);
 
   const handleDSCSorting = (firstVal, sndValue, columnFilt) => {
     const POSITIVE = 1;
@@ -26,23 +26,21 @@ function SortFilters() {
     if (Number(firstVal[columnFilt]) < Number(sndValue[columnFilt])) return POSITIVE;
     return ZERO;
   };
+
   const handleSortArr = useCallback((sorting, columnFilt) => {
-    const columnToLowerCase = columnFilt.toLowerCase();
     switch (sorting) {
     case 'ASC':
-      setSoughtPlanets(
-        [...apiPlanets].sort((a, b) => handleASCSorting(a, b, columnToLowerCase)),
+      return setSoughtPlanets(
+        [...data].sort((a, b) => handleASCSorting(a, b, columnFilt)),
       );
-      return soughtPlanets;
     case 'DESC':
-      setSoughtPlanets(
-        [...apiPlanets].sort((a, b) => handleDSCSorting(a, b, columnToLowerCase)),
+      return setSoughtPlanets(
+        [...data].sort((a, b) => handleDSCSorting(a, b, columnFilt)),
       );
-      return soughtPlanets;
     default:
-      return apiPlanets;
+      return data;
     }
-  }, [apiPlanets, handleASCSorting, setSoughtPlanets, soughtPlanets]);
+  }, [data, handleASCSorting, setSoughtPlanets]);
 
   const handleSubmit = useCallback((event, sorting, sortCol) => {
     event.preventDefault();
