@@ -17,34 +17,6 @@ function Provider({ children }) {
     filterByNumericValues: [],
   });
 
-  // Filtrando por valor populacional a partir do reultado da optionBox
-
-  function filterNumericValues(results) {
-    let filterPlanets = [];
-    const numericValues = filters.filterByNumericValues;
-    if (!numericValues.length) {
-      return setData(results);
-    }
-    const value = results.filter((result) => (
-      numericValues.every((fil) => {
-        switch (fil.comparison) {
-          case 'maior que':
-            filterPlanets = result.filter((row) => row[fil.column] > parseInt(fil.value, 10));
-            return setData(filterPlanets);
-          case 'menor que':
-            filterPlanets = result.filter((row) => row[fil.column] < parseInt(fil.value, 10));
-            return setData(filterPlanets);
-          case 'igual a':
-            filterPlanets = result.filter((row) => row[fil.column] === fil.value);
-            return setData(filterPlanets);
-          default:
-            filterName(result);
-          }
-        })
-      ));
-    setData(value);
-  }
-
   // Filtro direto a partir do nome (colocando em caixa baixa para comparação)
   function filterName(results) {
     const { name } = filters.filterByName;
@@ -53,6 +25,7 @@ function Provider({ children }) {
       || name === '',
     );
   }
+
   // Chama da API
   useEffect(() => {
     async function fetchData() {
