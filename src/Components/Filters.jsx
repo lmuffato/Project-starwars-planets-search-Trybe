@@ -1,3 +1,5 @@
+/* Requisito realizado com auxílio de Guilherme Dornelles e Pollyana da tribo 10-A */
+
 import React, { useContext } from 'react';
 import planetsContext from '../contexts/planetsContext';
 
