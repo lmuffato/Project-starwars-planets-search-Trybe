@@ -42,36 +42,19 @@ class PlanetsProvider extends Component {
         const { value, column } = filter;
         if (filteredPlanets) {
           switch (filter.comparison) {
-          case '>':
+          case 'maior que':
             filteredPlanets = filteredPlanets
-              .filter((fplanet) => Number(fplanet[column]) > Number(value));
+              .filter((planet) => Number(planet[column]) > Number(value));
             break;
-          case '<':
+          case 'menor que':
             filteredPlanets = filteredPlanets
-              .filter((fplanet) => Number(fplanet[column]) < Number(value)
-              || fplanet[column] === 'unknown');
+              .filter((planet) => Number(planet[column]) < Number(value));
             break;
-          case '===':
+          case 'igual a':
             filteredPlanets = filteredPlanets
               .filter((fplanet) => Number(fplanet[column]) === Number(value));
             break;
           default:
-            filteredPlanets = planets;
-            break;
-          }
-        } else {
-          switch (filter.comparison) {
-          case '>':
-            filteredPlanets = planets
-              .filter((planet) => Number(planet[column]) > Number(value));
-            break;
-          case '<':
-            filteredPlanets = planets
-              .filter((planet) => Number(planet[column]) < Number(value)
-              || planet[column] === 'unknown');
-            break;
-          default:
-            filteredPlanets = planets;
             break;
           }
         }
@@ -147,7 +130,7 @@ class PlanetsProvider extends Component {
 }
 
 PlanetsProvider.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.object, PropTypes.symbol]).isRequired,
+  children: PropTypes.arrayOf(PropTypes.any).isRequired,
 };
 
 export default PlanetsProvider;

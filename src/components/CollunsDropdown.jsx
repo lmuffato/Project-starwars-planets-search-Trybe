@@ -32,9 +32,9 @@ function CollunsDropdown() {
       </label>
       <label htmlFor="comparison">
         <select name="comparison" id="comparison" data-testid="comparison-filter">
-          <option value=">">maior que</option>
-          <option value="<">menor que</option>
-          <option value="===">igual a</option>
+          <option>maior que</option>
+          <option>menor que</option>
+          <option>igual a</option>
         </select>
       </label>
       <label htmlFor="value-filter">
