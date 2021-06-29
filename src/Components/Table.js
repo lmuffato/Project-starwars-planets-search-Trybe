@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import PlanetContext from '../Context/ContextPlanets';
 import FilteringPlanets from './PlanetsFilter';
-import SortByColumn from './SortByColumn';
+// import SortByColumn from './SortByColumn';
 
 export default function Table() {
   const { data, newData, setData, setNewData } = useContext(PlanetContext);
@@ -34,7 +34,7 @@ export default function Table() {
         />
       </label>
       <FilteringPlanets />
-      <SortByColumn />
+      {/* <SortByColumn /> */}
       <table>
         <thead>
           <tr>
