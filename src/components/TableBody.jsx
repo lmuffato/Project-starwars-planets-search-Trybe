@@ -2,10 +2,7 @@ import React, { useContext } from 'react';
 import MainContext from '../context/MainContext';
 
 export default function TableBody() {
-  const { planets, filters: { filterByName: { name } } } = useContext(MainContext);
-  const filteredPlanetsByName = name !== ''
-    ? planets.filter((planet) => planet.name.toLowerCase().includes(name.toLowerCase()))
-    : planets;
+  const { planets, xablau } = useContext(MainContext);
 
   if (planets.length === 0) {
     return 'Loading...';
@@ -13,7 +10,7 @@ export default function TableBody() {
 
   return (
     <tbody>
-      {filteredPlanetsByName.map((planet) => (
+      {xablau().map((planet) => (
         <tr key={ planet.name }>
           <td>{planet.name}</td>
           <td>{planet.rotation_period}</td>
