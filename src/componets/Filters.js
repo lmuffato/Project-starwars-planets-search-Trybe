@@ -3,18 +3,30 @@ import StarwarsContext from '../context/StarwarsContext';
 
 function Filters() {
   const { setFilters, filters, setValidationFilter } = useContext(StarwarsContext);
+  const [validateColumn, setValidateColumn] = useState(true);
   const [numericFilter, setNumericFilter] = useState({
     column: 'population',
     comparison: 'maior que',
     value: '',
   });
 
-  const columValues = ['population', 'orbital_period', 'diameter',
+  const columnValues = ['population', 'orbital_period', 'diameter',
     'rotation_period', 'surface_water'];
   const comparsionValues = ['maior que', 'menor que', 'igual a'];
 
   function buildingOptions(arrayOptions) {
     return arrayOptions.map((value) => <option key={ value }>{ value }</option>);
+  }
+
+  function buildingColumnCurrentValue() {
+    let newColumn;
+    filters.filterByNumericValues.map((optionsSelectors) => {
+      console.log(optionsSelectors);
+      newColumn = columnValues
+        .filter((optionColumn) => optionsSelectors.column !== optionColumn);
+      return newColumn;
+    });
+    return newColumn.map((option) => <option key={ option }>{ option }</option>);
   }
 
   function handleChange(e) {
@@ -36,6 +48,7 @@ function Filters() {
       ],
     });
     setValidationFilter(true);
+    setValidateColumn(false);
   }
 
   return (
@@ -60,7 +73,7 @@ function Filters() {
           name="column"
           onChange={ (e) => handleChange(e) }
         >
-          {buildingOptions(columValues)}
+          {validateColumn ? buildingOptions(columnValues) : buildingColumnCurrentValue()}
         </select>
         <select
           data-testid="comparison-filter"

@@ -35,8 +35,7 @@ function StarwarsProvider({ children }) {
       const getValue = getFiltersValues[2];
       if (getComparison === 'maior que') {
         dataWithNumericFilter = data
-          .filter((value) => parseFloat(value[filter.column])
-          > parseFloat(getValue));
+          .filter((value) => parseFloat(value[filter.column]) > parseFloat(getValue));
         return dataWithNumericFilter;
       }
       if (getComparison === 'menor que') {
