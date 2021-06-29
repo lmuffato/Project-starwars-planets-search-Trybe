@@ -18,52 +18,6 @@ function Provider({ children }) {
     filterByNumericValues: [],
   });
 
-  // eslint-disable-next-line sonarjs/cognitive-complexity
-  function filterNumericValues(results) {
-    const numericValues = filters.filterByNumericValues;
-    if (!numericValues.length) {
-      return setData(results);
-    }
-
-    const value = results.filter((result) => (
-      numericValues.every((numericFilter) => {
-        switch (numericFilter.comparison) {
-        case 'maior que':
-          if (
-            Number(result[numericFilter.column])
-            > parseInt(numericFilter.value, 10)
-            && parseInt(numericFilter.value, 10) !== 'unknown'
-          ) {
-            return true;
-          }
-          return false;
-
-        case 'menor que':
-          if (
-            Number(result[numericFilter.column])
-            < parseInt(numericFilter.value, 10)
-            && parseInt(numericFilter.value, 10) !== 'unknown'
-          ) {
-            return true;
-          }
-          return false;
-
-        case 'igual a':
-          if (
-            parseInt(result[numericFilter.column], 10)
-            === parseInt(numericFilter.value, 10)
-            && parseInt(numericFilter.value, 10) !== 'unknown'
-          ) {
-            return true;
-          }
-          return false;
-        default:
-          return false;
-        }
-      })
-    ));
-    setData(value);
-  }
   // Filtro direto a partir do nome (colocando em caixa baixa para comparação)
   function filterName(results) {
     const { name } = filters.filterByName;
