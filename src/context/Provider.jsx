@@ -4,68 +4,79 @@ import fetchAPI from '../services/starWarsAPI';
 import StarWarsContext from './starWarsContext';
 
 function Provider({ children }) {
-  const filtersValues = {
+  const [planets, setPlanets] = useState([]);
+  const [filteredPlanets, setFilteredPlanets] = useState([]);
+  const [filters, setFilters] = useState({
+    columnFilter: 'population',
+    comparisonFilter: 'maior que',
+    valueFilter: '',
     filterByName: {
       name: '',
     },
-    filterByNumericValues: [
-      {
-        column: '',
-        comparison: '',
-        value: 0,
-      },
-    ],
+    filterByNumericValues: [],
+  });
+  // useStates feitos com ajuda do estudo do PR da Elisa França
+
+  useEffect(() => {
+    const fetch = async () => {
+      const results = await fetchAPI();
+      setPlanets(results);
+      setFilteredPlanets(results);
+    };
+    fetch();
+  }, []);
+  // Função feita com ajuda do Guilherme Dornelles
+  const filtersValueFunc = () => {
+    const { columnFilter, comparisonFilter, valueFilter } = filters;
+    const filterByValue = filteredPlanets.filter((planet) => {
+      if (comparisonFilter === 'maior que') {
+        return Number(planet[columnFilter]) > Number(valueFilter);
+      } if (comparisonFilter === 'menor que') {
+        return Number(planet[columnFilter]) < Number(valueFilter);
+      } return Number(planet[columnFilter]) === Number(valueFilter);
+    });
+    return setFilteredPlanets(filterByValue);
   };
 
-  const [planets, setPlanets] = useState([]);
-  const [filteredPlanets, setFilteredPlanets] = useState([planets]);
-  const [optionFilter, setOptionFilter] = useState({
-    columnFilter: '',
-    comparisonFilter: '',
-    valueFilter: 0,
-  });
+  const handleChange = ({ target: { value } }) => {
+    setFilters({
+      ...filters,
+      filterByName: {
+        name: value,
+      },
+    });
+    const searchedPlanet = planets.filter((planet) => planet.name.includes(value));
+    setFilteredPlanets(searchedPlanet);
+  };
 
-  const [filters, setFilters] = useState(filtersValues);
-  // Provider feito com ajuda do estudo do PR da Elisa França e do seguinte link https://codesandbox.io/embed/react-hooks-search-filter-4gnwc
-
-  useEffect(() => {
-    fetchAPI().then((results) => setPlanets(results));
-  }, []);
-
-  useEffect(() => {
-    const filtereds = planets.filter((planet) => (
-      planet.name.includes(filters.filterByName.name)));
-    setFilteredPlanets(filtereds);
-  }, [filters, planets]);
-
-  useEffect(() => {
-    const { column, comparison, value } = filters.filterByNumericValues[0];
-    if (comparison === 'maior que') {
-      const newFilter = planets.filter((planet) => (
-        Number(planet[column])
-        > Number(value)));
-      setFilteredPlanets(newFilter);
-    }
-    if (comparison === 'menor que') {
-      const newFilter = planets.filter((planet) => (
-        Number(planet[column])
-        < Number(value)));
-      setFilteredPlanets(newFilter);
-    }
-    if (comparison === 'igual a') {
-      const newFilter = planets.filter((planet) => (
-        Number(planet[column])
-        === Number(value)));
-      setFilteredPlanets(newFilter);
-    }
-  }, [filters, planets]);
+  const handleFilterChange = ({ target }) => {
+    setFilters({ ...filters, [target.name]: target.value });
+  };
+  // Função feita com ajuda do Guilherme Dornelles
+  const handleClick = () => {
+    const { columnFilter,
+      comparisonFilter,
+      valueFilter,
+      filterByNumericValues } = filters;
+    setFilters({
+      ...filters,
+      filterByNumericValues: [
+        ...filterByNumericValues,
+        {
+          column: columnFilter,
+          comparison: comparisonFilter,
+          value: valueFilter,
+        },
+      ],
+    });
+    filtersValueFunc();
+  };
 
   const contextValue = {
-    setFilters,
+    handleChange,
+    handleFilterChange,
+    handleClick,
     filteredPlanets,
-    filters,
-    optionFilter,
-    setOptionFilter,
   };
 
   return (

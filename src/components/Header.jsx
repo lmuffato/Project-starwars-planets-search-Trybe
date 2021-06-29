@@ -4,55 +4,10 @@ import './Header.css';
 
 function Header() {
   const {
-    setFilters,
-    filters,
-    optionFilter,
-    setOptionFilter,
+    handleChange,
+    handleFilterChange,
+    handleClick,
   } = useContext(StarWarsContext);
-
-  const handleFilterChange = ({ target }) => {
-    setOptionFilter({
-      ...optionFilter,
-      [target.name]: target.value,
-    });
-  };
-
-  const handleChange = ({ target }) => setFilters({
-    ...filters,
-    filterByName: {
-      name: target.value,
-    },
-  });
-
-  // Funções feitas com ajuda da Elisa França
-  const handleClick = () => {
-    const { filterByNumericValues } = filters;
-    if (filterByNumericValues.length === 1 && filterByNumericValues[0].column === '') {
-      setFilters({
-        ...filters,
-        filterByNumericValues: [
-          {
-            column: optionFilter.columnFilter,
-            comparison: optionFilter.comparisonFilter,
-            value: optionFilter.valueFilter,
-          },
-        ],
-      });
-    } else {
-      setFilters({
-        ...filters,
-        filterByNumericValues: [
-          ...filterByNumericValues.concat(
-            {
-              column: optionFilter.columnFilter,
-              comparison: optionFilter.comparisonFilter,
-              value: optionFilter.valueFilter,
-            },
-          ),
-        ],
-      });
-    }
-  };
 
   return (
     <form>
