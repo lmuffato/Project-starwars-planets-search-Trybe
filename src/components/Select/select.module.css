@@ -1,0 +1,20 @@
+.selectBox {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  font-family: Roboto , sans-serif;
+  font-size: 1rem;
+  justify-content: flex-end;
+}
+
+.selectField {
+  border-radius: 10px;
+  font-size: 1.2rem;
+  padding: 1.5rem;
+  width: 100%;
+}
+
+.inputField::placeholder {
+  color: #535353;
+  opacity: 1;
+}

@@ -17,15 +17,30 @@ function Table() {
 
   // This will filter the planets
   useEffect(() => {
-    const { filters: { filterByName: { name } } } = filters;
+    const { filters: { filterByName: { name }, filterByNumericValues } } = filters;
     let planets = data;
 
     if (name) {
-      planets = data.filter(({ name: planetName }) => {
+      planets = planets.filter(({ name: planetName }) => {
         planetName = planetName.toLowerCase();
         return planetName.includes(name.toLowerCase());
       });
     }
+
+    filterByNumericValues.forEach(({ column, comparison, findByValue }) => {
+      planets = planets.filter((planet) => {
+        const planetColumnValue = Number(planet[column]);
+
+        switch (comparison) {
+        case 'maior que':
+          return planetColumnValue > findByValue;
+        case 'menor que':
+          return planetColumnValue < findByValue;
+        default:
+          return planetColumnValue === Number(findByValue);
+        }
+      });
+    });
 
     setFiltered(planets);
   }, [filters, data]);
