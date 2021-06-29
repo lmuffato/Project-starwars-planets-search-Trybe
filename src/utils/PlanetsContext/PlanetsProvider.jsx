@@ -14,6 +14,13 @@ export default function PlanetsProvider({ children }) {
     filterByNumericValues: [],
   });
 
+  const [order, setOrder] = useState({
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
+  });
+
   return (
     <PlanetsContext.Provider
       value={
@@ -22,7 +29,9 @@ export default function PlanetsProvider({ children }) {
           filteredByName,
           setFilteredByName,
           filteredByNumbers,
-          setFilteredByNumbers }
+          setFilteredByNumbers,
+          order,
+          setOrder }
       }
     >
       {children}

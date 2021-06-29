@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import usePlanet from '../../hooks/usePlanet';
 
 export default function Form() {
-  const { filteredByName, setFilteredByName,
-    setFilteredByNumbers, filteredByNumbers } = usePlanet();
+  const { filteredByName, setFilteredByName, setFilteredByNumbers,
+    filteredByNumbers, planets, order, setOrder } = usePlanet();
 
   const [columnFilter, setColumnFilter] = useState('population');
   const [comparisonFilter, setComparisonFilter] = useState('maior que');
   const [valueFilter, setValueFilter] = useState(0);
+  const [orderColumn, setOrderColumn] = useState('name');
+  const [orderType, setOrderType] = useState('ASC');
 
   function handleOnChangeFilterByNumbers(event) {
     switch (event.target.name) {
@@ -57,8 +59,30 @@ export default function Form() {
     document.getElementById(column).disabled = false;
   }
 
+  function handleOrder({ target: { type, value } }) {
+    switch (type) {
+    case 'select-one':
+      setOrderColumn(value);
+      break;
+    case 'radio':
+      setOrderType(value);
+      break;
+    default:
+      break;
+    }
+  }
+
+  function handleSubmitOrder(event) {
+    event.preventDefault();
+    setOrder({
+      order: { column: orderColumn, sort: orderType },
+    });
+  }
+
   const { filters: { filterByName: { name } } } = filteredByName;
   const { filterByNumericValues } = filteredByNumbers;
+  const columnNameOrder = planets[0] && Object.keys(planets[0]);
+
   return (
     <div>
 
@@ -131,6 +155,53 @@ export default function Form() {
           data-testid="button-filter"
         >
           FilterByNumbers
+        </button>
+      </form>
+
+      <form onSubmit={ handleSubmitOrder }>
+        <select
+          data-testid="column-sort"
+          onChange={ handleOrder }
+        >
+          {columnNameOrder && columnNameOrder
+            .map((nameColumn, index) => (
+              <option key={ index } value={ nameColumn }>{nameColumn}</option>
+            ))}
+        </select>
+
+        <fieldset>
+          <legend>Tipo de Ordenação</legend>
+          <label htmlFor="ASC">
+            Ascendente
+            <input
+              type="radio"
+              name="order"
+              value="ASC"
+              id="ASC"
+              data-testid="column-sort-input-asc"
+              onChange={ handleOrder }
+              // checked
+            />
+          </label>
+
+          <label htmlFor="DESC">
+            Descendente
+            <input
+              type="radio"
+              name="order"
+              value="DESC"
+              id="DESC"
+              data-testid="column-sort-input-desc"
+              onChange={ handleOrder }
+            />
+          </label>
+        </fieldset>
+
+        <button
+          type="submit"
+          data-testid="column-sort-button"
+        >
+          Ordenar
         </button>
       </form>
 
