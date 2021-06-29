@@ -5,7 +5,10 @@ import MyTablecontext from './MyTablecontext';
 function MyTableProvider({ children }) {
   const [data, setData] = useState([]);
   const [headers, setHeaders] = useState([]);
-  const [filters, setFilters] = useState({ filterByName: { name: '' } });
+  const [filters, setFilters] = useState({
+    filterByName: { name: '' },
+    filterByNumericValoues: [],
+  });
 
   const contextValue = {
     data,
@@ -24,8 +27,6 @@ function MyTableProvider({ children }) {
         .filter((paran) => paran !== 'residents');
       setData(dataApi);
       setHeaders(heads);
-    // console.log(dataApi);
-    // console.log(heads);
     };
     resquestApi();
   }, []);
