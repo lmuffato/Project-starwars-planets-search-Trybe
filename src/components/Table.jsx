@@ -3,59 +3,45 @@ import Context from '../context/Context';
 
 const Table = () => {
   // este componente deve ser provido pelo Provider.
-  const { dataRead, dataFilter } = useContext(Context); // posso ter x variáveis no mesmo contexto
+  const { dataRead, dataFilter } = useContext(Context); // posso ter x variáveis no mesmo contexto, estas variaveis ja foram escritas no estado em algum momento
   if (dataRead.length === 0) return <div><h2>Loading...</h2></div>;
   dataRead.forEach((obj) => {
     delete obj.residents;
   });
+  const keys = Object.keys(dataRead[0]);
 
-  const lineTable = (planet) => (
-    <tbody>
-      <tr key={ planet.name }>
-        <td data-testid="planet-name">
-          { planet.name }
-        </td>
-        <td>{planet.rotation_period }</td>
-        <td>{planet.orbital_period }</td>
-        <td>{planet.diameter }</td>
-        <td>{planet.climate }</td>
-        <td>{planet.gravity }</td>
-        <td>{planet.terrain }</td>
-        <td>{planet.surface_water }</td>
-        <td>{planet.population }</td>
-        <td>{planet.films }</td>
-        <td>{planet.created }</td>
-        <td>{planet.edited }</td>
-        <td><a href={ planet.url }>{planet.url }</a></td>
-      </tr>
-    </tbody>
-  );
-
-  const lineHeadTable = () => (
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Rotation Period</th>
-        <th>Orbital Period</th>
-        <th>Diameter</th>
-        <th>Climate</th>
-        <th>Gravity</th>
-        <th>Terrain</th>
-        <th>Surface Water</th>
-        <th>Population</th>
-        <th>Films</th>
-        <th>Created</th>
-        <th>Edited</th>
-        <th>Url</th>
-      </tr>
-    </thead>
+  const lineTable = (planet, index) => (
+    <tr key={ index }>
+      <td data-testid="planet-name">
+        { planet.name }
+      </td>
+      <td>{planet.rotation_period }</td>
+      <td>{planet.orbital_period }</td>
+      <td>{planet.diameter }</td>
+      <td>{planet.climate }</td>
+      <td>{planet.gravity }</td>
+      <td>{planet.terrain }</td>
+      <td>{planet.surface_water }</td>
+      <td>{planet.population }</td>
+      <td>{planet.films }</td>
+      <td>{planet.created }</td>
+      <td>{planet.edited }</td>
+      <td><a href={ planet.url }>{planet.url }</a></td>
+    </tr>
   );
 
   return (
     <table>
-      {lineHeadTable()}
-      {dataFilter.length > 0 ? dataFilter.map((planet) => lineTable(planet))
-        : dataRead.map((planet) => lineTable(planet))}
+      <thead>
+        <tr>
+          {keys.map((key) => <th key={ key }>{key.toUpperCase()}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {dataFilter.length > 0
+          ? dataFilter.map((planet, index) => lineTable(planet, index))
+          : dataRead.map((planet) => lineTable(planet))}
+      </tbody>
     </table>
   );
 };
