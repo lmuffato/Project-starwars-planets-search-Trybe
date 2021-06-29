@@ -17,8 +17,35 @@ function Table() {
     return results;
   }
 
+  function filterPlanets(planets, filtersArr) {
+    let filteredPlanets = planets;
+
+    if (filtersArr.length > 0) {
+      filtersArr.forEach((filter) => {
+        const filterColumn = filter.column;
+        const filterComparison = filter.comparison;
+        const filterValue = Number(filter.value);
+
+        if (filterComparison === 'maior que') {
+          filteredPlanets = filteredPlanets
+            .filter((planet) => Number(planet[filterColumn]) > filterValue);
+        } else if (filterComparison === 'menor que') {
+          filteredPlanets = filteredPlanets
+            .filter((planet) => Number(planet[filterColumn]) < filterValue);
+        } else if (filterComparison === 'igual a') {
+          filteredPlanets = filteredPlanets
+            .filter((planet) => Number(planet[filterColumn]) === filterValue);
+        }
+      });
+    }
+    return filteredPlanets;
+  }
+
   function renderPlanetRows() {
-    const filteredPlanets = resultsFilteredByName();
+    const filteredPlanets = filterPlanets(
+      resultsFilteredByName(),
+      filters.filterByNumericValues,
+    );
 
     return filteredPlanets.map((planet, index) => (
       <tr key={ index }>

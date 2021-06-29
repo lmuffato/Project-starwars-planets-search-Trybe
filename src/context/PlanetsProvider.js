@@ -6,6 +6,7 @@ function PlanetsProvider(props) {
   const { children } = props;
   const [APIData, setAPIData] = useState({});
   const [filterName, setFilterName] = useState('');
+  const [filterByNumericValues, setfilterByNumericValues] = useState([]);
 
   const context = {
     data: APIData,
@@ -13,8 +14,10 @@ function PlanetsProvider(props) {
       filterByName: {
         name: filterName,
       },
+      filterByNumericValues,
     },
     setFilterName,
+    setfilterByNumericValues,
   };
 
   useEffect(() => {
