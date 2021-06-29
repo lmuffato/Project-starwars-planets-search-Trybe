@@ -8,7 +8,7 @@ function Provider({ children }) {
   const [data, setData] = useState([]);
   const [name, setFilterName] = useState('');
   const [newData, setNewData] = useState([]);
-  const [column, setColumn] = useState('population');
+  const [column, setColumn] = useState('none');
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState('0');
   const [filter, setFilter] = useState(false);
