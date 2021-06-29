@@ -6,8 +6,8 @@ function App() {
     <>
       <span>Hello, Bia!</span>
       <thead>
-        <td>Cat1</td>
-        <td>Cat1</td>
+        <th>Cat1</th>
+        <th>Cat1</th>
       </thead>
     </>
   );
