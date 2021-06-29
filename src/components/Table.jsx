@@ -40,7 +40,7 @@ const Table = () => {
       <tbody>
         {dataFilter.length > 0
           ? dataFilter.map((planet, index) => lineTable(planet, index))
-          : dataRead.map((planet) => lineTable(planet))}
+          : dataRead.map((planet, index) => lineTable(planet, index))}
       </tbody>
     </table>
   );

@@ -50,18 +50,18 @@ const FilterComponent = () => {
 
   const filterByNumericF = (arr) => {
     switch (filterComparison) {
-    case 'menor-que': {
+    case 'menor que': {
       // filtrar todos indices do arr q filterByNumber < filterValue
       const arrFiltered = arr
-        .filter((planet) => Number(planet[filterByNumber]) <= Number(filterValue));
+        .filter((planet) => Number(planet[filterByNumber]) < Number(filterValue));
       return arrFiltered;
     }
-    case 'maior-que': {
+    case 'maior que': {
       const arrFiltered = arr
         .filter((planet) => Number(planet[filterByNumber]) > Number(filterValue));
       return arrFiltered;
     }
-    case 'igual-a': {
+    case 'igual a': {
       const arrFiltered = arr
         .filter((planet) => Number(planet[filterByNumber]) === Number(filterValue));
       return arrFiltered;
@@ -118,9 +118,9 @@ const FilterComponent = () => {
           id="comparisonFilter"
           onChange={ handleComparison }
         >
-          <option value="maior-que" selected>maior que</option>
-          <option value="menor-que">menor que</option>
-          <option value="igual-a">igual a</option>
+          <option value="maior que" selected>maior que</option>
+          <option value="menor que">menor que</option>
+          <option value="igual a">igual a</option>
         </select>
       </label>
       <label htmlFor="valueFilter">
