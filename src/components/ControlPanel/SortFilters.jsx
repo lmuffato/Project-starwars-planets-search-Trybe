@@ -5,8 +5,8 @@ import { columnSort } from '../../services/data';
 import useStarWars from '../../hooks/useStarWars';
 
 function SortFilters() {
-  const [sortFilt, setSort] = useState('ASC');
-  const [column, setColumn] = useState('name');
+  const [sortFilt, setSort] = useState('ASC'); // estado e onChange dos inputs radio
+  const [column, setColumn] = useState('name'); // estado e onChange do select/coluna
   const { data, setSoughtPlanets } = useStarWars();
 
   // Req. 6 - parte 2 -- ordenação ascendente
@@ -105,3 +105,8 @@ function SortFilters() {
 }
 
 export default SortFilters;
+
+// Referências consultadas:
+// --> Documentação do sort: https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+// --> Curso de React da Udemy:
+// ---> Em especial, as seções 7 e 8 - Efeito colateral e Formulário controlado: https://www.udemy.com/share/102AiqAEYecl5QRnoJ/
