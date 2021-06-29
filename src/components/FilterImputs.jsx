@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
-import context from "../context/context";
+import React, { useContext } from 'react';
+import context from '../context/context';
 
 const FilterInputs = () => {
-  const { data, filters, setFilters, setDataToUse, setDataToSelect } = useContext(context);
+  const { data, filters, setFilters, setDataToUse } = useContext(context);
 
   const {
     filterByName: { name },
@@ -16,9 +16,8 @@ const FilterInputs = () => {
         name: target.value,
       },
     });
-    const filteredData = data.filter((planet) =>
-      planet.name.toLowerCase().includes(target.value.toLowerCase())
-    );
+    const filteredData = data.filter((planet) => planet.name
+      .toLowerCase().includes(target.value.toLowerCase()));
     setDataToUse(filteredData);
   };
 
@@ -42,47 +41,48 @@ const FilterInputs = () => {
   //       return filterPLanets = data.filter((planet) => Number(planet[column]) < Number(value));
   //     case 'igual a':
   //       return filterPLanets = data.filter((planet) => Number(planet[column]) === Number(value));
-  //     default: return '';    
+  //     default: return '';
   //   };
   // }
   const handleClick = () => {
     let filteredPlanets = [];
 
     if (comparison === 'maior que') {
-      filteredPlanets = data.filter((planet) => (
-        Number(planet[column]) > Number(value)));
+      filteredPlanets = data.filter(
+        (planet) => Number(planet[column]) > Number(value),
+      );
     } else if (comparison === 'menor que') {
-      filteredPlanets = data.filter((planet) => (
-        Number(planet[column]) < Number(value)));
+      filteredPlanets = data.filter(
+        (planet) => Number(planet[column]) < Number(value),
+      );
     } else {
-      filteredPlanets = data.filter((planet) => (
-        planet[column] === value));
+      filteredPlanets = data.filter((planet) => planet[column] === value);
     }
 
     setDataToUse(filteredPlanets);
   };
 
-
   return (
     <form>
       <label htmlFor="name-filter">
-        Busque por planetas:{" "}
+        Busque por planetas:
+        {' '}
         <input
           type="text"
           name="name"
-          value={name}
+          value={ name }
           data-testid="name-filter"
-          onChange={handleText}
+          onChange={ handleText }
           placeholder="Digite o nome do planeta"
         />
       </label>
       <label htmlFor="column">
         <select
           id="column"
-          value={column}
+          value={ column }
           name="column"
           data-testid="column-filter"
-          onChange={handleSelect}
+          onChange={ handleSelect }
         >
           <option value="population">population</option>
           <option value="orbital_period">orbital_period</option>
@@ -94,10 +94,10 @@ const FilterInputs = () => {
       <label htmlFor="comparison">
         <select
           id="comparison"
-          value={comparison}
+          value={ comparison }
           name="comparison"
           data-testid="comparison-filter"
-          onChange={handleSelect}
+          onChange={ handleSelect }
         >
           <option value="maior que">maior que</option>
           <option value="menor que">menor que</option>
@@ -107,9 +107,9 @@ const FilterInputs = () => {
       <input
         type="number"
         name="value"
-        value={value}
+        value={ value }
         data-testid="value-filter"
-        onChange={handleSelect}
+        onChange={ handleSelect }
       />
       <button type="button" data-testid="button-filter" onClick={ handleClick }>
         Filtrar

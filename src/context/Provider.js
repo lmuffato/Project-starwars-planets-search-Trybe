@@ -6,11 +6,11 @@ import context from './context';
 const Provider = ({ children }) => {
   const [data, setData] = useState([]);
   const [filters, setFilters] = useState({
-    filterByName: {name: ''},
-    filterByNumericValues: { column: '', comparison: '', value: ''},
+    filterByName: { name: '' },
+    filterByNumericValues: { column: '', comparison: '', value: '' },
   });
-  const [dataToUse, setDataToUse] = useState([])
-  const [dataToSelect, setDataToSelect] = useState([])
+  const [dataToUse, setDataToUse] = useState([]);
+  const [dataToSelect, setDataToSelect] = useState([]);
   const contextValue = {
     data,
     setData,
@@ -26,7 +26,6 @@ const Provider = ({ children }) => {
     requestAPI().then(({ results }) => setData(results));
   }, []);
 
- 
   return (
     <context.Provider value={ contextValue }>
       {children}

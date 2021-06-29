@@ -1,6 +1,5 @@
 // componente incorporado ao FilterInputs para tratamento dos dados usados na tabela
 
-
 // import React, { useContext } from 'react';
 // import context from '../context/context';
 
@@ -12,10 +11,8 @@
 
 //     return (
 //     <div className="selects-wrapper">
-      
 //     </div>
 //   );
 // };
 
 // export default FilterSelects;
-
