@@ -12,6 +12,7 @@ export function StarWarsContextProvider({ children }) {
   const [isLoading, setLoading] = useState(true); // booleana para renderização do loading
   const [filterByNumericValues, setFiltersByNumericValue] = useState([]); // gerencia os filtros
 
+  // Requisito 6 - part. 1 / ordenação inicial ascendente (alfabética, por nome do planeta)
   const handleASCSorting = useCallback((firstVal, sndValue) => {
     const POSITIVE = 1;
     const NEGATIVE = -1;
@@ -21,6 +22,7 @@ export function StarWarsContextProvider({ children }) {
     return ZERO;
   }, []);
 
+  // Requisito 6 - part. 1
   const sortingArr = (planets) => [...planets].sort((a, b) => handleASCSorting(a, b));
 
   // Requisito 1
@@ -29,7 +31,7 @@ export function StarWarsContextProvider({ children }) {
     const planets = await fetchDataFromStarWarsAPI();
     const planetsData = [...planets.results];
     dataWithoutResidents(planetsData);
-    const sortedPlanets = sortingArr(planetsData);
+    const sortedPlanets = sortingArr(planetsData); // req. 6 --> part. 1
     setPlanets(sortedPlanets);
     setLoading(false);
   }
