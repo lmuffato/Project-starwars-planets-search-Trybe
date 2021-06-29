@@ -15,9 +15,9 @@ const options = [
 const one = 1;
 
 export default function SortByColumn() {
-  const { order, newData } = useContext(PlanetContext);
+  const { data, newData } = useContext(PlanetContext);
   const filteringColumnSort = () => {
-    const { column, sort } = order;
+    const { column, sort } = data;
     const firstPlanet = newData[0];
     if (Number(firstPlanet[column])) {
       if (sort === 'DESC') {
