@@ -3,51 +3,51 @@ import Context from '../context/Context';
 import './Table.css';
 
 function Table() {
-  const { planets, name } = useContext(Context);
+  const { planets, name, column, operator, value, filter, header } = useContext(Context);
 
-  const filter = () => {
+  const filterPlanets = () => {
     const search = name.toLowerCase();
     let filteredPlanets = planets;
-    if (name === '') {
+    if (name === '' && filter === false) {
       filteredPlanets = planets;
-    } else if (search !== '') {
+    } else if (search !== '' && filter === false) {
       filteredPlanets = planets.filter((planet) => (
         planet.name.toLowerCase().includes(search)));
+    } else if (filter && operator === 'maior que') {
+      filteredPlanets = planets.filter((planet) => (
+        planet[column] > Number(value)));
+    } else if (filter && operator === 'menor que') {
+      filteredPlanets = planets.filter((planet) => (
+        planet[column] < Number(value)));
+    } else if (filter && operator === 'igual a') {
+      filteredPlanets = planets.filter((planet) => (
+        planet[column] === value));
     }
     return filteredPlanets;
   };
 
+  console.log(header);
   return (
     <>
       <thead>
         <tr>
-          <th>name</th>
-          <th>rotation_period</th>
-          <th>orbital_period</th>
-          <th>diameter</th>
-          <th>climate</th>
-          <th>gravity</th>
-          <th>terrain</th>
-          <th>surface_water</th>
-          <th>population</th>
-          <th>films</th>
-          <th>created</th>
-          <th>edited</th>
-          <th>url</th>
+          {header.map((head, index) => (
+            <th key={ index }>{head}</th>
+          ))}
         </tr>
       </thead>
       <tbody>
         {
-          filter().map((planet, index) => (
+          filterPlanets().map((planet, index) => (
             <tr key={ index }>
               <td>{planet.name}</td>
-              <td>{planet.rotationPeriod}</td>
-              <td>{planet.orbitalPeriod}</td>
+              <td>{planet.rotation_period}</td>
+              <td>{planet.orbital_period}</td>
               <td>{planet.diameter}</td>
               <td>{planet.climate}</td>
               <td>{planet.gravity}</td>
               <td>{planet.terrain}</td>
-              <td>{planet.surfaceWater}</td>
+              <td>{planet.surface_water}</td>
               <td>{planet.population}</td>
               <td>{planet.films}</td>
               <td>{planet.created}</td>

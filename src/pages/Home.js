@@ -1,11 +1,11 @@
 import React from 'react';
-import NameInput from '../components/NameInput';
+import Filters from '../components/Filters';
 import Table from '../components/Table';
 
 function Home() {
   return (
     <>
-      <NameInput />
+      <Filters />
       <br />
       <br />
       <Table />
