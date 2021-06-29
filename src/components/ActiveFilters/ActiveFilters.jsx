@@ -14,12 +14,10 @@ function ActiveFilters() {
   const handleRemoveFilter = useCallback((event, id) => {
     event.preventDefault();
     // console.log(id);
-    if (filterByNumericValues.length > 0) {
-      const filtered = filterByNumericValues
-        .filter((item) => item !== id);
-      setFiltersByNumericValue(filtered);
-      setSoughtPlanets(data);
-    }
+    const filtered = filterByNumericValues
+      .filter((item) => item !== id);
+    setFiltersByNumericValue(filtered);
+    setSoughtPlanets(data);
   }, [data, filterByNumericValues, setFiltersByNumericValue, setSoughtPlanets]);
 
   return (

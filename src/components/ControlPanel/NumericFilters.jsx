@@ -34,7 +34,7 @@ function NumericFilters() {
         item !== filterByNumericValues.filterColumn
       ))
     ));
-  }, [filterByNumericValues.filterColumn]);
+  }, [filterByNumericValues]);
 
   // Requisito 03 - add filtros -- parte do req. 05 tbm
   const handleClickOnFilterButton = useCallback((event) => {

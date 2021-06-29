@@ -90,9 +90,9 @@ export function StarWarsContextProvider({ children }) {
     filteredPlanets, // fn que filtra pelo nome do planeta
     soughtPlanets, // array de planetas buscados pelos filtros (SearchBar, maior/menor/igual)
     setFiltersByNumericValue, // setState dos filtros numéricos
-    setSoughtPlanets,
+    setSoughtPlanets, // setState do array de planetas com os filtros aplicados
     filterByNumericValues, // estado dos filtros numéricos
-    getFilteredPlanets, // fn itera sobre o array de filtros e faz o switch case de cada tipo de operador
+    getFilteredPlanets, // fn que itera sobre o array de filtros e faz o switch case de cada tipo de operador
   };
 
   return (
