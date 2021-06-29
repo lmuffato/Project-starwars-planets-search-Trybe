@@ -1,49 +1,15 @@
 import React, { useContext } from 'react';
-import './Table.css';
 import context from '../context/context';
+import TableHeader from '../components/TableHeader';
+import TableBody from '../components/TableBody';
 
 function Table() {
-  const { data, isLoading } = useContext(context);
-
-  const renderTableBody = () => {
-    const planetValues = data.map((planet) => Object.values(planet));
-    return (
-      planetValues.map((values, index) => {
-        values.pop();
-        return (
-          <tr key={ values[index][0] }>
-            { values.map((value) => (
-              <td key={ value } className="tableData">
-                { value }
-              </td>)) }
-          </tr>
-        );
-      }));
-  };
-
-  const renderTableHeader = () => {
-    const headers = Object.keys(data[0]);
-    headers.pop();
-    return (
-      <tr>
-        {
-          headers.map((ele) => (
-            <th className="tableHeader" key={ ele }>
-              { ele }
-            </th>))
-        }
-      </tr>
-    );
-  };
+  const { isLoading } = useContext(context);
 
   const renderTable = () => (
     <table>
-      <thead>
-        { renderTableHeader() }
-      </thead>
-      <tbody>
-        { renderTableBody() }
-      </tbody>
+      <TableHeader />
+      <TableBody />
     </table>);
 
   return (
