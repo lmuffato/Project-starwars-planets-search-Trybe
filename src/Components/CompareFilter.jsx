@@ -1,13 +1,19 @@
-import React from 'react';
-// import planetsContext from '../contexts/planetsContext';
+import React, { useContext } from 'react';
+import planetsContext from '../contexts/planetsContext';
 
 function Comparefilter() {
+  const { handleSelectChange } = useContext(planetsContext);
   return (
     <div>
-      <select name="comparison" data-testid="comparison-filter">
-        <option value="">maior que</option>
-        <option value="">menor que</option>
-        <option value="">igual a</option>
+      <select
+        name="columnFilter"
+        id="column-filter"
+        data-testid="comparison-filter"
+        onChange={ handleSelectChange }
+      >
+        <option>maior que</option>
+        <option>menor que</option>
+        <option>igual a</option>
       </select>
     </div>
   );

@@ -1,10 +1,17 @@
-import React from 'react';
-// import planetsContext from '../contexts/planetsContext';
+import React, { useContext } from 'react';
+import planetsContext from '../contexts/planetsContext';
 
 function Numberfilter() {
+  const { handleSelectChange } = useContext(planetsContext);
   return (
     <div>
-      <input type="number" data-testid="value-filter" />
+      <input
+        id="value-filter"
+        type="number"
+        name="valueFilter"
+        data-testid="value-filter"
+        onChange={ handleSelectChange }
+      />
     </div>
   );
 }

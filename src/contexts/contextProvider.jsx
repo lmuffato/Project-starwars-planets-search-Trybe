@@ -1,52 +1,57 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { object } from 'prop-types';
 import planetsContext from './planetsContext';
 import FETCH_PLANETS from '../services/MayTheFetchBeWithYou';
 
 function PlanetsProvider({ children }) {
-  const filteredPlanetName = {
+  const [data, setdata] = useState([]);
+  const [theadData, settheadData] = useState([]);
+  const [filteredPlanet, setFilteredPlanet] = useState([]);
+  const [filters, setFilters] = useState({
+    columnFilter: 'population',
+    comparisonFilter: 'maior que',
+    valueFilter: '',
     filterByName: {
       name: '',
     },
-    filterByNumericValues: [{ column: 'diameter', comparison: 'maior que', value: 5000 }] };
+    filterByNumericValues: [],
+  });
 
-  const [data, setdata] = useState([]);
-  const [theadData, settheadData] = useState([]);
-  const [planetInput, setPlanetInput] = useState(filteredPlanetName);
-  const [filteredPlanet, setFilteredPlanet] = useState([]);
+  // useEffect(() => {
+  //   FETCH_PLANETS().then(({ results }) => setdata(results));
+  // }, []);
 
-  // esse useEffect serve para por no estado do contexto, todos os planetas recebidos pela API. o setdata(results) SETA/COLOCA os dados do results dentro de data.
   useEffect(() => {
-    FETCH_PLANETS().then(({ results }) => setdata(results));
+    const fetch = async () => {
+      const { results } = await FETCH_PLANETS();
+      setdata(results);
+      setFilteredPlanet(results);
+    };
+    fetch();
   }, []);
 
-  // esse useEffect possui a lógica que serve para procurar o nome dos planetas ao digitar no input de texto do componente SearchBar . Includes e Contains foram pesquisados , mas aparentemente contains está depreciado/descontinuado
-  // https://flaviocopes.com/react-hook-usecallback/
-
-  const handleChangeFilter = useCallback((arr) => {
-    const lookingForPlanet = arr
-      .filter((planet) => (planet.name
-        .includes(planetInput.filterByName.name)));
-    return lookingForPlanet;
-  }, [planetInput.filterByName.name]);
-
-  const handleClickFilter = useCallback((arr) => {
-    const filterClick = arr.filter((planet) => {
-      const { column, value } = filteredPlanetName.filterByNumericValues[0];
-      const filtratedPlanet = planet[column] > value;
-      return filtratedPlanet;
+  const handlePlanetFiltered = ({ target: { value } }) => {
+    setFilters({
+      ...filters,
+      filterByName: {
+        name: value,
+      },
     });
-    return filterClick;
-  },
+    const searchedPlanet = data.filter((planet) => planet.name.includes(value));
+    setFilteredPlanet(searchedPlanet);
+  };
 
-  [filteredPlanet, filteredPlanetName.filterByNumericValues]);
-
-  useEffect(() => {
-    let lookingForPlanet = data;
-    lookingForPlanet = handleChangeFilter(lookingForPlanet);
-    lookingForPlanet = handleClickFilter(lookingForPlanet);
-    setFilteredPlanet(lookingForPlanet);
-  }, [data, planetInput, handleChangeFilter, handleClickFilter]);
+  const filtersValueFunc = () => {
+    const { columnFilter, comparisonFilter, valueFilter } = filters;
+    const filterByValue = filteredPlanet.filter((planet) => {
+      if (comparisonFilter === 'maior que') {
+        return Number(planet[columnFilter]) > Number(valueFilter);
+      } if (comparisonFilter === 'menor que') {
+        return Number(planet[columnFilter]) < Number(valueFilter);
+      } return Number(planet[columnFilter]) === Number(valueFilter);
+    });
+    return setFilteredPlanet(filterByValue);
+  };
 
   // esse useEffect serve para filtrar a chave 'residents' da resposta da API. recuperando as chaves do planeta e filtrando, removendo 'residents', e criar o Header da tabela
   useEffect(() => {
@@ -57,11 +62,37 @@ function PlanetsProvider({ children }) {
     }
   }, [data]);
 
+  const handleSelectChange = ({ target }) => {
+    setFilters({ ...filters, [target.name]: target.value });
+  };
+
+  const handleSubmitFilter = () => {
+    const {
+      filterByNumericValues,
+      columnFilter,
+      comparisonFilter,
+      valueFilter } = filters;
+    setFilters({
+      ...filters,
+      filterByNumericValues: [
+        ...filterByNumericValues,
+        {
+          column: columnFilter,
+          comparison: comparisonFilter,
+          value: valueFilter,
+        },
+      ],
+    });
+    filtersValueFunc();
+  };
+
   const contextValue = {
     data,
     theadData,
-    setPlanetInput,
     filteredPlanet,
+    handlePlanetFiltered,
+    handleSubmitFilter,
+    handleSelectChange,
   };
 
   return (
@@ -76,3 +107,35 @@ PlanetsProvider.propTypes = {
 }.isRequired;
 
 export default PlanetsProvider;
+
+// const handleChangeFilter = useCallback((arr) => {
+//   const lookingForPlanet = arr
+//     .filter((planet) => (planet.name
+//       .includes(planetInput.filterByName.name)));
+//   return lookingForPlanet;
+// }, [planetInput.filterByName.name]);
+
+// let filtragemParcial = dados;
+// arrayComOsFiltros.forEach((filtro) => {
+//   filtragemParcial = filtragemmParcial.filter(usando(filtro))
+// })
+// return filtragemParcial;
+
+// const handleClickFilter = useCallback((arr) => {
+//   let parcialFilter = arr;
+//   filteredPlanetName.filterByNumericValues.forEach((numericFilter) => {
+//     parcialFilter = parcialFilter.filter((planet) => {
+//       const { column, comparison, value } = numericFilter;
+//       const filtratedPlanet = abc(planet[column], comparison, value);
+//       return filtratedPlanet;
+//     });
+//   });
+//   return parcialFilter;
+// }, [filteredPlanetName.filterByNumericValues]);
+
+// useEffect(() => {
+//   let lookingForPlanet = data;
+//   lookingForPlanet = handleChangeFilter(lookingForPlanet);
+//   lookingForPlanet = handleClickFilter(lookingForPlanet);
+//   setFilteredPlanet(lookingForPlanet);
+// }, [data, planetInput, handleChangeFilter, handleClickFilter]);

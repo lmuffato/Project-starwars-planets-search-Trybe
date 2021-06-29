@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import planetsContext from '../contexts/planetsContext';
 
 function SearchInput() {
-  const { setPlanetInput } = useContext(planetsContext);
+  const { handlePlanetFiltered } = useContext(planetsContext);
   return (
     <div>
       <label htmlFor="name-filter">
@@ -10,7 +10,7 @@ function SearchInput() {
         <input
           type="text"
           data-testid="name-filter"
-          onChange={ (e) => setPlanetInput({ filterByName: { name: e.target.value } }) }
+          onChange={ handlePlanetFiltered }
         />
       </label>
     </div>
