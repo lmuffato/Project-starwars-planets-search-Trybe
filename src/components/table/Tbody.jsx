@@ -1,19 +1,26 @@
 import React from 'react';
 import filtersPlanets from '../../utils/filtersPlanets';
 import usePlanet from '../../hooks/usePlanet';
+import orderColumn from '../../utils/orderColumn';
 
 export default function Tbody() {
-  const { planets, filteredByName, filteredByNumbers } = usePlanet();
+  const { planets, filteredByName, filteredByNumbers, order } = usePlanet();
+
   const { filters: { filterByName: { name } } } = filteredByName;
   const { filterByNumericValues } = filteredByNumbers;
+  const { order: { column, sort } } = order;
 
   const planetsFiltered = filtersPlanets(planets, filterByNumericValues, name);
+
+  if (planetsFiltered.length > 0) {
+    orderColumn(planetsFiltered, sort, column);
+  }
 
   return (
     <tbody>
       {planetsFiltered.map((planet, index) => (
         <tr key={ index }>
-          <td>{planet.name}</td>
+          <td data-testid="planet-name">{planet.name}</td>
           <td>{planet.rotation_period}</td>
           <td>{planet.orbital_period}</td>
           <td>{planet.diameter}</td>
