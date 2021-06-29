@@ -2,13 +2,13 @@ import React, { useContext } from 'react';
 import StarWarsContext from '../Provider/StarWarsContext';
 
 function Table() {
-  const planetsStarWars = useContext(StarWarsContext);
+  const { data: { planetsStarWars } } = useContext(StarWarsContext);
   // const id = 0;
   const planets = planetsStarWars;
 
   return (
     <div>
-      {/* { planets ? console.log(planets.name) : console.log('Carregando')} */}
+      { planets ? console.log(planets) : console.log('Carregando')}
       {/* <ul>
         {
           planets ? Object.values(planets).map((planet) => (
