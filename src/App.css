@@ -41,7 +41,12 @@
 }
 
 .filters {
-  background-image: url("https://images-na.ssl-images-amazon.com/images/I/71ikVWMizAL._AC_SX679_.jpg");
+  background-image: url('https://images-na.ssl-images-amazon.com/images/I/71ikVWMizAL._AC_SX679_.jpg');
+  width: 100%;
+}
+
+h1 {
+  text-align: center;
   width: 100%;
 }
 
@@ -54,15 +59,14 @@ form, .filters {
   background-color: black;
   color: #0dcaf0;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
   font-family: Counstard , Courier , monospace;
 }
 
 form {
-  margin-top: 10px;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 10px;
 }
 
 .inputSearch {
@@ -92,7 +96,6 @@ button, .inputSearch {
   font-family: Roboto , Arial , sans-serif;
 }
 
-h1 {
-  text-align: center;
-  width: 100%;
+.btn {
+  background-color: yellow;
 }
