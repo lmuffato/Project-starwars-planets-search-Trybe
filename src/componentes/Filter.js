@@ -10,12 +10,12 @@ const filtForArray = [
 ];
 
 function Filter() {
-  const { filters, setFilters } = useContext(MyTablecontext);
-
   const [filtColumn, setfiltColumn] = useState();
   const [filtArray, setfiltArray] = useState(filtForArray);
   const [filtComparison, setfiltComparison] = useState();
   const [filtValue, setfiltValou] = useState();
+
+  const { filters, setFilters } = useContext(MyTablecontext);
 
   function handeleClick() {
     setFilters({ ...filters,
