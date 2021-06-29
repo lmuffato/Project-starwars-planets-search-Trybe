@@ -15,7 +15,7 @@ function App() {
           Author:
         </h1>
         <MyContext.Consumer>
-          { (name) => <h2>{ name.nickName }</h2>}
+          { (value) => <h2>{ value.nickName }</h2>}
         </MyContext.Consumer>
         <Button />
         <h1>Project Star Wars Planets presents:</h1>

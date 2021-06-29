@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import MyContext from '../Context/MyContext';
+import ResetButton from './ResetButton';
 
 function NumberFilter() {
   const {
@@ -52,6 +53,8 @@ function NumberFilter() {
       }
       setFilter(false);
     }
+    const hiddenOption = document.getElementById(column);
+    hiddenOption.setAttribute('hidden', '');
   }, [filter]);
   return (
     <div>
@@ -59,16 +62,30 @@ function NumberFilter() {
         data-testid="column-filter"
         onChange={ ({ target: { value } }) => setColumn(value) }
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        <option className="reset" id="none" value="none">
+          Header
+        </option>
+        <option className="reset" id="population" value="population">
+          population
+        </option>
+        <option className="reset" id="orbital_period" value="orbital_period">
+          orbital_period
+        </option>
+        <option className="reset" id="diameter" value="diameter">
+          diameter
+        </option>
+        <option className="reset" id="rotation_period" value="rotation_period">
+          rotation_period
+        </option>
+        <option className="reset" id="surface_water" value="surface_water">
+          surface_water
+        </option>
       </select>
       <select
         data-testid="comparison-filter"
         onChange={ ({ target: { value } }) => setComparison(value) }
       >
+        <option hidden value="none">Comparison</option>
         <option value="maior que">maior que</option>
         <option value="menor que">menor que</option>
         <option value="igual a">igual a</option>
@@ -86,6 +103,7 @@ function NumberFilter() {
       >
         FILTER
       </button>
+      <ResetButton />
     </div>);
 }
 
