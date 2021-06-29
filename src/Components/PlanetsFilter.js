@@ -2,9 +2,8 @@ import React, { useContext } from 'react';
 import PlanetContext from '../Context/PlanetContext';
 
 export default function FilteringPlanets() {
-  const { column, setColumn, data, newData, setNewData, valueColumn, setValueColumn,
-    number, setNumber, comparison, setComparison } = useContext(PlanetContext);
-
+  const { column, setColumn, data, newData, setNewData, ValueColumn, setValueColumn,
+    number, comparison, setComparison, setNumber } = useContext(PlanetContext);
   const bigOrNot = ['maior que', 'menor que', 'igual a'];
 
   const filteringValue = ({ target }) => {
@@ -21,13 +20,14 @@ export default function FilteringPlanets() {
     }
     if (comparison === 'menor que') {
       planetWithFilter = newData.filter((val) => parseFloat(val[column]) < number);
+      setNewData(planetWithFilter);
     }
     if (comparison === 'igual a') {
       planetWithFilter = newData.filter((val) => val[column] === number);
       setNewData(planetWithFilter);
     }
-    if (valueColumn.length > 1) {
-      const valueNew = valueColumn.filter((val) => val !== column);
+    if (ValueColumn.length > 1) {
+      const valueNew = ValueColumn.filter((val) => val !== column);
       setValueColumn(valueNew);
     }
   };
@@ -44,12 +44,12 @@ export default function FilteringPlanets() {
         data-testid="column-filter"
         onChange={ filteringValue }
       >
-        {valueColumn.map((val, index) => (
+        {ValueColumn.map((val, index) => (
           <option
             key={ index }
             value={ val }
           >
-            { val }
+            {val}
           </option>
         ))}
       </select>
@@ -63,7 +63,7 @@ export default function FilteringPlanets() {
             key={ i }
             value={ val }
           >
-            { val }
+            {val}
           </option>
         ))}
       </select>
@@ -76,8 +76,8 @@ export default function FilteringPlanets() {
         />
       </label>
       <button
-        type="button"
         data-testid="button-filter"
+        type="button"
         onClick={ filteringThree }
       >
         Filtrar
