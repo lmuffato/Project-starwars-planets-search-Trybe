@@ -1,9 +1,16 @@
 import React from 'react';
 import './App.css';
+import Table from './component/Table';
+import StarProvider from './provider/StarProvider';
 
 function App() {
   return (
-    <span>Hello, App!</span>
+    <div>
+      <StarProvider>
+        <Table />
+        {/* <p>{ planets }</p> */}
+      </StarProvider>
+    </div>
   );
 }
 
