@@ -50,6 +50,7 @@ function Table() {
     setColumn('orbital_period');
     setComparison('menor que');
     setValue('');
+    console.log(filteredPlanets);
   };
 
   return (
