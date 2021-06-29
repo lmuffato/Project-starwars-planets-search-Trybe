@@ -1,39 +1,21 @@
-import { head } from 'lodash';
-import { useContext } from 'react';
-import { table, tbody, th, thead, tr, td, is } from '../utils';
+import { createElement as e, useContext } from 'react';
+import { isEmpty } from 'lodash';
+import { div } from '../utils';
 
-import TableContext from '../context/TableDataContext';
+import TableDataContext from '../context/TableDataContext';
+import Filters from './Filters';
+import AppliedFilters from './AppliedFilters';
+import Table from './Table';
 
 const TableContainer = () => {
-  const {
-    data: { results }, filters: { filterByName, filterByNumericValue },
-  } = useContext(TableContext);
+  const { data, loading } = useContext(TableDataContext);
 
-  const dontShowResidents = (key) => key !== 'residents';
-  const byPlanetName = ({ name }) => (
-    filterByName ? name.includes(filterByName) : true
-  );
-  const byNumericValue = (planet) => filterByNumericValue.reduce((
-    acc, { column, comparison, value },
-  ) => (acc ? is(planet[column], comparison, value) : false), true);
-  const colNames = Object.keys(head(results)).filter(dontShowResidents);
-
-  const tableHeader = thead(tr(colNames.map(th)));
-  const planetDataToCell = (planet) => tr(
-    Object
-      .keys(planet)
-      .filter(dontShowResidents)
-      .map((key) => (td(planet[key]))),
-  );
-
-  const tableBody = tbody(
-    results
-      .filter(byPlanetName)
-      .filter(byNumericValue)
-      .map(planetDataToCell),
-  );
-
-  return table([tableHeader, tableBody]);
+  return loading || isEmpty(data) ? div('Loading')
+    : [
+      e(Filters, { key: 'Filters' }),
+      e(AppliedFilters, { key: 'AppliedFilters' }),
+      e(Table, { key: 'Table' }),
+    ];
 };
 
 export default TableContainer;

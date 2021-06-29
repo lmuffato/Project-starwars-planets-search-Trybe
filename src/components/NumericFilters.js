@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { isEmpty } from 'lodash';
 import {
-  button, comparisons, div, label, labelledInput, option, select,
+  button, comparisons, div, labelledInput, selector,
 } from '../utils';
 
 import TableDataContext from '../context/TableDataContext';
@@ -10,18 +10,6 @@ const COLUMN_FILTER = 'column-filter';
 const COMPARISON_FILTER = 'comparison-filter';
 const VALUE_FILTER = 'value-filter';
 const BUTTON_FILTER = 'button-filter';
-const selector = (labelText, selectData, optionsData) => label(
-  [
-    labelText,
-    select(
-      optionsData.map((option)),
-      {
-        ...selectData,
-        'data-testid': selectData.name,
-      },
-    ),
-  ],
-);
 
 const handleOnChange = (state, setState) => ({ target: { name, value } }) => {
   setState({ ...state, [name]: value });

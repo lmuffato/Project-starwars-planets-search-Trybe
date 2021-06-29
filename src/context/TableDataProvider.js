@@ -2,6 +2,7 @@ import { createElement as e, useEffect, useState } from 'react';
 import { arrayOf, object } from 'prop-types';
 import { first } from '../utils';
 
+import { addNewNumValueFilter, removeNumValueFilter, sortBy } from '../utils/filters';
 import getPlanetsData, { columns } from '../services/swAPI';
 import TableContext from './TableDataContext';
 
@@ -9,7 +10,10 @@ const { Provider } = TableContext;
 const TableDataProvider = ({ children }) => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
-  const [filters, setFilters] = useState({ filterByName: '', filterByNumericValue: [] });
+  const [filters, setFilters] = useState({
+    filterByName: '',
+    filterByNumericValue: [],
+    order: { column: 'name', sort: 'ASC' } });
   const [availableColumns, setAvailableColumns] = useState([]);
   useEffect(() => {
     first(setLoading(true))
@@ -25,21 +29,10 @@ const TableDataProvider = ({ children }) => {
     )));
   }, [filters.filterByNumericValue]);
 
-  const setFilterByName = (name) => { setFilters({ ...filters, filterByName: name }); };
-  const addFilterByNumericValue = ({ column, comparison, value }) => {
-    setFilters({ ...filters,
-      filterByNumericValue: [
-        ...filters.filterByNumericValue,
-        { column, comparison, value },
-      ] });
-  };
-  const removeFilterByNumericValue = (columnToRemove) => {
-    setFilters({ ...filters,
-      filterByNumericValue: filters.filterByNumericValue.filter(
-        ({ column }) => column !== columnToRemove,
-      ) });
-  };
-
+  const setFilterByName = (filterByName) => { setFilters({ ...filters, filterByName }); };
+  const addFilterByNumericValue = addNewNumValueFilter(setFilters, filters);
+  const removeFilterByNumericValue = removeNumValueFilter(setFilters, filters);
+  const setSortBy = sortBy(setFilters, filters);
   return (
     e(Provider,
       { value: { data,
@@ -48,6 +41,7 @@ const TableDataProvider = ({ children }) => {
         setFilterByName,
         addFilterByNumericValue,
         removeFilterByNumericValue,
+        setSortBy,
         availableColumns } },
       [children])
   );
