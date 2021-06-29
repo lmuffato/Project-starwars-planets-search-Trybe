@@ -15,7 +15,6 @@ export default function Tbody() {
   if (planetsFiltered.length > 0) {
     orderColumn(planetsFiltered, sort, column);
   }
-  // console.log(planetsOrdered);
 
   return (
     <tbody>

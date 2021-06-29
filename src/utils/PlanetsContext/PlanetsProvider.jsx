@@ -40,5 +40,9 @@ export default function PlanetsProvider({ children }) {
 }
 
 PlanetsProvider.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
+};
+
+PlanetsProvider.defaultProps = {
+  children: PropTypes.node,
 };
