@@ -15,20 +15,31 @@ function Table() {
 
   const applyFilters = (item) => {
     const { filterByNumericValues } = filters;
-    const { column, comparison, value } = filterByNumericValues[0];
-    if (column && comparison && value && applyFilter) {
-      switch (comparison) {
-      case 'maior que':
-        return parseFloat(item[column]) > parseFloat(value);
-      case 'menor que':
-        return parseFloat(item[column]) < parseFloat(value);
-      case 'igual a':
-        return parseFloat(item[column]) === parseFloat(value);
-      default: return true;
-      }
-    } else {
+    if (!filterByNumericValues.length) {
       return true;
     }
+    const isValid = [true, true];
+    filterByNumericValues.forEach((filterNumeric, i) => {
+      const { column, comparison, value } = filterNumeric;
+      // const { column, comparison, value } = filterByNumericValues[0];
+      if (column && comparison && value && applyFilter) {
+        switch (comparison) {
+        case 'maior que':
+          isValid[i] = parseFloat(item[column]) > parseFloat(value);
+          break;
+        case 'menor que':
+          isValid[i] = parseFloat(item[column]) < parseFloat(value);
+          break;
+        case 'igual a':
+          isValid[i] = parseFloat(item[column]) === parseFloat(value);
+          break;
+        default: return true;
+        }
+      } else {
+        isValid[i] = true;
+      }
+    });
+    return isValid[0] && isValid[1];
   };
 
   if (isLoading) return <p>Carregando</p>;

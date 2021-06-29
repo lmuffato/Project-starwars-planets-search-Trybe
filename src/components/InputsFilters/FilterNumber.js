@@ -1,9 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import PlanetContext from '../../context/PlanetsContext';
 
 export default function FilterNumber(props) {
-  const { setApplyFilter } = useContext(PlanetContext);
   const { title, name, value, handleValue } = props;
   return (
     <label htmlFor={ name }>
@@ -16,7 +14,7 @@ export default function FilterNumber(props) {
         value={ value }
         onChange={ (e) => {
           handleValue(e);
-          setApplyFilter(false);
+          // setApplyFilter(false);
         } }
       />
     </label>

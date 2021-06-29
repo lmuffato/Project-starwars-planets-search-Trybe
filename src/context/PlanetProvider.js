@@ -12,7 +12,7 @@ function PlanetProvider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
 
-  const [filters, setFilters] = useFilters();
+  const [filters, setFilters] = useFilters({});
 
   async function fetchData() {
     setIsLoading(true);
@@ -49,12 +49,27 @@ function PlanetProvider({ children }) {
     });
   }
 
+  function addFilter(column, comparison, value) {
+    const { filterByNumericValues: filterNumerics } = filters;
+    const filterByNumericValues = {
+      column,
+      comparison,
+      value,
+    };
+    setApplyFilter(true);
+    setFilters({
+      ...filters,
+      filterByNumericValues: [...filterNumerics, { ...filterByNumericValues }],
+    });
+  }
+
   const value = {
     applyFilter,
     isLoading,
     data,
     filters,
     setApplyFilter,
+    addFilter,
     handleName,
     handleSelectValue,
     fetchData,

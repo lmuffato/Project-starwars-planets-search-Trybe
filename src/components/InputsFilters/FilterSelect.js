@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import PlanetContext from '../../context/PlanetsContext';
 
 export default function FilterSelect(props) {
-  const { setApplyFilter } = useContext(PlanetContext);
   const { name, values, handleSelectValue } = props;
+  const { filters: { filterByNumericValues } } = useContext(PlanetContext);
   return (
     <select
       name={ name }
@@ -12,14 +12,21 @@ export default function FilterSelect(props) {
       data-testid={ `${name}-filter` }
       onChange={ (e) => {
         handleSelectValue(e);
-        setApplyFilter(false);
+        // setApplyFilter(false);
       } }
     >
       {
-        values.map((value, id) => (
+        values.filter((value) => {
+          let isValid = true;
+          const verify = filterByNumericValues
+            .some(({ column }) => value === column);
+          isValid = !verify;
+          return isValid;
+        }).map((value, id) => (
           <option
             value={ value }
             key={ id }
+            selected={ id === 0 ? 'selected' : null }
           >
             { value }
           </option>

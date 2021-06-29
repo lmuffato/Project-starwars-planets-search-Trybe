@@ -2,13 +2,7 @@ export const filterByName = {
   name: '',
 };
 
-export const filterByNumericValues = [
-  {
-    column: '',
-    comparison: '',
-    value: '',
-  },
-];
+export const filterByNumericValues = [];
 
 export const valuesInputsFilter = {
   number: {

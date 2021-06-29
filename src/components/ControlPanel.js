@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 
 import FilterText from './InputsFilters/FilterText';
 import FilterSelect from './InputsFilters/FilterSelect';
@@ -8,17 +8,24 @@ import { valuesInputsFilter } from '../config/filters';
 import FilterNumber from './InputsFilters/FilterNumber';
 
 export default function ControlPanel() {
+  const [column, setColumn] = useState('');
+  const [comparison, setComparison] = useState('');
+  const [valueInput, setValueInput] = useState(0);
+
+  const handleChange = ({ target: { name, value } }) => {
+    if (name === 'column') setColumn(value);
+    if (name === 'comparison') setComparison(value);
+    if (name === 'value') setValueInput(value);
+  };
+
   const {
     filters,
     handleName,
-    handleSelectValue,
-    setApplyFilter,
+    addFilter,
   } = useContext(PlanetContext);
 
   const { filterByName } = filters;
   const { name } = filterByName;
-  const { filterByNumericValues } = filters;
-  const { value } = filterByNumericValues[0];
   return (
     <div>
       <form>
@@ -34,20 +41,25 @@ export default function ControlPanel() {
               key={ id }
               name={ key }
               values={ valuesInputsFilter.number[key] }
-              handleSelectValue={ handleSelectValue }
+              handleSelectValue={ handleChange }
             />
           ))
         }
         <FilterNumber
           title="Valor: "
           name="value"
-          value={ value }
-          handleValue={ handleSelectValue }
+          value={ valueInput }
+          handleValue={ handleChange }
         />
         <button
           type="button"
           data-testid="button-filter"
-          onClick={ () => setApplyFilter(true) }
+          onClick={ () => {
+            addFilter(column, comparison, valueInput);
+            setColumn('');
+            setComparison('');
+            setValueInput(0);
+          } }
         >
           Filrar
         </button>
