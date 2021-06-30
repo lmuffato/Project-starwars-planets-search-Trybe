@@ -46,7 +46,9 @@ const Table = () => {
         </thead>
         <tbody>
           {dataToUse.length === 0 ? renderTds(data) : renderTds(dataToUse)}
-          {/* {dataToUse.length === 0 ? console.log('data') : console.log('dataToUse')} */}
+          {/*
+          {dataToUse.length === 0 ? console.log('data') : console.log('dataToUse')}
+          */}
         </tbody>
       </table>
     </div>
