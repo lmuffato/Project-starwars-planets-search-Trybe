@@ -2,19 +2,21 @@
 import React from 'react';
 import './App.css';
 import Provider from './Components/Provider';
-import TablePlanets from './Components/TablePlanets';
-import PlanetFilters from './Components/PlanetFilters';
+import InputSearchByName from './Components/InputSearchByName';
+import SearchByName from './Components/SearchByName';
 import ClearFilterButton from './Components/ClearFilterButton';
+import DropDownFilters from './Components/DropDownFilters';
 
 function App() {
   return (
     <div className="scifiUI">
       <Provider>
         <header>
-          <PlanetFilters />
+          <InputSearchByName />
+          <DropDownFilters />
           <ClearFilterButton />
         </header>
-        <TablePlanets />
+        <SearchByName />
       </Provider>
     </div>
   );

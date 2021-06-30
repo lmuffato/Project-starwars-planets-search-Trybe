@@ -1,19 +1,25 @@
 @import url('https://fonts.googleapis.com/css?family=Rajdhani:300') ;
 
 html, body {
-  background: url('http://aaronchuo.cc/assets/images/ironwall.jpg');
-  background-color: #212121 top center no-repeat;
-  background-size: 100% 100%;
+  background: url('DarthVaderWallpaper_2.jpg') , #212121 top center no-repeat;
+  background-size: 100%;
   font-family: Rajdhani , sans-serif;
   height: 100%;
   letter-spacing: 0.1em;
   width: 100%;
 }
 
+table {
+  background-color: #000000a4;
+  display: flexbox;
+  height: 50%;
+  width: 50%;
+}
+
 .scifiUI {
   color: red;
   font-size: 18px;
-  margin: 50px auto;
+  margin: 50px;
   width: 600px;
 }
 
@@ -22,7 +28,7 @@ html, body {
   transition: all 250ms ease-in-out;
 }
 
-.scifiUI :before .scifiUI:after {
+.scifiUI :before, .scifiUI :after {
   content: '';
   transition: all 200ms ease-in-out;
 }
@@ -40,6 +46,7 @@ html, body {
 .scifiUI input {
   background: transparent;
   border: 1px solid red;
+  color: red;
   height: 50px;
   padding: 0 10px;
 }
@@ -52,7 +59,7 @@ html, body {
 .scifiUI input:focus {
   background: red;
   border: 1px solid red;
-  box-shadow: 0 0 20px red inset , 0 0 10px red , 0 0 20px white;
+  box-shadow: 0 0 20px red inset , 0 0 10px red , 0 0 20px red;
   color: #212121;
 }
 
@@ -233,7 +240,6 @@ html, body {
 }
 
 .scifiUI .selectWrapper select {
-  appearance: none;
   background: none;
   border: 0;
   box-shadow: none;
@@ -258,6 +264,7 @@ html, body {
 .scifiUI button {
   background: rgba(220, 0, 0, 0.3);
   border: 1px solid red;
+  color: red;
   height: 50px;
   overflow: hidden;
   position: relative;

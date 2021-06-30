@@ -2,8 +2,8 @@
 import React, { useContext } from 'react';
 import ContextApi from './ContextApi';
 
-function PlanetFilters() {
-  const { name, toSetSearchedName } = useContext(ContextApi);
+function InputSearchByName() {
+  const { name, setSearchedName } = useContext(ContextApi);
   return (
     <div>
       <form>
@@ -14,7 +14,7 @@ function PlanetFilters() {
             type="text"
             id="searchBar"
             value={ name }
-            onChange={ ({ target: { value } }) => toSetSearchedName(value) }
+            onChange={ ({ target: { value } }) => setSearchedName(value) }
           />
         </label>
       </form>
@@ -22,4 +22,4 @@ function PlanetFilters() {
   );
 }
 
-export default PlanetFilters;
+export default InputSearchByName;

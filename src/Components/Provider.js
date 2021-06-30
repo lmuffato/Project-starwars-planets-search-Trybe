@@ -8,14 +8,21 @@ function Provider({ children }) {
   const [data, setData] = useState([]);
   const [keys, setKeys] = useState([]);
   const [name, setSearchedName] = useState('');
-  const toSetSearchedName = (value) => setSearchedName(value);
+  const [column, setColumn] = useState('');
+  const [comparison, setComparison] = useState('');
+  const [value, setValue] = useState('');
 
   const contextValue = {
     data,
     keys,
-    toSetSearchedName,
+    setSearchedName,
+    setColumn,
+    setComparison,
+    setValue,
     filters: { filterByName: { name } },
+    filterByNumericValues: [{ column, comparison, value }],
   };
+
   useEffect(() => {
     PlanetsFromApi().then(({ results }) => setData(results));
   }, []);
