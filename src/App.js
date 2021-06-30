@@ -1,9 +1,12 @@
 import React from 'react';
 import './App.css';
+import ServiceApi from './components/ServiceApi';
 
 function App() {
   return (
-    <span>Hello, App!</span>
+    <div>
+      <ServiceApi />
+    </div>
   );
 }
 
