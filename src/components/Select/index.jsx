@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes, { string, func, arrayOf } from 'prop-types';
 
 import Option from './components/Option';

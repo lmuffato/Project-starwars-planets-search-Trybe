@@ -6,7 +6,7 @@ import Select from '../../../../components/Select';
 import { selects, selectReducer } from '../../../../helpers/selectData';
 
 function Filter() {
-  const { setFilters } = useContext(Context);
+  const { filters, setFilters } = useContext(Context);
   const [name, setName] = useState('');
   const [filterState, filterDispatch] = useReducer(selectReducer, {
     column: 'population',
@@ -37,6 +37,15 @@ function Filter() {
     });
   };
 
+  const filterOptions = (options) => {
+    const { filters: { filterByNumericValues } } = filters;
+    const newOptions = options.filter(({ value }) => (
+      filterByNumericValues.every(({ column }) => value !== column)
+    ));
+
+    return newOptions;
+  };
+
   return (
     <form>
       <input
@@ -48,14 +57,18 @@ function Filter() {
       />
 
       {
-        selects.map((select) => (
-          <Select
-            key={ select.name }
-            filterDispatch={ filterDispatch }
-            value={ filterState[select.name] }
-            { ...select }
-          />
-        ))
+        selects.map((select) => {
+          const options = filterOptions(select.options);
+          return (
+            <Select
+              { ...select }
+              key={ select.name }
+              filterDispatch={ filterDispatch }
+              value={ filterState[select.name] }
+              options={ options }
+            />
+          );
+        })
       }
 
       <input
