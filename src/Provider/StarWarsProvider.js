@@ -9,6 +9,13 @@ function StarWarsProvider({ children }) {
       filterByName: {
         name: '',
       },
+      filterByNumericValues: [
+        {
+          column: '',
+          comparison: '',
+          value: 0,
+        },
+      ],
     },
   });
   // Solução encontrado por Orlando Flores - Turma 10-A

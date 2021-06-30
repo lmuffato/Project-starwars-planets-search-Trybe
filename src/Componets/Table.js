@@ -8,7 +8,7 @@ function Table() {
 
   return (
     <div>
-      { planets ? console.log(planets) : console.log('Carregando')}
+      {/* { planets ? console.log(planets) : console.log('Carregando')} */}
       {/* <ul>
         {
           planets ? Object.values(planets).map((planet) => (
