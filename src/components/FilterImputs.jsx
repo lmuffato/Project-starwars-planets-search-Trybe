@@ -37,7 +37,7 @@ const FilterInputs = () => {
       return setDataToUse(data
         .filter((planet) => Number(planet[column]) > Number(value)));
     case 'menor que':
-      return setDataToUSe(data
+      return setDataToUse(data
         .filter((planet) => Number(planet[column]) < Number(value)));
     case 'igual a':
       return setDataToUse(data
