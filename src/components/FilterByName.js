@@ -1,18 +1,17 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import PlanetContext from '../context/PlanetContext';
 
 function FilterByName() {
-  const { data, setFilter } = useContext(PlanetContext);
-
-  useEffect(() => (
-    setFilter({ filterByName: { name: data } })
-  ), [data, setFilter]);
+  const { data, filters, setFilters } = useContext(PlanetContext);
 
   const filterPlanet = (value) => {
     const filtered = data.filter((item) => (
       item.name.toUpperCase().includes(value.toUpperCase())
     ));
-    setFilter({ filterByName: { name: filtered } });
+    setFilters({
+      ...filters,
+      filterByName: { name: filtered },
+    });
   };
 
   return (
