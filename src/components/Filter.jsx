@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import context from '../context/context';
 
 function Filter() {
@@ -7,21 +7,19 @@ function Filter() {
   const filterPlanetByName = ({ target: { value } }) => {
     const filterPlanets = data.filter(({ name }) => name.includes(value));
     setFilterData(filterPlanets);
-  }
+  };
 
-  const renderFilter = () => {
-    return (
-      <label htmlFor="filter">
-        Filter:
-          <input
-            id="filter"
-            type="text"
-            data-testid='name-filter'
-            onChange={ filterPlanetByName }
-          />
-      </label>
-    );
-  }
+  const renderFilter = () => (
+    <label htmlFor="filter">
+      Filter:
+      <input
+        id="filter"
+        type="text"
+        data-testid="name-filter"
+        onChange={ filterPlanetByName }
+      />
+    </label>
+  );
 
   return (
     <div>

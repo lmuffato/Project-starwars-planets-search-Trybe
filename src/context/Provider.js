@@ -3,10 +3,6 @@ import PropTypes from 'prop-types';
 import context from './context';
 import getPlanets from '../services/getPlanets';
 
-const FILTER_INIT_STATE = {
-  filterByName: { name: '' },
-}
-
 function Provider({ children }) {
   const [data, setData] = useState([]);
   const [isLoading, setLoading] = useState(true);
@@ -16,13 +12,11 @@ function Provider({ children }) {
     const setThePlanets = async () => {
       const thePlanets = await getPlanets();
       setData([...thePlanets]);
-      setFilterData([...thePlanets])
+      setFilterData([...thePlanets]);
       setLoading(false);
     };
     setThePlanets();
   }, []);
-
-
 
   const store = {
     data,
