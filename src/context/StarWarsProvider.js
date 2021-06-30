@@ -9,13 +9,7 @@ function StarWarsProvider({ children }) {
     filterByName: {
       name: '',
     },
-    filterByNumericValues: [
-      {
-        column: 'population',
-        comparison: 'maior que',
-        value: '100000',
-      },
-    ],
+    filterByNumericValues: [],
   });
   const [clickedButtonFilters, setClickedButtonFilters] = useState(false);
 
@@ -29,6 +23,7 @@ function StarWarsProvider({ children }) {
   function getNumericFilters(columFilter, comparisonFilter, valueFilter, clickedFilter) {
     setFilters({ ...filters,
       filterByNumericValues: [
+        ...filters.filterByNumericValues,
         {
           column: columFilter,
           comparison: comparisonFilter,

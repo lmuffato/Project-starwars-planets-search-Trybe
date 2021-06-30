@@ -1,9 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 
 function NumericFilters() {
   const { getNumericFilters } = useContext(StarWarsContext);
-  const [columFilter, setColumFilter] = useState('population');
+  const [stateClicked, setStateClicked] = useState(false);
+  const [count, setCount] = useState(0);
+  const [columFilter, setColumFilter] = useState('');
   const [comparisonFilter, setComparisonFilter] = useState('maior que');
   const [valueFilter, setValueFilter] = useState(0);
   const [populationOption, setpopulationOption] = useState(
@@ -33,9 +35,24 @@ function NumericFilters() {
   function handleClick(e) {
     e.preventDefault();
     const columnFilterValue = document.getElementById('column-filter').value;
-    getNumericFilters(columFilter, comparisonFilter, valueFilter, true);
+    // getNumericFilters(columFilter, comparisonFilter, valueFilter, true);
+    // const comparisonFilter = document.getElementById('comparison-filter').value;
+    // const columnFilterValue = document.getElementById('value-filter').value;
+    // const columnFilterValue = document.getElementById('column-filter').value;
     hideOptionsFilter(columnFilterValue);
+    setCount(count + 1);
+    const newColumnFilterValue = document.getElementById('column-filter').value;
+    setColumFilter(newColumnFilterValue);
+    setStateClicked(true);
   }
+
+  useEffect(() => {
+    const sendData = () => {
+      getNumericFilters(columFilter, comparisonFilter, valueFilter, true);
+      setStateClicked(false);
+    };
+    if (stateClicked) sendData();
+  }, [stateClicked]);
 
   function handleChange({ target }) {
     const { name, value } = target;
@@ -79,6 +96,7 @@ function NumericFilters() {
       <input
         type="number"
         data-testid="value-filter"
+        id="value-filter"
         onChange={ handleChange }
         name="valueFilter"
       />
