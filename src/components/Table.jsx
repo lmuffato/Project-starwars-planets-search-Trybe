@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import MyContext from '../context/myContext';
+import MyContext from '../context/MyContext';
 
 function Table() {
   const { data } = useContext(MyContext);
