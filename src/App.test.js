@@ -253,7 +253,7 @@ describe('4 - Não utilize filtros repetidos', () => {
   beforeAll(mockFetch);
   beforeEach(cleanup);
 
-  it.skip('Filtre por população e o remove das opções', async () => {
+  it('Filtre por população e o remove das opções', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -295,7 +295,7 @@ describe('5 - Apague o filtro de valores numéricos e desfaça as filtragens dos
     fireEvent.click(filters[0].querySelector('button'));
   };
 
-  it.skip('Adicione um filtro e verifique se a tabela foi atualizada com as informações filtradas, depois remova o filtro e verifice se os valores da tabela voltaram ao original', async () => {
+  it('Adicione um filtro e verifique se a tabela foi atualizada com as informações filtradas, depois remova o filtro e verifice se os valores da tabela voltaram ao original', async () => {
     await act(async () => {
       render(<App />);
     });
@@ -312,7 +312,7 @@ describe('5 - Apague o filtro de valores numéricos e desfaça as filtragens dos
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(11);
   });
 
-  it.skip('Adicione dois filtros e verifique se a tabela foi atualizada com as informações filtradas, depois remova os filtros e verifique se os valores da tabela voltaram ao original', async () => {
+  it('Adicione dois filtros e verifique se a tabela foi atualizada com as informações filtradas, depois remova os filtros e verifique se os valores da tabela voltaram ao original', async () => {
     await act(async () => {
       render(<App />);
     });

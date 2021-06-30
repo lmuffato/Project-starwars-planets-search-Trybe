@@ -8,7 +8,7 @@ function App() {
   return (
     <PlanetProvider>
       <section>
-        <span>Hello, App!</span>
+        <span>Star Wars!</span>
         <Header />
         <Table />
       </section>
