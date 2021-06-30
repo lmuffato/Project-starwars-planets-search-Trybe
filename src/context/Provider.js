@@ -4,30 +4,31 @@ import context from './context';
 import getPlanets from '../services/getPlanets';
 
 const FILTER_INIT_STATE = {
-  filters: {
-    filterByName: { name: '' },
-  }
-};
+  filterByName: { name: '' },
+}
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
   const [isLoading, setLoading] = useState(true);
-  const [filter, setFilter] = useState(FILTER_INIT_STATE);
+  const [filterData, setFilterData] = useState([]);
 
   useEffect(() => {
     const setThePlanets = async () => {
       const thePlanets = await getPlanets();
       setData([...thePlanets]);
+      setFilterData([...thePlanets])
       setLoading(false);
     };
     setThePlanets();
   }, []);
 
+
+
   const store = {
     data,
     isLoading,
-    filter,
-    setFilter,
+    filterData,
+    setFilterData,
   };
 
   return (
