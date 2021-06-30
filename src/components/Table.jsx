@@ -3,7 +3,7 @@ import context from '../context/context';
 
 const Table = () => {
   const { data, dataToUse } = useContext(context);
-  // console.log(data);
+  console.log(dataToUse.length);
   // console.log(dataToUse);
 
   const renderTds = (array) => array.map((planet) => (
@@ -46,7 +46,7 @@ const Table = () => {
         </thead>
         <tbody>
           {dataToUse.length === 0 ? renderTds(data) : renderTds(dataToUse)}
-          {dataToUse.length === 0 ? console.log('data') : console.log('dataToUse')}
+          {/* {dataToUse.length === 0 ? console.log('data') : console.log('dataToUse')} */}
         </tbody>
       </table>
     </div>

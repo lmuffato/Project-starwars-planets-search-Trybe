@@ -31,36 +31,37 @@ const FilterInputs = () => {
     });
   };
 
-  // const handleClick = () => {
-  //   let filterPLanets = [];
-  //   setDataToSelect(filterPLanets);
-  //   switch (comparison) {
-  //     case 'maior que':
-  //       return filterPLanets = data.filter((planet) => Number(planet[column]) > Number(value));
-  //     case 'menor que':
-  //       return filterPLanets = data.filter((planet) => Number(planet[column]) < Number(value));
-  //     case 'igual a':
-  //       return filterPLanets = data.filter((planet) => Number(planet[column]) === Number(value));
-  //     default: return '';
-  //   };
-  // }
   const handleClick = () => {
-    let filteredPlanets = [];
-
-    if (comparison === 'menor que') {
-      filteredPlanets = data.filter(
-        (planet) => Number(planet[column]) < Number(value)
-          || planet[column] === 'unknown',
-      );
-    } else if (comparison === 'maior que') {
-      filteredPlanets = data.filter(
-        (planet) => Number(planet[column]) > Number(value),
-      );
-    } else {
-      filteredPlanets = data.filter((planet) => planet[column] === value);
+    switch (comparison) {
+    case 'maior que':
+      return setDataToUse(data
+        .filter((planet) => Number(planet[column]) > Number(value)));
+    case 'menor que':
+      return setDataToUSe(data
+        .filter((planet) => Number(planet[column]) < Number(value)));
+    case 'igual a':
+      return setDataToUse(data
+        .filter((planet) => Number(planet[column]) === Number(value)));
+    default: return '';
     }
-    setDataToUse(filteredPlanets);
   };
+  // const handleClick = () => {
+  //   let filteredPlanets = [];
+
+  //   if (comparison === 'menor que') {
+  //     filteredPlanets = data.filter(
+  //       (planet) => Number(planet[column]) < Number(value)
+  //         || planet[column] === 'unknown',
+  //     );
+  //   } else if (comparison === 'maior que') {
+  //     filteredPlanets = data.filter(
+  //       (planet) => Number(planet[column]) > Number(value),
+  //     );
+  //   } else {
+  //     filteredPlanets = data.filter((planet) => planet[column] === value);
+  //   }
+  //   setDataToUse(filteredPlanets);
+  // };
 
   return (
     <form>
@@ -89,7 +90,7 @@ const FilterInputs = () => {
           <option value="orbital_period">orbital_period</option>
           <option value="diameter">diameter</option>
           <option value="rotation_period">rotation_period</option>
-          <option value="rotation_water">surface_water</option>
+          <option value="surface_water">surface_water</option>
         </select>
       </label>
       <label htmlFor="comparisonSel">
