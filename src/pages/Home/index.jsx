@@ -6,6 +6,7 @@ import styles from './home.module.css';
 import Loading from '../../components/Loading';
 import Filter from './components/Filter';
 import Table from './components/Table';
+import Infos from './components/Infos';
 
 function Home() {
   const { isLoading } = useContext(Context);
@@ -19,6 +20,8 @@ function Home() {
       </header>
 
       <Filter />
+
+      <Infos />
 
       <Table />
     </div>
