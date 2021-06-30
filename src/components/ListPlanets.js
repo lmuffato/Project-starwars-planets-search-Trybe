@@ -1,18 +1,13 @@
 import React, { useContext } from 'react';
 import context from '../context/context';
+import FormFilter from './FormFilter';
 
 const ListPlanets = () => {
-  const { handleNameFilter, filteredPlanet } = useContext(context);
+  const { filteredPlanet } = useContext(context);
 
   return (
     <section>
-      <header>
-        <input
-          type="text"
-          data-testid="name-filter"
-          onChange={ (event) => handleNameFilter(event.target.value) }
-        />
-      </header>
+      <FormFilter />
       <section>
         {filteredPlanet.length > 0 && (
           <table>
