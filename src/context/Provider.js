@@ -3,9 +3,16 @@ import PropTypes from 'prop-types';
 import context from './context';
 import getPlanets from '../services/getPlanets';
 
+const FILTER_INIT_STATE = {
+  filters: {
+    filterByName: { name: '' },
+  }
+};
+
 function Provider({ children }) {
   const [data, setData] = useState([]);
   const [isLoading, setLoading] = useState(true);
+  const [filter, setFilter] = useState(FILTER_INIT_STATE);
 
   useEffect(() => {
     const setThePlanets = async () => {
@@ -19,6 +26,8 @@ function Provider({ children }) {
   const store = {
     data,
     isLoading,
+    filter,
+    setFilter,
   };
 
   return (
