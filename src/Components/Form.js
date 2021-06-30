@@ -1,8 +1,16 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import PlanetsContext from '../PlanetsContext/PlanetsContext';
 
 function Form() {
-  const { handleChangeNamePlanet } = useContext(PlanetsContext);
+  const { handleChangeNamePlanet, handleClickNumericValues } = useContext(PlanetsContext);
+  const [column, setColumn] = useState('population');
+  const [comparison, setComparison] = useState('maior que');
+  const [numberValue, setNumberValue] = useState(0);
+
+  const sendValues = (ev) => {
+    ev.preventDefault();
+    handleClickNumericValues(column, comparison, numberValue);
+  };
 
   return (
     <form>
@@ -17,7 +25,11 @@ function Form() {
         />
       </label>
       <label htmlFor="column-filter">
-        <select id="column-filter" data-testid="column-filter">
+        <select
+          id="column-filter"
+          data-testid="column-filter"
+          onChange={ ({ target: { value } }) => setColumn(value) }
+        >
           <option value="population">population</option>
           <option value="orbital_period">orbital_period</option>
           <option value="diameter">diameter</option>
@@ -26,7 +38,11 @@ function Form() {
         </select>
       </label>
       <label htmlFor="comparison-filter">
-        <select id="comparison-filter" data-testid="comparison-filter">
+        <select
+          id="comparison-filter"
+          data-testid="comparison-filter"
+          onChange={ ({ target: { value } }) => setComparison(value) }
+        >
           <option value="maior que">maior que</option>
           <option value="menor que">menor que</option>
           <option value="igual a">igual a</option>
@@ -39,12 +55,14 @@ function Form() {
           id="value-filter"
           type="number"
           data-testid="value-filter"
+          onChange={ ({ target: { value } }) => setNumberValue(value) }
         />
       </label>
       <button
         id="button-filter"
         type="submit"
         data-testid="button-filter"
+        onClick={ sendValues }
       >
         Filtrar
       </button>

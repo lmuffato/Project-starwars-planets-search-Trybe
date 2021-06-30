@@ -3,11 +3,12 @@ import PlanetsContext from '../PlanetsContext/PlanetsContext';
 
 function Table() {
   const planetsContext = useContext(PlanetsContext);
-  const filteredPlanets = planetsContext.planets
-    .filter((filteredPlanet) => (filteredPlanet.name
-      .includes(planetsContext.filters.filterByName.name)));
 
-  console.log(filteredPlanets);
+  const filteredPlanets = planetsContext.planets
+    .filter((filteredPlanet) => (
+      filteredPlanet.name
+        .includes(planetsContext.filters.filterByName.name)));
+
   return (
     <table>
       <thead>

@@ -10,9 +10,30 @@ function PlanetsProvider({ children }) {
       name: '',
     },
   });
+  const [filterNum, setFilterNum] = useState({
+    filterByNumericValues: [
+      {
+        column: '',
+        comparison: '',
+        value: '',
+      },
+    ],
+  });
 
   function handleChangeNamePlanet(ev) {
     setFilters({ filterByName: { name: ev.target.value } });
+  }
+
+  function handleClickNumericValues(column, comparison, value) {
+    setFilterNum({
+      filterByNumericValues: [
+        {
+          column,
+          comparison,
+          value,
+        },
+      ],
+    });
   }
 
   // didMount
@@ -22,7 +43,12 @@ function PlanetsProvider({ children }) {
 
   return (
     <PlanetsContext.Provider
-      value={ { planets, filters, handleChangeNamePlanet } }
+      value={ {
+        planets,
+        filters,
+        filterNum,
+        handleChangeNamePlanet,
+        handleClickNumericValues } }
     >
       {children}
     </PlanetsContext.Provider>
