@@ -1,13 +1,16 @@
 import React, { useContext } from 'react';
-// import MyContext from '../CONTEXT/DataContext';
+import AppliedFilters from './AppliedFilters';
 import FilterName from './FilterName';
 import FilterColunm from './FilterColunm';
 import FilterContext from '../CONTEXT/FilterContext';
+import MyContext from '../CONTEXT/DataContext';
 
 function Table() {
-  // const data = useContext(MyContext);
+  const contextData = useContext(MyContext);
+  const { headTable } = contextData;
   const contextFilter = useContext(FilterContext);
-  const { filtered } = contextFilter;
+  const { filtered/* , filter */ } = contextFilter;
+  // const { filterByNumericValues } = filter.filters;
 
   if (filtered === undefined) {
     return <div>Loading</div>;
@@ -16,21 +19,12 @@ function Table() {
     <div>
       <FilterName />
       <FilterColunm />
+      <AppliedFilters />
       <table>
         <tr>
-          <th>name</th>
-          <th>rotation_period</th>
-          <th>orbital_period</th>
-          <th>diameter</th>
-          <th>climate</th>
-          <th>gravity</th>
-          <th>terrain</th>
-          <th>surface_water</th>
-          <th>population</th>
-          <th>films</th>
-          <th>created</th>
-          <th>edited</th>
-          <th>url</th>
+          {headTable.map((head, index) => (
+            <th key={ index }>{head}</th>
+          ))}
         </tr>
         {filtered.map((planet) => (
           <tr key={ planet.name }>

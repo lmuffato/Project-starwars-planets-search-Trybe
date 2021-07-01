@@ -13,7 +13,8 @@ function FilterColunm() {
     optionsColumn,
     setOptionsColumn,
     filter,
-    setFilter } = contextFilter;
+    setFilter,
+  } = contextFilter;
 
   function handleClick() {
     const objFilterOnly = {
@@ -27,7 +28,6 @@ function FilterColunm() {
       filterByNumericValues: [...filter.filters.filterByNumericValues, objFilterOnly],
     } };
     setFilter(objFilter);
-    // fazer um novo array, sem o objFilterOnly.column, e
     const newArrayOfOptions = optionsColumn.filter((option) => (
       option !== objFilterOnly.column
     ));
