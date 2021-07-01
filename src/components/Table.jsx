@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from 'react';
-
 import PlanetContext from '../context/PlanetsContext';
 import applyFilterOnPlanets from '../utils/applyFilterOnPlanets';
 
