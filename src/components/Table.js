@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
-import StarWarsContext from '../services/StarWarsContext';
+import StarWarsContext from '../context/StarWarsContext';
 
-// Utilização do Context - modelo de estudo e crédito total { Bruno Sordi }
+// Utilização do Context - modelo de estudo e crédito total { Bruno Sordi- T07}
 
+// Dados da API passado pelo Context
 function Table() {
   const {
     data,

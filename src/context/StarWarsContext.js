@@ -4,4 +4,4 @@ const StarWarsContext = createContext();
 
 export default StarWarsContext;
 
-// Criando um ContextAPI { Bruno Sordi T07}
+// Criando um ContextAPI { Bruno Sordi / Pedro Marques FR}

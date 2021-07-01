@@ -18,6 +18,62 @@ function Provider({ children }) {
     filterByNumericValues: [],
   });
 
+  function higth(result, numericFilter) {
+    if (
+      Number(result[numericFilter.column])
+      > parseInt(numericFilter.value, 10)
+      && parseInt(numericFilter.value, 10) !== 'unknown'
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  function smaller(result, numericFilter) {
+    if (
+      Number(result[numericFilter.column])
+      < parseInt(numericFilter.value, 10)
+      && parseInt(numericFilter.value, 10) !== 'unknown'
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  function equal(result, numericFilter) {
+    if (
+      parseInt(result[numericFilter.column], 10)
+      === parseInt(numericFilter.value, 10)
+      && parseInt(numericFilter.value, 10) !== 'unknown'
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  // Filtrando por valor populacional a partir do reultado da optionBox
+  function filterNumericValues(results) {
+    const numericValues = filters.filterByNumericValues;
+    if (!numericValues.length) {
+      return setData(results);
+    }
+
+    const value = results.filter((result) => (
+      numericValues.every((numericFilter) => {
+        switch (numericFilter.comparison) {
+        case 'maior que':
+          return higth(result, numericFilter);
+        case 'menor que':
+          return smaller(result, numericFilter);
+        case 'igual a':
+          return equal(result, numericFilter);
+        default:
+          return false;
+        }
+      })
+    ));
+    setData(value);
+  }
   // Filtro direto a partir do nome (colocando em caixa baixa para comparação)
   function filterName(results) {
     const { name } = filters.filterByName;
@@ -39,7 +95,6 @@ function Provider({ children }) {
     }
     fetchData();
   }, []);
-
   useEffect(() => {
     const results = dataApi;
     const filteredName = filterName(results);
@@ -54,6 +109,7 @@ function Provider({ children }) {
     filterHandler,
     setFilterHandler,
   };
+  // Relação indireta
   return (
     <StarWarsContext.Provider value={ context }>
       {children}
