@@ -1,31 +1,37 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import MyContext from '../context/myContext';
 
 function Filters() {
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState('');
-  const { setfilterByName, filters, filterByNumber } = useContext(MyContext);
+  const [optionsState, setOptionsState] = useState([]);
+  const [newOptionState, setNewOptionState] = useState([]);
+  const { setfilterByName, filters,
+    filterByNumber } = useContext(MyContext);
+  const { filterByNumericValues } = filters;
+
   function handleInputText(e) {
     setfilterByName(e.target.value);
   }
 
-  // function handleColumn({ target }) {
-  //   const { value } = target;
-  //   setColumn(value);
-  // }
-  // function handleComparison({ target }) {
-  //   const { value } = target;
-  //   setComparison(value);
-  // }
-  // function handleValue({ target }) {
-  //   const { value } = target;
-  //   setValue(value);
-  // }
-
   function filterByClick() {
     filterByNumber(column, comparison, value);
   }
+
+  useEffect(() => {
+    const allOptions = ['population', 'orbital_period',
+      'diameter', 'rotation_period', 'surface_water'];
+    setOptionsState(allOptions);
+    setNewOptionState(allOptions);
+  }, []);
+
+  useEffect(() => {
+    const selectedOptions = filterByNumericValues.map((element) => element.column);
+    const filteredOptions = optionsState
+      .filter((option) => !selectedOptions.includes(option));
+    setNewOptionState(filteredOptions);
+  }, [filterByNumericValues, optionsState]);
 
   return (
     <form>
@@ -41,11 +47,7 @@ function Filters() {
         value={ column }
         onChange={ (e) => setColumn(e.target.value) }
       >
-        <option>population</option>
-        <option>orbital_period</option>
-        <option>diameter</option>
-        <option>rotation_period</option>
-        <option>surface_water</option>
+        {newOptionState.map((option) => <option key={ option }>{option}</option>)}
       </select>
       <select
         data-testid="comparison-filter"

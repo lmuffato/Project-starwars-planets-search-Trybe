@@ -5,14 +5,13 @@ import Home from './pages/home';
 import fetchApi from './services/fetchApi';
 
 function App() {
+  let ARRAY_FILTRADO;
   const [loadingApi, setLoadingApi] = useState(true);
   const [planets, setPlanets] = useState([]);
   const [filteredPlanets, setFilteredPlanets] = useState([]);
   const [filters, setFilters] = useState({
     filterByName: { name: '' },
-    filterByNumericValues:
-      { column: 'population', comparison: 'maior que', value: 0 },
-  });
+    filterByNumericValues: [] });
   const { filterByName, filterByNumericValues } = filters;
   // requisição á api
 
@@ -24,17 +23,10 @@ function App() {
   // filtro pela searchBar
 
   useEffect(() => {
-    if (filterByName.name === '' && filterByNumericValues.value === 0) {
-      setFilteredPlanets(planets);
-    }
-    if (filterByName.name !== '' && filterByNumericValues.value === 0) {
-      setFilteredPlanets(planets
-        .filter((planet) => planet.name.includes(filterByName.name)));
-    }
-    // if (filterByNumericValues !== 0) {
-
-    // }
-  }, [filterByName.name, planets, filterByNumericValues.value]);
+    const arrayFiltrado = planets
+      .filter((planet) => planet.name.includes(filterByName.name));
+    setFilteredPlanets(arrayFiltrado);
+  }, [planets, filterByName.name]);
 
   function setfilterByName(name) {
     setFilters({ ...filters, filterByName: { name } });
@@ -45,28 +37,27 @@ function App() {
   function filterBySelect(column, comparison, value) {
     switch (comparison) {
     case 'maior que':
-      setFilteredPlanets(filteredPlanets.filter((filteredPlanet) => {
-        console.log(Number(value));
-        return Number(filteredPlanet[column])
-        > Number(value);
-      }));
-      break;
+      ARRAY_FILTRADO = (filteredPlanets
+        .filter((filteredPlanet) => Number(filteredPlanet[column]) > Number(value)));
+      return setFilteredPlanets(ARRAY_FILTRADO);
     case 'menor que':
-      return setFilteredPlanets(filteredPlanets
+      ARRAY_FILTRADO = (filteredPlanets
         .filter((filteredPlanet) => Number(filteredPlanet[column])
       < Number(value)));
+      return setFilteredPlanets(ARRAY_FILTRADO);
     case 'igual a':
-      return setFilteredPlanets(filteredPlanets
+      ARRAY_FILTRADO = (filteredPlanets
         .filter((filteredPlanet) => Number(filteredPlanet[column])
          === Number(value)));
+      return setFilteredPlanets(ARRAY_FILTRADO);
     default:
-      return filteredPlanets;
+      return planets;
     }
   }
 
   function filterByNumber(column, comparison, value) {
     setFilters({ ...filters,
-      filterByNumericValues: [{ column, comparison, value }] });
+      filterByNumericValues: [...filterByNumericValues, { column, comparison, value }] });
     filterBySelect(column, comparison, value);
   }
 

@@ -4,7 +4,6 @@ import MyContext from '../context/myContext';
 function Table() {
   const { data } = useContext(MyContext);
   const planets = data;
-  console.log(data);
   return (
     <table>
       <thead>
