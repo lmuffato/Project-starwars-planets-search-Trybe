@@ -2,15 +2,11 @@ import React, { useContext } from 'react';
 import MyContext from '../context/MyContext';
 
 function Table() {
-  const { data } = useContext(MyContext);
-
-  data.forEach((planet) => {
-    delete planet.residents;
-  });
+  const { data, filters } = useContext(MyContext);
 
   const lineTable = (planet) => (
-    <tbody>
-      <tr key={ planet.name }>
+    <tbody key={ planet.name }>
+      <tr>
         <td data-testid="planet-name">
           {planet.name}
         </td>
@@ -50,10 +46,21 @@ function Table() {
     </thead>
   );
 
+  const filterByTextName = () => {
+    let planetFiltered = [];
+    if (filters.filteredByName.name !== '') {
+      planetFiltered = data.filter((planet) => planet.name.toUpperCase()
+        .includes(filters.filteredByName.name.toUpperCase()));
+    } else {
+      planetFiltered = data;
+    }
+    return planetFiltered;
+  };
+
   return (
     <table>
       {lineHeadTable()}
-      {data.map((planet) => lineTable(planet))}
+      {filterByTextName().map((planet) => lineTable(planet))}
     </table>
   );
 }

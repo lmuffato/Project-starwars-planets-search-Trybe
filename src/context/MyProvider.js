@@ -16,12 +16,10 @@ function MyProvider({ children }) {
     const getPlanets = async () => {
       const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
       const { results } = await fetch(endpoint).then((obj) => obj.json());
-      const planetFiltered = results.filter((planet) => planet.name.toUpperCase()
-        .includes(filters.filteredByName.name.toUpperCase()));
-      setData(planetFiltered);
+      setData(results);
     };
     getPlanets();
-  }, [filters.filteredByName.name]);
+  }, []);
 
   return (
     <MyContext.Provider value={ contextValue }>
