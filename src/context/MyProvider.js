@@ -4,7 +4,10 @@ import MyContext from './MyContext';
 
 function MyProvider({ children }) {
   const [data, setData] = useState([]);
-  const [filters, setFilters] = useState({ filteredByName: { name: '' } });
+  const [filters, setFilters] = useState({
+    filteredByName: { name: '' },
+    filterByNumericValues: [{ column: '', comparison: '', value: 0 }],
+  });
   const contextValue = {
     data,
     setData,

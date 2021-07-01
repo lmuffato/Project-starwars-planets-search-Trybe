@@ -46,21 +46,38 @@ function Table() {
     </thead>
   );
 
-  const filterByTextName = () => {
-    let planetFiltered = [];
-    if (filters.filteredByName.name !== '') {
-      planetFiltered = data.filter((planet) => planet.name.toUpperCase()
-        .includes(filters.filteredByName.name.toUpperCase()));
+  const filterNumeric = () => {
+    let planetsFiltered = [];
+    if (filters.filterByNumericValues[0].comparison === 'maior que') {
+      planetsFiltered = data.filter((planet) => planet[filters
+        .filterByNumericValues[0].column] > +filters.filterByNumericValues[0].value);
+    } else if (filters.filterByNumericValues[0].comparison === 'menor que') {
+      planetsFiltered = data.filter((planet) => planet[filters
+        .filterByNumericValues[0].column] < +filters.filterByNumericValues[0].value);
     } else {
-      planetFiltered = data;
+      planetsFiltered = data.filter((planet) => planet[filters
+        .filterByNumericValues[0].column] === filters.filterByNumericValues[0].value);
     }
-    return planetFiltered;
+    return planetsFiltered;
+  };
+
+  const filterPlanets = () => {
+    let planetsFiltered = [];
+    if (filters.filteredByName.name !== '') {
+      planetsFiltered = data.filter((planet) => planet.name.toUpperCase()
+        .includes(filters.filteredByName.name.toUpperCase()));
+    } else if (filters.filterByNumericValues[0].column !== '') {
+      planetsFiltered = filterNumeric();
+    } else {
+      planetsFiltered = data;
+    }
+    return planetsFiltered;
   };
 
   return (
     <table>
       {lineHeadTable()}
-      {filterByTextName().map((planet) => lineTable(planet))}
+      {filterPlanets().map((planet) => lineTable(planet))}
     </table>
   );
 }
