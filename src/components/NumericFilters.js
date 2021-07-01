@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
+import NumFiltersUtilizeds from '../services/NumFiltersUtilizeds';
 
 function NumericFilters() {
-  const { getNumericFilters } = useContext(StarWarsContext);
+  const { getNumericFilters, showColumnFilter } = useContext(StarWarsContext);
   const [stateClicked, setStateClicked] = useState(false);
   const [count, setCount] = useState(0);
   const [columFilter, setColumFilter] = useState('');
@@ -27,18 +28,42 @@ function NumericFilters() {
   function hideOptionsFilter(value) {
     if (value === 'population') setpopulationOption('');
     if (value === 'orbital_period') setOrbitalPeriodOption('');
-    if (value === 'diameter') setDiameterOption(true);
+    if (value === 'diameter') setDiameterOption('');
     if (value === 'rotation_period') setRotationPeriodOption('');
     if (value === 'surface_water') setSurfaceWaterOption('');
+  }
+
+  function showOptionsFilter(value) {
+    if (value === 'population') {
+      setpopulationOption(
+        <option id="population" value="population">population</option>,
+      );
+    }
+    if (value === 'orbital_period') {
+      setOrbitalPeriodOption(
+        <option id="orbital_period" value="orbital_period">orbital_period</option>,
+      );
+    }
+    if (value === 'diameter') {
+      setDiameterOption(
+        <option id="diameter" value="diameter">diameter</option>,
+      );
+    }
+    if (value === 'rotation_period') {
+      setRotationPeriodOption(
+        <option id="rotation_period" value="rotation_period">rotation_period</option>,
+      );
+    }
+    if (value === 'surface_water') {
+      setSurfaceWaterOption(
+        <option id="surface_water" value="surface_water">surface_water</option>,
+      );
+    }
   }
 
   function handleClick(e) {
     e.preventDefault();
     const columnFilterValue = document.getElementById('column-filter').value;
-    // getNumericFilters(columFilter, comparisonFilter, valueFilter, true);
-    // const comparisonFilter = document.getElementById('comparison-filter').value;
-    // const columnFilterValue = document.getElementById('value-filter').value;
-    // const columnFilterValue = document.getElementById('column-filter').value;
     hideOptionsFilter(columnFilterValue);
     setCount(count + 1);
     const newColumnFilterValue = document.getElementById('column-filter').value;
@@ -52,7 +77,11 @@ function NumericFilters() {
       setStateClicked(false);
     };
     if (stateClicked) sendData();
-  }, [stateClicked]);
+  }, [columFilter, comparisonFilter, getNumericFilters, stateClicked, valueFilter]);
+
+  useEffect(() => {
+    showOptionsFilter(showColumnFilter);
+  }, [showColumnFilter]);
 
   function handleChange({ target }) {
     const { name, value } = target;
@@ -108,6 +137,9 @@ function NumericFilters() {
         {' '}
         Adicionar Filtro
       </button>
+
+      <h3>Filtros Numéricos Utilizados</h3>
+      <NumFiltersUtilizeds />
     </div>
   );
 }

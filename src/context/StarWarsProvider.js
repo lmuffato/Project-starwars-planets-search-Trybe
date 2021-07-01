@@ -12,6 +12,8 @@ function StarWarsProvider({ children }) {
     filterByNumericValues: [],
   });
   const [clickedButtonFilters, setClickedButtonFilters] = useState(false);
+  const [showColumnFilter, setShowColumnFilter] = useState('');
+  const { filterByName, filterByNumericValues } = filters;
 
   function getText({ target }) {
     setFilters({ ...filters,
@@ -34,11 +36,19 @@ function StarWarsProvider({ children }) {
     setClickedButtonFilters(clickedFilter);
   }
 
+  function deletNumericFilter(columnFilter, arrayPosition) {
+    const arrFilter = [...filterByNumericValues];
+    arrFilter.splice(arrayPosition, 1);
+    setFilters({ ...filters,
+      filterByNumericValues: [...arrFilter],
+    });
+    setShowColumnFilter(columnFilter);
+  }
+
   useEffect(() => {
     FetchStarWars().then((resp) => setData(resp));
   }, []);
 
-  const { filterByName, filterByNumericValues } = filters;
   return (
     <StarWarsContext.Provider
       value={
@@ -47,7 +57,9 @@ function StarWarsProvider({ children }) {
           filterByName,
           getNumericFilters,
           filterByNumericValues,
-          clickedButtonFilters }
+          clickedButtonFilters,
+          deletNumericFilter,
+          showColumnFilter }
       }
     >
       { children }

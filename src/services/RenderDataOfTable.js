@@ -25,7 +25,6 @@ export default function RenderDataOfTable(arrayPlanets) {
   case LENGTH_VALUE_1:
     planetsFiltreds = planets.filter((planet) => {
       const column1 = Object.values(filterByNumericValues[0])[0];
-      console.log(column1);
       const comparison1 = Object.values(filterByNumericValues[0])[1];
       const value1 = Object.values(filterByNumericValues[0])[2];
       return compara(planet[column1], comparison1, value1);
