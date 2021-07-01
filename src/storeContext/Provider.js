@@ -8,26 +8,23 @@ import getPlanets from '../services/fetchApis';
 function Provider({ children }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [namePlanet, setNamePlanet] = useState({ filterByName: { name: '' } });
 
   useEffect(() => {
     // getPlanets().then((data) => setPlanets(data));
     const fetchPlanetsApi = async () => {
       const planets = await getPlanets();
       setIsLoading(true);
-
       setData(planets.results);
-
       setIsLoading(false);
     };
-
     fetchPlanetsApi();
-  }, []);
-
-  // console.log('dataApi', data);
+  }, []); // name
 
   const contextValue = {
     data,
-    setData,
+    namePlanet,
+    setNamePlanet,
   };
 
   if (isLoading) return <span>Loading...</span>;
