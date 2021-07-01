@@ -42,7 +42,8 @@ function Filters() {
 
   function handleExcludeFilter({ column }) {
     const serializedFilters = filters.filterByNumericValue
-      .filter((filter) => filter.column === column);
+      .filter((filter) => filter.column !== column);
+    console.log(serializedFilters, column);
     setFilters({
       ...filters,
       filterByNumericValue: serializedFilters,
@@ -57,7 +58,7 @@ function Filters() {
 
   useEffect(() => {
     filterColumnSelectOptions();
-  }, [filters.filterByNumericValue.column]);
+  }, [filters.filterByNumericValue]);
 
   return (
     <>
