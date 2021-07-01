@@ -41,8 +41,7 @@ export default function Provider({ children }) {
     return filteredPlanets;
   }
 
-  function filteringByNumbers(planet, filter, incomingText, planetsFilteredByName) {
-    console.log(planet, filter, incomingText, planetsFilteredByName);
+  function filteringByNumbers(planet, filter) {
     if (filter.comparison === 'maior que'
     && parseInt(planet[filter.column], 10) > parseInt(filter.value, 10)) {
       return planet;
@@ -63,19 +62,7 @@ export default function Provider({ children }) {
       numericFilter.forEach((filter) => {
         const filtros = planetsFilteredByName
           .filter((planet) => filteringByNumbers(planet,
-            filter, incomingText, planetsFilteredByName));
-        // if (filter.comparison === 'maior que'
-        // && parseInt(planet[filter.column], 10) > parseInt(filter.value, 10)) {
-        //   return planet;
-        // } if (filter.comparison === 'menor que'
-        // && parseInt(planet[filter.column], 10) < parseInt(filter.value, 10)) {
-        //   return planet;
-        // } if (filter.comparison === 'igual a'
-        // && parseInt(planet[filter.column], 10) === parseInt(filter.value, 10)) {
-        //   return planet;
-        // } if (!incomingText) {
-        //   return setPlanets(data););
-        console.log(filtros);
+            filter));
         return setPlanets(filtros);
       });
     }
