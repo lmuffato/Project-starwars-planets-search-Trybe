@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import getApi from './services/api';
-import Context from './context/Context';
+import api from '../services/api';
+import DataContext from '../context/DataContext';
 
 const Provider = ({ children }) => {
-  const [data, setData] = useState(Context);
+  const [data, setData] = useState(DataContext);
 
   const apiData = async () => {
-    const result = await getApi();
+    const result = await api();
     setData(result);
   };
 
@@ -16,9 +16,9 @@ const Provider = ({ children }) => {
   }, []);
 
   return (
-    <Context.Provider value={ { data } }>
+    <DataContext.Provider value={ { data } }>
       { children }
-    </Context.Provider>
+    </DataContext.Provider>
   );
 };
 
