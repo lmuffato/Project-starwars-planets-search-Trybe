@@ -5,22 +5,16 @@ import PlanetaProvider from './providers/PlanetaProvider';
 
 import Home from './pages/Home';
 
-class App extends React.Component {
-  render() {
-    return (
-      <PlanetaProvider>
-        <BrowserRouter>
-          <Switch>
-            <Route path="/home" component={ Home } />
-
-          </Switch>
-          <div>
-            <h1>Sistema Solar</h1>
-          </div>
-        </BrowserRouter>
-      </PlanetaProvider>
-    );
-  }
+function App() {
+  return (
+    <PlanetaProvider>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/home" component={ Home } />
+        </Switch>
+      </BrowserRouter>
+    </PlanetaProvider>
+  );
 }
 
 export default App;

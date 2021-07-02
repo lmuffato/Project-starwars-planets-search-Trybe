@@ -6,8 +6,7 @@ function Home() {
   return (
     <main>
       <Filters />
-      <br />
-      <br />
+
       <Table />
     </main>
   );
