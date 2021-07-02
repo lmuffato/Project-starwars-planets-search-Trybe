@@ -10,6 +10,7 @@ const Provider = ({ children }) => {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [],
   });
   useEffect(() => {
     setIsLoading(true);
@@ -27,12 +28,21 @@ const Provider = ({ children }) => {
     setIsLoading(false);
   }, []);
 
+  const addFilterNumericValues = (obj) => {
+    setFilters({
+      ...filters,
+      filterByNumericValues: [...filters.filterByNumericValues, obj],
+    });
+  };
+
   const contextValue = {
     data,
     isLoading,
     filters,
     setFilters,
+    addFilterNumericValues,
   };
+
   return (
     <context.Provider value={ contextValue }>
       {children}
