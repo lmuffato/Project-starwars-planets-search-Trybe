@@ -7,8 +7,7 @@ const NUM_FILTER_INIT = {
   column: 'population',
   comparison: 'maior que',
   value: '0',
-  status: false,
-}
+};
 
 function Provider({ children }) {
   const [data, setData] = useState([]);

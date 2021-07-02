@@ -1,58 +1,45 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import context from '../context/context';
 
 function Filter() {
   const { data, setFilterData,
     numFilter, filterData, setNumFilter } = useContext(context);
-  const [saveName, setName] = useState('');
-
-  useEffect(() => {
-    setFilterData(filterPlanetsByNum());
-  }, [numFilter]);
 
   const filterPlanetByName = (value) => {
     const planet2Render = data.filter(({ name }) => name.includes(value));
     setFilterData(planet2Render);
-    setName(value);
   };
 
   const filterPlanetsByNum = () => {
-    const { comparison, colum, value, status } = numFilter
-    if(status) {
-      switch (comparison) {
-        case 'maior que': {
-          return filterData.filter((planet) => parseFloat(planet[colum]) > parseFloat(value));
-        }
-        case 'menor que': {
-          return filterData.filter((planet) => parseFloat(planet[colum]) < parseFloat(value));
-        }
-        case 'igual a': {
-          return filterData.filter((planet) => parseFloat(planet[colum]) === parseFloat(value));
-        }
-        default: {
-          return filterData;
-        }
-      };
-    } else {
-      filterPlanetByName(saveName);
+    const { comparison, column, value } = numFilter;
+    filterPlanetByName('');
+    let toSee = [];
+    if (comparison === 'maior que') {
+      toSee = filterData.filter((planet) => parseFloat(planet[column])
+        > parseFloat(value));
+      setFilterData(toSee);
     }
-    return filterData;
+    if (comparison === 'menor que') {
+      toSee = filterData.filter((planet) => parseFloat(planet[column])
+        < parseFloat(value));
+      setFilterData(toSee);
+    }
+    if (comparison === 'igual a') {
+      toSee = filterData.filter((planet) => parseFloat(planet[column])
+        === parseFloat(value));
+      setFilterData(toSee);
+    }
   };
 
   const handleValue = (filter, value) => {
     setNumFilter({ ...numFilter, [filter]: value });
-  }
-
-  const handleButton = () => {
-    const { status } = numFilter;
-    handleValue('status', !status);
-  }
+  };
 
   const renderColumFilter = () => (
     <select
       data-testid="column-filter"
       id="colum-filter"
-      onChange={ ({ target: { value } }) => handleValue('colum', value) }
+      onChange={ ({ target: { value } }) => handleValue('column', value) }
     >
       <option value="population">population</option>
       <option value="orbital_period">orbital_period</option>
@@ -78,15 +65,15 @@ function Filter() {
     <input
       id="numericFilter"
       type="number"
-      data-testid='value-filter'
+      data-testid="value-filter"
       onChange={ ({ target: { value } }) => handleValue('value', value) }
     />
   );
 
   const renderButton = () => (
     <button
-      data-testid='button-filter'
-      onClick={ handleButton }
+      data-testid="button-filter"
+      onClick={ () => filterPlanetsByNum() }
       type="button"
     >
       Ativar Filtro
@@ -100,7 +87,7 @@ function Filter() {
         id="filter"
         type="text"
         data-testid="name-filter"
-        onChange={ ({target: { value } }) => filterPlanetByName(value) }
+        onChange={ ({ target: { value } }) => filterPlanetByName(value) }
       />
     </label>
   );
