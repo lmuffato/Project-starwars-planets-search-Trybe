@@ -1,4 +1,5 @@
 import React from 'react';
+import { objectOf, shape, string, arrayOf } from 'prop-types';
 
 const InfoPlanets = ({ planets }) => (
   <tr>
@@ -17,5 +18,23 @@ const InfoPlanets = ({ planets }) => (
     <td>{planets.url}</td>
   </tr>
 );
+
+InfoPlanets.propTypes = {
+  planets: objectOf(shape({
+    name: string,
+    rotation_period: string,
+    orbital_period: string,
+    diameter: string,
+    climate: string,
+    gravity: string,
+    terrain: string,
+    surface_water: string,
+    population: string,
+    films: arrayOf(string),
+    created: string,
+    edited: string,
+    url: string,
+  })),
+}.isRequired;
 
 export default InfoPlanets;

@@ -1,11 +1,9 @@
 import React, { useContext } from 'react';
-import PlanetsContext from '../Context/planetsContext';
+import PlanetsContext from '../Context/PlanetContext';
 import InfoPlanets from './InfoPlanets';
 
 function Table() {
   const { data } = useContext(PlanetsContext);
-
-  // planets.data.results = array de planetas
 
   return (
     <table>
@@ -26,7 +24,6 @@ function Table() {
           <th>URL</th>
         </tr>
       </thead>
-
       <tbody>
         {data && data.length > 0 && data.map((planet) => (
           <InfoPlanets
