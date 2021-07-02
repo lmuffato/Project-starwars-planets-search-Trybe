@@ -6,32 +6,43 @@ import ContextApi from './ContextApi';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
-  const [keys, setKeys] = useState([]);
   const [name, setSearchedName] = useState('');
-  const [column, setColumn] = useState('');
-  const [comparison, setComparison] = useState('');
-  const [value, setValue] = useState('');
-
-  const contextValue = {
-    data,
-    keys,
-    setSearchedName,
-    setColumn,
-    setComparison,
-    setValue,
-    filters: { filterByName: { name } },
-    filterByNumericValues: [{ column, comparison, value }],
-  };
+  const [filterByNumericValues, setfilterByNumericValues] = useState([]);
 
   useEffect(() => {
     PlanetsFromApi().then(({ results }) => setData(results));
   }, []);
+
   useEffect(() => {
-    if (data.length !== 0) {
-      const keysLength = Object.keys(data[0]);
-      setKeys(keysLength);
-    }
-  }, [data]);
+    filterByNumericValues.map((item) => {
+      const { column, comparison, value } = item;
+      switch (comparison) {
+      case 'maior que':
+        return setData(
+          [...data.filter((planet) => Number(planet[column]) > Number(value))],
+        );
+      case 'menor que':
+        return setData(
+          [...data.filter((planet) => Number(planet[column]) < Number(value))],
+        );
+      case 'igual a':
+        return setData(
+          [...data.filter((planet) => Number(planet[column]) === Number(value))],
+        );
+      default:
+        return data;
+      }
+    });
+    console.log(data);
+  }, [filterByNumericValues]);
+
+  const contextValue = {
+    data,
+    setSearchedName,
+    setfilterByNumericValues,
+    filters: { filterByName: { name } },
+    filterByNumericValues,
+  };
 
   return (
     <ContextApi.Provider value={ contextValue }>

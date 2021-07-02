@@ -1,22 +1,31 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import ContextApi from './ContextApi';
 
-// fazer função para que o button pegue as alterações.
-// um state que seta tudo.
-// sets column, comparison e value => um pra cada select e iput. no botão manda tudo pro estado global.
 function DropDownFilters() {
-  const {
-    setColumn,
-    setComparison,
-    setValue } = useContext(ContextApi);
+  const { filterByNumericValues, setfilterByNumericValues } = useContext(ContextApi);
+  const [filter, setfilter] = useState({});
+  const handleChange = ({ target: { name, value } }) => {
+    setfilter({
+      ...filter,
+      [name]: value,
+    });
+  };
+
+  const handleClick = () => {
+    setfilterByNumericValues([
+      ...filterByNumericValues,
+      filter,
+    ]);
+  };
 
   return (
-    <div>
+    <form>
       <select
         data-testid="column-filter"
-        onChange={ ({ target }) => setColumn(target.value) }
+        name="column"
+        onChange={ handleChange }
       >
-        <option> </option>
+        <option>select</option>
         <option value="population">population</option>
         <option value="orbital_period">orbital_period</option>
         <option value="diameter">diameter</option>
@@ -26,27 +35,30 @@ function DropDownFilters() {
 
       <select
         data-testid="comparison-filter"
-        onChange={ ({ target }) => setComparison(target.value) }
+        name="comparison"
+        onChange={ handleChange }
       >
-        <option> </option>
+        <option>select</option>
         <option value="maior que">maior que</option>
         <option value="menor que">menor que</option>
         <option value="igual a">igual a</option>
       </select>
 
       <input
+        name="value"
         data-testid="value-filter"
         type="number"
-        onChange={ ({ target }) => setValue(target.value) }
+        onChange={ handleChange }
       />
 
       <button
         type="button"
         data-testid="button-filter"
+        onClick={ handleClick }
       >
         Add Filters
       </button>
-    </div>
+    </form>
   );
 }
 
