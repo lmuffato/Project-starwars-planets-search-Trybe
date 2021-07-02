@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import PlanetsContext from '../Context/PlanetContext';
+import { PlanetsContext } from '../Context/PlanetContext';
 import InfoPlanets from './InfoPlanets';
 
 function Table() {

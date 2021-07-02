@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { string, number, func } from 'prop-types';
-import PlanetsContext from '../Context/PlanetContext';
+import { PlanetsContext } from '../Context/PlanetContext';
 
 const NumericFilters = ({
   column,
