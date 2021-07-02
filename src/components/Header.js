@@ -10,6 +10,7 @@ function Header() {
     reset,
     setReset,
     selectType,
+    setSelectType,
     selected,
     setSelected,
     comparison,
@@ -52,8 +53,8 @@ function Header() {
 
   function handleClick() {
     filterCombined(selected);
-    /* const itemRefused = filterColumn.filter((column) => column !== selected.column);
-    setFilterColumn(itemRefused); */
+    const itemUsed = selectType.filter((column) => column !== selected.column);
+    setSelectType(itemUsed);
   }
 
   return (
