@@ -3,10 +3,18 @@ import PropTypes from 'prop-types';
 import context from './context';
 import getPlanets from '../services/getPlanets';
 
+const NUM_FILTER_INIT = {
+  column: 'population',
+  comparison: 'maior que',
+  value: '0',
+  status: false,
+}
+
 function Provider({ children }) {
   const [data, setData] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [filterData, setFilterData] = useState([]);
+  const [numFilter, setNumFilter] = useState(NUM_FILTER_INIT);
 
   useEffect(() => {
     const setThePlanets = async () => {
@@ -23,6 +31,8 @@ function Provider({ children }) {
     isLoading,
     filterData,
     setFilterData,
+    numFilter,
+    setNumFilter,
   };
 
   return (
