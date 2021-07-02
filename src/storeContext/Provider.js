@@ -8,7 +8,14 @@ import getPlanets from '../services/fetchApis';
 function Provider({ children }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [namePlanet, setNamePlanet] = useState({ filterByName: { name: '' } });
+  const [comparisonFilter, setComparisonFilter] = useState('');
+  const [namePlanet, setNamePlanet] = useState(
+    { filterByName: { name: '' },
+      filterByNumericValues: [
+        { column: '', comparison: '', value: 0 },
+      ],
+    },
+  );
 
   useEffect(() => {
     // getPlanets().then((data) => setPlanets(data));
@@ -23,8 +30,11 @@ function Provider({ children }) {
 
   const contextValue = {
     data,
+    setData,
     namePlanet,
     setNamePlanet,
+    comparisonFilter,
+    setComparisonFilter,
   };
 
   if (isLoading) return <span>Loading...</span>;
