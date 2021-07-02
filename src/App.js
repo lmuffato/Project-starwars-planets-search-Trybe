@@ -1,5 +1,7 @@
 import React from 'react';
-import Provider from './context/provider';
+import Provider from './Provider/provider';
+import ProviderFilter from './Provider/providerFilter';
+import FilterText from './components/filter';
 import Table from './components/table';
 import './App.css';
 
@@ -7,7 +9,10 @@ function App() {
   // const { planets } = useContext(ContextApi);
   return (
     <Provider>
-      <Table />
+      <ProviderFilter>
+        <FilterText />
+        <Table />
+      </ProviderFilter>
     </Provider>
   );
 }

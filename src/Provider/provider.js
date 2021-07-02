@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-// import { oneOfType, arrayOf, node } from 'prop-types';
+import { oneOfType, arrayOf, node } from 'prop-types';
 import fetchApi from '../services/api';
-import ContextApi from './context';
+import ContextApi from '../context/context';
 
 const Provider = ({ children }) => {
   const [planets, setPlanets] = useState(ContextApi);
@@ -21,11 +21,11 @@ const Provider = ({ children }) => {
   );
 };
 
-// Provider.propTypes = {
-//   Children: oneOfType([
-//     arrayOf(node),
-//     node,
-//   ]).isRequired,
-// };
+Provider.propTypes = {
+  children: oneOfType([
+    arrayOf(node),
+    node,
+  ]).isRequired,
+};
 
 export default Provider;
