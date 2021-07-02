@@ -1,4 +1,4 @@
-/* const globalState = {
+export const globalState = {
   filters:
     {
       filterByName: {
@@ -7,8 +7,8 @@
       filterByNumericValues: [],
     },
 };
- */
-const optionsColumn = [
+
+export const optionsColumn = [
   'population',
   'orbital_period',
   'diameter',
@@ -16,5 +16,8 @@ const optionsColumn = [
   'surface_water',
 ];
 
-export default optionsColumn;
-/* export default globalState; */
+export const optionsComparison = [
+  'maior que',
+  'menor que',
+  'igual a',
+];

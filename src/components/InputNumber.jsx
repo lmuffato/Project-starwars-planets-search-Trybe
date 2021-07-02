@@ -1,31 +1,45 @@
 import React, { useContext, useState } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
-import optionsColumn from '../context/data';
+import { optionsColumn, optionsComparison } from '../context/data';
 
 function InputNumber() {
-  const [columnOption, setColumnOption] = useState(optionsColumn);
+  const [columnOption, setColumnOption] = useState(optionsColumn); // armazena o array de colunas conforme é selecionado
 
-  const { columnFilter, setColumnFilter, comparisonFilter,
-    setComparisonFilter, valueFilter, setValueFilter,
-    newState, setNewState, getNames } = useContext(StarWarsContext);
+  const {
+    columnFilter,
+    setColumnFilter,
+    comparisonFilter,
+    setComparisonFilter,
+    valueFilter,
+    setValueFilter,
+    newState,
+    setNewState,
+    getNames } = useContext(StarWarsContext);
 
   const handleClick = () => {
-    const newFilter = {
+    const newFilter = { // aqui cria um objeto com os valores digitados pelo usuário e seta conforme as chaves pedidas no requisito
       column: columnFilter,
       comparison: comparisonFilter,
       value: valueFilter,
     };
-    // const { filterByNumericValues } = getNumbers.filters;
-    const objFilter = { filters: {
-      filterByName: {
-        name: getNames },
-      filterByNumericValues: [...newState.filters.filterByNumericValues, newFilter],
-    } };
+
+    const objFilter = { // aqui seto todos os valores digitados e escolhidos pelo usuário na filtragem
+      filters: {
+        filterByName: {
+          name: getNames,
+        },
+        filterByNumericValues: [
+          ...newState.filters.filterByNumericValues, newFilter,
+        ],
+      },
+    };
     setNewState(objFilter);
     // console.log(newFilter);
     // console.log(newState);
+
+    // cria uma constante que filtra todos os valores diferentes da coluna selecionada pelo usuário
     const newColumnOptions = columnOption.filter((column) => column !== newFilter.column);
-    setColumnOption(newColumnOptions);
+    setColumnOption(newColumnOptions); // seta a nova coluna no estado da aplicação
   };
 
   return (
@@ -45,9 +59,9 @@ function InputNumber() {
         value={ comparisonFilter }
         onChange={ (e) => setComparisonFilter(e.target.value) }
       >
-        <option value="maior que">maior que</option>
-        <option value="menor que">menor que</option>
-        <option value="igual a">igual a</option>
+        {optionsComparison.map((comparison) => (
+          <option key={ comparison }>{comparison}</option>
+        ))}
       </select>
 
       <input
