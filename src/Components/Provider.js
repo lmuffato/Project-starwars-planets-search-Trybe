@@ -13,6 +13,7 @@ function Provider({ children }) {
     PlanetsFromApi().then(({ results }) => setData(results));
   }, []);
 
+  // requisito 3 e 4 feito com ajuda do colega Perycles
   useEffect(() => {
     filterByNumericValues.map((item) => {
       const { column, comparison, value } = item;
@@ -33,7 +34,6 @@ function Provider({ children }) {
         return data;
       }
     });
-    console.log(data);
   }, [filterByNumericValues]);
 
   const contextValue = {
