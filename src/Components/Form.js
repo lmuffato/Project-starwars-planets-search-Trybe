@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import PlanetsContext from '../PlanetsContext/PlanetsContext';
+import formHelpers from '../helpers/form';
 
 function Form() {
   const { handleChangeNamePlanet, handleClickNumericValues } = useContext(PlanetsContext);
@@ -43,9 +44,9 @@ function Form() {
           data-testid="comparison-filter"
           onChange={ ({ target: { value } }) => setComparison(value) }
         >
-          <option value="maior que">maior que</option>
-          <option value="menor que">menor que</option>
-          <option value="igual a">igual a</option>
+          <option value={ formHelpers.comparisonOptions.greaterThan }>maior que</option>
+          <option value={ formHelpers.comparisonOptions.lowerThan }>menor que</option>
+          <option value={ formHelpers.comparisonOptions.equal }>igual a</option>
         </select>
       </label>
       <label htmlFor="value-filter">

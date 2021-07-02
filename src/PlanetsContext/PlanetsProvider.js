@@ -13,9 +13,9 @@ function PlanetsProvider({ children }) {
   const [filterNum, setFilterNum] = useState({
     filterByNumericValues: [
       {
-        column: '',
-        comparison: '',
-        value: '',
+        column: 'population',
+        comparison: 'maior que',
+        value: 0,
       },
     ],
   });
@@ -25,14 +25,19 @@ function PlanetsProvider({ children }) {
   }
 
   function handleClickNumericValues(column, comparison, value) {
-    setFilterNum({
-      filterByNumericValues: [
-        {
-          column,
-          comparison,
-          value,
-        },
-      ],
+    setFilterNum((previousState) => {
+      const mergedData = {
+        ...previousState,
+        filterByNumericValues: [
+          {
+            column,
+            comparison,
+            value,
+          },
+        ],
+      };
+
+      return setFilterNum(mergedData);
     });
   }
 
@@ -48,7 +53,8 @@ function PlanetsProvider({ children }) {
         filters,
         filterNum,
         handleChangeNamePlanet,
-        handleClickNumericValues } }
+        handleClickNumericValues,
+      } }
     >
       {children}
     </PlanetsContext.Provider>

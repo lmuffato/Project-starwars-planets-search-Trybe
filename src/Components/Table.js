@@ -1,13 +1,34 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../PlanetsContext/PlanetsContext';
+import filterPlanets from '../helpers/array';
 
 function Table() {
   const planetsContext = useContext(PlanetsContext);
+  const { filters, filterNum: { filterByNumericValues } } = useContext(PlanetsContext);
 
-  const filteredPlanets = planetsContext.planets
-    .filter((filteredPlanet) => (
-      filteredPlanet.name
-        .includes(planetsContext.filters.filterByName.name)));
+  // fnum é cada Planeta
+  // filterByNumericValues[0] tem column, comparison e value
+  // console.log('fnum', fnum);
+
+  // const filteredNumValues = planetsContext.planets
+  //   .forEach((fnum) => {
+  //     console.log('forEach', fnum);
+
+  //   });
+
+  // console.log('filteredNumValues', filteredNumValues);
+  // console.log('Contexto: ', planetsContext);
+
+  // console.log('filteredNum', filteredNumValues);
+
+  const mergedFilters = {
+    nameParam: filters.filterByName.name,
+    valueParam: filterByNumericValues[0].value,
+    comparison: filterByNumericValues[0].comparison,
+    column: filterByNumericValues[0].column };
+
+  const filteredPlanets = filterPlanets(planetsContext.planets, mergedFilters);
+  console.log('🅾️ 🤜', { filteredPlanets });
 
   return (
     <table>
