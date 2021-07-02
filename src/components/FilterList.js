@@ -5,11 +5,10 @@ function FilterList() {
   const { filters: { filterByNumericValues },
     setfilterByNumericValues } = useContext(PlanetsContext);
 
-  // Lógica de remoção de despesa inspirada na resolução do exercício
+  // Lógica de remoção de filtro inspirada na resolução do exercício
   // de Redux do freeCodeCamp: Remove an Item from an Array
   // bem como conforme colocado no meu projeto trybewallet
   // https://github.com/tryber/sd-010-a-project-trybewallet/blob/gustavofds-project-trybewallet/src/reducers/wallet.js
-
   function onClick(index) {
     setfilterByNumericValues(
       filterByNumericValues
