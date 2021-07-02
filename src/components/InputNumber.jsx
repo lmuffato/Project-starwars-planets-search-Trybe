@@ -10,9 +10,11 @@ function InputNumber() {
     newState, setNewState, getNames } = useContext(StarWarsContext);
 
   const handleClick = () => {
-    const newFilter = { column: columnFilter,
+    const newFilter = {
+      column: columnFilter,
       comparison: comparisonFilter,
-      value: valueFilter };
+      value: valueFilter,
+    };
     // const { filterByNumericValues } = getNumbers.filters;
     const objFilter = { filters: {
       filterByName: {
@@ -22,6 +24,8 @@ function InputNumber() {
     setNewState(objFilter);
     // console.log(newFilter);
     // console.log(newState);
+    const newColumnOptions = columnOption.filter((column) => column !== newFilter.column);
+    setColumnOption(newColumnOptions);
   };
 
   return (
