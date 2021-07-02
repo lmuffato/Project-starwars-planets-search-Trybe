@@ -8,6 +8,23 @@ function Provider({ children }) {
   const [filterByName, setFilterByName] = useState('');
   const [filteredArray, setFilteredArray] = useState([]);
   const [reset, setReset] = useState(0);
+  const [selectType, setSelectType] = useState(
+    ['population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water',
+    ],
+  );
+
+  const [selected, setSelected] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    value: '',
+  });
+
+  const [comparison, setComparison] = useState(['maior que', 'igual a', 'menor que']);
+
   useEffect(() => {
     async function searchApi() {
       const responseApi = await getPlanets();
@@ -25,6 +42,12 @@ function Provider({ children }) {
     setFilteredArray,
     reset,
     setReset,
+    selectType,
+    setSelectType,
+    selected,
+    setSelected,
+    comparison,
+    setComparison,
   };
 
   return (
