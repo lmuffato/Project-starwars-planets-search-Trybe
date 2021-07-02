@@ -43,7 +43,7 @@ const TableInput = () => {
   };
 
   const planets = dataFilters();
-  console.log(planets);
+  // console.log(planets);
 
   if (isLoading) return <div>Loading...</div>;
 
