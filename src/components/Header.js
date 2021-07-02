@@ -7,13 +7,13 @@ function Header() {
     filterByName,
     setFilterByName,
     setFilteredArray,
-    reset,
-    setReset,
     selectType,
     setSelectType,
     selected,
     setSelected,
     comparison,
+    clear,
+    setClear,
   } = useContext(planetsContext);
 
   useEffect(() => {
@@ -21,8 +21,8 @@ function Header() {
       (planet) => planet.name.includes(filterByName),
     );
     setFilteredArray(resultFilter);
-    setReset(0);
-  }, [allPlanets, setFilteredArray, filterByName, reset, setReset]);
+    setClear(0);
+  }, [allPlanets, setFilteredArray, filterByName, clear, setClear]);
 
   function handleChange({ target }) {
     return setFilterByName(target.value);
@@ -55,6 +55,10 @@ function Header() {
     filterCombined(selected);
     const itemUsed = selectType.filter((column) => column !== selected.column);
     setSelectType(itemUsed);
+  }
+  function handleClear() {
+    setSelected({ ...selected, value: '' });
+    setClear(1);
   }
 
   return (
@@ -94,6 +98,13 @@ function Header() {
             onClick={ handleClick }
           >
             Acionar o filtro
+          </button>
+          <button
+            type="button"
+            data-testid="filter"
+            onClick={ handleClear }
+          >
+            X
           </button>
         </form>
       </div>

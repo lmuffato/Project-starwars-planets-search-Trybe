@@ -7,7 +7,6 @@ function Provider({ children }) {
   const [allPlanets, setallPlanets] = useState([]);
   const [filterByName, setFilterByName] = useState('');
   const [filteredArray, setFilteredArray] = useState([]);
-  const [reset, setReset] = useState(0);
   const [selectType, setSelectType] = useState(
     ['population',
       'orbital_period',
@@ -22,7 +21,7 @@ function Provider({ children }) {
     comparison: 'maior que',
     value: '',
   });
-
+  const [clear, setClear] = useState(0);
   const [comparison, setComparison] = useState(['maior que', 'igual a', 'menor que']);
 
   useEffect(() => {
@@ -40,14 +39,14 @@ function Provider({ children }) {
     setFilterByName,
     filteredArray,
     setFilteredArray,
-    reset,
-    setReset,
     selectType,
     setSelectType,
     selected,
     setSelected,
     comparison,
     setComparison,
+    clear,
+    setClear,
   };
 
   return (
