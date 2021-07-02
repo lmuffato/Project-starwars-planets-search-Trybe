@@ -7,27 +7,37 @@ function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const filterData = (planets) => {
-    const filtered = planets.map((planet) => {
-      delete planet.residents;
-      return planet;
-    });
-    setData(filtered);
-  };
+  const [filters, setFilters] = useState({
+    filtersByName: {
+      name: '',
+    },
+  });
 
   useEffect(() => {
     const getRequest = async () => {
-      setIsLoading(true);
       const request = await planetsApi();
       const dataResults = request.results;
-      filterData(dataResults);
-      setIsLoading(false);
+      const filtered = dataResults.map((planet) => {
+        delete planet.residents;
+        return planet;
+      });
+      setData((set) => set.concat(filtered));
     };
     getRequest();
   }, []);
+
+  const handleInputFilter = (value) => {
+    setFilters((prevState) => ({
+      ...prevState,
+      filtersByName: {
+        name: value,
+      },
+    }));
+  };
+
   return (
     <PlanetsContext.Provider
-      value={ { data, isLoading, setData, setIsLoading } }
+      value={ { data, isLoading, setData, setIsLoading, filters, handleInputFilter } }
     >
       {children}
     </PlanetsContext.Provider>
