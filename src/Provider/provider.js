@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { oneOfType, arrayOf, node } from 'prop-types';
+import PropTypes from 'prop-types';
 import fetchApi from '../services/api';
 import ContextApi from '../context/context';
 
@@ -22,10 +22,7 @@ const Provider = ({ children }) => {
 };
 
 Provider.propTypes = {
-  children: oneOfType([
-    arrayOf(node),
-    node,
-  ]).isRequired,
-};
+  children: PropTypes.arrayOf(PropTypes.object),
+}.isRequired;
 
 export default Provider;
