@@ -13,16 +13,17 @@ const TableInput = () => {
     }
   };
 
+  // Lógica implementada com a ajuda de Felipe Flores - T10-A - (https://github.com/FelipeFloresWeb)
   const compareValues = (filterElement) => {
-    const filterColumn = filterElement.column;
+    const filterColumn = filterElement.column; // separa cada item de filterByNumericValues
     const filterComparison = filterElement.comparison;
     const filterValue = Number(filterElement.value);
 
-    switch (filterComparison) {
+    switch (filterComparison) { // Utiliza cada option de filterComparison (ou seja, o comparison) como case;
     case 'maior que':
-      return data.filter((item) => Number(item[filterColumn]) > filterValue);
+      return data.filter((item) => Number(item[filterColumn]) > filterValue); // retorna a modificação em data conforme o filtro (o item[filterColumn] corresponde às options population, diameter, etc.. em data)
     case 'menor que':
-      return data.filter((item) => Number(item[filterColumn]) < filterValue);
+      return data.filter((item) => Number(item[filterColumn]) < filterValue); // compara as options do elemento da data com o numero digitado, retornando os que passam na condição.
     case 'igual a':
       return data.filter((item) => Number(item[filterColumn]) === filterValue);
     default:
@@ -31,19 +32,16 @@ const TableInput = () => {
   };
 
   const filter = filterByNumericValues
-    .map((filterElement) => compareValues(filterElement));
+    .map((filterElement) => compareValues(filterElement)); // cada item de filter element é jogado para a função compareValues;
 
-  // const filterNumbers = filter();
-  // console.log(filter[filter.length - 1]);
-
-  const dataFilters = () => {
+  // Lógica implementada com ajuda de Gabriel Pereira - T10-A - (Link: https://github.com/Gbl97)
+  const dataFilters = () => { // Função que une o filtro por nome com o filtro numérico(column, comparison, value);
     if (filterByName.name) return getPlanets();
     if (filterByNumericValues.length > 0) return filter[filter.length - 1];
     return data;
   };
 
   const planets = dataFilters();
-  // console.log(planets);
 
   if (isLoading) return <div>Loading...</div>;
 

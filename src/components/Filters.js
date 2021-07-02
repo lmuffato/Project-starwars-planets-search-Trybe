@@ -8,8 +8,6 @@ const Filters = () => {
   const [comparison, setComparison] = useState('');
   const [value, setValue] = useState('');
 
-  // const coluna = useRef();
-
   const handleChange = (e) => {
     setFilters({
       ...filters, // mantém filtros anteriores
@@ -45,14 +43,11 @@ const Filters = () => {
     'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
 
   const deleteRepeated = () => {
-    // console.log(column);
     if (column) return arrayOptions.filter((option) => option !== column);
     return arrayOptions;
   };
 
   const newOptions = deleteRepeated();
-
-  console.log(newOptions);
 
   return (
     <div>
@@ -68,7 +63,6 @@ const Filters = () => {
         data-testid="column-filter"
         id="column-filter"
         name="column-filter"
-        // value={ column }
         onChange={ filterColumn }
       >
         {newOptions
@@ -77,11 +71,6 @@ const Filters = () => {
               {option}
             </option>
           ))}
-        {/* <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option> */}
       </select>
       <select
         data-testid="comparison-filter"
