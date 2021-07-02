@@ -1,9 +1,14 @@
 import React from 'react';
+import Provider from './context/provider';
+import Table from './components/table';
 import './App.css';
 
 function App() {
+  // const { planets } = useContext(ContextApi);
   return (
-    <span>Hello, word!</span>
+    <Provider>
+      <Table />
+    </Provider>
   );
 }
 
