@@ -6,7 +6,14 @@ function Table() {
 
   useEffect(() => {
     getPlanets();
-  }, [getPlanets]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const planesLines = planets.map((planet, index) => (
+    <tr key={ index }>
+      {Object.values(planet).map((item) => <td key={ item }>{item}</td>)}
+    </tr>
+  ));
 
   return (
     <table>
@@ -27,13 +34,15 @@ function Table() {
           <th>Url</th>
         </tr>
       </thead>
-      <tbody>
-        {!isLoading && planets.length && planets.map((planet, index) => (
-          <tr key={ index }>
-            {Object.values(planet).map((item) => <td key={ item }>{item}</td>)}
-          </tr>
-        ))}
-      </tbody>
+      {
+        !isLoading && planets
+          ? (
+            <tbody>
+              {planesLines}
+            </tbody>
+          )
+          : ''
+      }
     </table>);
 }
 

@@ -13,11 +13,11 @@ function PlanetProvider({ children }) {
   });
   const [isLoading, setIsLoading] = useState(false);
 
-  const getPlanets = useCallback(async () => {
+  const getPlanets = useCallback(() => {
     setIsLoading(true);
-    const responsePlanets = await getPlanetsApi();
+    const responsePlanets = getPlanetsApi();
     setPlanets(responsePlanets);
-    setIsLoading(true);
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {
@@ -32,7 +32,8 @@ function PlanetProvider({ children }) {
     } else {
       getPlanets();
     }
-  }, [filters, getPlanets, planets]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters]);
 
   return (
     <planetContext.Provider

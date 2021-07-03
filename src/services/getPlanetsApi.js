@@ -1,19 +1,12 @@
-async function getPlanetsApi() {
-  try {
-    const request = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
+import testData from '../testData';
 
-    const jsonResponse = await request.json();
+function getPlanetsApi() {
+  const planets = testData.results.map((planet) => {
+    const { residents, ...othersProps } = planet;
 
-    const planets = jsonResponse.results.map((planet) => {
-      const { residents, ...othersProps } = planet;
-
-      return { ...othersProps };
-    });
-
-    return planets;
-  } catch (error) {
-    console.error(error);
-  }
+    return { ...othersProps };
+  });
+  return planets;
 }
 
 export default getPlanetsApi;
