@@ -1,6 +1,30 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
+const MINUS_ONE = -1;
+
+function sortPlanetsName(planets, column, order) {
+  // Lógica de .sort consultada na documentação do MDN
+  if (column === 'Name') {
+    const sortedPlanets = planets.sort((a, b) => {
+      if (a.name < b.name) return MINUS_ONE;
+      return 1;
+    });
+
+    return sortedPlanets;
+  }
+
+  if (order === 'ASC') {
+    const sortedPlanets = planets.sort((a, b) => Number(a[column]) - Number(b[column]));
+    return sortedPlanets;
+  }
+
+  if (order === 'DESC') {
+    const sortedPlanets = planets.sort((a, b) => Number(b[column]) - Number(a[column]));
+    return sortedPlanets;
+  }
+}
+
 function Table() {
   const { data: { results }, filters } = useContext(PlanetsContext);
 
@@ -42,14 +66,14 @@ function Table() {
   }
 
   function renderPlanetRows() {
-    const filteredPlanets = filterPlanets(
+    const filteredPlanets = sortPlanetsName(filterPlanets(
       resultsFilteredByName(),
       filters.filterByNumericValues,
-    );
+    ), filters.order.column, filters.order.sort);
 
     return filteredPlanets.map((planet, index) => (
       <tr key={ index }>
-        <td>{ planet.name }</td>
+        <td data-testid="planet-name">{ planet.name }</td>
         <td>{ planet.rotation_period }</td>
         <td>{ planet.orbital_period }</td>
         <td>{ planet.diameter }</td>

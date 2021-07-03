@@ -10,7 +10,12 @@ function FilterComponent() {
     comparison: 'maior que',
     value: '0',
   });
-  const { filters, setFilterName, setfilterByNumericValues } = useContext(PlanetsContext);
+  const [orderColumn, setOrderColumn] = useState('Name');
+  const [sortValue, setSortValue] = useState('ASC');
+
+  const {
+    filters,
+    setFilterName, setfilterByNumericValues, setOrder } = useContext(PlanetsContext);
 
   function handleNumericalFilterChange(ev) {
     const { value, id } = ev.target;
@@ -18,6 +23,11 @@ function FilterComponent() {
       ...prevFilter,
       [id]: value,
     }));
+  }
+
+  function handleSortColumnChange(ev) {
+    const { value } = ev.target;
+    setOrderColumn(value);
   }
 
   function onClick() {
@@ -28,6 +38,17 @@ function FilterComponent() {
       ...prevFilter,
       numberFilter,
     ]));
+  }
+
+  function handleSortChange(ev) {
+    setSortValue(ev.target.value);
+  }
+
+  function handleSortSubmit() {
+    setOrder({
+      column: orderColumn,
+      sort: sortValue,
+    });
   }
 
   return (
@@ -94,6 +115,47 @@ function FilterComponent() {
           onClick={ onClick }
         >
           Add Filter
+        </button>
+      </div>
+      <div>
+        <label
+          htmlFor="column-sort"
+        >
+          Coluna
+          <select
+            data-testid="column-sort"
+            id="column-sort"
+            value={ orderColumn }
+            onChange={ handleSortColumnChange }
+          >
+            <option value="Name">Name</option>
+            <option value="population">Population</option>
+            <option value="orbital_period">Orbital Period</option>
+          </select>
+        </label>
+        <div value={ sortValue } onChange={ handleSortChange }>
+          <input
+            type="radio"
+            name="sort"
+            data-testid="column-sort-input-asc"
+            value="ASC"
+            defaultChecked
+          />
+          Ascending
+          <input
+            type="radio"
+            name="sort"
+            data-testid="column-sort-input-desc"
+            value="DESC"
+          />
+          Descending
+        </div>
+        <button
+          onClick={ handleSortSubmit }
+          type="button"
+          data-testid="column-sort-button"
+        >
+          Submit Sorting
         </button>
       </div>
     </>
