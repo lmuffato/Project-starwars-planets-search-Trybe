@@ -4,10 +4,21 @@ import context from './Context';
 
 function TableProvider({ children }) {
   const [data, setData] = useState([]);
-  const [filters, setFilter] = useState({
+  const [column, setColumn] = useState('');
+  const [operator, setOperator] = useState('');
+  const [value, setValue] = useState(null);
+  const [filter, setFilter] = useState(false);
+  const [filters, setFilters] = useState({
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [
+      {
+        column: 'population',
+        comparison: 'maior que',
+        value: '',
+      },
+    ],
   });
 
   useEffect(() => {
@@ -20,7 +31,19 @@ function TableProvider({ children }) {
   }, []);
 
   return (
-    <context.Provider value={ { data, filters, setFilter } }>
+    <context.Provider
+      value={ { data,
+        filters,
+        setFilters,
+        filter,
+        setFilter,
+        column,
+        setColumn,
+        value,
+        setValue,
+        operator,
+        setOperator } }
+    >
       { children }
     </context.Provider>
   );
