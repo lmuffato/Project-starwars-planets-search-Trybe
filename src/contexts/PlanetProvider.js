@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import planetContext from './planetContext';
@@ -6,7 +6,26 @@ import getPlanetsApi from '../services/getPlanetsApi';
 
 function PlanetProvider({ children }) {
   const [planets, setPlanets] = useState([]);
+  const [filters, setFilters] = useState({
+    filterByName: {
+      name: '',
+    },
+  });
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const { filterByName: { name } } = filters;
+
+    if(name) {
+      const planetsFilteredByName = planets.filter((planet) => planet.name.includes(name));
+
+      setPlanets(planetsFilteredByName);
+    } else {
+      getPlanets()
+    }
+
+
+  }, [filters]);
 
   const getPlanets = useCallback(async () => {
     setIsLoading(true);
@@ -16,7 +35,11 @@ function PlanetProvider({ children }) {
   }, []);
 
   return (
-    <planetContext.Provider value={ { planets, isLoading, getPlanets } }>
+    <planetContext.Provider
+      value={
+        { planets, isLoading, getPlanets, filters, setFilters }
+      }
+    >
       {children}
     </planetContext.Provider>
   );
