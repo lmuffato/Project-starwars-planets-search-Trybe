@@ -1,9 +1,15 @@
 import React, { useContext } from 'react';
 import context from '../Provider/Context';
+import SearchBar from './SearchBar';
 
 function Table() {
   const { data } = useContext(context);
-  const renderTable = () => data.map((planet) => (
+  const { filters } = useContext(context);
+  const { filterByName } = filters;
+  const { name } = filterByName;
+
+  const filterName = data.filter((el) => el.name.toLowerCase().includes(name));
+  const renderTable = () => filterName.map((planet) => (
     <tr key={ planet.name }>
       <td>{planet.name}</td>
       <td>{planet.rotation_period}</td>
@@ -23,6 +29,7 @@ function Table() {
 
   return (
     <div>
+      <SearchBar />
       <h1 id="title">API Table</h1>
       <table id="users">
         <thead>

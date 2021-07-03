@@ -4,6 +4,11 @@ import context from './Context';
 
 function TableProvider({ children }) {
   const [data, setData] = useState([]);
+  const [filters, setFilter] = useState({
+    filterByName: {
+      name: '',
+    },
+  });
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -15,7 +20,7 @@ function TableProvider({ children }) {
   }, []);
 
   return (
-    <context.Provider value={ { data } }>
+    <context.Provider value={ { data, filters, setFilter } }>
       { children }
     </context.Provider>
   );
