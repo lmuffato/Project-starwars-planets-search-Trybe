@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect } from 'react';
 import PlanetsContext from '../context/ContextPlanets';
 import TableHead from './TableHead';
