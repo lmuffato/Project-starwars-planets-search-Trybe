@@ -13,26 +13,26 @@ function PlanetProvider({ children }) {
   });
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    const { filterByName: { name } } = filters;
-
-    if(name) {
-      const planetsFilteredByName = planets.filter((planet) => planet.name.includes(name));
-
-      setPlanets(planetsFilteredByName);
-    } else {
-      getPlanets()
-    }
-
-
-  }, [filters]);
-
   const getPlanets = useCallback(async () => {
     setIsLoading(true);
     const responsePlanets = await getPlanetsApi();
     setPlanets(responsePlanets);
     setIsLoading(true);
   }, []);
+
+  useEffect(() => {
+    const { filterByName: { name } } = filters;
+
+    if (name) {
+      const planetsFilteredByName = planets
+        .filter((planet) => planet.name
+          .includes(name));
+
+      setPlanets(planetsFilteredByName);
+    } else {
+      getPlanets();
+    }
+  }, [filters, getPlanets, planets]);
 
   return (
     <planetContext.Provider
