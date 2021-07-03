@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { Input, Label } from 'semantic-ui-react';
+import { Input } from 'semantic-ui-react';
 import PlanetsContext from '../context/ContextPlanets';
 
 function FiltersHeader() {
@@ -23,31 +23,26 @@ function FiltersHeader() {
     planetsFound } = useContext(PlanetsContext);
   const { name } = filterByName;
   return (
-    <header>
-      {planetsFound ? <Input
+    (!planetsFound) && (name.length > 1) ? <Input
+      error
+      size="small"
+      style={ { width: 500 } }
+      icon="search"
+      placeholder="Pesquisar planeta"
+      onChange={ setFilterByName }
+      value={ name }
+      id="name-filter"
+    /> : (
+      <Input
         size="small"
+        style={ { width: 500 } }
         icon="search"
         placeholder="Pesquisar planeta"
         onChange={ setFilterByName }
         value={ name }
         id="name-filter"
-      /> : (
-        <>
-          <Input
-            error
-            size="small"
-            icon="search"
-            placeholder="Pesquisar planeta"
-            onChange={ setFilterByName }
-            value={ name }
-            id="name-filter"
-          />
-          <Label basic color="red" pointing="left">
-            Nenhum planeta encontrado!
-          </Label>
-        </>
-      )}
-    </header>
+      />
+    )
   );
 }
 
