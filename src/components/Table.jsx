@@ -1,16 +1,20 @@
 import React from 'react';
 import TableHeader from './TableHeader';
 import TableRows from './TableRows';
-import ServiceApi from './ServiceApi';
-import './tableHeader.css';
+import ServiceApi from './services/ServiceApi';
+import InputTextFilter from './input/InputTextFilter';
+import '../style/tableHeader.css';
 
 function Table() {
   return (
-    <table>
-      <ServiceApi />
-      <TableHeader />
-      <TableRows />
-    </table>
+    <div>
+      <InputTextFilter />
+      <table>
+        <ServiceApi />
+        <TableHeader />
+        <TableRows />
+      </table>
+    </div>
   );
 }
 

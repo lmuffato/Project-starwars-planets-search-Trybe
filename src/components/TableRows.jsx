@@ -1,18 +1,12 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import PlanetContext from '../context/PlanetContext';
 
-import './tableHeader.css';
-
 function TableRows() {
-  const { planetsList, setPlanetsList, planetsFiltred,
-    tableColumns, setTableColumns,
-  } = useContext(PlanetContext);
-// comentario
-  const { filtro, setFiltro } = useState();
+  const { planetsList, inputText } = useContext(PlanetContext);
 
-  const fitro = planetsList.filter((planet) => planet.name.includes('oo'));
+  const filtredPlanets = planetsList.filter((planet) => planet.name.includes(inputText));
 
-  const tableRows = () => planetsList
+  const tableRows = () => filtredPlanets
     .map((planet, index) => (
       <tr key={ index }>
         <td>{planet.name}</td>

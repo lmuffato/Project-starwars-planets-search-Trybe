@@ -1,12 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
-import PlanetContext from '../context/PlanetContext';
-
-import './tableHeader.css';
+import { useEffect, useContext } from 'react';
+import PlanetContext from '../../context/PlanetContext';
 
 function ServiceApi() {
-  const { planetsList, setPlanetsList,
-    tableColumns, setTableColumns,
-  } = useContext(PlanetContext);
+  const { setPlanetsList, setTableColumns } = useContext(PlanetContext);
 
   const getPlanets = async () => {
     try {

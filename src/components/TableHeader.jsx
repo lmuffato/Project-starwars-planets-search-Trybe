@@ -1,12 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import PlanetContext from '../context/PlanetContext';
 
-import './tableHeader.css';
-
 function TableHeader() {
-  const { planetsList, setPlanetsList,
-    tableColumns, setTableColumns,
-  } = useContext(PlanetContext);
+  const { tableColumns } = useContext(PlanetContext);
 
   const tableHeaderColumns = () => {
     const selectedColluns = tableColumns.filter((column) => column !== 'edited');
