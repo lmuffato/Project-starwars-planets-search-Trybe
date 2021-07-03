@@ -12,7 +12,7 @@ async function getPlanetsApi() {
 
     return planets;
   } catch (error) {
-    throw new Error('Nao foi possível fazer a requisição a API');
+    console.error(error);
   }
 }
 

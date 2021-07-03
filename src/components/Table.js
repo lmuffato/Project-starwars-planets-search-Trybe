@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import planetContext from '../contexts/planetContext';
 
 function Table() {
-  const { planets, getPlanets } = useContext(planetContext);
+  const { planets, getPlanets, isLoading } = useContext(planetContext);
 
   useEffect(() => {
     getPlanets();
@@ -28,7 +28,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        {planets.map((planet, index) => (
+        {!isLoading && planets.length && planets.map((planet, index) => (
           <tr key={ index }>
             {Object.values(planet).map((item) => <td key={ item }>{item}</td>)}
           </tr>
