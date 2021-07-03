@@ -1,4 +1,6 @@
-export default function fetchAPI() {
-  return fetch('https://swapi-trybe.herokuapp.com/api/planets/')
-    .then((response) => response.json());
+export default async function fetchAPI() {
+  const waitData = await fetch('https://swapi.dev/api/planets');
+  return waitData.json();
 }
+
+// 'https://swapi-trybe.herokuapp.com/api/planets/'

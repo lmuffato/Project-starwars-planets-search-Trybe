@@ -2,16 +2,16 @@ import React, { useContext } from 'react';
 import FilterContext from '../context/FilterContext';
 
 function Filter() {
-  const { filter } = useContext(FilterContext);
+  const { filterNames, setFilterNames } = useContext(FilterContext);
   return (
     <form>
       <label htmlFor="filter">
         Nome:
         <input
+          value={ filterNames }
           data-testid="name-filter"
           type="text"
-          name="name"
-          onChange={ filter }
+          onChange={ (event) => setFilterNames(event.target.value) }
         />
       </label>
     </form>

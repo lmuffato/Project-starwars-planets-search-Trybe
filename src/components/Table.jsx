@@ -1,15 +1,13 @@
 import React, { useContext } from 'react';
-import DataContext from '../context/DataContext';
 import FilterContext from '../context/FilterContext';
 
 function Table() {
-  const { data } = useContext(DataContext);
-  const { filters } = useContext(FilterContext);
-  const { filterByName } = filters;
-  if (!data.results) return <table />;
+  const { filteredPlanets } = useContext(FilterContext);
+  console.log(filteredPlanets);
+
   return (
-    <table className="table-container">
-      <tr className="table-header">
+    <table>
+      <tr>
         <th>Name</th>
         <th>Rotation Period</th>
         <th>Orbital Period</th>
@@ -24,12 +22,9 @@ function Table() {
         <th>Edited</th>
         <th>URL</th>
       </tr>
-      {data.results.filter(({ name }) => name
-        .toLowerCase()
-        .includes(filterByName.name))
+      {filteredPlanets
         .map((planet) => (
           <tr
-            className="table-body"
             key={ planet.name }
           >
             <td>{ planet.name }</td>

@@ -6,12 +6,11 @@ import DataContext from '../context/DataContext';
 const Provider = ({ children }) => {
   const [data, setData] = useState(DataContext);
 
-  const apiData = async () => {
-    const result = await fetchAPI();
-    setData(result);
-  };
-
   useEffect(() => {
+    const apiData = async () => {
+      const { results } = await fetchAPI();
+      setData(results);
+    };
     apiData();
   }, []);
 
