@@ -8,8 +8,8 @@ function Provider({ children }) {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [],
   });
-  // const [name, setName] = useState('');
 
   async function getPlanets() {
     const results = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
@@ -21,7 +21,6 @@ function Provider({ children }) {
   useEffect(() => {
     getPlanets();
   }, []);
-
   console.log(planets);
 
   const contextValue = {

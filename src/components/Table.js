@@ -1,31 +1,40 @@
 import React, { useContext } from 'react';
 import context from '../context/context';
+// import th from './th';
+import filterNumeric from '../functions';
 
 function Table() {
-  // const [isLoading, setIsLoading] = useState(true);
   const { planets, filters } = useContext(context);
   const { name } = filters.filterByName;
-  console.log(name);
+  const { filterByNumericValues } = filters;
+  // const [array, setArray] = useState([]);
+  // const [filterNumeric, setFilterNumeric] = useState([]);
 
+  let array = planets;
+  // setArray(planets);
+
+  // inicio filter by name
   const filterByName = planets.filter((planet) => planet.name.includes(name));
   console.log(filterByName);
 
-  let array = [];
-  if (name === '') {
-    array = planets;
-  } else {
-    array = filterByName;
+  console.log(filterByNumericValues);
+  // inicio filter numeric
+  let filterN = [];
+  if (filterByNumericValues.length > 0) {
+    filterByNumericValues.forEach((filter) => {
+      filterN = filterNumeric(planets, filter);
+    });
+    array = filterN;
+    console.log(filterN);
   }
+  console.log(filterByNumericValues);
 
-  console.log(array);
+  // condicional com os filters para a variavel array, que define o que será renderizado na tela pelo array.map
+  if (name !== '') array = filterByName;
+  // if (filterByNumericValues.length > 0) array = filterN;
 
-  // if (isLoading === true) {
-  //   console.log(planets);
-  //   return <h1>loading</h1>;
-  // }
-  if (planets === []) {
-    return <h2> loading </h2>;
-  }
+  // se o array plants ainda estiver vazio quer dizer que a chamada da api ainda nao foi terminada, entao chamo um hz loading
+  if (planets === []) return <h2> loading </h2>;
 
   return (
     <table>
