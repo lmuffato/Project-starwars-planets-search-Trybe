@@ -27,18 +27,6 @@ function Filter() {
     FilterPlanets(target.value);
   };
 
-  const handleClick = ({ target }) => {
-    const { children } = target.parentElement;
-    const numeric = filter.filterByNumericValues;
-    const column = children[0].value;
-    const comparison = children[1].value;
-    const values = children[2].value;
-    const columnInfo = [{ column, comparison, values }];
-    const filterByNumericValues = numeric.concat(...columnInfo);
-    setFilter({ ...filters, filterByNumericValues });
-    columnFilter({ ...filter, filterByNumericValues });
-  };
-
   const columnFilter = (param) => {
     const objInf = param.filterByNumericValues;
     objInf.map((e) => {
@@ -55,6 +43,18 @@ function Filter() {
       }
       return ('');
     });
+  };
+
+  const handleClick = ({ target }) => {
+    const { children } = target.parentElement;
+    const numeric = filter.filterByNumericValues;
+    const column = children[0].value;
+    const comparison = children[1].value;
+    const values = children[2].value;
+    const columnInfo = [{ column, comparison, values }];
+    const filterByNumericValues = numeric.concat(...columnInfo);
+    setFilter({ ...filters, filterByNumericValues });
+    columnFilter({ ...filter, filterByNumericValues });
   };
 
   return (
