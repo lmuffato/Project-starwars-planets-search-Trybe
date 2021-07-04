@@ -1,15 +1,18 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import FilterContext from '../context/FilterContext';
 
+const colunm = [
+  // 1o Criar array que será repasso para as options
+  'population',
+  'orbital_period',
+  'diameter',
+  'rotation_period',
+  'surface_water',
+];
+
 function ImputFilter() {
-  const colunm = [
-    // 1o Criar array que será repasso para as options
-    'population',
-    'orbital_period',
-    'diameter',
-    'rotation_period',
-    'surface_water',
-  ];
+  // Impede de repetir filtro
+  const [notComparer, setNotComparer] = useState(colunm);
 
   // 3o Criar estados globais que vêem do context
   const { colunmFilter,
@@ -36,6 +39,8 @@ function ImputFilter() {
           ...newState.filters.filterByNumericValues, newObject] } };
 
     setNewState(newObjectFiltered);
+    const newColumn = notComparer.filter((eachOne) => eachOne !== newObject.column);
+    setNotComparer(newColumn);
   };
 
   return (
@@ -45,7 +50,7 @@ function ImputFilter() {
         onChange={ (event) => setColunmFilter(event.target.value) }
         data-testid="column-filter"
       >
-        {colunm.map((option) => (
+        {notComparer.map((option) => (
           <option key={ option }>{ option }</option>
         ))}
       </select>
