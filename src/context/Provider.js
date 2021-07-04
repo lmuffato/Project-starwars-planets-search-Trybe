@@ -6,9 +6,26 @@ import Context from './Context';
 function Provider({ children }) {
   const [data, setData] = useState([]);
   const [header, setHeader] = useState([]);
+  const [searchPlanet, setSearchPlanet] = useState([]);
+  const [filters, setFilters] = useState({
+    filterByName: {
+      name: '',
+    },
+    filterByNumericValues: [
+      {
+        column: 'population',
+        comparison: 'maior que',
+        value: '100000',
+      },
+    ],
+  });
 
   useEffect(() => {
     planetAPI().then((results) => setData(results));
+  }, []);
+
+  useEffect(() => {
+    planetAPI().then((results) => setSearchPlanet(results));
   }, []);
 
   useEffect(() => {
@@ -17,13 +34,21 @@ function Provider({ children }) {
         .filter((headerName) => headerName !== 'residents');
       setHeader(headers);
     }
-  }, [data, header]);
+  }, [data]);
+
+  useEffect(() => {
+    const filterPlanet = data.filter((planet) => planet.name
+      .includes(filters.filterByName.name));
+    setSearchPlanet(filterPlanet);
+  }, [data, filters]);
 
   const contextValue = {
     data,
     header,
+    setFilters,
+    filters,
+    searchPlanet,
   };
-
   return (
     <Context.Provider value={ contextValue }>
       {children}
