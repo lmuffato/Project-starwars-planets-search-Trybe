@@ -9,7 +9,6 @@ function FilterInput() {
     setFilters({ filterByName: {
       name: inputText,
     } });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputText, setFilters]);
 
   return (

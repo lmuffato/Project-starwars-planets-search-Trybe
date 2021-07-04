@@ -35,13 +35,12 @@ function PlanetProvider({ children }) {
         setPlanets(planetsFilteredByName);
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, planets]);
 
   useEffect(() => {
     const { filterByNumericValues } = filters;
 
-    if (filterByNumericValues) {
+    if (filterByNumericValues && filterByNumericValues.length) {
       filterByNumericValues.forEach((filter) => {
         const { column, comparison, value } = filter;
 
@@ -64,7 +63,6 @@ function PlanetProvider({ children }) {
         setPlanets(filteredPlanets);
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, planets]);
 
   useEffect(() => {
