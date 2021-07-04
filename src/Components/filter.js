@@ -16,7 +16,8 @@ function Filter() {
     const filterNmb = -1;
     const byName = filter.filterByName;
     if (byName !== '' && byName !== undefined && loading === false) {
-      setFilteredInfo(info.filter((e) => e.name.toLowerCase().indexOf(target) > filterNmb));
+      setFilteredInfo(info
+        .filter((e) => e.name.toLowerCase().indexOf(target) > filterNmb));
     }
   };
 
