@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import context from '../context/context';
 
 function Filter() {
-  const { planets, filters, setFilters } = useContext(context);
+  const { filters, setFilters } = useContext(context);
   const { name } = filters.filterByName;
   const { filterByNumericValues } = filters;
   // pego as chaves do estado global que esta dentro de filters pois para o o setChave de cada, preciso também usar a chave
@@ -12,8 +12,9 @@ function Filter() {
   const [value, setValue] = useState('');
   console.log(comparison);
 
-  // const arrayOption = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
-  const [option] = useState(['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
+  const option = [
+    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
+  ];
   const [optionFilter, setOptionFilter] = useState(option);
 
   function filterName(ev) {
@@ -88,20 +89,15 @@ function Filter() {
           data-testid="column-filter"
           onChange={ (ev) => setColumn(ev.target.value) }
         >
-          <option hidden>Column</option>
-          { optionFilter.map((item) => <option key={ item } value={ item }>{item}</option>)}
-          {/* <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option> */}
+          { optionFilter
+            .map((item) => <option key={ item } value={ item }>{ item }</option>) }
+
         </select>
 
         <select
           data-testid="comparison-filter"
           onChange={ (ev) => setComparison(ev.target.value) }
         >
-          <option hidden>Comparison</option>
           <option value="maior que">maior que</option>
           <option value="menor que">menor que</option>
           <option value="igual a">igual a</option>
