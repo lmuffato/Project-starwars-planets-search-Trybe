@@ -4,7 +4,7 @@ import planetContext from '../contexts/planetContext';
 // import { Container } from './styles';
 
 function NumericFilters() {
-  const { setFilters, filters } = useContext(planetContext);
+  const { setFilters, filters, handleNumericFilters } = useContext(planetContext);
 
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
@@ -17,6 +17,8 @@ function NumericFilters() {
     setFilters({
       filterByNumericValues: [...oldFilters, newFilter],
     });
+
+    handleNumericFilters();
   }
 
   return (

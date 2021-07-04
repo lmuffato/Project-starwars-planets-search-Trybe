@@ -1,15 +1,23 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import planetContext from '../contexts/planetContext';
 
 function FilterInput() {
-  const { setFilters } = useContext(planetContext);
+  const { filters, setFilters, handleNameFilter } = useContext(planetContext);
   const [inputText, setInputText] = useState('');
 
-  useEffect(() => {
-    setFilters({ filterByName: {
-      name: inputText,
-    } });
-  }, [inputText, setFilters]);
+  function handleInputChange(ev) {
+    const name = ev.target.value;
+
+    setInputText(name);
+
+    const newFilter = filters;
+
+    newFilter.filterByName.name = name;
+
+    setFilters(newFilter);
+
+    handleNameFilter();
+  }
 
   return (
     <fieldset>
@@ -19,7 +27,8 @@ function FilterInput() {
           name="planet-name-input"
           id="planet-name-input"
           type="text"
-          onChange={ (ev) => setInputText(ev.target.value) }
+          value={ inputText }
+          onChange={ handleInputChange }
           data-testid="name-filter"
         />
       </label>

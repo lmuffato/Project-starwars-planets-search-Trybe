@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import planetContext from './planetContext';
@@ -23,24 +23,24 @@ function PlanetProvider({ children }) {
     setIsLoading(false);
   }, []);
 
-  useEffect(() => {
-    if (filters.filterByName) {
-      const { filterByName: { name } } = filters;
-
-      if (name.length) {
-        const planetsFilteredByName = planets
-          .filter((planet) => planet.name
-            .includes(name));
-
-        setPlanets(planetsFilteredByName);
-      }
+  function handleNameFilter() {
+    if (filters.filterByName.name === '') {
+      getPlanets();
     }
-  }, [filters, planets]);
 
-  useEffect(() => {
+    const planetsFilteredByName = planets
+      .filter((planet) => planet.name
+        .includes(filters.filterByName.name));
+
+    setPlanets(planetsFilteredByName);
+  }
+
+  function handleNumericFilters() {
     const { filterByNumericValues } = filters;
 
-    if (filterByNumericValues && filterByNumericValues.length) {
+    if (filterByNumericValues && filterByNumericValues.length > 1) {
+      console.log('filtrar por valor numerico');
+
       filterByNumericValues.forEach((filter) => {
         const { column, comparison, value } = filter;
 
@@ -63,20 +63,18 @@ function PlanetProvider({ children }) {
         setPlanets(filteredPlanets);
       });
     }
-  }, [filters, planets]);
-
-  useEffect(() => {
-    if (filters.filterByName
-      && !filters.filterByName.name.length
-      && !filters.filterByNumericValues) {
-      getPlanets();
-    }
-  }, [filters.filterByName, filters.filterByNumericValues, getPlanets]);
+  }
 
   return (
     <planetContext.Provider
       value={
-        { planets, isLoading, getPlanets, filters, setFilters }
+        { planets,
+          isLoading,
+          getPlanets,
+          filters,
+          setFilters,
+          handleNumericFilters,
+          handleNameFilter }
       }
     >
       {children}
