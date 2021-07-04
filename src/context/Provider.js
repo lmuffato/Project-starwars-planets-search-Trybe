@@ -7,6 +7,7 @@ function Provider({ children }) {
   const [data, setData] = useState([]);
   const [header, setHeader] = useState([]);
   const [searchPlanet, setSearchPlanet] = useState([]);
+
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
@@ -19,6 +20,17 @@ function Provider({ children }) {
       },
     ],
   });
+
+  const handleSetValueToFilter = (col, compar, val) => {
+    setFilters({
+      ...filters,
+      filterByNumericValues: [{
+        column: col,
+        comparison: compar,
+        value: val,
+      }],
+    });
+  };
 
   useEffect(() => {
     planetAPI().then((results) => setData(results));
@@ -48,6 +60,7 @@ function Provider({ children }) {
     setFilters,
     filters,
     searchPlanet,
+    handleSetValueToFilter,
   };
   return (
     <Context.Provider value={ contextValue }>
