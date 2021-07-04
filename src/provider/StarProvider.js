@@ -6,6 +6,23 @@ import StarContext from '../context/StarContext';
 
 function StarProvider({ children }) {
   const [planets, setPlanets] = useState([{}]);
+  const [name, setSearchName] = useState('');
+  const [keys, setKeys] = useState([]);
+  const settingSearchedName = (value) => setSearchName(value);
+
+  const contextValue = {
+    planets,
+    keys,
+    settingSearchedName,
+    filters: { filterByName: { name } },
+  };
+
+  useEffect(() => {
+    if (planets.length !== 0) {
+      const lengthOfKeys = Object.keys(planets[0]);
+      setKeys(lengthOfKeys);
+    }
+  }, [planets]);
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -17,12 +34,7 @@ function StarProvider({ children }) {
   }, []);
 
   return (
-    <StarContext.Provider
-      value={ {
-        planets,
-        setPlanets,
-      } }
-    >
+    <StarContext.Provider value={ contextValue }>
       {children}
     </StarContext.Provider>
   );

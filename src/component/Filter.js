@@ -1,15 +1,20 @@
-import React, { useState, useContext } from 'react';
+// reformulação do filtro feita com ajuda do repositório da Nathália Zebral
+// https://github.com/tryber/sd-010-a-project-starwars-planets-search/pull/73
+import React, { useContext } from 'react';
+import StarContext from '../context/StarContext';
 
 function Filter() {
-  const [dataFiltered, setDataFiltered] = useState('');
-  const handleChange = (e) => {
-    e.preventdefault();
-    setDataFiltered(e.target.value);
-  };
+  const { name, settingSearchedName } = useContext(StarContext);
+
   return (
     <form>
-      <input type="text" data-testid="name-filter" onChange={ (e) => handleChange(e) } />
-      <button type="button" data-testid="filter"> X </button>
+      <input
+        type="text"
+        data-testid="name-filter"
+        value={ name }
+        onChange={ ({ target: { value } }) => settingSearchedName(value) }
+      />
+      {/* <button type="button" data-testid="filter"> X </button>
       <select data-testid="column-filter">
         <option>population</option>
         <option>orbital_period</option>
@@ -27,9 +32,9 @@ function Filter() {
       <input
         type="number"
         data-testid="value-filter"
-        onChange={ (e) => handleChange(e) }
+        onChange={ "teste" }
       />
-      <button type="button" data-testid="filter"> X </button>
+      <button type="button" data-testid="filter"> X </button> */}
     </form>
   );
 }
