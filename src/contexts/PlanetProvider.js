@@ -10,30 +10,70 @@ function PlanetProvider({ children }) {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [
+      {},
+    ],
   });
   const [isLoading, setIsLoading] = useState(false);
 
-  const getPlanets = useCallback(() => {
+  const getPlanets = useCallback(async () => {
     setIsLoading(true);
-    const responsePlanets = getPlanetsApi();
+    const responsePlanets = await getPlanetsApi();
     setPlanets(responsePlanets);
     setIsLoading(false);
   }, []);
 
   useEffect(() => {
-    const { filterByName: { name } } = filters;
+    if (filters.filterByName) {
+      const { filterByName: { name } } = filters;
 
-    if (name) {
-      const planetsFilteredByName = planets
-        .filter((planet) => planet.name
-          .includes(name));
+      if (name.length) {
+        const planetsFilteredByName = planets
+          .filter((planet) => planet.name
+            .includes(name));
 
-      setPlanets(planetsFilteredByName);
-    } else {
-      getPlanets();
+        setPlanets(planetsFilteredByName);
+      }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filters]);
+  }, [filters, planets]);
+
+  useEffect(() => {
+    const { filterByNumericValues } = filters;
+
+    if (filterByNumericValues) {
+      filterByNumericValues.forEach((filter) => {
+        const { column, comparison, value } = filter;
+
+        const filteredPlanets = planets.filter((planet) => {
+          if (comparison === 'maior que') {
+            return planet[column] > value;
+          }
+
+          if (comparison === 'menor que') {
+            return planet[column] < value;
+          }
+
+          if (comparison === 'igual a') {
+            return planet[column] === value;
+          }
+
+          return planet;
+        });
+
+        setPlanets(filteredPlanets);
+      });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters, planets]);
+
+  useEffect(() => {
+    if (filters.filterByName
+      && !filters.filterByName.name.length
+      && !filters.filterByNumericValues) {
+      getPlanets();
+    }
+  }, [filters.filterByName, filters.filterByNumericValues, getPlanets]);
 
   return (
     <planetContext.Provider
