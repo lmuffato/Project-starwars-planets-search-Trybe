@@ -6,23 +6,39 @@ import StarContext from '../context/StarContext';
 
 function StarProvider({ children }) {
   const [planets, setPlanets] = useState([{}]);
-  const [name, setSearchName] = useState('');
-  const [keys, setKeys] = useState([]);
-  const settingSearchedName = (value) => setSearchName(value);
+  const [name, settingSearchedName] = useState('');
+  // const settingSearchedName = (value) => setSearchName(value);
+  const [filterByNumber, setfilterByNumber] = useState([]);
+
+  useEffect(() => {
+    filterByNumber.map((item) => {
+      const { column, comparison, value } = item;
+      switch (comparison) {
+      case 'maior que':
+        return setPlanets(
+          [...planets.filter((planet) => Number(planet[column]) > Number(value))],
+        );
+      case 'menor que':
+        return setPlanets(
+          [...planets.filter((planet) => Number(planet[column]) < Number(value))],
+        );
+      case 'igual a':
+        return setPlanets(
+          [...planets.filter((planet) => Number(planet[column]) === Number(value))],
+        );
+      default:
+        return planets;
+      }
+    });
+  }, [filterByNumber]);
 
   const contextValue = {
     planets,
-    keys,
     settingSearchedName,
+    setfilterByNumber,
     filters: { filterByName: { name } },
+    filterByNumber,
   };
-
-  useEffect(() => {
-    if (planets.length !== 0) {
-      const lengthOfKeys = Object.keys(planets[0]);
-      setKeys(lengthOfKeys);
-    }
-  }, [planets]);
 
   useEffect(() => {
     const getPlanets = async () => {
