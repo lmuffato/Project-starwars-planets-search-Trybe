@@ -7,10 +7,12 @@ function StarWarsProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [filterdInfo, setFilteredInfo] = useState(info);
 
-  // 'https://swapi.dev/api/planets/'
+  // 'https://swapi-trybe.herokuapp.com/api/planets/' 'test https'
+  // 'https://swapi.dev/api/planets/' 'work https'
+
   useEffect(() => {
     async function StarAPI() {
-      const requisition = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
+      const requisition = await fetch('https://swapi.dev/api/planets/');
       const results = await requisition.json();
       setInfo(results.results);
       setLoading(false);
