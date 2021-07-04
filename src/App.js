@@ -1,9 +1,14 @@
 import React from 'react';
 import './App.css';
+import Provider from './context/Provider';
+import Data from './components/Data';
 
 function App() {
   return (
-    <span>Hello, App!</span>
+    <Provider>
+      <span>Star Wars Planet Search</span>
+      <Data />
+    </Provider>
   );
 }
 
