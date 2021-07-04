@@ -10,11 +10,46 @@ function PlanetProvider({ children }) {
     filterByName: {
       name: '',
     },
-    filterByNumericValues: [
-      {},
-    ],
+    filterByNumericValues: [],
   });
   const [isLoading, setIsLoading] = useState(false);
+
+  function filterPlanetsByNumericValues(column, comparison, value) {
+    const filteredPlanets = planets.filter((planet) => {
+      if (comparison === 'menor que') {
+        return Number(planet[column]) < Number(value);
+      }
+
+      if (comparison === 'maior que') {
+        return Number(planet[column] > Number(value));
+      }
+
+      return Number(planet[column]) === Number(value);
+    });
+
+    return filteredPlanets;
+  }
+
+  function handleNumericFilters(column, comparison, value) {
+    const { filterByNumericValues } = filters;
+
+    if (filterByNumericValues.length === 0) {
+      const filteredPlanets = filterPlanetsByNumericValues(column, comparison, value);
+
+      setPlanets(filteredPlanets);
+    } else {
+      filterByNumericValues.forEach((filter) => {
+        const { column: filterColumn,
+          comparison: filterComparison,
+          value: filterValue } = filter;
+
+        const filteredPlanets = filterPlanetsByNumericValues(filterColumn,
+          filterComparison, filterValue);
+
+        setPlanets(filteredPlanets);
+      });
+    }
+  }
 
   const getPlanets = useCallback(async () => {
     setIsLoading(true);
@@ -24,7 +59,7 @@ function PlanetProvider({ children }) {
   }, []);
 
   function handleNameFilter() {
-    if (filters.filterByName.name === '') {
+    if (filters.filterByName.name === '' && filters.filterByNumericValues.length === 0) {
       getPlanets();
     }
 
@@ -33,36 +68,6 @@ function PlanetProvider({ children }) {
         .includes(filters.filterByName.name));
 
     setPlanets(planetsFilteredByName);
-  }
-
-  function handleNumericFilters() {
-    const { filterByNumericValues } = filters;
-
-    if (filterByNumericValues && filterByNumericValues.length > 1) {
-      console.log('filtrar por valor numerico');
-
-      filterByNumericValues.forEach((filter) => {
-        const { column, comparison, value } = filter;
-
-        const filteredPlanets = planets.filter((planet) => {
-          if (comparison === 'maior que') {
-            return planet[column] > value;
-          }
-
-          if (comparison === 'menor que') {
-            return planet[column] < value;
-          }
-
-          if (comparison === 'igual a') {
-            return planet[column] === value;
-          }
-
-          return planet;
-        });
-
-        setPlanets(filteredPlanets);
-      });
-    }
   }
 
   return (

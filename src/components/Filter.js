@@ -15,7 +15,7 @@ function Filter({ column, comparison, value }) {
 Filter.propTypes = {
   column: PropTypes.string.isRequired,
   comparison: PropTypes.string.isRequired,
-  value: PropTypes.number.isRequired,
+  value: PropTypes.string.isRequired,
 };
 
 export default Filter;

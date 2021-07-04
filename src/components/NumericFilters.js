@@ -1,8 +1,6 @@
 import React, { useContext, useState } from 'react';
 import planetContext from '../contexts/planetContext';
 
-// import { Container } from './styles';
-
 function NumericFilters() {
   const { setFilters, filters, handleNumericFilters } = useContext(planetContext);
 
@@ -18,24 +16,24 @@ function NumericFilters() {
       filterByNumericValues: [...oldFilters, newFilter],
     });
 
-    handleNumericFilters();
+    handleNumericFilters(column, comparison, value);
   }
 
   return (
     <fieldset>
-
       <select
-        name="numeric-filters"
-        id="numeric-filters"
-        value={ column }
-        onChange={ (ev) => { setColumn(ev.target.value); } }
+        name="colum-filter"
         data-testid="column-filter"
+        value={ column }
+        onChange={ ({ target }) => setColumn(target.value) }
       >
         <option value="population">population</option>
+
         <option value="orbital_period">orbital_period</option>
         <option value="diameter">diameter</option>
-        <option value="rotation_period ">rotation_period </option>
-        <option value="surface_water ">surface_water </option>
+        <option value="rotation_period">rotation_period</option>
+        <option value="surface_water">surface_water</option>
+
       </select>
 
       <select
