@@ -14,9 +14,9 @@
 }
 
 .table-header th {
-  width: 8em;
   overflow: hidden;
   text-overflow: ellipsis;
+  width: 8em;
 }
 
 .table-body {
@@ -33,7 +33,7 @@
 .table-body td {
   display: flex;
   justify-content: center;
-  width: 8em;
   overflow: hidden;
   text-overflow: ellipsis;
+  width: 8em;
 }
