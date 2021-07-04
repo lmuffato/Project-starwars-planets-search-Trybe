@@ -2,8 +2,9 @@ import React, { useContext } from 'react';
 import Context from '../context/Context';
 
 export default function Table() {
-  const { data } = useContext(Context);
-  console.log(data);
+  const { filtered } = useContext(Context);
+  console.log(filtered);
+
   return (
     <table>
       <thead>
@@ -24,7 +25,7 @@ export default function Table() {
         </tr>
       </thead>
       <tbody>
-        { data.map((info) => (
+        { filtered.map((info) => (
           <tr key={ info.name }>
             <td>{info.name}</td>
             <td>{info.rotation_period}</td>

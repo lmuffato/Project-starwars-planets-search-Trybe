@@ -2,11 +2,13 @@ import React from 'react';
 import './App.css';
 import Provider from './context/Provider';
 import Data from './components/Data';
+import InputText from './components/InputText';
 
 function App() {
   return (
     <Provider>
-      <span>Star Wars Planet Search</span>
+      <h1>Star Wars Planet Search</h1>
+      <InputText />
       <Data />
     </Provider>
   );
