@@ -4,8 +4,8 @@ import FilterContext from '../context/FilterContext';
 import DataContext from '../context/DataContext';
 
 const FilterProvider = ({ children }) => {
-  const { data } = useContext(DataContext);
   // 2o Criar novos estados dos inputs
+  const { data } = useContext(DataContext);
   const [colunmFilter, setColunmFilter] = useState('population'); // pega valor do input de coluna
   const [comparisonFilter, setComparisonFilter] = useState('maior que'); // pega valor do input de comparacao
   const [valueFilter, setValueFilter] = useState(''); // pega o valor do input numerico
@@ -18,6 +18,32 @@ const FilterProvider = ({ children }) => {
     setFilters({ filterByName: { name: value.toLowerCase() } });
   }; */
 
+  const anotherComparisonFilter = (valueInputText) => {
+    const { filterByNumericValues } = newState.filters;
+    let filterSelected = data;
+
+    if (valueInputText !== '') { // Verefica o q foi digitado, e retorna a variável 'data' filtrada
+      filterSelected = filterSelected.filter((planet) => planet.name
+        .toLowerCase().includes(valueInputText));
+    }
+    filterByNumericValues.forEach((eachValue) => { // percorre cada planeta comparando o valor digitado com a respectiva coluna
+      if (eachValue.comparison === 'maior que') {
+        filterSelected = filterSelected.filter((eachPlanet) => (
+          Number(eachPlanet[eachValue.column]) > Number(eachValue.value)
+        ));
+      } else if (eachValue.comparison === 'menor que') {
+        filterSelected = filterSelected.filter((eachPlanet) => (
+          Number(eachPlanet[eachValue.column]) < Number(eachValue.value)
+        ));
+      } else if (eachValue.comparison === 'igual a') {
+        filterSelected = filterSelected.filter((eachPlanet) => (
+          Number(eachPlanet[eachValue.column]) === Number(eachValue.value)
+        ));
+      }
+    });
+    return filterSelected;
+  };
+
   useEffect(() => {
     const { filterByNumericValues } = newState.filters;
     const inputTextValue = filterNames.toLowerCase();
@@ -25,8 +51,14 @@ const FilterProvider = ({ children }) => {
     // 1o Se o usuario nao pesquisou por texto e valor, volta todos os planetas
     if (inputTextValue === '' && filterByNumericValues.length === 0) {
       setFilteredPlanets(data);
+    } else if (inputTextValue !== '' && filterByNumericValues.length === 0) {
+      const planetsName = data.filter((planet) => planet.name
+        .toLowerCase().includes(inputTextValue));
+      setFilteredPlanets(planetsName);
+    } else if (filterByNumericValues.length > 0) {
+      setFilteredPlanets(anotherComparisonFilter(inputTextValue));
     }
-  }, [data, newState, filterNames]);
+  }, [data, newState, filterNames, setFilteredPlanets]);
 
   return (
     <FilterContext.Provider

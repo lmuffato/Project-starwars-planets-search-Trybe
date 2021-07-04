@@ -4,7 +4,7 @@ import fetchAPI from '../fecthAPI';
 import DataContext from '../context/DataContext';
 
 const Provider = ({ children }) => {
-  const [data, setData] = useState(DataContext);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     const apiData = async () => {
