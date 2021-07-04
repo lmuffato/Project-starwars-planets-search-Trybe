@@ -5,39 +5,27 @@ import StarWarsContext from './StarWarsContext';
 function StarWarsProvider({ children }) {
   const [info, setInfo] = useState('');
   const [loading, setLoading] = useState(true);
-  const filters = {
-    filterByName: {
-      name: '',
-    },
-  };
-  const [filter, setFilter] = useState(filters);
-  const filterNmb = -1;
+  const [filterdInfo, setFilteredInfo] = useState(info);
 
   useEffect(() => {
     async function StarAPI() {
-      const requisition = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
+      const requisition = await fetch('https://swapi.dev/api/planets/');
       const results = await requisition.json();
-      if (filter.filterByName !== '' && filter.filterByName !== undefined) {
-        const { name } = filter.filterByName;
-        setInfo(results.results
-          .filter((e) => e.name.toLowerCase().indexOf(name) > filterNmb));
-      } else {
-        setInfo(results.results);
-      }
+      setInfo(results.results);
       setLoading(false);
+      setFilteredInfo(results.results);
     }
     StarAPI();
-  }, [filters.filterByName, filterNmb, filter]);
+  }, []);
+
+  const values = { loading,
+    info,
+    setInfo,
+    filterdInfo,
+    setFilteredInfo };
 
   return (
-    <StarWarsContext.Provider
-      value={ {
-        loading,
-        info,
-        setFilter,
-        filter,
-      } }
-    >
+    <StarWarsContext.Provider value={ values }>
       {children}
     </StarWarsContext.Provider>
   );
