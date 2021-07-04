@@ -1,6 +1,6 @@
 // reformulação do filtro feita com ajuda do repositório da Nathália Zebral
 // https://github.com/tryber/sd-010-a-project-starwars-planets-search/pull/73
-import React, { useContext } from 'react';
+import React from 'react';
 import StarContext from '../context/StarContext';
 
 function Filter() {
