@@ -3,8 +3,6 @@ import StarWarsContext from '../Context/StarWarsContext';
 
 function Table() {
   const { loading, info } = useContext(StarWarsContext);
-  console.log(loading);
-
   const theader = () => {
     if (loading === false) {
       return (
@@ -30,7 +28,9 @@ function Table() {
     <div>
       <table>
         <thead>
-          { theader() }
+          <tr>
+            { theader() }
+          </tr>
         </thead>
         <tbody>
           { tbodier() }
