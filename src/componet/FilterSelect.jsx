@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import Context from '../context/Context';
 
 function FilterSelect() {
-  const { handleSetValueToFilter } = useContext(Context);
+  const { handleSetValueToFilter, setFilterClicker } = useContext(Context);
   const [population, setPopulation] = useState(
     <option value="population">population</option>,
   );
@@ -36,6 +36,7 @@ function FilterSelect() {
       document.getElementById('colum-filter').value,
     );
     handleSetValueToFilter(comlumFilter, comparisonFilter, valueFilter);
+    setFilterClicker(true);
   };
 
   return (

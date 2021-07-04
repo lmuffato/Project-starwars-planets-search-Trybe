@@ -2,22 +2,24 @@ import React, { useContext } from 'react';
 import Context from '../context/Context';
 
 function Table() {
-  const { header, searchPlanet, filters } = useContext(Context);
+  const { header, searchPlanet,
+    filters, filterClicker } = useContext(Context);
   const { filterByNumericValues } = filters;
   const { column, comparison, value } = filterByNumericValues[0];
   const listaPlanets = [...searchPlanet];
-  let filteredList = [...listaPlanets];
+  let filteredList = [...searchPlanet];
 
-  filteredList = listaPlanets.filter((planet) => {
-    if (comparison === 'maior que') {
-      return parseFloat(planet[column]) > parseFloat(value);
-    }
-    if (comparison === 'menor que') {
-      return parseFloat(planet[column]) < parseFloat(value);
-    }
-    return planet[column] === value;
-  });
-
+  if (filterClicker) {
+    filteredList = listaPlanets.filter((planet) => {
+      if (comparison === 'maior que') {
+        return parseFloat(planet[column]) > parseFloat(value);
+      }
+      if (comparison === 'menor que') {
+        return parseFloat(planet[column]) < parseFloat(value);
+      }
+      return planet[column] === value;
+    });
+  }
   return (
     <table>
       <thead>

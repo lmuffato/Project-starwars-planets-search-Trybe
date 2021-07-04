@@ -7,6 +7,7 @@ function Provider({ children }) {
   const [data, setData] = useState([]);
   const [header, setHeader] = useState([]);
   const [searchPlanet, setSearchPlanet] = useState([]);
+  const [filterClicker, setFilterClicker] = useState(false);
 
   const [filters, setFilters] = useState({
     filterByName: {
@@ -50,7 +51,8 @@ function Provider({ children }) {
 
   useEffect(() => {
     const filterPlanet = data.filter((planet) => planet.name
-      .includes(filters.filterByName.name));
+      .toLowerCase()
+      .includes(filters.filterByName.name.toLowerCase()));
     setSearchPlanet(filterPlanet);
   }, [data, filters]);
 
@@ -61,6 +63,8 @@ function Provider({ children }) {
     filters,
     searchPlanet,
     handleSetValueToFilter,
+    filterClicker,
+    setFilterClicker,
   };
   return (
     <Context.Provider value={ contextValue }>
