@@ -12,7 +12,6 @@ function Filter() {
   const { name } = filter.filterByName;
 
   const FilterPlanets = (target) => {
-    console.log(target);
     const filterNmb = -1;
     const byName = filter.filterByName;
     if (byName !== '' && byName !== undefined && loading === false) {
@@ -23,7 +22,7 @@ function Filter() {
 
   const handleChange = ({ target }) => {
     const filterByName = {
-      name: target.value,
+      [target.name]: target.value,
     };
     setFilter({ ...filters, filterByName });
     FilterPlanets(target.value);
@@ -36,6 +35,7 @@ function Filter() {
         type="text"
         id="nameFilter"
         data-testid="name-filter"
+        name="name"
         value={ name }
         onChange={ (e) => handleChange(e) }
       />
