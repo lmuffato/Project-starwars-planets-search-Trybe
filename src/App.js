@@ -1,12 +1,15 @@
 import React from 'react';
 import './App.css';
 import SWProvider from './Context/SWProvider';
-import Table from './Component/Table';
+import Header from './Component/Header';
+import FiltroInput from './Component/FiltroInput';
 
 function App() {
   return (
     <SWProvider>
-      <Table />
+      <Header />
+      <br />
+      <FiltroInput />
     </SWProvider>
   );
 }

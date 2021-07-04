@@ -7,6 +7,7 @@ function Table() {
   // Desconstruindo "data" que está no useState do SWProvider
   // para depois fazer um .map e distribuir as informações dos planetas
   const { data } = useContext(SWContext);
+
   return (
     <table>
       <thead>

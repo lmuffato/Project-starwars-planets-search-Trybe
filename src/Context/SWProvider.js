@@ -5,6 +5,8 @@ import SWApi from '../Component/SWApi';
 
 function SWProvider({ children }) {
   const [data, setData] = useState([]);
+  // Entendi que a constante "name" é uma exigência do Readme
+  const [name, setinputNome] = useState('');
 
   // Conteúdo do Bloco 18.3
   useEffect(() => {
@@ -13,7 +15,11 @@ function SWProvider({ children }) {
 
   // Constante "shareStates" com as informações dos estados que preciso compartilhar
   // Essas informações serão entregues via props dentro do value do Provider
-  const shareStates = { data };
+  const shareStates = {
+    data,
+    filters: { filterByName: { name } },
+    setinputNome,
+  };
 
   return (
     <SWContext.Provider value={ shareStates }>
