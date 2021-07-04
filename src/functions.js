@@ -8,8 +8,3 @@ export default function filterNumeric(planets, filter) {
   });
   return arrayFilter;
 }
-
-// export function filterDropDown(filterByNumericValues) {
-//   filterByNumericValues.forEach();
-//   // const { column, comparison, value } = filter;
-// };

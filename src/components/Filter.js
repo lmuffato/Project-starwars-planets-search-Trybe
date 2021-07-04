@@ -30,18 +30,6 @@ function Filter() {
   function filterNumeric(event) {
     event.preventDefault();
 
-    // const arrayNumericFilter = planets.filter((planet) => {
-    //   if (comparison === 'maior que') return Number(planet[column]) > Number(value);
-    //   if (comparison === 'menor que') return Number(planet[column]) < Number(value);
-    //   if (comparison === 'igual a') return Number(planet[column]) === Number(value);
-    //   return planets;
-    // });
-
-    // setFilters((previus) => ({
-    //   ...previus,
-    //   filterByNumericValues: arrayNumericFilter,
-    // }));
-
     setFilters((previus) => ({
       ...previus,
       filterByNumericValues: [
@@ -53,28 +41,26 @@ function Filter() {
         },
       ],
     }));
+    // salvo todas as alterações das chaves de filterByNumericValues no estado do componente Filter,
+    // depois quando clico no botao envio todos esses valores para o setFilters para assima alterar o estado global do provaider
 
-    // const filterOption = option.filter((item) => item !== column);
-    // let filterTeste = [];
     if (filterByNumericValues.length > 0) {
       console.log(filterByNumericValues);
       option.forEach((item, index) => {
-        console.log(item);
         // const filterOption = filterByNumericValues.filter((filter) => item !== filter.column);
         filterByNumericValues.forEach((filter) => {
-          console.log(filter.column);
           if (item === filter.column) setOptionFilter(optionFilter.splice(index, 1));
-          // console.log(filterTeste);
         });
-        // console.log(filterTeste);
-        // setOptionFilter(filterTeste);
       });
     }
-    console.log(optionFilter);
-    // setOption(filterOption);
+    // requisito 4
+    // aqui faço a condicional para saber se filterByNumericValues já foi preenchido anteriormente, se sim faço dois forEach
+    // o primeiro passando por todos os intens do array option que eu criei (e que renderiza os options do select column)
+    // assim a cada item do array option eu faço um novo forEach do filterByNumericValues e em seguinda faço uma condicional onde comparo o
+    // o item do array option que estou "passando" no momento com cada filtro.column (o nome da coluna) de todos os objetos(filtros) de
+    // filterByNumericValues, Se eles em algum momento forem iguais, eu tiro essa valor da chave optionFilter usando  o .splice
+    // toda essa logica foi feita com a ajuda do Jõao Andrade Jr da turma 10.
   }
-  // salvo todas as alterações das chaves de filterByNumericValues no estado do componente Filter,
-  // depois quando clico no botao envio todos esses valores para o setFilters para assima alterar o estado global do provaider
 
   return (
     <section>
