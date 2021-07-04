@@ -12,7 +12,7 @@ function StarWarsProvider({ children }) {
 
   useEffect(() => {
     async function StarAPI() {
-      const requisition = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
+      const requisition = await fetch('https://swapi.dev/api/planets/');
       const results = await requisition.json();
       setInfo(results.results);
       setLoading(false);

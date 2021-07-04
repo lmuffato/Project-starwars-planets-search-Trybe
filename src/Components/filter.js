@@ -85,7 +85,14 @@ function Filter() {
           <option value="menor que">menor que</option>
         </select>
         <input type="number" data-testid="value-filter" />
-        <button type="button" onClick={ (e) => handleClick(e) }>Filtrar</button>
+        <button
+          type="button"
+          onClick={ (e) => handleClick(e) }
+          data-testid="button-filter"
+        >
+          Filtrar
+
+        </button>
       </label>
     </>
   );
