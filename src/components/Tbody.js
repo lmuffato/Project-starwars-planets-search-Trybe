@@ -1,14 +1,10 @@
 import React, { useContext } from 'react';
 import AppContext from '../context/Context';
-import Tbody from './Tbody';
 
-function Table() {
-  const { data,
-    filters: { filterByName: { name },
-    } } = useContext(AppContext);
-  if (name !== '') {
-    const search = data.filter((planets) => planets.name.toLowerCase().includes(name));
-    return (
+function Tbody() {
+  const { data } = useContext(AppContext);
+  return (
+    <div>
       <table>
         <thead>
           <tr>
@@ -28,7 +24,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {search.map((planet) => (
+          {data.map((planet) => (
             <tr key={ planet.name }>
               <td>{ planet.name }</td>
               <td>{planet.rotation_period}</td>
@@ -46,11 +42,8 @@ function Table() {
           ))}
         </tbody>
       </table>
-    );
-  }
-  return (
-    <Tbody />
+    </div>
   );
 }
 
-export default Table;
+export default Tbody;

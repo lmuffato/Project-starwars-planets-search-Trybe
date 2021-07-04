@@ -5,25 +5,42 @@ import AppContext from './Context';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
-  const [keys, setKeys] = useState([]);
-  const [name, setSearch] = useState('');
-  const toSetSearch = (value) => setSearch(value);
+  const [name, setSearchedName] = useState('');
+  const [filterByNumericValues, setFilterByNumericValues] = useState([]);
 
-  const contextvalue = {
-    data,
-    keys,
-    toSetSearch,
-    filters: { filterByName: { name } },
-  };
   useEffect(() => {
     fetchPlanet().then(({ results }) => setData(results));
   }, []);
+
   useEffect(() => {
-    if (data.length !== 0) {
-      const keyData = Object.keys(data[0]);
-      setKeys(keyData);
-    }
-  }, [data]);
+    filterByNumericValues.map((item) => {
+      const { column, comparison, value } = item;
+      switch (comparison) {
+      case 'maior que':
+        return setData(
+          [...data.filter((planet) => Number(planet[column]) > Number(value))],
+        );
+      case 'menor que':
+        return setData(
+          [...data.filter((planet) => Number(planet[column]) < Number(value))],
+        );
+      case 'igual a':
+        return setData(
+          [...data.filter((planet) => Number(planet[column]) === Number(value))],
+        );
+      default:
+        return data;
+      }
+    });
+  }, [filterByNumericValues]);
+
+  const contextvalue = {
+    data,
+    setSearchedName,
+    setFilterByNumericValues,
+    filters: { filterByName: { name } },
+    filterByNumericValues,
+  };
 
   return (
     <AppContext.Provider value={ contextvalue }>

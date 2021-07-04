@@ -3,11 +3,13 @@ import './App.css';
 import Provider from './context/Provider';
 import Table from './components/Table';
 import PlanetFilter from './components/PlanetFilter';
+import NumberFilter from './components/NumberFilter';
 
 function App() {
   return (
     <Provider>
       <PlanetFilter />
+      <NumberFilter />
       <Table />
     </Provider>
   );
