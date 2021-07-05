@@ -5,14 +5,60 @@ import fetchAPI from '../service/FetchAPI';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
-  const [name, setName] = useState({
-    filters: {
-      filterByName: {
-        name: '',
+  const [nameInput, setNameInput] = useState({
+    filters:
+      {
+        filterByName: {
+          name: '',
+        },
       },
-    },
   });
-  const [filteredData, setFilteredData] = useState([]);
+  const [columnSelected, setColumnSelected] = useState('');
+  const [comparisonSelected, setComparisonSelected] = useState('');
+  const [valueToBeCompared, setValueToBeCompared] = useState('');
+  const [filteredByName, setFilteredByName] = useState([]);
+  // const [filteredByValue, setFilteredByValue] = useState([]);
+  const [filter, setFilter] = useState(false);
+  const [filteredData, setFilteredData] = useState(filteredByName);
+
+  /* const filter = {
+    filters:
+      {
+        filterByName: {
+          name: nameInput
+        },
+        filterByNumericValues: [
+          {
+            column: columnSelected,
+            comparison: comparisonSelected,
+            value: valueToBeCompared,
+          }
+        ]
+      }
+    }; */
+
+  const handleClick = () => {
+    if (filter === true) {
+      setFilter(false);
+    } else setFilter(true);
+  };
+
+  useEffect(() => {
+    if (filter === true) {
+      const filteredValues = data.filter((planet) => {
+        if (comparisonSelected === 'maior que') {
+          return Number(planet[columnSelected]) > Number(valueToBeCompared);
+        } if (comparisonSelected === 'menor que') {
+          return Number(planet[columnSelected]) < Number(valueToBeCompared);
+        } return Number(planet[columnSelected]) === Number(valueToBeCompared);
+      });
+      setFilteredData(filteredValues);
+    } else {
+      setFilteredData(filteredByName);
+    }
+  }, [
+    data, comparisonSelected, columnSelected, valueToBeCompared, filter, filteredByName,
+  ]);
 
   useEffect(() => {
     const fetch = async () => {
@@ -23,20 +69,28 @@ function Provider({ children }) {
   }, []);
 
   useEffect(() => {
-    setFilteredData(data);
-    if (name.filters.filterByName.name !== '') {
+    setFilteredByName(data);
+    if (nameInput.filters.filterByName.name !== '') {
       const result = data.filter(
-        (planet) => planet.name.toLowerCase().includes(name.filters.filterByName.name),
+        (planet) => planet.name.toLowerCase()
+          .includes(nameInput.filters.filterByName.name),
       );
-      setFilteredData(result);
+      setFilteredByName(result);
     }
-  }, [name, data]);
+  }, [nameInput, data]);
 
   const contextValue = {
     data,
-    name,
-    setName,
+    nameInput,
+    setNameInput,
+    filteredByName,
+    setColumnSelected,
+    setComparisonSelected,
+    setValueToBeCompared,
+    // filteredByValue,
+    setFilter,
     filteredData,
+    handleClick,
   };
 
   return (

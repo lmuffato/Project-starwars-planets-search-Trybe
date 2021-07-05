@@ -3,11 +3,13 @@ import './App.css';
 import Provider from './context/Provider';
 import Table from './components/Table';
 import Input from './components/Input';
+import Comparison from './components/Comparison';
 
 function App() {
   return (
     <Provider>
       <Input />
+      <Comparison />
       <Table />
     </Provider>
   );
