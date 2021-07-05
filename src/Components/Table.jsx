@@ -31,7 +31,7 @@ function Table() {
     return filterName;
   };
 
-  const renderTable = () => operatorsIf.map((planet) => (
+  const renderTable = () => operatorsIf().map((planet) => (
     <tr key={ planet.name }>
       <td>{planet.name}</td>
       <td>{planet.rotation_period}</td>
