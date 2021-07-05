@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 import context from '../Provider/Context';
 
 function SearchBar() {
-  const { filters, setFilter } = useContext(context);
+  const { filters, setFilters } = useContext(context);
   const filtered = ({ target }) => {
-    setFilter({
+    setFilters({
       ...filters,
       filterByName: {
         name: target.value,
