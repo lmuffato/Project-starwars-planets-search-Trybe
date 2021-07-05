@@ -4,7 +4,6 @@ import ContextFilter from '../context/contextFilter';
 
 function Table() {
   const { stateFinal } = useContext(ContextFilter);
-  console.log(stateFinal)
   // const { filters } = useContext(ContextFilter);
   // const { filterByName } = filters;
   if (!stateFinal.results) return <table />; // pedi explicação sobre isso

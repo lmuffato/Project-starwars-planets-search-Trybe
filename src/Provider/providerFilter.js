@@ -25,11 +25,10 @@ const ProviderFilter = ({ children }) => {
         .toLowerCase().includes(inputValue));
     }
     filterByNumericValues.forEach((xablau) => {
-      console.log(xablau)
       if (xablau.compare === 'maior que') {
         apiPlanets = apiPlanets.filter((xablau2) => {
-          console.log(Number(xablau2[xablau.column]), Number(xablau.number))
-          return Number(xablau2[xablau.column]) > Number(xablau.number)
+          console.log(Number(xablau2[xablau.column]), Number(xablau.number));
+          return Number(xablau2[xablau.column]) > Number(xablau.number);
         });
       } else if (xablau.compare === 'menor que') {
         apiPlanets = apiPlanets.filter((xablau2) => (
@@ -54,7 +53,6 @@ const ProviderFilter = ({ children }) => {
         .filter((planetName) => planetName.name.toLowerCase().includes(filtersName));
       setStateFinal({ ...stateFinal, results: [...planetsFilterName] });
     } else if (filterByNumericValues.length > 0) {
-      console.log('oi')
       setStateFinal({ ...stateFinal, results: [...compareFinal(filtersName)] });
     }
   }, [newState, filters, planets, setStateFinal]);

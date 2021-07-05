@@ -37,6 +37,10 @@ function Filter() {
 
     setNewState(newObjNumber);
   };
+  const { filterByNumericValues } = newState.filters;
+  const columnFiltered = column
+    .filter((colum) => !filterByNumericValues
+      .some((filter) => filter.column === colum));
 
   return (
     <form>
@@ -55,7 +59,7 @@ function Filter() {
         data-testid="column-filter"
         onChange={ (event) => setColumnFilter(event.target.value) }
       >
-        {column.map((columnOption) => (
+        {columnFiltered.map((columnOption) => (
           <option key={ columnOption }>{ columnOption }</option>
         ))}
       </select>
