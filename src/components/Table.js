@@ -1,46 +1,102 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import MyContext from '../context/MyContext';
+import SearchInput from './SearchInput';
+import Comparison from './Comparison';
+import Column from './Column';
+import InputData from './InputData';
 
 function Table() {
-  const { data, getElements } = useContext(MyContext);
-  console.log(data);
-  const colunas = data[0] && Object.keys(data[0]);
+  const { data,
+    name,
+    header,
+    column,
+    comparison,
+    value,
+    setfilterByNumericValues,
+    filterByNumericValues,
+    listPlanets,
+    setListPlanets,
+    setValue,
+    setColumn,
+    setComparison,
+  } = useContext(MyContext);
 
-  useEffect(() => {
-    getElements();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  // Fonte desse comentário acima: https://stackoverflow.com/questions/55840294/how-to-fix-missing-dependency-warning-when-using-useeffect-react-hook
+  let getPlanets = listPlanets;
+  const search = name.toLowerCase();
+  if (search !== '') {
+    getPlanets = listPlanets.filter((planet) => (
+      planet.name.toLowerCase().includes(search)));
+  }
+
+  const funcClick = () => {
+    if (comparison === 'maior que') {
+      getPlanets = data.filter((planet) => (
+        planet[column] > Number(value)));
+      setListPlanets(getPlanets);
+    } else if (comparison === 'menor que') {
+      getPlanets = data.filter((planet) => (
+        planet[column] < Number(value)));
+      setListPlanets(getPlanets);
+    } else if (comparison === 'igual a') {
+      getPlanets = data.filter((planet) => (
+        planet[column] === value));
+      setListPlanets(getPlanets);
+    }
+    setfilterByNumericValues([...filterByNumericValues, { value, column, comparison }]);
+    document.getElementById(comparison).remove();
+    document.getElementById(column).remove();
+    setColumn('orbital_period');
+    setComparison('menor que');
+    setValue('');
+  };
 
   return (
-    <table>
-      <thead>
-        <tr>
-          {data[0] && colunas.map((header) => (
-            <th key={ Math.random() * 100 }>{header}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        { data.map((datas, index) => (
-          <tr key={ index }>
-            <td>{datas.name}</td>
-            <td>{datas.rotation_period}</td>
-            <td>{datas.orbital_period}</td>
-            <td>{datas.diameter}</td>
-            <td>{datas.climate}</td>
-            <td>{datas.gravity}</td>
-            <td>{datas.terrain}</td>
-            <td>{datas.surface_water}</td>
-            <td>{datas.population}</td>
-            <td>{datas.films}</td>
-            <td>{datas.created}</td>
-            <td>{datas.edited}</td>
-            <td>{datas.url}</td>
+    <>
+      <SearchInput />
+
+      <div>
+        <Column />
+        <Comparison />
+        <InputData />
+
+        <button
+          type="button"
+          data-testid="button-filter"
+          onClick={ () => funcClick() }
+        >
+          Filtrar
+        </button>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            {header.map((head) => (
+              <th key={ head }>{head}</th>
+            ))}
           </tr>
-        )) }
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {getPlanets.map((datas, index) => (
+            <tr key={ index }>
+              <td>{datas.name}</td>
+              <td>{datas.rotation_period}</td>
+              <td>{datas.orbital_period}</td>
+              <td>{datas.diameter}</td>
+              <td>{datas.climate}</td>
+              <td>{datas.gravity}</td>
+              <td>{datas.terrain}</td>
+              <td>{datas.surface_water}</td>
+              <td>{datas.population}</td>
+              <td>{datas.films}</td>
+              <td>{datas.created}</td>
+              <td>{datas.edited}</td>
+              <td>{datas.url}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
   );
 }
 
