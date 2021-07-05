@@ -1,89 +1,93 @@
-import React, { useContext } from 'react';
-import context from './context';
+import React, { useState, useContext } from 'react';
+import Context from './context';
+
+const filtForArray = [
+  'population',
+  'orbital_period',
+  'diameter',
+  'rotation_period',
+  'surface_water',
+];
 
 function Filter() {
-  const { filters, setFilters, setFilterByColumn,
-    setFilterByComparison, setFilterByValue, setKeyButton,
-  } = useContext(context);
+  const { filters, setFilters } = useContext(Context);
 
-  const categories = ['population', 'orbital_period',
-    'diameter', 'rotation_period', 'surface_water'];
+  const [filtColumn, setfiltColumn] = useState();
+  const [filtArray, setfiltArray] = useState(filtForArray);
+  const [filtComparison, setfiltComparison] = useState();
+  const [filtValue, setfiltValou] = useState();
+
+  function handeleClick() {
+    setFilters({ ...filters,
+      filterByNumericValues: filters.filterByNumericValues.concat({
+        column: filtColumn,
+        comparison: filtComparison,
+        value: filtValue,
+      }),
+    });
+    setfiltArray(filtArray.filter((e) => e !== filtColumn));
+  }
 
   return (
     <form>
-
-      {/*  Caixa de pesquisa que filtra por nome */}
       <label htmlFor="inputNameFilter">
-        Planet Name:
+        planet name
         <input
           type="text"
-          name="namePlanet"
+          name="namePlan"
           id="inputNameFilter"
           data-testid="name-filter"
           onChange={
-            ({ target }) => (
+            (e) => (
               setFilters({
-                ...filters, filterByName: { name: target.value },
+                ...filters,
+                filterByName: { name: e.target.value },
               }))
           }
         />
       </label>
-
-      {/*  Dropdown que filtra por categorias */}
-      <label htmlFor="column-filter">
-        <select
-          id="column-filter"
-          data-testid="column-filter"
-          onClick={
-            ({ target }) => setFilterByColumn(target.value)
-          }
-        >
-          { categories.map((category) => (
-            <option value={ category } key={ category }>
-              { category }
-            </option>
-          )) }
-        </select>
-      </label>
-
-      {/*  Dropdown que filtra por comparação */}
-      <label htmlFor="comparison-filter">
-        <select
-          id="comparison-filter"
-          data-testid="comparison-filter"
-          onClick={
-            ({ target }) => setFilterByComparison(target.value)
-          }
-        >
-          <option key="comparison1" value="maior que">maior que</option>
-          <option key="comparison2" value="menor que">menor que</option>
-          <option key="comparison3" value="igual a">igual a</option>
-        </select>
-      </label>
-
-      {/*  Filtra por número */}
-      <label htmlFor="value-filter">
+      <select
+        data-testid="column-filter"
+        onChange={ (e) => (setfiltColumn(e.target.value)) }
+        value={ filtColumn }
+      >
+        {filtArray.map((e) => (
+          <option
+            key={ e }
+            name={ e }
+            value={ e }
+          >
+            {e}
+          </option>
+        ))}
+      </select>
+      <select
+        data-testid="comparison-filter"
+        value={ filtComparison }
+        onChange={ (e) => (setfiltComparison(e.target.value)) }
+      >
+        <option name="maior que" value="maior que">maior que</option>
+        <option name="menor que" value="menor que">menor que</option>
+        <option name="igual a" value="igual a">igual a</option>
+      </select>
+      <label htmlFor="quantidade">
         <input
-          id="value-filter"
+          id="quantidade"
+          name="quantidade"
           type="number"
+          value={ filtValue }
           data-testid="value-filter"
-          onChange={
-            ({ target }) => setFilterByValue(target.value)
-          }
+          onChange={ (e) => setfiltValou(e.target.value) }
         />
       </label>
-
       <button
         data-testid="button-filter"
         type="button"
-        onClick={
-          setKeyButton(false)
-        }
+        onClick={ handeleClick }
       >
-        Filtrar
+        Adicionar Filtro
       </button>
     </form>
   );
 }
-
 export default Filter;

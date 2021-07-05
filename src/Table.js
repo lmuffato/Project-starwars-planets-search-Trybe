@@ -2,55 +2,59 @@ import React, { useContext } from 'react';
 import context from './context';
 
 function Table() {
-  const { data, header, filters, keyAPI, keyButton,
-    filterByComparison, filterByColumn, filterByValue } = useContext(context);
+  const { data, headers, filters } = useContext(context);
+  function filtNum(paramArray) {
+    const { filterByNumericValues } = filters;
+    if (!filterByNumericValues.length) return paramArray;
 
-  // Retorna o valor que for igual ao escrito no estado dentro do componente Filter
-  const { filterByName: { name } } = filters;
-  let response = data;
-  if (data !== undefined && name.length > 0) {
-    console.log(name);
-    response = data.filter((planet) => (
-      planet.name.includes(name)));
-  }
-  if (keyButton === false && filterByComparison === 'maior que') {
-    response = response.filter((planet) => (
-      planet[filterByColumn] > Number(filterByValue)));
-  }
-  if (keyButton === false && filterByComparison === 'menor que') {
-    response = response.filter((planet) => (
-      planet[filterByColumn] < Number(filterByValue)));
-  }
-  if (keyButton === false && filterByComparison === 'igual a') {
-    response = response.filter((planet) => (
-      planet[filterByColumn] === filterByValue));
+    let newArray = paramArray;
+
+    filterByNumericValues.forEach((filt) => {
+      const { comparison, column, value } = filt;
+
+      if (comparison === 'maior que') {
+        newArray = newArray.filter((pl) => parseFloat(pl[column]) > parseFloat(value));
+      }
+      if (comparison === 'menor que') {
+        newArray = newArray.filter((pl) => parseFloat(pl[column]) < parseFloat(value));
+      }
+      if (comparison === 'igual a') {
+        newArray = newArray.filter((pl) => parseFloat(pl[column]) === parseFloat(value));
+      }
+    });
+    return newArray;
   }
 
-  // Renderiza uma tabela dinâmica filtrada pelo que foi digitado
-  if (keyAPI === false) {
-    return (
-      <table>
-        <tr>
-          {header.map((head) => <th key={ head }>{head}</th>)}
-        </tr>
-        {
-          response.map((planet) => (
-            <tr key={ planet.name }>
-              {
-                header.map((i) => (
-                  <td key={ planet[i] }>
-                    { planet[i] }
-                  </td>))
-              }
-            </tr>))
-        }
-      </table>
-    );
+  function fullFilt() {
+    const { filterByName: { name } } = filters;
+    const filtro = data.results.filter((namePlanet) => (
+      namePlanet.name.includes(name)
+    ));
+    return filtNum(filtro);
   }
+
+  if (!headers.length) return <h1>Navegando...</h1>;
 
   return (
-    <div>LOading</div>
+    <table>
+      <tbody>
+        <tr>
+          {headers.map((head) => <th key={ head }>{head}</th>)}
+        </tr>
+        {
+          fullFilt()
+            .map((dataPlan) => (
+              <tr key={ dataPlan.name }>
+                {
+                  headers.map((index) => (
+                    <td key={ dataPlan[index] }>
+                      { dataPlan[index] }
+                    </td>))
+                }
+              </tr>))
+        }
+      </tbody>
+    </table>
   );
 }
-
 export default Table;
