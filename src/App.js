@@ -18,3 +18,4 @@ function App() {
 export default App;
 
 // requisito 2 e refatoramento do 1 feito com a ajuda de Nathi zebral e Adelino junior
+// requisito 3 e 4 feito com ajuda dos colegas Nathi Zebral e Perycles dos Reis Floriano
