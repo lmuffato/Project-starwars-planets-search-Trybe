@@ -14,10 +14,22 @@ const Table = () => {
         <thead>
           <tr>
             {
-              Object.keys(data[0]).map((each) => <th key={ each }>{each}</th>)
+              Object.keys(data[0])
+                .map((inforEach) => <th key={ inforEach }>{inforEach}</th>)
             }
           </tr>
         </thead>
+        <tbody>
+          {
+            data.map((each) => (
+              <tr key={ each.name }>
+                {Object.values(each).map((value) => (
+                  <td key={ value }>{value}</td>
+                ))}
+              </tr>
+            ))
+          }
+        </tbody>
       </table>
     </div>
   );
