@@ -5,6 +5,14 @@ import fetchAPI from '../service/FetchAPI';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
+  const [name, setName] = useState({
+    filters: {
+      filterByName: {
+        name: '',
+      },
+    },
+  });
+  const [filteredData, setFilteredData] = useState([]);
 
   useEffect(() => {
     const fetch = async () => {
@@ -14,8 +22,21 @@ function Provider({ children }) {
     fetch();
   }, []);
 
+  useEffect(() => {
+    setFilteredData(data);
+    if (name.filters.filterByName.name !== '') {
+      const result = data.filter(
+        (planet) => planet.name.toLowerCase().includes(name.filters.filterByName.name),
+      );
+      setFilteredData(result);
+    }
+  }, [name, data]);
+
   const contextValue = {
     data,
+    name,
+    setName,
+    filteredData,
   };
 
   return (
