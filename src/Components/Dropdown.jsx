@@ -2,25 +2,11 @@ import React, { useContext } from 'react';
 import context from '../Provider/Context';
 
 function Dropdown() {
-  const { data, filter, setFilter, column, setColumn, operator, setOperator, value, setValue } = useContext(context);
+  const { setFilter, setColumn, setOperator, setValue } = useContext(context);
 
   const arrayColumns = ['population',
     'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
   const arrayComparison = ['maior que', 'igual a', 'menor que'];
-
-  const operatorsIf = () => {
-    if (filter && operator === 'maior que') {
-      operatorsIf = data.filter((goten) => (
-        goten[column] > Number(value)));
-    } else if (filter && operator === 'menor que') {
-      operatorsIf = data.filter((goten) => (
-        goten[column] < Number(value)));
-    } else if (filter && operator === 'igual a') {
-      operatorsIf = data.filter((goten) => (
-        goten[column] === value));
-    }
-    return operatorsIf;
-  };
 
   return (
     <div>
