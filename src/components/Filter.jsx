@@ -6,11 +6,15 @@ function Filter() {
   const { filters, setFilters } = useContext(FiltersContext);
   const { filterByName = { name: '' }, filterByNumericValues = [] } = filters;
   const [numericFilters, setNumericFilters] = useState([]);
+  const [applyedFilters, setApplyedFilters] = useState([]);
   const [numericValueFilter, setNumericValueFilter] = useState({});
   const [applyFilters, setApplyFilters] = useState(false);
+  const COLUMN_FILTERS = ['population', 'orbital_period',
+    'diameter', 'rotation_period', 'surface_water'];
+  const NUMERIC_VALUES_LENGTH = 3;
 
   useEffect(() => setNumericFilters(
-    ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
+    COLUMN_FILTERS,
   ), []);
 
   const filteredByName = (searchTerm = filterByName.name) => (searchTerm !== ''
@@ -47,19 +51,65 @@ function Filter() {
   }
 
   function handleClick() {
-    const usedFilterIndex = numericFilters.indexOf(numericValueFilter.column);
-    setNumericFilters([...numericFilters.slice(0, usedFilterIndex),
-      ...numericFilters.slice(usedFilterIndex + 1)]);
-    setFilters({
-      ...filters,
-      filterByNumericValues: [
-        ...filterByNumericValues,
-        numericValueFilter,
-      ],
-    });
-    setApplyFilters(!applyFilters);
+    if (Object.keys(numericValueFilter).length === NUMERIC_VALUES_LENGTH) {
+      const usedFilterIndex = numericFilters.indexOf(numericValueFilter.column);
+      setApplyedFilters([...applyedFilters, numericValueFilter.column]);
+      setNumericFilters([...numericFilters.slice(0, usedFilterIndex),
+        ...numericFilters.slice(usedFilterIndex + 1)]);
+      setFilters({
+        ...filters,
+        filterByNumericValues: [
+          ...filterByNumericValues,
+          numericValueFilter,
+        ],
+      });
+      setNumericValueFilter({});
+      setApplyFilters(!applyFilters);
+    }
+
     // applyFiltersByNumericValue();
     // setApplyFilters(true);
+  }
+
+  useEffect(() => {
+    const filteredColumns = COLUMN_FILTERS
+      .filter((column) => !applyedFilters.includes(column));
+    setNumericFilters(filteredColumns);
+  }, [applyedFilters]);
+
+  function removeFilter(filter, index) {
+    const numericValuesIndex = filterByNumericValues
+      .findIndex((numericFilter) => numericFilter.column === filter);
+    const filterByNumericValuesChanged = [...filterByNumericValues
+      .slice(0, numericValuesIndex), ...filterByNumericValues
+      .slice(numericValuesIndex + 1)];
+    setApplyedFilters([...applyedFilters
+      .slice(0, index), ...applyedFilters.slice(index + 1)]);
+    setFilters({
+      ...filters,
+      filterByNumericValues:
+        filterByNumericValuesChanged,
+    });
+    setApplyFilters(!applyFilters);
+  }
+
+  function renderApplyedFilters() {
+    return (
+      <div data-testid="filter">
+        {applyedFilters.map((filter, index) => filter && (
+          <>
+            <button
+              key={ `${filter}-${index}` }
+              type="button"
+              onClick={ () => removeFilter(filter, index) }
+            >
+              x
+            </button>
+            {filter}
+          </>
+        ))}
+      </div>
+    );
   }
 
   return (
@@ -105,6 +155,7 @@ function Filter() {
       >
         Filtrar
       </button>
+      {applyedFilters && renderApplyedFilters()}
     </form>
   );
 }
