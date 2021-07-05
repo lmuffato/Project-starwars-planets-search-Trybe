@@ -1,7 +1,7 @@
 import React from 'react';
 import Provider from './Provider/provider';
 import ProviderFilter from './Provider/providerFilter';
-import FilterText from './components/filter';
+import Filter from './components/filter';
 import Table from './components/table';
 import './App.css';
 
@@ -10,7 +10,7 @@ function App() {
   return (
     <Provider>
       <ProviderFilter>
-        <FilterText />
+        <Filter />
         <Table />
       </ProviderFilter>
     </Provider>

@@ -4,7 +4,7 @@ import fetchApi from '../services/api';
 import ContextApi from '../context/context';
 
 const Provider = ({ children }) => {
-  const [planets, setPlanets] = useState(ContextApi);
+  const [planets, setPlanets] = useState({ results: [] });
 
   const getApi = async () => {
     const getPlanets = await fetchApi();
