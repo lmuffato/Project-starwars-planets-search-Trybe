@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import StarWarsContext from './StarWarsContext';
+import useClassState from '../hooks/useClassState';
 
 const MINUS_ONE = -1;
 
@@ -30,7 +31,7 @@ const cb4 = (order) => (a, b) => {
 function StarWarsProvider({ children }) {
   const [data, setData] = useState();
   const [filteredResults, setFilteredResults] = useState();
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useClassState({
     filterByName: { name: '' },
     filterByNumericValues: [],
     order: {
@@ -84,7 +85,7 @@ function StarWarsProvider({ children }) {
   }, [data, filters]);
 
   const setFilterName = (name) => {
-    setFilters((st) => ({ ...st, filterByName: { name } }));
+    setFilters({ filterByName: { name } });
   };
 
   const setNumericFilter = (column, comparison, value) => {
@@ -98,11 +99,10 @@ function StarWarsProvider({ children }) {
       const filteredFilters = filters.filterByNumericValues.filter(
         (_, i) => i !== repeatedIndex,
       );
-      setFilters((st) => (
-        { ...st, filterByNumericValues: [...filteredFilters, output] }));
+      setFilters({ filterByNumericValues: [...filteredFilters, output] });
     } else {
       setFilters((st) => (
-        { ...st, filterByNumericValues: [...st.filterByNumericValues, output] }));
+        { filterByNumericValues: [...st.filterByNumericValues, output] }));
     }
   };
 
@@ -110,16 +110,15 @@ function StarWarsProvider({ children }) {
     const removedFilter = filters.filterByNumericValues
       .filter(({ column }) => column !== filter);
 
-    setFilters((st) => ({ ...st,
-      filterByNumericValues: removedFilter }));
+    setFilters({ filterByNumericValues: removedFilter });
   };
 
   const resetNumberedFilters = () => {
-    setFilters((st) => ({ ...st, filterByNumericValues: [] }));
+    setFilters({ filterByNumericValues: [] });
   };
 
   const setOrderObj = (column, sort) => {
-    setFilters((st) => ({ ...st, order: { column, sort } }));
+    setFilters({ order: { column, sort } });
   };
 
   const startWarsContext = {
