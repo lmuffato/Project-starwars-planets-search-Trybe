@@ -4,15 +4,22 @@ import { PlanetsContext } from '../context';
 function Table() {
   const { filteredValues } = useContext(PlanetsContext);
 
-  console.log(filteredValues);
-  const tableHeader = Object.keys(filteredValues[0] || []);
-  tableHeader.splice(tableHeader.indexOf('residents'), 1);
+  // console.log(filteredValues);
+  const tableHeader = () => {
+    const headerValues = Object.keys(filteredValues[0] || []);
+    const residentsIndex = headerValues.indexOf('residents');
+    if (residentsIndex >= 0) {
+      headerValues.splice(residentsIndex, 1);
+      return headerValues;
+    }
+    return headerValues;
+  };
 
   return (
     <table>
       <thead>
         <tr>
-          {tableHeader.map((elementHeader) => (
+          {tableHeader().map((elementHeader) => (
             <th key={ elementHeader }>
               {elementHeader}
             </th>
