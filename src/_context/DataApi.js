@@ -7,6 +7,11 @@ export const ApiContext = createContext();
 const ApiContextProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [filters, setFilters] = useState({
+    filterName: {
+      name: '',
+    },
+  });
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -17,9 +22,20 @@ const ApiContextProvider = ({ children }) => {
     fetchApi();
   }, []);
 
+  function nameFilter(name) {
+    setFilters({
+      ...filters,
+      filterName: {
+        name,
+      },
+    });
+  }
+
   const context = {
     data,
     loading,
+    filters,
+    nameFilter,
   };
 
   return (

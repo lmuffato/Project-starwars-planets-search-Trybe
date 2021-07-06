@@ -1,8 +1,15 @@
 import React, { useContext } from 'react';
 import { ApiContext } from '../_context/DataApi';
+import Filters from './Filters';
 
+const filterData = (data, filters) => {
+  const { name } = filters.filterName;
+  const filteredData = data.filter((planet) => planet.name.includes(name));
+  return filteredData;
+};
 const Table = () => {
-  const { data, loading } = useContext(ApiContext);
+  const { data, loading, filters } = useContext(ApiContext);
+  const filtered = filterData(data, filters);
 
   if (loading) {
     return <h1>Loading...</h1>;
@@ -10,6 +17,7 @@ const Table = () => {
 
   return (
     <div>
+      <Filters />
       <table>
         <thead>
           <tr>
@@ -21,7 +29,7 @@ const Table = () => {
         </thead>
         <tbody>
           {
-            data.map((each) => (
+            filtered.map((each) => (
               <tr key={ each.name }>
                 {Object.values(each).map((value) => (
                   <td key={ value }>{value}</td>
