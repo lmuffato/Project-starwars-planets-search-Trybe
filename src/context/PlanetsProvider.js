@@ -6,6 +6,7 @@ import planetsApi from '../service/planetsApi';
 function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [inputTyped, setInputTyped] = useState('');
 
   const [filters, setFilters] = useState({
     filtersByName: {
@@ -16,6 +17,7 @@ function PlanetsProvider({ children }) {
   useEffect(() => {
     const getRequest = async () => {
       const request = await planetsApi();
+      // console.log(request);
       const dataResults = request.results;
       const filtered = dataResults.map((planet) => {
         delete planet.residents;
@@ -27,13 +29,17 @@ function PlanetsProvider({ children }) {
   }, []);
 
   const handleInputFilter = (value) => {
+    setInputTyped(value);
+  };
+
+  useEffect(() => {
     setFilters((prevState) => ({
       ...prevState,
       filtersByName: {
-        name: value,
+        name: inputTyped,
       },
     }));
-  };
+  }, [inputTyped]);
 
   return (
     <PlanetsContext.Provider

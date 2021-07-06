@@ -28,6 +28,7 @@ function App() {
             name="inputName"
             data-testid="name-filter"
             onChange={ (e) => handleChange(e) }
+            value={ inputName }
           />
         </label>
         <Table inputName={ inputName } />
@@ -38,4 +39,4 @@ function App() {
 
 export default App;
 
-// https://blog.logrocket.com/a-guide-to-usestate-in-react-ecb9952e406c/
+// https://blog.logrocket.com/a-guide-to-usestate-in-react-ecb9952e406c/ USING OBJECTS AS DEFAULT

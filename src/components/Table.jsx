@@ -8,19 +8,16 @@ function Table({ inputName }) {
 
   useEffect(() => {
     const getGlobal = () => {
-      setRenderData(data);
-    };
-    getGlobal();
-  }, [data]);
-
-  useEffect(() => {
-    const filterRenderData = () => {
       const filtered = data
         .filter((eachPlanet) => (eachPlanet.name.includes(inputName)));
-      setRenderData(filtered);
+      if (filtered.length > 0) {
+        setRenderData(filtered);
+      } else {
+        setRenderData(data);
+      }
     };
-    filterRenderData();
-  }, [inputName, data]);
+    getGlobal();
+  }, [data, inputName]);
 
   useEffect(() => {
     handleInputFilter(inputName);
