@@ -2,7 +2,9 @@ import React, { useContext, useEffect } from 'react';
 import PlanetContext from '../../context/PlanetContext';
 
 function InputTextFilter() {
-  const { inputText, setInputText,
+  const {
+    filterByName,
+    // setFilterByName,
   } = useContext(PlanetContext);
 
   useEffect(() => {
@@ -10,13 +12,13 @@ function InputTextFilter() {
 
   return (
     <span>
-      <h1>{inputText}</h1>
-      <input
+      <h1>{filterByName}</h1>
+      {/* <input
         type="text"
         data-testid="name-filter"
-        value={ inputText }
-        onChange={ (event) => setInputText(event.target.value) }
-      />
+        value={ filterByName }
+        onChange={ (event) => setFilterByName(event.target.value) }
+      /> */}
     </span>
   );
 }

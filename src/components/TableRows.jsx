@@ -2,11 +2,36 @@ import React, { useContext } from 'react';
 import PlanetContext from '../context/PlanetContext';
 
 function TableRows() {
-  const { planetsList, inputText } = useContext(PlanetContext);
+  const {
+    planetsList,
+    filterByName,
+    filters,
 
-  const filtredPlanets = planetsList.filter((planet) => planet.name.includes(inputText));
+    filterByNumericValues,
+  } = useContext(PlanetContext);
 
-  const tableRows = () => filtredPlanets
+  console.log(filterByNumericValues);
+
+  // const filterByNumericValues = { 
+  //   column: 'population', comparison: 'maior que', value: 0
+  // }
+
+  // filterByNumericValues[0].column
+  // filterByNumericValues[0].comparison
+  // filterByNumericValues[0].value
+
+  const filtredByName = planetsList
+    .filter((planet) => planet.name.includes(filterByName));
+
+  // const filtros = () => {
+  //   filtredByName.filter((planet, index) => planet.filterByNumericValues.column
+  //   === filterByNumericValues.value);
+  // };
+
+  // const filtredPlanets = planetsList
+  //   .filter((planet) => planet.name.includes(filterByName));
+
+  const tableRows = () => filtredByName
     .map((planet, index) => (
       <tr key={ index }>
         <td>{planet.name}</td>
@@ -28,6 +53,7 @@ function TableRows() {
 
   return (
     <tbody>
+      {console.log(filters)}
       {tableRows()}
     </tbody>
   );

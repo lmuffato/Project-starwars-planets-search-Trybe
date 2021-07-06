@@ -6,7 +6,51 @@ function PlanetProvider({ children }) {
   const [planetsList, setPlanetsList] = useState([]);
   const [planetsFiltred, setPlanetsFiltred] = useState([]);
   const [tableColumns, setTableColumns] = useState([]);
-  const [inputText, setInputText] = useState('');
+  const [filterByName, setFilterByName] = useState('');
+  const [filterByNumericValues, setFilterByNumericValues] = useState([
+    // { column: '', comparison: '', value: '0' },
+  ]);
+
+  const [columnFilter, setColumnFilter] = useState('population');
+  const [comparisonFilter, setComparisonFilter] = useState('maior que');
+  const [valueFilter, setValueFilter] = useState(0);
+
+  const [filters, setFilters] = useState({});
+
+  const [updateFilter, setUpdateFilter] = useState(false);
+
+  // const applyFilter = () => {
+  //   setFilterByNumericValues(
+  //     filterByNumericValues.concat({
+  //       column: columnFilter,
+  //       comparison: comparisonFilter,
+  //       value: valueFilter,
+  //     }),
+  //   );
+  // };
+
+  // const applyFilter = () => {
+  // setFilterByNumericValues(
+  //   filterByNumericValues.concat({
+  //     column: columnFilter,
+  //     comparison: comparisonFilter,
+  //     value: valueFilter,
+  //   }),
+  // );
+  // };
+  console.log(filterByNumericValues.column);
+
+  const applyFilter = () => {
+    setFilterByNumericValues(
+      filterByNumericValues.concat({
+        column: columnFilter,
+        comparison: comparisonFilter,
+        value: valueFilter,
+      }),
+    );
+  };
+
+  // ifthen();
 
   return (
     <main>
@@ -18,8 +62,27 @@ function PlanetProvider({ children }) {
           setPlanetsFiltred,
           tableColumns,
           setTableColumns,
-          inputText,
-          setInputText,
+
+          filterByName,
+          setFilterByName,
+          filterByNumericValues,
+          setFilterByNumericValues,
+
+          filters,
+          setFilters,
+
+          updateFilter,
+          setUpdateFilter,
+
+          columnFilter,
+          setColumnFilter,
+          comparisonFilter,
+          setComparisonFilter,
+          valueFilter,
+          setValueFilter,
+
+          applyFilter,
+
         } }
       >
         {children}
