@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PlanetContext from '../../context/PlanetContext';
 
 function InputTextFilter() {
@@ -26,6 +26,22 @@ function InputTextFilter() {
   useEffect(() => {
   }, [filterByNumericValues]);
 
+  const usedOptions = filterByNumericValues.map(({ column }) => column);
+  const options = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ];
+
+  const disponibleOptionsFunc = () => {
+    const disponibleOptions = options.filter((option) => !usedOptions.includes(option));
+    console.log(disponibleOptions);
+    return disponibleOptions
+      .map((option) => (<option key={ option } value={ option }>{option}</option>));
+  };
+
   return (
     <span>
       <span>
@@ -47,11 +63,7 @@ function InputTextFilter() {
           value={ columnFilter }
           onChange={ (event) => setColumnFilter(event.target.value) }
         >
-          <option value="population">Population</option>
-          <option value="orbital_period" disabled={ 2 + 2 === 4 }>Orbital Period</option>
-          <option value="diameter">Diameter</option>
-          <option value="rotation_period">Rotation Period</option>
-          <option value="surface_water">Surface Water</option>
+          {disponibleOptionsFunc()}
         </select>
       </label>
 

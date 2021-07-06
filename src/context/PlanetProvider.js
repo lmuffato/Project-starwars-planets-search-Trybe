@@ -7,38 +7,12 @@ function PlanetProvider({ children }) {
   const [planetsFiltred, setPlanetsFiltred] = useState([]);
   const [tableColumns, setTableColumns] = useState([]);
   const [filterByName, setFilterByName] = useState('');
-  const [filterByNumericValues, setFilterByNumericValues] = useState([
-    // { column: '', comparison: '', value: '0' },
-  ]);
-
+  const [filterByNumericValues, setFilterByNumericValues] = useState([]);
   const [columnFilter, setColumnFilter] = useState('population');
   const [comparisonFilter, setComparisonFilter] = useState('maior que');
   const [valueFilter, setValueFilter] = useState(0);
-
   const [filters, setFilters] = useState({});
-
   const [updateFilter, setUpdateFilter] = useState(false);
-
-  // const applyFilter = () => {
-  //   setFilterByNumericValues(
-  //     filterByNumericValues.concat({
-  //       column: columnFilter,
-  //       comparison: comparisonFilter,
-  //       value: valueFilter,
-  //     }),
-  //   );
-  // };
-
-  // const applyFilter = () => {
-  // setFilterByNumericValues(
-  //   filterByNumericValues.concat({
-  //     column: columnFilter,
-  //     comparison: comparisonFilter,
-  //     value: valueFilter,
-  //   }),
-  // );
-  // };
-  console.log(filterByNumericValues.column);
 
   const applyFilter = () => {
     setFilterByNumericValues(
@@ -80,7 +54,6 @@ function PlanetProvider({ children }) {
           setComparisonFilter,
           valueFilter,
           setValueFilter,
-
           applyFilter,
 
         } }

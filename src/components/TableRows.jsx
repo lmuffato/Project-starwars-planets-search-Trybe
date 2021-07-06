@@ -5,33 +5,43 @@ function TableRows() {
   const {
     planetsList,
     filterByName,
-    filters,
-
     filterByNumericValues,
   } = useContext(PlanetContext);
 
-  console.log(filterByNumericValues);
-
-  // const filterByNumericValues = { 
-  //   column: 'population', comparison: 'maior que', value: 0
-  // }
-
-  // filterByNumericValues[0].column
-  // filterByNumericValues[0].comparison
-  // filterByNumericValues[0].value
-
-  const filtredByName = planetsList
+  const filtredPlanetsNyName = planetsList
     .filter((planet) => planet.name.includes(filterByName));
 
-  // const filtros = () => {
-  //   filtredByName.filter((planet, index) => planet.filterByNumericValues.column
-  //   === filterByNumericValues.value);
-  // };
+  const filterIteration = (array, coluna, comparador, valor) => {
+    switch (comparador) {
+    case 'maior que':
+      return array.filter((planet) => planet[coluna] * 1 > valor);
+    case 'menor que':
+      return array.filter((planet) => planet[coluna] * 1 < valor);
+    case 'igual a':
+      return array.filter((planet) => planet[coluna] === valor);
+    default:
+      return array;
+    }
+  };
 
-  // const filtredPlanets = planetsList
-  //   .filter((planet) => planet.name.includes(filterByName));
+  const teste2 = (array, arrayFilter) => {
+    if (arrayFilter !== undefined && arrayFilter.length > 0) {
+      let currentArray = array;
+      let newArray = [];
+      arrayFilter.forEach((filter) => {
+        const coluna = filter.column;
+        const comparador = filter.comparison;
+        const valor = filter.value;
+        newArray = filterIteration(currentArray, coluna, comparador, valor);
+        currentArray = newArray;
+      });
+      return newArray;
+    } return array;
+  };
 
-  const tableRows = () => filtredByName
+  const filtredPlanets = teste2(filtredPlanetsNyName, filterByNumericValues);
+
+  const tableRows = () => filtredPlanets
     .map((planet, index) => (
       <tr key={ index }>
         <td>{planet.name}</td>
@@ -53,7 +63,6 @@ function TableRows() {
 
   return (
     <tbody>
-      {console.log(filters)}
       {tableRows()}
     </tbody>
   );
