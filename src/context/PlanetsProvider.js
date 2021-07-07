@@ -7,11 +7,13 @@ function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [inputTyped, setInputTyped] = useState('');
+  const [selectedFilters, setSelectedFilters] = useState([]);
 
   const [filters, setFilters] = useState({
     filtersByName: {
       name: '',
     },
+    filterByNumericValues: [],
   });
 
   useEffect(() => {
@@ -41,10 +43,29 @@ function PlanetsProvider({ children }) {
     }));
   }, [inputTyped]);
 
+  const handleSelectedFilters = (object) => {
+    setSelectedFilters(object);
+  };
+
+  useEffect(() => {
+    setFilters((prevState) => ({
+      ...prevState,
+      filterByNumericValues: [...prevState.filterByNumericValues.concat(selectedFilters)],
+    }));
+  }, [selectedFilters]);
+
+  const contextValues = {
+    data,
+    isLoading,
+    setData,
+    setIsLoading,
+    filters,
+    handleInputFilter,
+    handleSelectedFilters,
+  };
+
   return (
-    <PlanetsContext.Provider
-      value={ { data, isLoading, setData, setIsLoading, filters, handleInputFilter } }
-    >
+    <PlanetsContext.Provider value={ contextValues }>
       {children}
     </PlanetsContext.Provider>
   );

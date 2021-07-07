@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import PlanetsContext from '../context/PlanetsContext';
 
-function Table({ inputName }) {
-  const { data, handleInputFilter } = useContext(PlanetsContext);
+function Table() {
+  const { data, filters } = useContext(PlanetsContext);
   const [renderData, setRenderData] = useState([]);
 
   useEffect(() => {
     const getGlobal = () => {
+      const { filtersByName: { name } } = filters;
       const filtered = data
-        .filter((eachPlanet) => (eachPlanet.name.includes(inputName)));
+        .filter((eachPlanet) => (eachPlanet.name.includes(name)));
       if (filtered.length > 0) {
         setRenderData(filtered);
       } else {
@@ -17,11 +17,7 @@ function Table({ inputName }) {
       }
     };
     getGlobal();
-  }, [data, inputName]);
-
-  useEffect(() => {
-    handleInputFilter(inputName);
-  });
+  }, [data, filters]);
 
   return (
     <div>
@@ -46,9 +42,5 @@ function Table({ inputName }) {
     </div>
   );
 }
-
-Table.propTypes = {
-  inputName: PropTypes.string.isRequired,
-};
 
 export default Table;
