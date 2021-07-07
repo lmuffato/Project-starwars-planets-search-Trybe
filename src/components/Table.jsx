@@ -9,8 +9,8 @@ const Table = () => {
   const comparingBetween = (valueA, valueB, comparison) => {
     if (typeof (valueA) === 'number' || typeof (valueB) === 'number') return false;
 
-    valueA = parseFloat(valueA);
-    valueB = parseFloat(valueB);
+    valueA = parseInt(valueA, 10);
+    valueB = parseInt(valueB, 10);
 
     if (comparison === 'maior que') return valueA > valueB;
     if (comparison === 'menor que') return valueA < valueB;
