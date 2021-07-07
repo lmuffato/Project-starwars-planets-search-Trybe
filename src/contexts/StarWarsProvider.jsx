@@ -8,6 +8,7 @@ const StarWarsProvider = ({ children }) => {
   const [planets, setPlanets] = useState([]);
   const [name, setName] = useState('');
   const [filtersByNumericValues, setFiltersByNumericValues] = useState([]);
+  const [unavailableFilters, setUnavailableFilters] = useState([]);
 
   useEffect(() => {
     fetchPlanets().then((requestPlanets) => {
@@ -28,8 +29,10 @@ const StarWarsProvider = ({ children }) => {
   const context = {
     planets,
     ...filters,
+    unavailableFilters,
     setName,
     setFiltersByNumericValues,
+    setUnavailableFilters,
   };
 
   return (
