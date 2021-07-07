@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { StarWarsContext } from '../contexts/StarWarsProvider';
 
 const Table = () => {
-  const { planets } = useContext(StarWarsContext);
+  const { planets, filters: { filterByName: { name } } } = useContext(StarWarsContext);
   const headers = planets[0] || [];
   return (
     <table>
@@ -10,24 +10,24 @@ const Table = () => {
         <tr>
           {
             Object.keys(headers)
-              .map((header, index) => <th key={ index }>{header}</th>)
+              .map((header) => <th key={ header }>{header}</th>)
           }
         </tr>
       </thead>
       <tbody>
         {
-          planets.map((planet, index) => (
-            <tr key={ index }>
-              {
-                Object.values(planet)
-                  .map((info) => <td key={ info }>{info}</td>)
-              }
-            </tr>
-          ))
+          planets.filter((planet) => (name ? (planet.name).includes(name) : true))
+            .map((planet) => (
+              <tr key={ planet.name }>
+                {
+                  Object.values(planet)
+                    .map((info) => <td key={ info }>{info}</td>)
+                }
+              </tr>
+            ))
         }
       </tbody>
     </table>
   );
 };
-
 export default Table;

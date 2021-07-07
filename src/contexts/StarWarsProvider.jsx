@@ -6,16 +6,27 @@ const StarWarsContext = createContext();
 
 const StarWarsProvider = ({ children }) => {
   const [planets, setPlanets] = useState([]);
+  const [name, setName] = useState('');
 
   useEffect(() => {
     fetchPlanets().then((requestPlanets) => {
       requestPlanets.forEach((planet) => delete planet.residents);
-      setPlanets(requestPlanets);
+      setPlanets([...requestPlanets]);
     });
   }, []);
 
+  const filtersName = {
+    filters: {
+      filterByName: {
+        name,
+      },
+    },
+  };
+
   const context = {
     planets,
+    ...filtersName,
+    setName,
   };
 
   return (
@@ -26,7 +37,7 @@ const StarWarsProvider = ({ children }) => {
 };
 
 StarWarsProvider.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.arrayOf({}).isRequired,
 };
 
 export { StarWarsProvider, StarWarsContext };
