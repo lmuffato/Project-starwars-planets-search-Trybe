@@ -2,8 +2,23 @@ import React, { useContext } from 'react';
 import { StarWarsContext } from '../contexts/StarWarsProvider';
 
 const Table = () => {
-  const { planets, filters: { filterByName: { name } } } = useContext(StarWarsContext);
+  const { planets, filters } = useContext(StarWarsContext);
+  const { filterByName: { name }, filterByNumericValues } = filters;
   const headers = planets[0] || [];
+
+  const comparingBetween = (valueA, valueB, comparison) => {
+    if (typeof (valueA) === 'number' || typeof (valueB) === 'number') return false;
+
+    valueA = parseFloat(valueA);
+    valueB = parseFloat(valueB);
+
+    if (comparison === 'maior que') return valueA > valueB;
+    if (comparison === 'menor que') return valueA < valueB;
+    if (comparison === 'igual a') return valueA === valueB;
+
+    return true;
+  };
+
   return (
     <table>
       <thead>
@@ -16,9 +31,14 @@ const Table = () => {
       </thead>
       <tbody>
         {
-          planets.filter((planet) => (name ? (planet.name).includes(name) : true))
-            .map((planet) => (
-              <tr key={ planet.name }>
+          filterByNumericValues
+            .reduce((acc, { column, value, comparison }) => acc
+              .filter((planet) => (
+                comparingBetween(planet[column], value, comparison))),
+            planets)
+            .filter((planet) => (planet.name).includes(name))
+            .map((planet, index) => (
+              <tr key={ index }>
                 {
                   Object.values(planet)
                     .map((info) => <td key={ info }>{info}</td>)
