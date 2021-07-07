@@ -7,9 +7,7 @@ const columns = ['population',
   'rotation_period',
   'surface_water',
 ];
-
 const comparisons = ['maior que', 'menor que', 'igual a'];
-
 const Filter = () => {
   const {
     filters,
@@ -17,12 +15,16 @@ const Filter = () => {
     setName,
     setFiltersByNumericValues,
     setUnavailableFilters,
+    setOrder,
+    headers,
   } = useContext(StarWarsContext);
   const { filterByNumericValues } = filters;
 
   const [column, setColumn] = useState(columns[0]);
   const [comparison, setComparison] = useState(comparisons[0]);
   const [value, setValue] = useState('');
+  const [header, setHeader] = useState('name');
+  const [sort, setSort] = useState('ASC');
 
   return (
     <>
@@ -59,6 +61,48 @@ const Filter = () => {
           unavailableFilters.push(column);
           setUnavailableFilters([...unavailableFilters]);
           setColumn(columns.filter((col) => !unavailableFilters.includes(col))[0]);
+        } }
+      >
+        Filtrar
+      </button>
+      <select
+        value={ header }
+        data-testid="column-sort"
+        onChange={ ({ target: { value: valueHeader } }) => setHeader(valueHeader) }
+      >
+        {Object.keys(headers)
+          .map((headerOption) => (
+            <option value={ headerOption } key={ headerOption }>{headerOption}</option>))}
+      </select>
+      <label htmlFor="asc">
+        <input
+          defaultChecked
+          name="order"
+          value="ASC"
+          data-testid="column-sort-input-asc"
+          type="radio"
+          id="asc"
+          onChange={ ({ target: { value: valueASC } }) => setSort(valueASC) }
+        />
+        Ascendente
+      </label>
+
+      <label htmlFor="desc">
+        <input
+          name="order"
+          value="DESC"
+          data-testid="column-sort-input-desc"
+          type="radio"
+          id="desc"
+          onChange={ ({ target: { value: valueDESC } }) => setSort(valueDESC) }
+        />
+        Descendente
+      </label>
+      <button
+        type="button"
+        data-testid="column-sort-button"
+        onClick={ () => {
+          setOrder({ column: header, sort });
         } }
       >
         Filtrar
