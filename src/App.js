@@ -1,14 +1,16 @@
 import React from 'react';
-import PlanetContext from './context/PlanetContext';
+import { PlanetProveider } from './context/PlanetProvider';
 import Table from './componentes/Table';
-import './App.css';
+import FormFilter from './componentes/FormFilter';
 
 function App() {
   return (
-    <PlanetContext.Provider>
+
+    <PlanetProveider>
+      <FormFilter />
       <Table />
-      <p>oi</p>
-    </PlanetContext.Provider>
+    </PlanetProveider>
+
   );
 }
 
