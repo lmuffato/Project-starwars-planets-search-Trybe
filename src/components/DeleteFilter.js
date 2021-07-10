@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import MyContext from '../contexts/MyContext';
 
-export default function RemoveFilter() {
+export default function DeleteFilter() {
   const {
     filters,
     unavailableFilters,
