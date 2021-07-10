@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import MyContext from './MyContext';
 
 import END_POINT from '../common/def';
-import fetchPlanets from '../services/serviceAPI';
+import fetchData from '../services/api';
 
 const Provider = ({ children }) => {
   const [planets, setPlanets] = useState([]);
@@ -16,7 +16,7 @@ const Provider = ({ children }) => {
   });
 
   useEffect(() => {
-    fetchPlanets(END_POINT).then((request) => {
+    fetchData(END_POINT).then((request) => {
       request.map((planet) => delete planet.residents);
       setPlanets([...request]);
     });
