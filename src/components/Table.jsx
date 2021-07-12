@@ -4,6 +4,7 @@ import PlanetsContext from '../context/PlanetsContext';
 function Table() {
   const { data, filters } = useContext(PlanetsContext);
   const [renderData, setRenderData] = useState([]);
+  const [filterStore, setFilterStore] = useState([]);
 
   useEffect(() => {
     const getGlobal = () => {
@@ -18,6 +19,44 @@ function Table() {
     };
     getGlobal();
   }, [data, filters]);
+
+  useEffect(() => {
+    if (filterStore.length >= 1) setRenderData(filterStore);
+  }, [filterStore]);
+
+  useEffect(() => {
+    const filtering = () => {
+      const { filterByNumericValues } = filters;
+      const filtered = [];
+      filterByNumericValues.forEach((eachfilter) => {
+        const { value, column, comparison } = eachfilter;
+        console.log(column);
+        console.log(comparison);
+        console.log(value);
+        if (comparison === 'maior que') {
+          const c = data.filter((planet) => Number(planet[column]) > Number(value));
+          filtered.push(...c);
+        }
+        if (comparison === 'igual a') {
+          const c = data.filter((planet) => Number(planet[column]) === Number(value));
+          filtered.push(...c);
+        }
+        if (comparison === 'menor que') {
+          const c = data.filter((planet) => Number(planet[column]) < Number(value));
+          filtered.push(...c);
+        }
+        setFilterStore(filtered);
+      });
+    };
+    filtering();
+  }, [data, filters]); // tamo quase
+
+  // useEffect(() => {
+  //   const newRender = () => {
+  //     if (filterStore.length > 1) setRenderData(filterStore);
+  //   };
+  //   newRender();
+  // }, [filterStore]);
 
   return (
     <div>

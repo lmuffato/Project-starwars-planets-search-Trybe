@@ -19,7 +19,7 @@ function PlanetsProvider({ children }) {
   useEffect(() => {
     const getRequest = async () => {
       const request = await planetsApi();
-      // console.log(request);
+      console.log(request);
       const dataResults = request.results;
       const filtered = dataResults.map((planet) => {
         delete planet.residents;
@@ -44,7 +44,9 @@ function PlanetsProvider({ children }) {
   }, [inputTyped]);
 
   const handleSelectedFilters = (object) => {
-    setSelectedFilters(object);
+    const repeated = filters.filterByNumericValues
+      .some((prev) => prev.column === object.column);
+    if (!repeated) setSelectedFilters(object);
   };
 
   useEffect(() => {

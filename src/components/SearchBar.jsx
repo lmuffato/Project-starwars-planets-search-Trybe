@@ -4,10 +4,10 @@ import PlanetsContext from '../context/PlanetsContext';
 function SearchBar() {
   const { handleInputFilter, handleSelectedFilters } = useContext(PlanetsContext);
   const [inputName, setInputName] = useState('');
-  const [selectedColumn, setSelectedColumn] = useState('');
-  const [selectedComparison, setSelectedComparison] = useState('');
+  const [selectedColumn, setSelectedColumn] = useState('population');
+  const [selectedComparison, setSelectedComparison] = useState('igual a');
   const [inputValue, setInputValue] = useState(0);
-
+  const [buttonControl, setButtonControl] = useState(true);
   const handleChange = (e) => {
     e.preventDefault();
     const { target: { name, value } } = e;
@@ -17,7 +17,7 @@ function SearchBar() {
     case 'comparison-filter':
       return setSelectedComparison(value);
     case 'value-filter':
-      return setInputValue(value);
+      return (setInputValue(value), setButtonControl(false));
     default:
       return setInputName(value);
     }
@@ -57,6 +57,7 @@ function SearchBar() {
         name="column-filter"
         data-testid="column-filter"
         onChange={ (e) => handleChange(e) }
+        defaultValue="population"
       >
         <option value="population">population</option>
         <option value="orbital_period">orbital_period</option>
@@ -68,6 +69,7 @@ function SearchBar() {
         name="comparison-filter"
         data-testid="comparison-filter"
         onChange={ (e) => handleChange(e) }
+        defaultValue="igual a"
       >
         <option value="maior que">maior que</option>
         <option value="igual a">igual a</option>
@@ -87,6 +89,7 @@ function SearchBar() {
         type="button"
         data-testid="button-filter"
         onClick={ (e) => setFiltersGlobal(e) }
+        disabled={ buttonControl }
       >
         Filtrar
       </button>
