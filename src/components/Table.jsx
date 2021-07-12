@@ -30,33 +30,24 @@ function Table() {
       const filtered = [];
       filterByNumericValues.forEach((eachfilter) => {
         const { value, column, comparison } = eachfilter;
-        console.log(column);
-        console.log(comparison);
-        console.log(value);
+
         if (comparison === 'maior que') {
-          const c = data.filter((planet) => Number(planet[column]) > Number(value));
-          filtered.push(...c);
+          const match = data.filter((planet) => Number(planet[column]) > Number(value));
+          filtered.push(...match);
         }
         if (comparison === 'igual a') {
-          const c = data.filter((planet) => Number(planet[column]) === Number(value));
-          filtered.push(...c);
+          const match = data.filter((planet) => Number(planet[column]) === Number(value));
+          filtered.push(...match);
         }
         if (comparison === 'menor que') {
-          const c = data.filter((planet) => Number(planet[column]) < Number(value));
-          filtered.push(...c);
+          const match = data.filter((planet) => Number(planet[column]) < Number(value));
+          filtered.push(...match);
         }
         setFilterStore(filtered);
       });
     };
     filtering();
-  }, [data, filters]); // tamo quase
-
-  // useEffect(() => {
-  //   const newRender = () => {
-  //     if (filterStore.length > 1) setRenderData(filterStore);
-  //   };
-  //   newRender();
-  // }, [filterStore]);
+  }, [data, filters]);
 
   return (
     <div>
