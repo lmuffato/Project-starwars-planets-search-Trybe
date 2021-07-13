@@ -42,12 +42,22 @@ const ApiContextProvider = ({ children }) => {
     });
   }
 
+  function removeFilter(name) {
+    setFilters({
+      ...filters,
+      filterByNumericValues: [
+        ...filters.filterByNumericValues.filter((filter) => filter.column !== name),
+      ],
+    });
+  }
+
   const context = {
     data,
     loading,
     filters,
     nameFilter,
     numericFilter,
+    removeFilter,
   };
 
   return (

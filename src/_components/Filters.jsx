@@ -2,12 +2,13 @@ import React, { useContext, useState } from 'react';
 import { ApiContext } from '../_context/DataApi';
 
 function Filters() {
-  const { filters, nameFilter, numericFilter } = useContext(ApiContext);
+  const { filters, nameFilter, numericFilter, removeFilter } = useContext(ApiContext);
   const [numericValuesFilter, setNumericValuesFilters] = useState({
     column: 'population',
     comparison: 'maior que',
     value: '0',
   });
+  const [activeFilters, setActiveFilters] = useState([]);
 
   function handleFilterByName({ target: { value } }) {
     nameFilter(value);
@@ -22,6 +23,12 @@ function Filters() {
 
   function handleAddFilter() {
     numericFilter(numericValuesFilter);
+    setActiveFilters([...activeFilters, numericValuesFilter.column]);
+  }
+
+  function handleRemoveFilter({ target: { name } }) {
+    removeFilter(name);
+    setActiveFilters([...activeFilters.filter((filter) => filter !== name)]);
   }
 
   function renderFilterByName() {
@@ -106,6 +113,21 @@ function Filters() {
     );
   }
 
+  function renderActiveFilters() {
+    return (
+      <div>
+        { activeFilters.map((filter) => (
+          <div data-testid="filter" key={ `${filter}-filter-button` }>
+            { filter }
+            <button type="button" onClick={ handleRemoveFilter } name={ filter }>
+              X
+            </button>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   function renderFilterByNumericValues() {
     return (
       <div>
@@ -113,6 +135,7 @@ function Filters() {
         { renderComparisonFilter() }
         { renderValueFilter() }
         { renderAddFilter() }
+        { renderActiveFilters() }
       </div>
     );
   }
