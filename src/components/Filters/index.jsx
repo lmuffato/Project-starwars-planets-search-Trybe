@@ -6,8 +6,10 @@ import Select from '../Select';
 function Filters() {
   const INITIAL_LOCAL_OBJ = { column: 'population', comparison: 'maior que', value: '' };
   const INITIAL_LOCAL_ORDER = { column: 'name', sort: 'ASC' };
+
   const { filters, setFilters, setData, backup, setBackup } = useContext(starWarsPlanets);
   const { filterByName: { name }, filterByNumericValues, order } = filters;
+
   const [localObj, setLocalObj] = useState(INITIAL_LOCAL_OBJ);
   const [toSelectColumn, setSelectColumn] = useState(columnObj);
   const [localOrder, setLocalOrder] = useState(INITIAL_LOCAL_ORDER);
@@ -43,8 +45,11 @@ function Filters() {
       filterByNumericValues: [...filters.filterByNumericValues, localObj],
     });
     const index = toSelectColumn.options.indexOf(localObj.column);
-    toSelectColumn.options.splice(index, 1);
-    const newOptions = { ...toSelectColumn };
+    // toSelectColumn.options.splice(index, 1);
+    const newOptions = {
+      ...toSelectColumn,
+      options: toSelectColumn.options.filter((option, i) => i !== index),
+    };
     setSelectColumn(newOptions);
     setLocalObj(INITIAL_LOCAL_OBJ);
   };
@@ -68,12 +73,12 @@ function Filters() {
   });
 
   useEffect(() => {
-    console.log('did mount');
+    // console.log('did mount');
     const getPlanets = async () => {
       const { results } = await fetch('https://swapi-trybe.herokuapp.com/api/planets/')
         .then((dat) => dat.json());
 
-      console.log('mount sort');
+      // console.log('mount sort');
       const sorted = handleSort(order, results);
       setData(sorted);
       setBackup(results);
@@ -82,7 +87,7 @@ function Filters() {
   }, []);
 
   useEffect(() => {
-    console.log('did update');
+    // console.log('did update');
     const dofilter = () => {
       let array = backup;
       if (name !== '') { array = array.filter((planet) => planet.name.includes(name)); }
@@ -102,12 +107,12 @@ function Filters() {
         });
       }
       // LOG
-      console.log('update sort');
-      console.log(order);
+      // console.log(order);
       array = handleSort(order, array);
-      console.log(array);
+      // console.log('update filters', array);
       setData(array);
     };
+
     dofilter();
   }, [filters]);
 
