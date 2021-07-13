@@ -12,6 +12,10 @@ const ApiContextProvider = ({ children }) => {
       name: '',
     },
     filterByNumericValues: [],
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
   });
 
   useEffect(() => {
@@ -51,6 +55,16 @@ const ApiContextProvider = ({ children }) => {
     });
   }
 
+  function orderBy({ column = filters.order.column, sort = filters.order.sort }) {
+    setFilters({
+      ...filters,
+      order: {
+        column,
+        sort,
+      },
+    });
+  }
+
   const context = {
     data,
     loading,
@@ -58,6 +72,7 @@ const ApiContextProvider = ({ children }) => {
     nameFilter,
     numericFilter,
     removeFilter,
+    orderBy,
   };
 
   return (
