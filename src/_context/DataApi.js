@@ -11,6 +11,7 @@ const ApiContextProvider = ({ children }) => {
     filterName: {
       name: '',
     },
+    filterByNumericValues: [],
   });
 
   useEffect(() => {
@@ -31,11 +32,22 @@ const ApiContextProvider = ({ children }) => {
     });
   }
 
+  function numericFilter(filter) {
+    setFilters({
+      ...filters,
+      filterByNumericValues: [
+        ...filters.filterByNumericValues,
+        filter,
+      ],
+    });
+  }
+
   const context = {
     data,
     loading,
     filters,
     nameFilter,
+    numericFilter,
   };
 
   return (

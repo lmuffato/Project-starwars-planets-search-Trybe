@@ -4,7 +4,22 @@ import Filters from './Filters';
 
 const filterData = (data, filters) => {
   const { name } = filters.filterName;
-  const filteredData = data.filter((planet) => planet.name.includes(name));
+  let filteredData = data.filter((planet) => planet.name.includes(name));
+
+  const { filterByNumericValues } = filters;
+  filterByNumericValues.forEach((filter) => {
+    filteredData = filteredData.filter((planet) => {
+      const columnValue = +(planet[filter.column]);
+      const filterValue = +(filter.value);
+
+      if (filter.comparison === 'maior que') return (columnValue > filterValue);
+      if (filter.comparison === 'menor que') return (columnValue < filterValue);
+      if (filter.comparison === 'igual a') return (columnValue === filterValue);
+
+      return false;
+    });
+  });
+
   return filteredData;
 };
 const Table = () => {
