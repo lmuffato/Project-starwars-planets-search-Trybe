@@ -26,6 +26,49 @@ function Provider({ children }) {
   const [firstFilter, setFirstFilter] = useState([]);
   const [secondFilter, setSecondFilter] = useState([]);
   const [filtered, setFiltered] = useState([]);
+  const [orderedList, setOrderedList] = useState([]);
+  const [order, setOrder] = useState('ASC');
+  const [orderColumn, setOrderColumn] = useState('name');
+
+  useEffect(() => {
+    const menosUm = -1;
+    if ((order === 'ASC') && (orderColumn === 'name')) {
+      const newListAsc = [...filteredData];
+      newListAsc.sort((a, b) => {
+        if (a[orderColumn] > b[orderColumn]) { return 1; }
+        if (b[orderColumn] > a[orderColumn]) { return menosUm; } return 0;
+      });
+      setOrderedList(newListAsc);
+    }
+  }, [filteredData, order, orderColumn]);
+
+  useEffect(() => {
+    const menosUm = -1;
+    if ((order === 'DESC') && (orderColumn === 'name')) {
+      const newListAsc = [...filteredData];
+      newListAsc.sort((a, b) => {
+        if (a[orderColumn] < b[orderColumn]) { return 1; }
+        if (b[orderColumn] < a[orderColumn]) { return menosUm; } return 0;
+      });
+      setOrderedList(newListAsc);
+    }
+  }, [filteredData, order, orderColumn]);
+
+  useEffect(() => {
+    if ((order === 'ASC') && (orderColumn !== 'name')) {
+      const newListAsc = [...filteredData];
+      newListAsc.sort((a, b) => (a[orderColumn] - b[orderColumn]));
+      setOrderedList(newListAsc);
+    }
+  }, [filteredData, order, orderColumn]);
+
+  useEffect(() => {
+    if ((order === 'DESC') && (orderColumn !== 'name')) {
+      const newListAsc = [...filteredData];
+      newListAsc.sort((a, b) => (b[orderColumn] - a[orderColumn]));
+      setOrderedList(newListAsc);
+    }
+  }, [filteredData, order, orderColumn]);
 
   const handleClick = () => {
     if (filteredByValues.length === 0) {
@@ -74,43 +117,6 @@ function Provider({ children }) {
     columnSelected2, comparisonSelected2, valueToBeCompared2, filteredByValues,
     filteredByValues2, filtered]);
 
-  /*   useEffect(() => {
-    if (filteredByValues.length > 0) {
-      const filtered = data.filter((planet) => {
-        if (comparisonSelected === 'maior que') {
-          return Number(planet[columnSelected]) > Number(valueToBeCompared);
-        } if (comparisonSelected === 'menor que') {
-          return Number(planet[columnSelected]) < Number(valueToBeCompared);
-        } return Number(planet[columnSelected]) === Number(valueToBeCompared);
-      });
-      setFirstFilter(`${columnSelected} ${comparisonSelected} ${valueToBeCompared}`);
-      setFilteredData(filtered);
-    } if (filteredByValues2.length > 0) {
-      const filtered = data.filter((planet) => {
-        if (comparisonSelected === 'maior que') {
-          return Number(planet[columnSelected]) > Number(valueToBeCompared);
-        } if (comparisonSelected === 'menor que') {
-          return Number(planet[columnSelected]) < Number(valueToBeCompared);
-        } return Number(planet[columnSelected]) === Number(valueToBeCompared);
-      });
-      const filtered2 = filtered.filter((planet) => {
-        if (comparisonSelected2 === 'maior que') {
-          return Number(planet[columnSelected2]) > Number(valueToBeCompared2);
-        } if (comparisonSelected2 === 'menor que') {
-          return Number(planet[columnSelected2]) < Number(valueToBeCompared2);
-        } return Number(planet[columnSelected2]) === Number(valueToBeCompared2);
-      });
-      setSecondFilter(`${columnSelected2} ${comparisonSelected2} ${valueToBeCompared2}`);
-      setFilteredData(filtered2);
-    } else if (filteredByValues.length === 0 && filteredByValues2.length === 0) {
-      setFilteredData(filteredByName);
-    }
-  }, [
-    data, comparisonSelected, columnSelected, valueToBeCompared, filteredByName,
-    columnSelected2, comparisonSelected2, valueToBeCompared2, filteredByValues,
-    filteredByValues2,
-  ]); */
-
   useEffect(() => {
     const fetch = async () => {
       const planetsData = await fetchAPI();
@@ -131,32 +137,25 @@ function Provider({ children }) {
   }, [nameInput, data]); //
 
   const contextValue = {
-    data,
-    nameInput,
     setNameInput,
-    filteredByName,
     setComparisonSelected,
     setValueToBeCompared,
-    filteredData,
     secondFilter,
     handleClick,
     firstFilter,
     setFirstFilter,
     setSecondFilter,
-    setFilteredData,
     setFilteredByValues,
     setFilteredByValues2,
-    filteredByValues,
     columnSelected,
     comparisonSelected,
-    valueToBeCompared,
     setColumnSelected,
-    columnSelected2,
     setColumnSelected2,
-    comparisonSelected2,
     setComparisonSelected2,
-    valueToBeCompared2,
     setValueToBeCompared2,
+    orderedList,
+    setOrder,
+    setOrderColumn,
   };
 
   return (
