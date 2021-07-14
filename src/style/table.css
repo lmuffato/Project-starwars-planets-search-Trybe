@@ -1,0 +1,12 @@
+.table {
+  box-sizing: border-box;
+}
+
+table, th, td, thead, tr {
+  border: 0.5px solid black;
+  height: 100%;
+}
+
+thead {
+  background-color: bisque;
+}
