@@ -1,10 +1,9 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 import '../style/table.css';
 
 function Table() {
-  const { data, isLoading } = useContext(StarWarsContext);
-  console.log(isLoading);
+  const { filtered } = useContext(StarWarsContext);
   return (
     <table className="table">
       <thead>
@@ -25,7 +24,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        { data.map((info) => (
+        { filtered.map((info) => (
           <tr key={ info.name }>
             <td>{info.name}</td>
             <td>{info.rotation_period}</td>

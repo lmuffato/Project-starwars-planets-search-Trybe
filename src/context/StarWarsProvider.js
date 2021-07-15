@@ -1,25 +1,41 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import StarWarsContext from './StarWarsContext';
 import fetchApi from '../services/fetchApi';
 
 function StarWarsProvider({ children }) {
-  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
+  const [filtered, setFiltered] = useState([]);
   const [filters, setFilters] = useState({
-    filterByName: {},
+    filterByName: {
+      name: '',
+    },
   });
 
   useEffect(() => {
-    setIsLoading(true);
     fetchApi().then((results) => setData(results));
-    setIsLoading(false);
   }, []);
 
+  useEffect(() => {
+    setFiltered(data);
+  }, [data]);
+
+  useEffect(() => {
+    const showFiltered = data.filter((planet) => planet.name.toLowerCase()
+      .includes(filters.filterByName.name)
+    && data.some((planetData) => planetData.name === planet.name));
+    setFiltered(showFiltered);
+  }, [filters.filterByName]);
+
   return (
-    <StarWarsContext.Provider value={ { isLoading, data } }>
+    <StarWarsContext.Provider value={ { filtered, filters, setFilters } }>
       { children }
     </StarWarsContext.Provider>
   );
 }
+
+StarWarsProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
 export default StarWarsProvider;
