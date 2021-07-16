@@ -1,5 +1,5 @@
 export function fetchByColumn() {
-  const url = 'https://swapi-trybe.herokuapp.com/api/planets/'
+  const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
   return fetch(url)
     .then((response) => response.json())
     .then((data) => Object.keys(data.results[0]).filter((key) => key !== 'residents'))
