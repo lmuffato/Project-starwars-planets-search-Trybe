@@ -12,6 +12,10 @@ function TableProvider({ children }) {
       name: '',
     },
     filterByNumericValues: [],
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
   });
 
   useEffect(() => {
@@ -49,6 +53,15 @@ function TableProvider({ children }) {
       ],
     });
   }
+  function orderBy({ column = filters.order.column, sort = filters.order.sort }) {
+    setFilters({
+      ...filters,
+      order: {
+        column,
+        sort,
+      },
+    });
+  }
 
   return (
     <context.Provider
@@ -61,6 +74,7 @@ function TableProvider({ children }) {
         numericFilter,
         removeFilter,
         loading,
+        orderBy,
       } }
     >
       { children }
