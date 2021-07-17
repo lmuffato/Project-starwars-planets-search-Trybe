@@ -1,31 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import context from './Context';
+import Fetch from '../Components/Fetch';
 
 function TableProvider({ children }) {
   const [data, setData] = useState([]);
   const [filtered, setFiltered] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState({
     filterByName: {
-      names: '',
+      name: '',
     },
     filterByNumericValues: [],
   });
 
   useEffect(() => {
-    const getPlanets = async () => {
-      const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
-      const { results } = await fetch(url).then((gokuSSJGod) => gokuSSJGod.json());
-      setData(results);
+    const fetchApi = async () => {
+      const dataResult = await Fetch();
+      setData(dataResult);
+      setLoading(false);
     };
-    getPlanets();
+    fetchApi();
   }, []);
 
-  function nameFilter(names) {
+  function nameFilter(name) {
     setFilters({
       ...filters,
       filterByName: {
-        names,
+        name,
       },
     });
   }
@@ -39,11 +41,11 @@ function TableProvider({ children }) {
     });
   }
 
-  function removeFilter(names) {
+  function removeFilter(name) {
     setFilters({
       ...filters,
       filterByNumericValues: [
-        ...filters.filterByNumericValues.filter((filter) => filter.column !== names),
+        ...filters.filterByNumericValues.filter((filter) => filter.column !== name),
       ],
     });
   }
@@ -58,6 +60,7 @@ function TableProvider({ children }) {
         nameFilter,
         numericFilter,
         removeFilter,
+        loading,
       } }
     >
       { children }

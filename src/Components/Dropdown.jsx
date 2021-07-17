@@ -14,10 +14,10 @@ function Dropdown() {
     nameFilter(value);
   }
 
-  function handleFilterNumericValues({ target: { names, value } }) {
+  function handleFilterNumericValues({ target: { name, value } }) {
     setNumericValuesFilters({
       ...numericValuesFilter,
-      [names]: value,
+      [name]: value,
     });
   }
 
@@ -26,9 +26,9 @@ function Dropdown() {
     setActiveFilters([...activeFilters, numericValuesFilter.column]);
   }
 
-  function handleRemoveFilter({ target: { names } }) {
-    removeFilter(names);
-    setActiveFilters([...activeFilters.filter((filter) => filter !== names)]);
+  function handleRemoveFilter({ target: { name } }) {
+    removeFilter(name);
+    setActiveFilters([...activeFilters.filter((filter) => filter !== name)]);
   }
 
   function renderFilterByName() {
@@ -38,7 +38,7 @@ function Dropdown() {
         <input
           id="filter-by-name"
           name="filterName"
-          value={ filters.filterByName.names }
+          value={ filters.filterByName.name }
           onChange={ handleFilterByName }
           data-testid="name-filter"
         />

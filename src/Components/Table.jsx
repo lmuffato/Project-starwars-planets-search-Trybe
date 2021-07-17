@@ -1,80 +1,59 @@
 import React, { useContext } from 'react';
-import context from '../Provider/Context';
-import SearchBar from './SearchBar';
+import Context from '../Provider/Context';
 
-function Table() {
-  const { data, filters, filtered, column, operator, value } = useContext(context);
-  const { filterByName } = filters;
-  const { names } = filterByName;
+const filterData = (data, filters) => {
+  const { name } = filters.filterByName;
+  let filteredData = data.filter((planet) => planet.name.includes(name));
 
-  // const filterName = data.filter((el) => el.name.toLowerCase().includes(name));
+  const { filterByNumericValues } = filters;
+  filterByNumericValues.forEach((filter) => {
+    filteredData = filteredData.filter((planet) => {
+      const columnValue = +(planet[filter.column]);
+      const filterValue = +(filter.value);
 
-  const operatorsIf = () => {
-    const lower = names.toLowerCase();
-    let filterName = data;
+      if (filter.comparison === 'maior que') return (columnValue > filterValue);
+      if (filter.comparison === 'menor que') return (columnValue < filterValue);
+      if (filter.comparison === 'igual a') return (columnValue === filterValue);
 
-    if (names === '' && filtered === false) {
-      filterName = data;
-    } else if (lower !== '' && filtered === false) {
-      filterName = data.filter((result) => (
-        result.name.toLowerCase().includes(lower)));
-    } else if (filtered && operator === 'maior que') {
-      filterName = data.filter((goten) => (
-        goten[column] > Number(value)));
-    } else if (filtered && operator === 'menor que') {
-      filterName = data.filter((goten) => (
-        goten[column] < Number(value)));
-    } else if (filtered && operator === 'igual a') {
-      filterName = data.filter((goten) => (
-        goten[column] === value));
-    }
-    return filterName;
-  };
+      return false;
+    });
+  });
 
-  const renderTable = () => operatorsIf().map((planet) => (
-    <tr key={ planet.names }>
-      <td>{planet.names}</td>
-      <td>{planet.rotation_period}</td>
-      <td>{planet.orbital_period}</td>
-      <td>{planet.diameter}</td>
-      <td>{planet.climate}</td>
-      <td>{planet.gravity}</td>
-      <td>{planet.terrain}</td>
-      <td>{planet.surface_water}</td>
-      <td>{planet.population}</td>
-      <td>{planet.residents}</td>
-      <td>{planet.films}</td>
-      <td>{planet.created}</td>
-      <td>{planet.edited}</td>
-    </tr>
-  ));
+  return filteredData;
+};
+const Table = () => {
+  const { data, loading, filters } = useContext(Context);
+  const filtered = filterData(data, filters);
+
+  if (loading) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <div>
-      <SearchBar />
-      <h1 id="title">API Table</h1>
-      <table id="users">
+      <table>
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Rotation Period</th>
-            <th>Orbital Period</th>
-            <th>Diameter</th>
-            <th>Climate</th>
-            <th>Gravity</th>
-            <th>Terrain</th>
-            <th>Surface Water</th>
-            <th>Population</th>
-            <th>Films</th>
-            <th>Created</th>
-            <th>Edited</th>
-            <th>Url</th>
+            {
+              Object.keys(data[0])
+                .map((GokuSSJ) => <th key={ GokuSSJ }>{GokuSSJ}</th>)
+            }
           </tr>
         </thead>
-        <tbody>{renderTable()}</tbody>
+        <tbody>
+          {
+            filtered.map((each) => (
+              <tr key={ each.name }>
+                {Object.values(each).map((value) => (
+                  <td key={ value }>{value}</td>
+                ))}
+              </tr>
+            ))
+          }
+        </tbody>
       </table>
     </div>
   );
-}
+};
 
 export default Table;
