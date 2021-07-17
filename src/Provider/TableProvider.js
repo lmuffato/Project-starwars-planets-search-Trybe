@@ -4,21 +4,12 @@ import context from './Context';
 
 function TableProvider({ children }) {
   const [data, setData] = useState([]);
-  const [column, setColumn] = useState('');
-  const [operator, setOperator] = useState('');
-  const [value, setValue] = useState(null);
-  const [filter, setFilter] = useState(false);
+  const [filtered, setFiltered] = useState(false);
   const [filters, setFilters] = useState({
     filterByName: {
-      name: '',
+      names: '',
     },
-    filterByNumericValues: [
-      {
-        column: 'population',
-        comparison: 'maior que',
-        value: '',
-      },
-    ],
+    filterByNumericValues: [],
   });
 
   useEffect(() => {
@@ -30,19 +21,44 @@ function TableProvider({ children }) {
     getPlanets();
   }, []);
 
+  function nameFilter(names) {
+    setFilters({
+      ...filters,
+      filterByName: {
+        names,
+      },
+    });
+  }
+  function numericFilter(filter) {
+    setFilters({
+      ...filters,
+      filterByNumericValues: [
+        ...filters.filterByNumericValues,
+        filter,
+      ],
+    });
+  }
+
+  function removeFilter(names) {
+    setFilters({
+      ...filters,
+      filterByNumericValues: [
+        ...filters.filterByNumericValues.filter((filter) => filter.column !== names),
+      ],
+    });
+  }
+
   return (
     <context.Provider
       value={ { data,
         filters,
         setFilters,
-        filter,
-        setFilter,
-        column,
-        setColumn,
-        value,
-        setValue,
-        operator,
-        setOperator } }
+        filtered,
+        setFiltered,
+        nameFilter,
+        numericFilter,
+        removeFilter,
+      } }
     >
       { children }
     </context.Provider>

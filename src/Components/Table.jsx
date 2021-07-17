@@ -3,28 +3,28 @@ import context from '../Provider/Context';
 import SearchBar from './SearchBar';
 
 function Table() {
-  const { data, filters, filter, column, operator, value } = useContext(context);
+  const { data, filters, filtered, column, operator, value } = useContext(context);
   const { filterByName } = filters;
-  const { name } = filterByName;
+  const { names } = filterByName;
 
   // const filterName = data.filter((el) => el.name.toLowerCase().includes(name));
 
   const operatorsIf = () => {
-    const lower = name.toLowerCase();
+    const lower = names.toLowerCase();
     let filterName = data;
 
-    if (name === '' && filter === false) {
+    if (names === '' && filtered === false) {
       filterName = data;
-    } else if (lower !== '' && filter === false) {
+    } else if (lower !== '' && filtered === false) {
       filterName = data.filter((result) => (
         result.name.toLowerCase().includes(lower)));
-    } else if (filter && operator === 'maior que') {
+    } else if (filtered && operator === 'maior que') {
       filterName = data.filter((goten) => (
         goten[column] > Number(value)));
-    } else if (filter && operator === 'menor que') {
+    } else if (filtered && operator === 'menor que') {
       filterName = data.filter((goten) => (
         goten[column] < Number(value)));
-    } else if (filter && operator === 'igual a') {
+    } else if (filtered && operator === 'igual a') {
       filterName = data.filter((goten) => (
         goten[column] === value));
     }
@@ -32,8 +32,8 @@ function Table() {
   };
 
   const renderTable = () => operatorsIf().map((planet) => (
-    <tr key={ planet.name }>
-      <td>{planet.name}</td>
+    <tr key={ planet.names }>
+      <td>{planet.names}</td>
       <td>{planet.rotation_period}</td>
       <td>{planet.orbital_period}</td>
       <td>{planet.diameter}</td>

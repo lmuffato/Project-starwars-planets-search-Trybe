@@ -7,7 +7,7 @@ function SearchBar() {
     setFilters({
       ...filters,
       filterByName: {
-        name: target.value,
+        names: target.value,
       },
     });
   };
