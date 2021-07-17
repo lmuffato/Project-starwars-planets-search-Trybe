@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import AppContext from '../../context/AppContext';
 import { fetchByColumn, fetchByRow } from '../../services/planetsApi';
 import './Table.css';
 
@@ -9,11 +10,16 @@ function generateThead(data) {
   ) => <th className="head" key={ index }>{item}</th>);
 }
 
-function tableBody(data) {
+function setFilter(dataRow, filter) {
+  const newData = dataRow.filter((planet) => planet.name.toLowerCase().includes(filter));
+  return newData;
+}
+
+function generateTBody(data, filter) {
   const resident = 9;
 
   return data
-        && data.map((planet) => (
+        && setFilter(data, filter).map((planet) => (
           <tr key={ `${planet.name}` }>
             {Object.values(planet).map((
               value,
@@ -28,6 +34,7 @@ function tableBody(data) {
 export default function Table() {
   const [dataColumn, setDataColumn] = useState([]);
   const [dataRow, setDataRow] = useState([]);
+  const { filterText } = useContext(AppContext);
 
   useEffect(() => {
     fetchByColumn()
@@ -44,7 +51,7 @@ export default function Table() {
         </tr>
       </thead>
       <tbody>
-        {tableBody(dataRow)}
+        {generateTBody(dataRow, filterText)}
       </tbody>
     </table>
   );
