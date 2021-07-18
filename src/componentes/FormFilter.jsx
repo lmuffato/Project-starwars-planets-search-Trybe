@@ -27,7 +27,7 @@ const FormFilter = ({ setFilters, filters, setData }) => {
     const filteredValues = valuesArray
       .filter((elem) => elem !== inputFilters.column);
     setValuesArray(filteredValues);
-  }, [inputFilters]);
+  }, [inputFilters, setInputFilters]);
 
   const filterValues = () => {
     setFilters({
@@ -45,13 +45,14 @@ const FormFilter = ({ setFilters, filters, setData }) => {
       }
       return elem[column] === inputFilters.value;
     });
+    console.log(filterData);
     setData(filterData);
   };
 
   return (
     <div>
       <select data-testid="column-filter" name="column" onChange={ handleChange }>
-        {valuesArray
+        {valuesInit
           .map((element) => <option value={ element } key={ element }>{element}</option>)}
       </select>
       <select

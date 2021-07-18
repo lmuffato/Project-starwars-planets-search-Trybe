@@ -36,12 +36,15 @@ const Table = () => {
   );
 
   return (
-    <table>
+    <>
       { pesquisar() }
       <FormFilter setFilters={ setFilters } filters={ filters } setData={ setData } />
-      { thead() }
-      { tbody() }
-    </table>
+      <table>
+        { thead() }
+        { tbody() }
+      </table>
+    </>
+
   );
 };
 
