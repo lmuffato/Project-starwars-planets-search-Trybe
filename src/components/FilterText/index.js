@@ -5,7 +5,7 @@ export default function FilterText() {
   const { setFilterText } = useContext(AppContext);
 
   const handleSearch = ({ target: { value } }) => {
-    setFilterText(value);
+    setFilterText(value.toLowerCase());
   };
 
   return (

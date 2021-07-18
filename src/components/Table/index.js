@@ -1,7 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import AppContext from '../../context/AppContext';
-import { fetchByColumn, fetchByRow } from '../../services/planetsApi';
 import './Table.css';
+
+function setFilter(dataRow, fill) {
+  const newData = dataRow.filter((planet) => planet.name.toLowerCase().includes(fill));
+  return newData;
+}
 
 function generateThead(data) {
   return data.map((
@@ -10,49 +14,34 @@ function generateThead(data) {
   ) => <th className="head" key={ index }>{item}</th>);
 }
 
-function setFilter(dataRow, filter) {
-  const newData = dataRow.filter((planet) => planet.name.toLowerCase().includes(filter));
-  return newData;
-}
-
-function generateTBody(data, filter) {
+function generateTBody(data) {
   const resident = 9;
 
-  return data
-        && setFilter(data, filter).map((planet) => (
-          <tr key={ `${planet.name}` }>
-            {Object.values(planet).map((
-              value,
-              index,
-            ) => (index !== resident
-              ? <td key={ value }>{value}</td>
-              : null))}
-          </tr>
-        ));
+  return data.map((planet) => (
+    <tr key={ `${planet.name}` }>
+      {Object.values(planet).map((
+        value,
+        index,
+      ) => (index !== resident
+        ? <td key={ value }>{value}</td>
+        : []))}
+    </tr>
+  ));
 }
 
 export default function Table() {
-  const [dataColumn, setDataColumn] = useState([]);
-  const [dataRow, setDataRow] = useState([]);
-  const { filterText } = useContext(AppContext);
+  const { filterText, setNewData, newData, dataColumn, dataRow } = useContext(AppContext);
 
   useEffect(() => {
-    fetchByColumn()
-      .then((res) => setDataColumn(res));
-    fetchByRow()
-      .then((res) => setDataRow(res));
-  }, []);
+    setNewData(setFilter(dataRow, filterText));
+  }, [dataRow, filterText, setNewData]);
 
   return (
     <table>
-      <thead>
-        <tr>
-          {generateThead(dataColumn)}
-        </tr>
-      </thead>
-      <tbody>
-        {generateTBody(dataRow, filterText)}
-      </tbody>
+      <tr>
+        {generateThead(dataColumn)}
+      </tr>
+      {generateTBody(newData)}
     </table>
   );
 }
