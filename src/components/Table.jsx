@@ -3,8 +3,8 @@ import AppContext from '../context/AppContext';
 import DataList from './DataList';
 
 export default function Table() {
-  const [selCategory, setSelCategory] = useState('population');
-  const [selComparison, setSelComparison] = useState('moreThan');
+  const [selCategory, setSelCategory] = useState('');
+  const [selComparison, setSelComparison] = useState('');
   const [selNumber, setSelNumber] = useState(0);
   // const [resultFilter, setResultFilter] = useState([]);
   const {
@@ -42,7 +42,7 @@ export default function Table() {
     // setSearch(listItems);
     console.log(selComparison);
     switch (selComparison) {
-    case 'moreThan':
+    case 'maior que':
       listItems = data.filter(
         (element) => (parseInt(element[selCategory], 0) > parseInt(selNumber, 0)),
       );
@@ -50,19 +50,17 @@ export default function Table() {
       setSearch(listItems);
       filterSelectChange();
       break;
-    case 'lessThan':
+    case 'menor que':
       listItems = data.filter(
         (element) => (parseInt(element[selCategory], 0) < parseInt(selNumber, 0)),
       );
-      console.log('linha 57', selComparison);
       setSearch(listItems);
       filterSelectChange();
       break;
-    case 'equals':
+    case 'igual a':
       listItems = data.filter(
         (element) => (parseInt(element[selCategory], 0) === parseInt(selNumber, 0)),
       );
-      console.log('linha 65', selComparison);
       setSearch(listItems);
       filterSelectChange();
       break;
@@ -101,10 +99,10 @@ export default function Table() {
           onChange={ ({ target: { value } }) => setSelCategory(value) }
           // filterSelectChange
         >
-          <option value="population">population</option>
           <option value="orbital_period">orbital_period</option>
           <option value="diameter">diameter</option>
           <option value="rotation_period">rotation_period</option>
+          <option value="population">population</option>
           <option value="surface_water">surface_water</option>
         </select>
         Comparação
@@ -114,7 +112,7 @@ export default function Table() {
           data-testid="comparison-filter"
           onChange={ ({ target: { value } }) => setSelComparison(value) }
         >
-          <option value="moreThan">maior que</option>
+          <option value="maior que">maior que</option>
           <option value="menor que">menor que</option>
           <option value="igual a">igual a</option>
         </select>
@@ -128,7 +126,7 @@ export default function Table() {
         <button
           type="button"
           data-testid="button-filter"
-          onClick={ filterParamList }
+          onClick={ () => filterParamList() }
         >
           Filtrar
         </button>
