@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
 import StarWarsContext from './context/StarWarsContext';
+import SearchBar from './utils/SearchBar';
 
 function MainPage() {
-  const { planets, loaded } = useContext(StarWarsContext);
-
-  console.log(planets);
+  const { filteredPlanets, loaded } = useContext(StarWarsContext);
 
   return (
     <div>
@@ -12,6 +11,7 @@ function MainPage() {
         ? (
           <div>
             <span>Hello, App!</span>
+            <SearchBar />
             <table>
               <thead>
                 <tr>
@@ -31,7 +31,7 @@ function MainPage() {
                 </tr>
               </thead>
               <tbody>
-                {planets.map((planet, index) => (
+                {filteredPlanets.map((planet, index) => (
                   <tr key={ index }>
                     <td>{planet.name}</td>
                     <td>{planet.rotation_period}</td>
