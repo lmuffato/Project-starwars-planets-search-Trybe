@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import myContext from '../context/myContext';
 
-const TablePlanets = () => {
+const TableOfPlanets = () => {
   const {
     data,
     changeFilterName,
@@ -155,4 +155,4 @@ const TablePlanets = () => {
   );
 };
 
-export default TablePlanets;
+export default TableOfPlanets;
