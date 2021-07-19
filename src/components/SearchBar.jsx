@@ -2,12 +2,18 @@ import React, { useContext, useState, useEffect } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 function SearchBar() {
-  const { handleInputFilter, handleSelectedFilters } = useContext(PlanetsContext);
+  const {
+    handleInputFilter,
+    handleSelectedFilters,
+    filters } = useContext(PlanetsContext);
   const [inputName, setInputName] = useState('');
-  const [selectedColumn, setSelectedColumn] = useState('population');
-  const [selectedComparison, setSelectedComparison] = useState('igual a');
+  const [selectedColumn, setSelectedColumn] = useState('');
+  const [selectedComparison, setSelectedComparison] = useState('');
   const [inputValue, setInputValue] = useState(0);
   const [buttonControl, setButtonControl] = useState(true);
+  const [valueSelect, setValueSelect] = useState([
+    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
+
   const handleChange = (e) => {
     e.preventDefault();
     const { target: { name, value } } = e;
@@ -38,6 +44,20 @@ function SearchBar() {
     handleSelectedFilters(actualFilter);
   };
 
+  const selectValues = ({ filterByNumericValues }) => {
+    const pattern = [
+      'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+    const actualFilters = filterByNumericValues.map((filter) => filter.column);
+    const filteredSelects = pattern
+      .filter((select) => !actualFilters.includes(select));
+    return setValueSelect(filteredSelects);
+  };
+
+  useEffect(() => {
+    selectValues(filters);
+  }, [filters]);
+
+  // const { filterByNumericValues } = filters;
   return (
     <fieldset>
       <h3>Your planet here you will you find!</h3>
@@ -57,19 +77,18 @@ function SearchBar() {
         name="column-filter"
         data-testid="column-filter"
         onChange={ (e) => handleChange(e) }
-        defaultValue="population"
+        // defaultValue="select"
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        {/* <option value="select" disabled>filtrar por</option> */}
+        {valueSelect.map((each) => (
+          <option key={ each } value={ each }>{each}</option>
+        ))}
       </select>
       <select
         name="comparison-filter"
         data-testid="comparison-filter"
         onChange={ (e) => handleChange(e) }
-        defaultValue="igual a"
+        // defaultValue="select"
       >
         <option value="maior que">maior que</option>
         <option value="igual a">igual a</option>
