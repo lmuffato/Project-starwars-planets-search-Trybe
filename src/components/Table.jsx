@@ -21,49 +21,55 @@ export default function Table() {
     setSearch(listItems);
   };
 
-  const filterSelectChange = ({ target }) => {
-    switch (target.id) {
-    case 'column-filter':
-      setSelCategory(target.value);
-      break;
-    case 'comparison-filter':
-      setSelComparison(target.value);
-      break;
-    case 'value-filter':
-      setSelNumber(target.value);
-      break;
-    default:
-    }
+  const filterSelectChange = () => {
+    setFilter((prevState) => (
+      { ...prevState,
+        filterByNumericValues: [
+          ...prevState.filterByNumericValues,
+          {
+            column: selCategory,
+            comparison: selComparison,
+            value: selNumber,
+          },
+        ],
+      }
+    ));
   };
 
   const filterParamList = () => {
     let listItems = [];
     // listItems = data.filter((element) => (element[selCategory] > selNumber));
     // setSearch(listItems);
-
+    console.log(selComparison);
     switch (selComparison) {
-    case 'lessThan':
-      listItems = data.filter(
-        (element) => (parseInt(element[selCategory], 0) < parseInt(selNumber, 0)),
-      );
-      setSearch(listItems);
-      break;
     case 'moreThan':
       listItems = data.filter(
         (element) => (parseInt(element[selCategory], 0) > parseInt(selNumber, 0)),
       );
+      console.log('linha 49', selComparison);
       setSearch(listItems);
+      filterSelectChange();
+      break;
+    case 'lessThan':
+      listItems = data.filter(
+        (element) => (parseInt(element[selCategory], 0) < parseInt(selNumber, 0)),
+      );
+      console.log('linha 57', selComparison);
+      setSearch(listItems);
+      filterSelectChange();
       break;
     case 'equals':
       listItems = data.filter(
         (element) => (parseInt(element[selCategory], 0) === parseInt(selNumber, 0)),
       );
+      console.log('linha 65', selComparison);
       setSearch(listItems);
+      filterSelectChange();
       break;
     default:
     }
 
-    console.log(search);
+    // console.log(search);
     // setResultFilter(listItems);
     // setSearch(resultFilter);
     // console.log(selNumber, selComparison, resultFilter);
@@ -92,7 +98,8 @@ export default function Table() {
           id="column-filter"
           type="text"
           data-testid="column-filter"
-          onChange={ filterSelectChange }
+          onChange={ ({ target: { value } }) => setSelCategory(value) }
+          // filterSelectChange
         >
           <option value="population">population</option>
           <option value="orbital_period">orbital_period</option>
@@ -100,23 +107,23 @@ export default function Table() {
           <option value="rotation_period">rotation_period</option>
           <option value="surface_water">surface_water</option>
         </select>
-        Categorias
+        Comparação
         <select
           id="comparison-filter"
           type="text"
           data-testid="comparison-filter"
-          onChange={ filterSelectChange }
+          onChange={ ({ target: { value } }) => setSelComparison(value) }
         >
           <option value="moreThan">maior que</option>
-          <option value="lessThan">menor que</option>
-          <option value="equals">igual a</option>
+          <option value="menor que">menor que</option>
+          <option value="igual a">igual a</option>
         </select>
         <input
           id="value-filter"
           type="number"
           value={ selNumber }
           data-testid="value-filter"
-          onChange={ filterSelectChange }
+          onChange={ ({ target: { value } }) => setSelNumber(value) }
         />
         <button
           type="button"

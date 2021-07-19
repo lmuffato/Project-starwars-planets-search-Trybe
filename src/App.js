@@ -12,6 +12,11 @@ function App() {
       filters: {
         filterByName: '',
       },
+      filterByNumericValues: [{
+        column: 'population',
+        comparison: 'moreThan',
+        value: '0',
+      }],
     },
   );
 
