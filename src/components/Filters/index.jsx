@@ -178,7 +178,7 @@ function Filters() {
       </div>
       {
         currentFilters.map((filterText) => (
-          <div key={ `${filterText.filter}-button` } data-testid="filter" >
+          <div key={ `${filterText.filter}-button` } data-testid="filter">
             <button
               type="button"
               onClick={ () => {
