@@ -1,6 +1,42 @@
 input {
   background-color: #f9f9f9;
   margin-left: 10px;
-  padding: 1fr;
-  width: 2fr;
+}
+
+.numericFilter {
+  flex-direction: column-reverse;
+  width: 100%;
+}
+
+select {
+  margin: 10px;
+}
+
+.numericBtn {
+  align-items: center;
+  background-color: whitesmoke;
+  border-radius: 2%;
+  display: flex;
+  height: 30px;
+  justify-content: center;
+  margin: 10px auto;
+  width: 25%;
+}
+
+.numericBtn:hover {
+  background: linear-gradient(90deg, bisque 0%, whitesmoke 35%, white 100%);
+  font-weight: 900;
+}
+
+.filter {
+  margin-right: 15px;
+}
+
+.removeFilter {
+  background-color: red;
+  margin-left: 10px;
+}
+
+.bold {
+  font-weight: 900;
 }

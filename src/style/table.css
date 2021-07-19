@@ -2,11 +2,20 @@
   box-sizing: border-box;
 }
 
-table, th, td, thead, tr {
+table, td, tr {
   border: 0.5px solid black;
   height: 100%;
+  text-align: center;
 }
 
 thead {
   background-color: bisque;
+  color: black;
+}
+
+body {
+  background-image: url('../images/star-wars-backgrounds.jpg');
+  color: white;
+  font-weight: 800;
+  text-align: center;
 }

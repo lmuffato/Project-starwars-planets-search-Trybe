@@ -1,11 +1,13 @@
 import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
+import DataTable from './DataTable';
 import '../style/table.css';
 
 function Table() {
-  const { filtered } = useContext(StarWarsContext);
+  const { planets } = useContext(StarWarsContext);
+
   return (
-    <table className="table">
+    <table>
       <thead>
         <tr>
           <th>name</th>
@@ -24,23 +26,11 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        { filtered.map((info) => (
-          <tr key={ info.name }>
-            <td>{info.name}</td>
-            <td>{info.rotation_period}</td>
-            <td>{info.orbital_period}</td>
-            <td>{info.diameter}</td>
-            <td>{info.climate}</td>
-            <td>{info.gravity}</td>
-            <td>{info.terrain}</td>
-            <td>{info.surface_water}</td>
-            <td>{info.population}</td>
-            <td>{info.films}</td>
-            <td>{info.created}</td>
-            <td>{info.edited}</td>
-            <td>{info.url}</td>
-          </tr>
-        )) }
+        {
+          (planets === undefined)
+            ? ''
+            : planets.map((item) => <DataTable key={ item.name } item={ item } />)
+        }
       </tbody>
     </table>
   );

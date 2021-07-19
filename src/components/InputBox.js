@@ -3,24 +3,21 @@ import StarWarsContext from '../context/StarWarsContext';
 import '../style/input.css';
 
 function InputBox() {
-  const { filters, setFilters } = useContext(StarWarsContext);
-
-  const handleInputText = (event) => {
-    setFilters({ ...filters, filterByName: { name: event.target.value.toLowerCase() } });
-  };
+  const {
+    filters: { filterByName: { name } },
+    function: { handleName },
+  } = useContext(StarWarsContext);
 
   return (
-    <label htmlFor="inputBox">
-      Digite o nome do planeta:
+    <label htmlFor="name-input">
+      Filtrar por nome:
       <input
-        id="inputBox"
-        name="inputBox"
-        data-testid="name-filter"
+        id="name-input"
         type="text"
-        placeholder="Digite o planeta a ser filtrado"
-        onChange={ (event) => handleInputText(event) }
+        data-testid="name-filter"
+        value={ name }
+        onChange={ handleName }
       />
-      { console.log(filters.filterByName.name.toLowerCase())}
     </label>
   );
 }
