@@ -5,7 +5,8 @@ function SearchBar() {
   const {
     handleInputFilter,
     handleSelectedFilters,
-    filters } = useContext(PlanetsContext);
+    filters,
+    handleDeleteFilter } = useContext(PlanetsContext);
   const [inputName, setInputName] = useState('');
   const [selectedColumn, setSelectedColumn] = useState('');
   const [selectedComparison, setSelectedComparison] = useState('');
@@ -13,7 +14,7 @@ function SearchBar() {
   const [buttonControl, setButtonControl] = useState(true);
   const [valueSelect, setValueSelect] = useState([
     'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
-
+  const [currentFilters, setCurrentFilters] = useState([]);
   const handleChange = (e) => {
     e.preventDefault();
     const { target: { name, value } } = e;
@@ -50,6 +51,7 @@ function SearchBar() {
     const actualFilters = filterByNumericValues.map((filter) => filter.column);
     const filteredSelects = pattern
       .filter((select) => !actualFilters.includes(select));
+    setCurrentFilters(actualFilters);
     return setValueSelect(filteredSelects);
   };
 
@@ -57,62 +59,81 @@ function SearchBar() {
     selectValues(filters);
   }, [filters]);
 
+  const deleteFilter = ({ target: name }) => {
+    handleDeleteFilter(name);
+  };
+
   // const { filterByNumericValues } = filters;
   return (
-    <fieldset>
-      <h3>Your planet here you will you find!</h3>
-      <label htmlFor="filterName">
-        Filter by name:
-        {' '}
-        <input
-          id="filterName"
-          type="text"
-          name="inputName"
-          data-testid="name-filter"
+    <>
+      <fieldset>
+        <h3>Your planet here you will you find!</h3>
+        <label htmlFor="filterName">
+          Filter by name:
+          {' '}
+          <input
+            id="filterName"
+            type="text"
+            name="inputName"
+            data-testid="name-filter"
+            onChange={ (e) => handleChange(e) }
+            value={ inputName }
+          />
+        </label>
+        <select
+          name="column-filter"
+          data-testid="column-filter"
           onChange={ (e) => handleChange(e) }
-          value={ inputName }
-        />
-      </label>
-      <select
-        name="column-filter"
-        data-testid="column-filter"
-        onChange={ (e) => handleChange(e) }
-        // defaultValue="select"
-      >
-        {/* <option value="select" disabled>filtrar por</option> */}
-        {valueSelect.map((each) => (
-          <option key={ each } value={ each }>{each}</option>
-        ))}
-      </select>
-      <select
-        name="comparison-filter"
-        data-testid="comparison-filter"
-        onChange={ (e) => handleChange(e) }
-        // defaultValue="select"
-      >
-        <option value="maior que">maior que</option>
-        <option value="igual a">igual a</option>
-        <option value="menor que">menor que</option>
-      </select>
-      <label htmlFor="value-filter">
-        <input
-          placeholder="insira valor numérico"
-          name="value-filter"
-          type="number"
-          id="value-filter"
-          data-testid="value-filter"
+          // defaultValue="select"
+        >
+          {/* <option value="select" disabled>filtrar por</option> */}
+          {valueSelect.map((each) => (
+            <option key={ each } value={ each }>{each}</option>
+          ))}
+        </select>
+        <select
+          name="comparison-filter"
+          data-testid="comparison-filter"
           onChange={ (e) => handleChange(e) }
-        />
-      </label>
-      <button
-        type="button"
-        data-testid="button-filter"
-        onClick={ (e) => setFiltersGlobal(e) }
-        disabled={ buttonControl }
-      >
-        Filtrar
-      </button>
-    </fieldset>
+          defaultValue=""
+        >
+          <option value="maior que">maior que</option>
+          <option value="igual a">igual a</option>
+          <option value="menor que">menor que</option>
+        </select>
+        <label htmlFor="value-filter">
+          <input
+            placeholder="insira valor numérico"
+            name="value-filter"
+            type="number"
+            id="value-filter"
+            data-testid="value-filter"
+            onChange={ (e) => handleChange(e) }
+          />
+        </label>
+        <button
+          type="button"
+          data-testid="button-filter"
+          onClick={ (e) => setFiltersGlobal(e) }
+          disabled={ buttonControl }
+        >
+          Filtrar
+        </button>
+      </fieldset>
+      {currentFilters.length > 0 ? currentFilters.map((each) => (
+        <div data-testid="filter" key={ each }>
+          { each }
+          <button
+            name={ each }
+            type="submit"
+            onClick={ (e) => deleteFilter(e) }
+          >
+            X
+          </button>
+        </div>
+      ))
+        : null }
+    </>
 
   );
 }

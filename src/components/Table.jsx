@@ -5,6 +5,7 @@ function Table() {
   const { data, filters } = useContext(PlanetsContext);
   const [renderData, setRenderData] = useState([]);
   const [filterStore, setFilterStore] = useState([]);
+  // const [refilter, setRefilter] = useState([]);
 
   useEffect(() => {
     const getGlobal = () => {
@@ -21,36 +22,48 @@ function Table() {
   }, [data, filters]);
 
   useEffect(() => {
-    if (filterStore.length >= 1) setRenderData(filterStore);
-  }, [filterStore]);
+    if (filterStore && filterStore.length >= 1) setRenderData(filterStore); // render data recebe array de objetos-planetas
+  }, [filterStore]); // filterstore tambem é um array de objeto-planeta
 
   useEffect(() => {
     const filtering = () => {
       const { filterByNumericValues } = filters;
       const filtered = [];
-      filterByNumericValues.forEach((eachfilter) => {
+      const currentData = (i) => {
+        if (i === 0) return data;
+        return filtered[i - 1];
+      };
+      // data = array de obj planetas
+      // filtered depois de um foreach = array de array de objetops
+      filterByNumericValues.forEach((eachfilter, index) => {
         const { value, column, comparison } = eachfilter;
 
         if (comparison === 'maior que') {
-          const match = data.filter((planet) => Number(planet[column]) > Number(value));
-          filtered.push(...match);
+          const match = currentData(index)
+            .filter((planet) => Number(planet[column]) > Number(value));
+          filtered.push(match);
         }
         if (comparison === 'igual a') {
-          const match = data.filter((planet) => Number(planet[column]) === Number(value));
-          filtered.push(...match);
+          const match = currentData(index)
+            .filter((planet) => Number(planet[column]) === Number(value));
+          filtered.push(match);
         }
         if (comparison === 'menor que') {
-          const match = data.filter((planet) => Number(planet[column]) < Number(value));
-          filtered.push(...match);
+          const match = currentData(index)
+            .filter((planet) => Number(planet[column]) < Number(value));
+          filtered.push(match);
         }
-        setFilterStore(filtered);
       });
+      const lastOccurence = filtered.length - 1;
+      if (lastOccurence !== undefined) return setFilterStore(filtered[lastOccurence]);
+      setFilterStore(filtered);
     };
     filtering();
-  }, [data, filters]);
+  }, [filters, data]);
 
   return (
     <div>
+      <h2>{renderData.length}</h2>
       <table>
         <thead>
           <tr>

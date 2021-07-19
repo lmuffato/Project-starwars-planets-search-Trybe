@@ -49,6 +49,22 @@ function PlanetsProvider({ children }) {
     if (!repeated) setSelectedFilters(object);
   };
 
+  const handleDeleteFilter = (name) => {
+    const prevFilter = filters.filterByNumericValues;
+    const renewFilter = prevFilter.filter((each) => each.column !== name);
+    console.log(renewFilter);
+    if (renewFilter.length >= 1) {
+      return setFilters((prevState) => ({
+        ...prevState,
+        filterByNumericValues: [renewFilter],
+      }));
+    }
+    setFilters((prevState) => ({
+      ...prevState,
+      filterByNumericValues: [],
+    }));
+  };
+
   useEffect(() => {
     setFilters((prevState) => ({
       ...prevState,
@@ -64,6 +80,7 @@ function PlanetsProvider({ children }) {
     filters,
     handleInputFilter,
     handleSelectedFilters,
+    handleDeleteFilter,
   };
 
   return (
