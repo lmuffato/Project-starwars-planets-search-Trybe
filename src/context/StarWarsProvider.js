@@ -21,7 +21,6 @@ function StarWarsProvider({ children }) {
   }
 
   useEffect(() => {
-    console.log('Entrei no useEffect do fetchPlanets');
     fetchPlanets();
   }, []);
 
@@ -35,8 +34,9 @@ function StarWarsProvider({ children }) {
   useEffect(() => {
     const { filters: { filterByNumericValues } } = filter;
     if (filter.filters.filterByNumericValues.length !== 0) {
-      const { column, comparison, value } = filterByNumericValues[0];
-      console.log(column, comparison, value);
+      const {
+        column, comparison, value,
+      } = filterByNumericValues[(filterByNumericValues.length - 1)];
       const valueToInt = parseInt(value, 16);
       if (comparison === 'maior que') {
         setFilteredPlanets(
