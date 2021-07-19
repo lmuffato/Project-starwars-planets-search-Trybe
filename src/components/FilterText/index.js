@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 import AppContext from '../../context/AppContext';
 
 export default function FilterText() {
-  const { setFilterText } = useContext(AppContext);
+  const { filteredByName } = useContext(AppContext);
 
   const handleSearch = ({ target: { value } }) => {
-    setFilterText(value.toLowerCase());
+    filteredByName(value);
   };
 
   return (

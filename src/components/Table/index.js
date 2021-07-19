@@ -2,46 +2,82 @@ import React, { useEffect, useContext } from 'react';
 import AppContext from '../../context/AppContext';
 import './Table.css';
 
-function setFilter(dataRow, fill) {
-  const newData = dataRow.filter((planet) => planet.name.toLowerCase().includes(fill));
-  return newData;
+function filterData(data, filters) {
+  const { filterByName: { name }, filterByNumericValues } = filters;
+  let filteredData = data.filter((
+    planet,
+  ) => planet.name.toLowerCase().includes(name.toLowerCase()));
+
+  filterByNumericValues.forEach((filter) => {
+    filteredData = filteredData.filter((planet) => {
+      const columnValue = +(planet[filter.column]);
+      const filterValue = +(filter.value);
+
+      if (filter.comparison === 'maior que') {
+        return (columnValue > filterValue && columnValue !== 'unknown');
+      }
+
+      if (filter.comparison === 'menor que') {
+        return (columnValue < filterValue && columnValue !== 'unknown');
+      }
+
+      if (filter.comparison === 'igual a') {
+        return (columnValue === filterValue && columnValue !== 'unknown');
+      }
+
+      return false;
+    });
+  });
+
+  return filteredData;
 }
 
 function generateThead(data) {
-  return data.map((
-    item,
-    index,
-  ) => <th className="head" key={ index }>{item}</th>);
+  if (data) {
+    return data.map((
+      item,
+      index,
+    ) => <th className="head" key={ index }>{item}</th>);
+  }
 }
 
 function generateTBody(data) {
+  console.log('oi');
   const resident = 9;
-
-  return data.map((planet) => (
-    <tr key={ `${planet.name}` }>
-      {Object.values(planet).map((
-        value,
-        index,
-      ) => (index !== resident
-        ? <td key={ value }>{value}</td>
-        : []))}
-    </tr>
-  ));
+  if (data) {
+    return data.map((planet) => (
+      <tr key={ `${planet.name}` }>
+        {Object.values(planet).map((
+          value,
+          index,
+        ) => (index !== resident
+          ? <td key={ value }>{value}</td>
+          : null))}
+      </tr>
+    ));
+  }
 }
 
 export default function Table() {
-  const { filterText, setNewData, newData, dataColumn, dataRow } = useContext(AppContext);
+  const {
+    dataColumn,
+    dataRow,
+    filters,
+  } = useContext(AppContext);
 
-  useEffect(() => {
-    setNewData(setFilter(dataRow, filterText));
-  }, [dataRow, filterText, setNewData]);
+  const dataFilters = filterData(dataRow, filters);
+  console.log('filters', filters);
 
   return (
     <table>
-      <tr>
-        {generateThead(dataColumn)}
-      </tr>
-      {generateTBody(newData)}
+      <thead>
+        <tr>
+          {generateThead(dataColumn)}
+        </tr>
+      </thead>
+      <tbody>
+        {generateTBody(dataFilters)}
+      </tbody>
     </table>
   );
 }

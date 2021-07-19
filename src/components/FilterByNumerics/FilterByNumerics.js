@@ -1,26 +1,5 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import AppContext from '../../context/AppContext';
-
-function filterMain(select, comparison, value, data) {
-  switch (comparison) {
-  case 'maior que':
-    return data.filter(
-      (planet) => planet[select] > Number(value) && planet[select] !== 'unknown',
-    );
-  case 'menor que':
-    return data.filter(
-      (planet) => planet[select] < Number(value) && planet[select] !== 'unknown',
-    );
-
-  case 'igual a':
-    return data.filter(
-      (planet) => planet[select] === value && planet[select] !== 'unknown',
-    );
-  default:
-    break;
-  }
-  return null;
-}
 
 function generateSelectColums(nome, label, optionArray, handleSelect) {
   return (
@@ -60,7 +39,7 @@ function generateInputNumber(label, handleNumber) {
       {label}
       <input
         type="number"
-        name="number"
+        name="value"
         data-testid="value-filter"
         onChange={ handleNumber }
       />
@@ -81,31 +60,25 @@ function generateButton(handleClick) {
 }
 
 export default function FilterByNumerics() {
+  const [numericValuesFilter, setNumericValuesFilters] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    value: '0',
+  });
+
   const {
-    setFilterColumn,
-    filterColumn,
-    setComparison,
-    comparison,
-    setValueNumber,
-    valueNumber,
-    newData,
-    setNewData,
+    filterByNumericValues,
   } = useContext(AppContext);
 
-  const handleSelectColumn = ({ target: { value } }) => {
-    setFilterColumn(value);
-  };
-
-  const handleSelectComparison = ({ target: { value } }) => {
-    setComparison(value);
-  };
-
-  const handleNumber = ({ target: { value } }) => {
-    setValueNumber(value);
-  };
+  function handleFilter({ target: { name, value } }) {
+    setNumericValuesFilters({
+      ...numericValuesFilter,
+      [name]: value,
+    });
+  }
 
   const handleClick = () => {
-    setNewData(filterMain(filterColumn, comparison, valueNumber, newData));
+    filterByNumericValues(numericValuesFilter);
   };
 
   const optionPlanets = [
@@ -124,19 +97,19 @@ export default function FilterByNumerics() {
   return (
     <div>
       {generateSelectColums(
-        'filterBySelect',
+        'column',
         'Filtre por coluna',
         optionPlanets,
-        handleSelectColumn,
+        handleFilter,
       )}
       {generateSelectComparison(
-        'filterBySelect',
+        'comparison',
         'Filtre por comparação',
         optionComparison,
-        handleSelectComparison,
+        handleFilter,
       )}
 
-      {generateInputNumber('Coloque seu número', handleNumber)}
+      {generateInputNumber('Coloque seu número', handleFilter)}
       {generateButton(handleClick)}
     </div>
   );
