@@ -1,19 +1,27 @@
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import planetsApi from '../services/planetsApi';
 import PlanetsContext from './PlanetsContext';
-
 function PlanetsProvider(props) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState(false);
-  const [filters, setfilters] = useState({
+  const [copyResults, setcopyResults] = useState([]);
+  const [filters, setFilters] = useState({
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [],
   });
-  const [copyResults, setcopyResults] = useState([]);
 
   const setFilterByName = (event) => {
     const { value } = event.target;
-    setfilters({ filterByName: { name: value.toLowerCase() } });
+    setFilters({ ...filters, filterByName: { name: value.toLowerCase() } });
+  };
+
+  const sendFilterNumeric = (obj) => {
+    const { filterByNumericValues } = filters;
+    setFilters({ ...filters, filterByNumericValues: [...filterByNumericValues, obj] });
   };
 
   useEffect(() => {
@@ -32,14 +40,15 @@ function PlanetsProvider(props) {
     };
     load();
   }, []);
-  // const { name } = filters.filterByName;
+
   const context = { data,
     isLoading,
     loadError,
     filters,
     setFilterByName,
     setData,
-    copyResults };
+    copyResults,
+    sendFilterNumeric };
   const { children } = props;
   return (
     <PlanetsContext.Provider value={ context }>
