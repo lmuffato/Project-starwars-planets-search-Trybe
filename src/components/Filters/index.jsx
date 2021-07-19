@@ -65,20 +65,18 @@ function Filters() {
     } else {
       array = array.sort((planet1, planet2) => (
         order.sort === 'ASC'
-          ? planet2[orderType.column] - planet1[orderType.column]
-          : planet1[orderType.column] - planet2[orderType.column]
+          ? planet1[orderType.column] - planet2[orderType.column]
+          : planet2[orderType.column] - planet1[orderType.column]
       ));
     }
     return array;
   });
 
   useEffect(() => {
-    // console.log('did mount');
     const getPlanets = async () => {
       const { results } = await fetch('https://swapi-trybe.herokuapp.com/api/planets/')
         .then((dat) => dat.json());
 
-      // console.log('mount sort');
       const sorted = handleSort(order, results);
       setData(sorted);
       setBackup(results);
@@ -87,9 +85,8 @@ function Filters() {
   }, []);
 
   useEffect(() => {
-    // console.log('did update');
     const dofilter = () => {
-      let array = backup;
+      let array = [...backup];
       if (name !== '') { array = array.filter((planet) => planet.name.includes(name)); }
 
       if (filterByNumericValues.length !== 0) {
@@ -106,10 +103,7 @@ function Filters() {
           }
         });
       }
-      // LOG
-      // console.log(order);
       array = handleSort(order, array);
-      // console.log('update filters', array);
       setData(array);
     };
 
@@ -184,13 +178,15 @@ function Filters() {
           key={ `${filterText.filter}-button` }
           data-testid="filter"
           onClick={ () => {
-            filterByNumericValues.splice(filterText.index, 1);
+            const newFilterByNumeric = filterByNumericValues.filter(
+              (e) => e.column !== filterText.filter,
+            );
             const newOptions = {
               ...toSelectColumn,
               options: toSelectColumn.options.concat(filterText.filter),
             };
             setSelectColumn(newOptions);
-            setFilters({ ...filters });
+            setFilters({ ...filters, filterByNumericValues: newFilterByNumeric });
           } }
         >
           {`x ${filterText.filter}`}
