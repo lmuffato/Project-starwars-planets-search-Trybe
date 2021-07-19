@@ -2,16 +2,18 @@ import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 
 function SearchBar() {
-  const { input, setInput } = useContext(StarWarsContext);
-
-  console.log(input);
+  const { filter, setFilter } = useContext(StarWarsContext);
+  const { filters: { filterByName: { name } } } = filter;
+  const { filters: { filterByNumericValues } } = filter;
 
   return (
     <input
       type="text"
       data-testid="name-filter"
-      value={ input }
-      onChange={ ({ target }) => setInput(target.value) }
+      value={ name }
+      onChange={ ({ target }) => setFilter(
+        { filters: { filterByNumericValues, filterByName: { name: target.value } } },
+      ) }
     />
   );
 }

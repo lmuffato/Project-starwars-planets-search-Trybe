@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import StarWarsContext from './context/StarWarsContext';
 import SearchBar from './utils/SearchBar';
+import FilterForms from './utils/FilterForms';
 
 function MainPage() {
   const { filteredPlanets, loaded } = useContext(StarWarsContext);
@@ -12,6 +13,7 @@ function MainPage() {
           <div>
             <span>Hello, App!</span>
             <SearchBar />
+            <FilterForms />
             <table>
               <thead>
                 <tr>
