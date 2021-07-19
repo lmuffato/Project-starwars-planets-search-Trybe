@@ -25,7 +25,7 @@ function generateSelectComparison(nome, label, optionArray, handleSelect) {
         name={ nome }
         id={ nome }
         data-testid="comparison-filter"
-        onClick={ handleSelect }
+        onChange={ handleSelect }
       >
         {optionArray.map((element, index) => <option key={ index }>{element}</option>)}
       </select>
