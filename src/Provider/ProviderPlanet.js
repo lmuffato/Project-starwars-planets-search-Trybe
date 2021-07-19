@@ -5,15 +5,19 @@ import planetAPI from '../services/planetAPI';
 import planetContext from '../Context/planetContext';
 
 function ProviderPlanet({ children }) {
-  const [data, setData] = useState({});
+  const [data, setData] = useState([]);
+  const [name, setName] = useState([]);
 
   useEffect(() => {
     planetAPI().then(({ results }) => setData(results));
   }, []);
   console.log('data', data);
+  const handleChange = (value) => setName(value);
 
   return (
-    <planetContext.Provider value={ { data } }>
+    <planetContext.Provider
+      value={ { data, handleChange, filters: { filterByName: { name } } } }
+    >
       {children}
     </planetContext.Provider>
   );
