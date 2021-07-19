@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 
 function FilterForms() {
-
   const INITIAL_NEW_FILTERS = [
     'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
   ];
