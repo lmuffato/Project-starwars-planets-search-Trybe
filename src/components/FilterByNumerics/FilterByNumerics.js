@@ -59,6 +59,21 @@ function generateButton(handleClick) {
   );
 }
 
+function generateActiveFilters(activeFilters, handleRemoveFilter) {
+  return (
+    <div>
+      { activeFilters.map((filter) => (
+        <ul data-testid="filter" key={ `${filter}-filter-button` }>
+          <li>{filter}</li>
+          <button type="button" onClick={ handleRemoveFilter } name={ filter }>
+            X
+          </button>
+        </ul>
+      ))}
+    </div>
+  );
+}
+
 export default function FilterByNumerics() {
   const [numericValuesFilter, setNumericValuesFilters] = useState({
     column: 'population',
@@ -68,7 +83,11 @@ export default function FilterByNumerics() {
 
   const {
     filterByNumericValues,
+    removeFilter,
   } = useContext(AppContext);
+  const [activeFilters, setActiveFilters] = useState([]);
+
+  // const { column, comparison, value } = numericValuesFilter;
 
   function handleFilter({ target: { name, value } }) {
     setNumericValuesFilters({
@@ -79,7 +98,13 @@ export default function FilterByNumerics() {
 
   const handleClick = () => {
     filterByNumericValues(numericValuesFilter);
+    setActiveFilters([...activeFilters, numericValuesFilter.column]);
   };
+
+  function handleRemoveFilter({ target: { name } }) {
+    removeFilter(name);
+    setActiveFilters([...activeFilters.filter((filter) => filter !== name)]);
+  }
 
   const optionPlanets = [
     'population',
@@ -108,9 +133,10 @@ export default function FilterByNumerics() {
         optionComparison,
         handleFilter,
       )}
-
       {generateInputNumber('Coloque seu número', handleFilter)}
       {generateButton(handleClick)}
+      { generateActiveFilters(activeFilters, handleRemoveFilter) }
+
     </div>
   );
 }

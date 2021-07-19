@@ -33,6 +33,15 @@ export default function AppProvider({ children }) {
     });
   }
 
+  function removeFilter(name) {
+    setFilters({
+      ...filters,
+      filterByNumericValues: [
+        ...filters.filterByNumericValues.filter((filter) => filter.column !== name),
+      ],
+    });
+  }
+
   useEffect(() => {
     fetchByApi()
       .then((
@@ -47,6 +56,7 @@ export default function AppProvider({ children }) {
     dataColumn,
     filterByNumericValues,
     filters,
+    removeFilter,
     setDataColumn,
     setDataRow,
     setFilters,

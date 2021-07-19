@@ -42,7 +42,6 @@ function generateThead(data) {
 }
 
 function generateTBody(data) {
-  console.log('oi');
   const resident = 9;
   if (data) {
     return data.map((planet) => (
@@ -66,7 +65,6 @@ export default function Table() {
   } = useContext(AppContext);
 
   const dataFilters = filterData(dataRow, filters);
-  console.log('filters', filters);
 
   return (
     <table>
