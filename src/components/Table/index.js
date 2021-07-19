@@ -3,7 +3,7 @@ import AppContext from '../../context/AppContext';
 import './Table.css';
 
 function filterData(data, filters) {
-  const { filterByName: { name }, filterByNumericValues } = filters;
+  const { filterByName: { name }, filterByNumericValues, order } = filters;
   let filteredData = data.filter((
     planet,
   ) => planet.name.toLowerCase().includes(name.toLowerCase()));
@@ -29,6 +29,25 @@ function filterData(data, filters) {
     });
   });
 
+  function checkIsNumber(string) {
+    return Number.isNaN(+string) ? string : +string;
+  }
+
+  filteredData.sort((planet1, planet2) => {
+    const direct = 1;
+    const reverse = -1;
+    const keep = 0;
+    const { column } = order;
+
+    const value1 = checkIsNumber(planet1[column]);
+    const value2 = checkIsNumber(planet2[column]);
+
+    if (value1 > value2) return order.sort === 'ASC' ? direct : reverse;
+    if (value1 < value2) return order.sort === 'ASC' ? reverse : direct;
+
+    return keep;
+  });
+
   return filteredData;
 }
 
@@ -41,6 +60,13 @@ function generateThead(data) {
   }
 }
 
+function mapPlanets(index, value) {
+  if(index !== 0) {
+    return <td key={ value }>{value}</td>
+  } return <td key={ value } data-testid="planet-name">{value}</td>
+}
+
+
 function generateTBody(data) {
   const resident = 9;
   if (data) {
@@ -49,9 +75,9 @@ function generateTBody(data) {
         {Object.values(planet).map((
           value,
           index,
-        ) => (index !== resident
-          ? <td key={ value }>{value}</td>
-          : null))}
+        ) => (
+          index !== resident && mapPlanets(index, value)
+        ))}
       </tr>
     ));
   }

@@ -12,6 +12,10 @@ export default function AppProvider({ children }) {
       name: '',
     },
     filterByNumericValues: [],
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
   });
 
   function filteredByName(name) {
@@ -42,6 +46,16 @@ export default function AppProvider({ children }) {
     });
   }
 
+  function filterByOrder({ column = filters.order.column, sort = filters.order.sort }) {
+    setFilters({
+      ...filters,
+      order: {
+        column,
+        sort,
+      },
+    });
+  }
+
   useEffect(() => {
     fetchByApi()
       .then((
@@ -61,6 +75,7 @@ export default function AppProvider({ children }) {
     setDataRow,
     setFilters,
     filteredByName,
+    filterByOrder,
   };
 
   return (
