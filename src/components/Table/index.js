@@ -61,11 +61,10 @@ function generateThead(data) {
 }
 
 function mapPlanets(index, value) {
-  if(index !== 0) {
-    return <td key={ value }>{value}</td>
-  } return <td key={ value } data-testid="planet-name">{value}</td>
+  if (index !== 0) {
+    return <td key={ value }>{value}</td>;
+  } return <td key={ value } data-testid="planet-name">{value}</td>;
 }
-
 
 function generateTBody(data) {
   const resident = 9;
