@@ -96,8 +96,7 @@ function Filters() {
               parseInt(planet[column], 10) > parseInt(value, 10)));
           } else if (comparison === 'menor que') {
             array = array.filter((planet) => (
-              parseInt(planet[column], 10) < parseInt(value, 10)
-              || planet[column] === 'unknown'));
+              parseInt(planet[column], 10) < parseInt(value, 10)));
           } else {
             array = array.filter((planet) => (
               planet[column] === value));
