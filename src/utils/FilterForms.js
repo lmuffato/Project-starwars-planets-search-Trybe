@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 
 function FilterForms() {
@@ -19,7 +19,29 @@ function FilterForms() {
     return INITIAL_NEW_FILTERS.filter((item) => !mapColumns.includes(item));
   }
 
-  if (filterByNumericValues.length !== 0) newOptions();
+  function handleClick() {
+    setFilter(
+      { filters: {
+        filterByName,
+        filterByNumericValues:
+      [...filterByNumericValues,
+        {
+          column: columnFilter,
+          comparison: comparisonFilter,
+          value: inputNumberFilter,
+        }] } },
+    );
+  }
+
+  function resetFilter() {
+    setFilter({
+      filters: { filterByName: { name: '' }, filterByNumericValues: [] },
+    });
+  }
+
+  useEffect(() => {
+    setColumnFilter(newOptions()[0]);
+  }, [filter]);
 
   return (
     <form>
@@ -58,6 +80,14 @@ function FilterForms() {
           </select>
         ) }
       </label>
+      <div data-testid="filter">
+        <button
+          type="button"
+          onClick={ () => resetFilter() }
+        >
+          X
+        </button>
+      </div>
       <label htmlFor="comparision">
         Select a comparision:
         <select
@@ -72,26 +102,32 @@ function FilterForms() {
           <option value="igual a">igual a</option>
         </select>
       </label>
+      <div data-testid="filter">
+        <button
+          type="button"
+          onClick={ () => resetFilter() }
+        >
+          X
+        </button>
+      </div>
       <input
         type="text"
         data-testid="value-filter"
         value={ inputNumberFilter }
         onChange={ ({ target }) => setInputNumberFilter(target.value) }
       />
+      <div data-testid="filter">
+        <button
+          type="button"
+          onClick={ () => resetFilter() }
+        >
+          X
+        </button>
+      </div>
       <button
         type="button"
         data-testid="button-filter"
-        onClick={ () => setFilter(
-          { filters: {
-            filterByName,
-            filterByNumericValues:
-          [...filterByNumericValues,
-            {
-              column: columnFilter,
-              comparison: comparisonFilter,
-              value: inputNumberFilter,
-            }] } },
-        ) }
+        onClick={ () => handleClick() }
       >
         Submit!
       </button>
