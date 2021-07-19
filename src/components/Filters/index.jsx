@@ -96,7 +96,8 @@ function Filters() {
               parseInt(planet[column], 10) > parseInt(value, 10)));
           } else if (comparison === 'menor que') {
             array = array.filter((planet) => (
-              planet[column] < value || planet[column] === 'unknown'));
+              parseInt(planet[column], 10) < parseInt(value, 10)
+              || planet[column] === 'unknown'));
           } else {
             array = array.filter((planet) => (
               planet[column] === value));
@@ -121,16 +122,19 @@ function Filters() {
       <Select
         selectData={ toSelectColumn }
         onChange={ handleChange2 }
+        value={ localObj.column }
       />
       <Select
         selectData={ comparisonObj }
         onChange={ handleChange2 }
+        value={ localObj.comparison }
       />
       <input
         type="number"
         name="value"
         onChange={ handleChange2 }
         data-testid="value-filter"
+        value={ localObj.value }
       />
       <button
         type="button"
@@ -172,26 +176,28 @@ function Filters() {
           Ordenar
         </button>
       </div>
-      {currentFilters.map((filterText) => (
-        <button
-          type="button"
-          key={ `${filterText.filter}-button` }
-          data-testid="filter"
-          onClick={ () => {
-            const newFilterByNumeric = filterByNumericValues.filter(
-              (e) => e.column !== filterText.filter,
-            );
-            const newOptions = {
-              ...toSelectColumn,
-              options: toSelectColumn.options.concat(filterText.filter),
-            };
-            setSelectColumn(newOptions);
-            setFilters({ ...filters, filterByNumericValues: newFilterByNumeric });
-          } }
-        >
-          {`x ${filterText.filter}`}
-        </button>
-      ))}
+      {
+        currentFilters.map((filterText) => (
+          <div key={ `${filterText.filter}-button` } data-testid="filter" >
+            <button
+              type="button"
+              onClick={ () => {
+                const newFilterByNumeric = filterByNumericValues.filter(
+                  (e) => e.column !== filterText.filter,
+                );
+                const newOptions = {
+                  ...toSelectColumn,
+                  options: toSelectColumn.options.concat(filterText.filter),
+                };
+                setSelectColumn(newOptions);
+                setFilters({ ...filters, filterByNumericValues: newFilterByNumeric });
+              } }
+            >
+              {`x ${filterText.filter}`}
+            </button>
+          </div>
+        ))
+      }
     </div>
   );
 }
