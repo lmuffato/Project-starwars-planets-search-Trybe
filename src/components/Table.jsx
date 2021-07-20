@@ -4,6 +4,7 @@ import DataList from './DataList';
 import '../styles/index.css';
 
 export default function Table() {
+  const [saveFilter, setSaveFilter] = useState([]);
   const [selCategory, setSelCategory] = useState('');
   const [selComparison, setSelComparison] = useState('');
   const [selNumber, setSelNumber] = useState(0);
@@ -41,9 +42,18 @@ export default function Table() {
     ));
   };
 
+  const saveFilterList = () => {
+    setSaveFilter([...saveFilter, [selCategory, selComparison, selNumber]]);
+    console.log(saveFilter);
+  };
+
   const removeCategory = () => {
     const filterOption = selOptions.filter((item) => (item !== selCategory));
     setSelOptions(filterOption);
+  };
+
+  const removeItemByItem = (index) => {
+    console.log(index);
   };
 
   const filterParamList = () => {
@@ -57,6 +67,7 @@ export default function Table() {
       setSearch(listItems);
       filterSelectChange();
       removeCategory();
+      saveFilterList();
       break;
     case 'menor que':
       listItems = data.filter(
@@ -65,6 +76,7 @@ export default function Table() {
       setSearch(listItems);
       filterSelectChange();
       removeCategory();
+      saveFilterList();
       break;
     case 'igual a':
       listItems = data.filter(
@@ -73,16 +85,13 @@ export default function Table() {
       setSearch(listItems);
       filterSelectChange();
       removeCategory();
+      saveFilterList();
       break;
     default:
     }
 
     const { filterByNumericValues } = filter;
     console.log(filterByNumericValues[filterByNumericValues.length - 1].column);
-
-    // setResultFilter(listItems);
-    // setSearch(resultFilter);
-    // console.log(selNumber, selComparison, resultFilter);
   };
 
   return (
@@ -155,13 +164,21 @@ export default function Table() {
         >
           Filtrar
         </button>
-        <button
-          type="button"
-          data-testid="filter"
-          onClick={ () => filterParamList() }
-        >
-          X
-        </button>
+      </div>
+      <div data-testid="filter">
+        { saveFilter.map((ele, index) => (
+          <div key={ index }>
+            <span>{ele[0]}</span>
+            <span>{ele[1]}</span>
+            <span>{ele[2]}</span>
+            <button
+              type="button"
+              onClick={ () => removeItemByItem(index) }
+            >
+              X
+            </button>
+          </div>
+        )) }
       </div>
       <table>
         <thead>

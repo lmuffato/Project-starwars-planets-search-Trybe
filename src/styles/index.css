@@ -1,9 +1,9 @@
 * {
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   font-size: small;
 }
 
-div#filterInputs{
+div#filterInputs {
   display: flex;
   flex-direction: row;
   padding-bottom: 15px;
@@ -13,18 +13,19 @@ div#filterInputs button {
   display: block;
 }
 
-input, select {
-  padding: 5px 5px;
+input,
+select {
   border-radius: 2px;
-  margin: 0 10px auto 0px
+  margin: 0 10px auto 0px;
+  padding: 5px 5px;
 }
 table {
   border-spacing: 0;
 }
 
 th {
-  border: 1px solid darkcyan;
   background-color: lightblue;
+  border: 1px solid darkcyan;
 }
 td {
   border-bottom: 1px solid darkblue;
@@ -34,7 +35,13 @@ tr:nth-child(2n) {
   background-color: cadetblue;
 }
 
-
 body {
-  background-color:bisque
+  background-color: bisque;
+}
+
+[data-testid="filter"] {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding-bottom: 20px;
 }
