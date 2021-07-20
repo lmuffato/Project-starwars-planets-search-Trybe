@@ -1,9 +1,13 @@
 import React, { useContext } from 'react';
 import planetsContext from '../context/planetsContext';
+import SearchInput from './SearchInput';
 
 function Table() {
-  const { data } = useContext(planetsContext);
-  const planetsTable = () => data.map((planet) => (
+  const { data, filters: { filterByName: { name } } } = useContext(planetsContext);
+  const filteredByName = data
+    .filter((planet) => planet.name.toLowerCase().includes(name));
+
+  const planetsTable = () => filteredByName.map((planet) => (
     <tr key={ planet.name }>
       <td>{ planet.name }</td>
       <td>{ planet.rotation_period }</td>
@@ -23,7 +27,8 @@ function Table() {
 
   return (
     <div>
-      <h1>API Table</h1>
+      <SearchInput />
+      <h1>API - Star Wars Planets</h1>
       <table>
         <thead>
           <tr>
