@@ -46,9 +46,22 @@ export default function PlanetsProvider({ children }) {
     retrievePlanets();
   }, []);
 
+  const clearFilter = () => {
+    setSearch({ filters: {
+      filterByName: { name: '' },
+      filterByNumericValues: [
+        {
+          column: 'population',
+          comparison: 'maior que',
+          value: '0',
+        },
+      ] } });
+    setUsefulData(data);
+  };
+
   return (
     <PlanetsContext.Provider
-      value={ { usefulData, search, setSearch, handleSearchClick } }
+      value={ { usefulData, search, setSearch, handleSearchClick, clearFilter } }
     >
       { children }
     </PlanetsContext.Provider>
