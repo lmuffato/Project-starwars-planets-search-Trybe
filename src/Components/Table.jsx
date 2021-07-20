@@ -15,7 +15,6 @@ function Table() {
 
   const checkFilters = () => {
     let filteredAPI = filteredByName;
-    // eslint-disable-next-line array-callback-return
     filterByNumericValues.map((params) => {
       if (params.comparison === 'maior que') {
         filteredAPI = filteredByName.filter((response) => (
@@ -27,6 +26,7 @@ function Table() {
         filteredAPI = filteredByName.filter((response) => (
           response[params.column] === params.value));
       }
+      return '';
     });
     return filteredAPI;
   };
