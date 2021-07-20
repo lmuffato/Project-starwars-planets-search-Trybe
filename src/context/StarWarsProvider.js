@@ -18,6 +18,7 @@ function StarWarsProvider({ children }) {
   const [filteredPlanets, setFilteredPlanets] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [filter, setFilter] = useState(INITIAL_FILTER);
+  const [ordered, setOrdered] = useState([]);
 
   /* function sortPlanets(planets) {
     const NEGATIVE = -1;
@@ -39,7 +40,8 @@ function StarWarsProvider({ children }) {
     const POSITIVE = 1;
     const ZERO = 0;
     if (orderColumn === 'Name') {
-      console.log('ordenei por nome');
+      console.log('ordenando por nome');
+      console.log('esse é o planet antes do sort', planets);
       planets.sort((a, b) => {
         const textA = a.name.toUpperCase();
         const textB = b.name.toUpperCase();
@@ -47,6 +49,7 @@ function StarWarsProvider({ children }) {
         if (textA > textB) return POSITIVE;
         return ZERO;
       });
+      console.log('sou o retorno do ordenei por nome', planets);
       return planets;
     }
     if (typeSort === 'DESC') {
@@ -57,18 +60,20 @@ function StarWarsProvider({ children }) {
       console.log('entrei no ASC');
       planets.sort((a, b) => a[orderColumn] - b[orderColumn]);
     }
-    console.log(planets);
+    console.log('sou o retorno no planets não alfabetico', planets);
     return planets;
   }
 
   async function fetchPlanets() {
     const fetchedPlanets = await getPlanets();
+    console.log('fiz o fetchplanets');
     setOriginalPlanets(fetchedPlanets);
     setFilteredPlanets(
       sortNewOrder(
-        fetchedPlanets, filter.filters.order.column, filter.filters.order.sort,
+        fetchedPlanets, 'orbital_period', 'DESC',
       ),
     );
+
     setLoaded(true);
   }
 
@@ -111,9 +116,9 @@ function StarWarsProvider({ children }) {
 
   useEffect(() => {
     const { filters: { order: { column, sort } } } = filter;
-    if (column !== 'Name') {
-      console.log('passei pelo if do column');
-      setFilteredPlanets(sortNewOrder(originalPlanets, column, sort));
+    console.log('sou a coluna', column);
+    if (column !== 'Name' && sort !== 'ASC') {
+      setFilteredPlanets((sortNewOrder(originalPlanets, 'orbital_period', 'DESC')));
     }
   }, [filter]);
 

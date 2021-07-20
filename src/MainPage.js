@@ -5,7 +5,7 @@ import FilterForms from './utils/FilterForms';
 
 function MainPage() {
   const { filteredPlanets, loaded } = useContext(StarWarsContext);
-  console.log('Planetas do mainpage', filteredPlanets);
+  console.log('Mainpage', filteredPlanets);
 
   return (
     <div>
