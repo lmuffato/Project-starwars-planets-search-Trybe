@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import PlanetsContext from './PlanetsContext';
-import getPlanetsAPI from '../services/StarwarsAPI';
+import getPlanetsAPI from '../services/StarWarsAPI';
 
 function PlanetsProvider({ children }) {
   const initialFilteres = {
