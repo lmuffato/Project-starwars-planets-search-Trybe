@@ -9,7 +9,7 @@ function PlanetsList(props) {
   const { state, itens, conditions, number } = props;
   useEffect(() => {
     getApi();
-  }, []);
+  }, [getApi]);
 
   const onClick = () => () => setClicked(true);
 
