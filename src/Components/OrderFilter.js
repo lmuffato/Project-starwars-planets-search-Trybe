@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
-import myContext from '../context/myContext';
+import PlanestContext from '../context/PlanetsContext';
 import { compareNameAsc, compareNameDesc,
   compareOrbitalAsc,
   compareOrbitalDesc,
-  comparePopulationAsc, comparePopulationDesc } from '../services/OrderPlanets';
+  comparePopulationAsc, comparePopulationDesc } from '../services/orderPlanets';
 
 function OrderFilter() {
-  const context = useContext(myContext);
-  const { setOrderSort, data, changeData } = context;
+  const context = useContext(PlanestContext);
+  const { setOrderSort, data, setData } = context;
   const [orderBy, setOrderBy] = useState('name');
   const [orderForm, setOrderForm] = useState('ASC');
 
@@ -15,9 +15,9 @@ function OrderFilter() {
     if (type === 'name') {
       switch (form) {
       case 'ASC':
-        return changeData(data.sort(compareNameAsc));
+        return setData(data.sort(compareNameAsc));
       case 'DESC':
-        return changeData(data.sort(compareNameDesc));
+        return setData(data.sort(compareNameDesc));
       default:
         break;
       }
@@ -25,9 +25,9 @@ function OrderFilter() {
     if (type === 'population') {
       switch (form) {
       case 'ASC':
-        return changeData(data.sort(comparePopulationAsc));
+        return setData(data.sort(comparePopulationAsc));
       case 'DESC':
-        return changeData(data.sort(comparePopulationDesc));
+        return setData(data.sort(comparePopulationDesc));
       default:
         break;
       }
@@ -35,9 +35,9 @@ function OrderFilter() {
     if (type === 'orbital_period') {
       switch (form) {
       case 'ASC':
-        return changeData(data.sort(compareOrbitalAsc));
+        return setData(data.sort(compareOrbitalAsc));
       case 'DESC':
-        return changeData(data.sort(compareOrbitalDesc));
+        return setData(data.sort(compareOrbitalDesc));
       default:
         break;
       }

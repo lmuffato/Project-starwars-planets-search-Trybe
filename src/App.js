@@ -1,15 +1,17 @@
 import React from 'react';
 import './App.css';
+import Filters from './Components/Filters';
 import OrderFilter from './Components/OrderFilter';
-import TableOfPlanets from './Components/TableOfPlanets';
-import Provider from './context/Provider';
+import Table from './Components/Table';
+import PlanetsProvider from './context/PlanetsProvider';
 
 function App() {
   return (
-    <Provider>
+    <PlanetsProvider>
       <OrderFilter />
-      <TableOfPlanets />
-    </Provider>
+      <Filters />
+      <Table />
+    </PlanetsProvider>
   );
 }
 
