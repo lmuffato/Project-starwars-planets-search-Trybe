@@ -1,19 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import context from './context';
+import context from './Context';
+import request from '../services/request';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
 
-  const requestApi = async () => {
-    const request = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
-    const { results } = await request.json();
-    return results.filter((item) => delete item.residents);
-  };
-
   useEffect(() => {
     (async function resolved() {
-      const resolve = await requestApi();
+      const resolve = await request();
       setData(resolve);
     }());
   }, []);

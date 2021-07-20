@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import PlanetsList from './PlanetsList';
+import Table from './Table';
 
 function Home() {
   const [search, setSearch] = useState('');
@@ -12,8 +12,6 @@ function Home() {
   const setDropPopulation = ({ target: { value } }) => setDropItem(value);
   const setDropCondition = ({ target: { value } }) => setDropedCondition(value);
   const setNumbered = ({ target: { value } }) => setNumber(value);
-
-  // const options = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
 
   useEffect(() => {
     setClicked(false);
@@ -44,7 +42,7 @@ function Home() {
           <input data-testid="value-filter" type="number" onChange={ setNumbered } />
         </form>
       </header>
-      <PlanetsList
+      <Table
         state={ search }
         dropItem={ dropItem }
         dropCondition={ dropCondition }

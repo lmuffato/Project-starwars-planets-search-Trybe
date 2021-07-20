@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import context from '../contexts/context';
+import context from '../Context/Context';
 
 function Table({ state, dropItem, dropCondition, number }) {
   const { data: apiContext } = useContext(context);
