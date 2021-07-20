@@ -1,11 +1,15 @@
 import React from 'react';
+import AppProvider from './context/AppProvider';
+import FilterForm from './components/FilterForm';
+import DefaultTable from './components/Table';
 import './App.css';
-import Home from './components/Home';
-// import Provider from './Context/Provider';
 
 function App() {
   return (
-    <Home />
+    <AppProvider>
+      <FilterForm />
+      <DefaultTable />
+    </AppProvider>
   );
 }
 
