@@ -8,6 +8,10 @@ const PlanetProveider = ({ children }) => {
   const initial = {
     filterByName: '',
     filterByNumericValues: [],
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
   };
   const [data, setData] = React.useState([]);
   const [filters, setFilters] = React.useState(initial);
@@ -30,6 +34,9 @@ const PlanetProveider = ({ children }) => {
     </PlanetContext.Provider>
   );
 };
+// const reset= () => {
+//   setFilters((st) => ({ ...st, filterByNumericValues: [] }));
+// };
 
 PlanetProveider.propTypes = {
   children: PropTypes.object,

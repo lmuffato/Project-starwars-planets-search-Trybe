@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { PlanetContext } from '../context/PlanetProvider';
+import getApi from './GetApi';
 
 const FormFilter = ({ setFilters, filters, setData }) => {
   const valuesInit = [
@@ -35,6 +36,7 @@ const FormFilter = ({ setFilters, filters, setData }) => {
       filterByNumericValues: [...filters.filterByNumericValues,
         inputFilters],
     });
+
     const filterData = data.filter((elem) => {
       const { column } = inputFilters;
       if (inputFilters.comparison === 'maior que') {
@@ -45,10 +47,23 @@ const FormFilter = ({ setFilters, filters, setData }) => {
       }
       return elem[column] === inputFilters.value;
     });
-    console.log(filterData);
     setData(filterData);
   };
+  const deleteFilter = async (e, index) => {
+    const delFilter = filters.filterByNumericValues;
 
+    console.log(e.target.id, delFilter, index);
+
+    const deletar = delFilter.filter((item, i) => index !== i);
+    console.log(deletar);
+
+    setFilters({
+      ...filters,
+      filterByNumericValues: deletar,
+    });
+    const getPlanets = await getApi();
+    setData(getPlanets);
+  };
   return (
     <div>
       <select data-testid="column-filter" name="column" onChange={ handleChange }>
@@ -73,10 +88,44 @@ const FormFilter = ({ setFilters, filters, setData }) => {
       <button
         data-testid="button-filter"
         type="button"
-        onClick={ filterValues }
+        onClick={ () => filterValues() }
       >
         Filtrar
       </button>
+      {filters.filterByNumericValues.map((item, index) => (
+        <button
+          key={ index }
+          type="button"
+          data-testid="filter"
+        >
+          <span
+            className="btn-filter"
+          >
+            {item.value}
+          </span>
+          <span className="btn-filter">
+            { item.column}
+          </span>
+          <span className="btn-filter">
+            {item.comparison}
+          </span>
+          <button
+            type="button"
+            id={ index }
+            onClick={ (e) => deleteFilter(e, index) }
+            style={ {
+              background: 'red',
+              borderRadius: '50%',
+              padding: '5px',
+              color: 'white',
+              position: 'absolute',
+              top: '25px' } }
+          >
+            X
+          </button>
+        </button>
+      ))}
+
     </div>
   );
 };

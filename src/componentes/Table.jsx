@@ -38,7 +38,11 @@ const Table = () => {
   return (
     <>
       { pesquisar() }
-      <FormFilter setFilters={ setFilters } filters={ filters } setData={ setData } />
+      <FormFilter
+        setFilters={ setFilters }
+        filters={ filters }
+        setData={ setData }
+      />
       <table>
         { thead() }
         { tbody() }
