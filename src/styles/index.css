@@ -1,23 +1,23 @@
 * {
-  font-family: 'Arial Narrow', Arial, sans-serif;
+  font-family: Arial Narrow , Arial , sans-serif;
   font-size: small;
 }
 
-div#filterInputs {
+#filterInputs {
   display: flex;
   flex-direction: row;
   padding-bottom: 15px;
 }
 
-div#filterInputs button {
+#filterInputs button {
   display: block;
 }
 
-input,
+input ,
 select {
   border-radius: 2px;
-  margin: 0px 10px auto 0px;
-  padding: 5px 5px;
+  margin-right: 10px;
+  padding: 5px;
 }
 
 table {
@@ -33,7 +33,7 @@ td {
   border-bottom: 1px solid darkblue;
 }
 
-tr:nth-child(2n) {
+tr:nth-child( 2n ) {
   background-color: cadetblue;
 }
 
@@ -41,7 +41,7 @@ body {
   background-color: bisque;
 }
 
-[ data-testid='filter' ] {
+[ data-testid = 'filter' ] {
   display: flex;
   flex-direction: row;
   gap: 10px;
