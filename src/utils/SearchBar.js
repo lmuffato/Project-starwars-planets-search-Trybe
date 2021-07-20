@@ -5,6 +5,7 @@ function SearchBar() {
   const { filter, setFilter } = useContext(StarWarsContext);
   const { filters: { filterByName: { name } } } = filter;
   const { filters: { filterByNumericValues } } = filter;
+  const { filters: { order } } = filter;
 
   return (
     <input
@@ -12,7 +13,10 @@ function SearchBar() {
       data-testid="name-filter"
       value={ name }
       onChange={ ({ target }) => setFilter(
-        { filters: { filterByNumericValues, filterByName: { name: target.value } } },
+        { filters: { filterByName:
+          { name: target.value },
+        filterByNumericValues,
+        order } },
       ) }
     />
   );

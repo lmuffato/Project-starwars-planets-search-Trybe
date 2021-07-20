@@ -9,10 +9,13 @@ function FilterForms() {
   const { filter, setFilter } = useContext(StarWarsContext);
   const { filters: { filterByName } } = filter;
   const { filters: { filterByNumericValues } } = filter;
+  const { filters: { order: { column, sort } } } = filter;
 
   const [columnFilter, setColumnFilter] = useState('population');
   const [comparisonFilter, setComparisonFilter] = useState('maior que');
   const [inputNumberFilter, setInputNumberFilter] = useState('');
+  const [sortOrder, setSortOrder] = useState(column);
+  const [typeSort, setTypeSort] = useState(sort);
 
   function newOptions() {
     const mapColumns = filterByNumericValues.map((newColumn) => newColumn.column);
@@ -29,13 +32,38 @@ function FilterForms() {
           column: columnFilter,
           comparison: comparisonFilter,
           value: inputNumberFilter,
-        }] } },
+        }],
+        order: { column: sortOrder, sort: typeSort } } },
     );
+  }
+
+  function orderClick() {
+    setFilter({
+      filters: {
+        filterByName: {
+          name: '',
+        },
+        filterByNumericValues: [],
+        order: { column: sortOrder, sort: typeSort },
+      },
+    });
+    setFilter({
+      filters: {
+        filterByName: {
+          name: '',
+        },
+        filterByNumericValues: [],
+        order: { column: sortOrder, sort: typeSort },
+      },
+    });
   }
 
   function resetFilter() {
     setFilter({
-      filters: { filterByName: { name: '' }, filterByNumericValues: [] },
+      filters: {
+        filterByName: { name: '' },
+        filterByNumericValues: [],
+        order: { column: 'Name', sort: 'ASC' } },
     });
   }
 
@@ -124,6 +152,46 @@ function FilterForms() {
           X
         </button>
       </div>
+      <label htmlFor="sortOrder">
+        Select the order column:
+        <select
+          name="sortOrder"
+          id="sortOrder"
+          data-testid="column-sort"
+          value={ sortOrder }
+          onChange={ ({ target }) => setSortOrder(target.value) }
+        >
+          <option value="name">name</option>
+          <option value="population">population</option>
+          <option value="orbital_period">orbital_period</option>
+          <option value="diameter">diameter</option>
+          <option value="rotation_period">rotation_period</option>
+          <option value="surface_water">surface_water</option>
+        </select>
+        ASC
+        <input
+          type="radio"
+          value="ASC"
+          name="sort"
+          data-testid="column-sort-input-asc"
+          onChange={ ({ target }) => setTypeSort(target.value) }
+        />
+        DESC
+        <input
+          type="radio"
+          value="DESC"
+          name="sort"
+          data-testid="column-sort-input-desc"
+          onChange={ ({ target }) => setTypeSort(target.value) }
+        />
+      </label>
+      <button
+        type="button"
+        data-testid="column-sort-button"
+        onClick={ () => orderClick() }
+      >
+        Order!
+      </button>
       <button
         type="button"
         data-testid="button-filter"

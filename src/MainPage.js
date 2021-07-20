@@ -5,6 +5,7 @@ import FilterForms from './utils/FilterForms';
 
 function MainPage() {
   const { filteredPlanets, loaded } = useContext(StarWarsContext);
+  console.log('Planetas do mainpage', filteredPlanets);
 
   return (
     <div>
@@ -35,7 +36,7 @@ function MainPage() {
               <tbody>
                 {filteredPlanets.map((planet, index) => (
                   <tr key={ index }>
-                    <td>{planet.name}</td>
+                    <td data-testid="planet-name">{planet.name}</td>
                     <td>{planet.rotation_period}</td>
                     <td>{planet.orbital_period}</td>
                     <td>{planet.diameter}</td>
