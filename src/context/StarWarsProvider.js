@@ -4,7 +4,6 @@ import StarWarsContext from './StarWarsContext';
 import fetchPlanets from '../services/fetchPlanets';
 
 function StarWarsContextProvider({ children }) {
-  const [isLoaded, setIsLoaded] = useState(false);
   const [name, setName] = useState('');
   const [storedPlanets, setStoredPlanets] = useState([]);
   const [planets, setPlanets] = useState([]);
@@ -75,7 +74,6 @@ function StarWarsContextProvider({ children }) {
       const results = await fetchPlanets();
       setStoredPlanets(results);
       setPlanets(sortPlanetList(results));
-      setIsLoaded(true);
     };
     apiResults();
   }, []);
@@ -114,11 +112,6 @@ function StarWarsContextProvider({ children }) {
         name,
       },
       filterByNumericValues,
-      //  order,
-      //  order: {
-      //    column: columnSort,
-      //    sort: directionSort,
-      //  },
     },
     function: {
       handleName,
@@ -129,7 +122,6 @@ function StarWarsContextProvider({ children }) {
       deleteFilter,
       handleSortColumn,
       handleSortDirection,
-      //  handleSortClick,
       handleSortBtn,
     },
     planets,
