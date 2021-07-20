@@ -16,7 +16,7 @@ div#filterInputs button {
 input,
 select {
   border-radius: 2px;
-  margin: 0 10px auto 0px;
+  margin: 0px 10px auto 0px;
   padding: 5px 5px;
 }
 
@@ -41,7 +41,7 @@ body {
   background-color: bisque;
 }
 
-[data-testid='filter'] {
+[ data-testid='filter' ] {
   display: flex;
   flex-direction: row;
   gap: 10px;
