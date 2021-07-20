@@ -18,7 +18,6 @@ function StarWarsProvider({ children }) {
   const [filteredPlanets, setFilteredPlanets] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [filter, setFilter] = useState(INITIAL_FILTER);
-  const [ordered, setOrdered] = useState([]);
 
   /* function sortPlanets(planets) {
     const NEGATIVE = -1;
