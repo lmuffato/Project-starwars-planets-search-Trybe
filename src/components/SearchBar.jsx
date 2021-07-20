@@ -15,6 +15,8 @@ function SearchBar() {
   const [valueSelect, setValueSelect] = useState([
     'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
   const [currentFilters, setCurrentFilters] = useState([]);
+  const [columnSort, setColumnSort] = useState(['name']);
+  const [typeSort, setTypeSort] = useState('ASC');
   const handleChange = (e) => {
     e.preventDefault();
     const { target: { name, value } } = e;
@@ -45,6 +47,16 @@ function SearchBar() {
     handleSelectedFilters(actualFilter);
   };
 
+  const handleSortInput = (e) => {
+    const { target: { name, value } } = e;
+    if (name === 'column-sort') {
+      return setColumnSort(value);
+    }
+    if (name === 'order') {
+      return setTypeSort(value);
+    }
+  };
+
   const selectValues = ({ filterByNumericValues }) => {
     const pattern = [
       'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
@@ -63,7 +75,6 @@ function SearchBar() {
     handleDeleteFilter(name);
   };
 
-  // const { filterByNumericValues } = filters;
   return (
     <>
       <fieldset>
@@ -119,6 +130,39 @@ function SearchBar() {
         >
           Filtrar
         </button>
+      </fieldset>
+      <fieldset>
+        <select
+          name="column-sort"
+          data-testid="column-sort"
+          onChange={ (e) => handleSortInput(e) }
+        >
+          <option value="name">name</option>
+          <option value="orbital_period">orbital_period</option>
+        </select>
+        <label htmlFor="ASC">
+          Ascendente
+          <input
+            onChange={ (e) => handleSortInput(e) }
+            type="radio"
+            name="order"
+            value="ASC"
+            id="ASC"
+            data-testid="column-sort-input-asc"
+          />
+        </label>
+        <label htmlFor="DESC">
+          Descendente
+          <input
+            onChange={ (e) => handleSortInput(e) }
+            type="radio"
+            name="order"
+            value="DESC"
+            id="DESC"
+            data-testid="column-sort-input-desc"
+          />
+        </label>
+        <button type="submit" data-testid="column-sort-button">Ordenar</button>
       </fieldset>
       {currentFilters.length > 0 ? currentFilters.map((each) => (
         <div data-testid="filter" key={ each }>

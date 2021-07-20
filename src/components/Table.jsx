@@ -75,8 +75,10 @@ function Table() {
         <tbody>
           {renderData.map((eachPlanet) => (
             <tr key={ eachPlanet.name }>
-              {Object.values(eachPlanet).map((planet) => (
-                <td key={ planet }>{planet}</td>
+              {Object.values(eachPlanet).map((planet, index) => (
+                index === 0
+                  ? (<td data-testid="planet-name" key={ planet }>{planet}</td>)
+                  : (<td key={ planet }>{planet}</td>)
               ))}
             </tr>
           ))}
@@ -87,3 +89,15 @@ function Table() {
 }
 
 export default Table;
+
+// tarefas
+
+// organizar a o estado e a função que faz intermédio do dado sort no global
+// settar disparo do botao para o a função intermédiaria no global
+// organizar o useEffect que observa esse estado intermediario e roda pra settar na chave filters
+// useEffect na tabela olhando pro filters também mas condicionado a algo ( estado local?) pra mudar ordem
+
+// tabela lê o global o estado local pra se organizar: -pesquisar
+
+// https://www.smashingmagazine.com/2020/03/sortable-tables-react/
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio
