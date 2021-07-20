@@ -1,61 +1,60 @@
-import React, { useContext, useEffect, useState } from 'react';
-import AppContext from '../context/AppContext';
+import React, { useContext, useState, useEffect } from 'react';
+import StarWarsContext from '../context/StarWarsContext';
 
-function DefaultTable() {
-  const {
-    sortData,
-    headings,
-    APIResult,
-    nameFilter,
-  } = useContext(AppContext);
-  const [toRender, setToRender] = useState([]);
+function Table() {
+  const { planets, TableThs } = useContext(StarWarsContext);
+  const [showPlanets, setShowPlanets] = useState(false);
 
   useEffect(() => {
-    const filteredData = APIResult.filter(({ name }) => (
-      name.toLowerCase().includes(nameFilter))).map((planet) => planet);
-    const APISorted = sortData(APIResult);
-    const data = nameFilter
-      ? filteredData : APISorted;
+    setShowPlanets(planets.length !== 0);
+  }, [planets]);
 
-    setToRender(data);
-  }, [nameFilter, APIResult, sortData]);
-
-  const renderHeadings = () => (
-    headings.map((heading, index) => (<th key={ index }>{ heading }</th>)));
+  const buildThs = (names) => (<tr>{ names.map((n) => <th key={ n }>{n}</th>) }</tr>);
+  // showPlanets && console.log(Object.keys(planets[0]).filter((e) => e !== 'residents'));
 
   return (
-    <table>
-      <thead>
-        <tr>
-          { renderHeadings() }
-        </tr>
-      </thead>
-
-      <tbody>
-        { toRender.map((planets, index) => (
-          <tr key={ index }>
-            <td
-              data-testid="planet-name"
-            >
-              { planets.name }
-            </td>
-            <td>{ planets.rotation_period }</td>
-            <td>{ planets.orbital_period }</td>
-            <td>{ planets.diameter }</td>
-            <td>{ planets.climate }</td>
-            <td>{ planets.gravity }</td>
-            <td>{ planets.terrain }</td>
-            <td>{ planets.surface_water }</td>
-            <td>{ planets.population }</td>
-            <td>{ planets.films }</td>
-            <td>{ planets.createt }</td>
-            <td>{ planets.edited }</td>
-            <td>{ planets.url }</td>
-          </tr>
-        )) }
-      </tbody>
-    </table>
+    <div>
+      { showPlanets && (
+        <table>
+          <tbody>
+            { buildThs(TableThs) }
+            { planets.map((
+              { climate,
+                created,
+                diameter,
+                edited,
+                films,
+                gravity,
+                name,
+                orbital_period: orbitalPeriod,
+                population,
+                rotation_period: rotationPeriod,
+                surface_water: surfaceWater,
+                terrain,
+                url,
+              },
+            ) => (
+              <tr key={ name }>
+                <td data-testid="planet-name">{ name }</td>
+                <td>{ rotationPeriod }</td>
+                <td>{ orbitalPeriod }</td>
+                <td>{ diameter }</td>
+                <td>{ climate }</td>
+                <td>{ gravity }</td>
+                <td>{ terrain }</td>
+                <td>{ surfaceWater }</td>
+                <td>{ population }</td>
+                <td>{ films }</td>
+                <td>{ created }</td>
+                <td>{ edited }</td>
+                <td>{ url }</td>
+              </tr>
+            )) }
+          </tbody>
+        </table>
+      ) }
+    </div>
   );
 }
 
-export default DefaultTable;
+export default Table;

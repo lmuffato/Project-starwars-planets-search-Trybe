@@ -1,15 +1,18 @@
 import React from 'react';
-import AppProvider from './context/AppProvider';
-import FilterForm from './components/FilterForm';
-import DefaultTable from './components/Table';
 import './App.css';
+import InputsSearch from './components/InputsSearch';
+import Table from './components/Table';
+
+import StarWarsProvider from './context/StarWarsProvider';
 
 function App() {
   return (
-    <AppProvider>
-      <FilterForm />
-      <DefaultTable />
-    </AppProvider>
+    <main>
+      <StarWarsProvider>
+        <InputsSearch />
+        <Table />
+      </StarWarsProvider>
+    </main>
   );
 }
 
