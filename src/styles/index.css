@@ -1,5 +1,5 @@
 * {
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-family: 'Arial Narrow', Arial, sans-serif;
   font-size: small;
 }
 
@@ -19,6 +19,7 @@ select {
   margin: 0 10px auto 0px;
   padding: 5px 5px;
 }
+
 table {
   border-spacing: 0;
 }
@@ -27,6 +28,7 @@ th {
   background-color: lightblue;
   border: 1px solid darkcyan;
 }
+
 td {
   border-bottom: 1px solid darkblue;
 }
@@ -39,7 +41,7 @@ body {
   background-color: bisque;
 }
 
-[data-testid="filter"] {
+[data-testid='filter'] {
   display: flex;
   flex-direction: row;
   gap: 10px;
