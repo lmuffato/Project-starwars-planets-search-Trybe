@@ -1,4 +1,4 @@
-import './App.css';
+import './styles/index.css';
 import React, { useState, useEffect } from 'react';
 import AppContext from './context/AppContext';
 import Table from './components/Table';
@@ -13,9 +13,9 @@ function App() {
         filterByName: '',
       },
       filterByNumericValues: [{
-        column: 'population',
-        comparison: 'moreThan',
-        value: '0',
+        column: '',
+        comparison: '',
+        value: '',
       }],
     },
   );

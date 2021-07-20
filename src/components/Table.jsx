@@ -1,15 +1,19 @@
 import React, { useContext, useState } from 'react';
 import AppContext from '../context/AppContext';
 import DataList from './DataList';
+import '../styles/index.css';
 
 export default function Table() {
   const [selCategory, setSelCategory] = useState('');
   const [selComparison, setSelComparison] = useState('');
   const [selNumber, setSelNumber] = useState(0);
-  // const [resultFilter, setResultFilter] = useState([]);
+  // const [selOptions, setSelOptions] = useState(
+  //   ['orbital_period'],
+  // );
   const {
     data,
     search,
+    filter,
     setSearch,
     setSearchItems,
     setFilter } = useContext(AppContext);
@@ -40,13 +44,11 @@ export default function Table() {
     let listItems = [];
     // listItems = data.filter((element) => (element[selCategory] > selNumber));
     // setSearch(listItems);
-    console.log(selComparison);
     switch (selComparison) {
     case 'maior que':
       listItems = data.filter(
         (element) => (parseInt(element[selCategory], 0) > parseInt(selNumber, 0)),
       );
-      console.log('linha 49', selComparison);
       setSearch(listItems);
       filterSelectChange();
       break;
@@ -67,7 +69,9 @@ export default function Table() {
     default:
     }
 
-    // console.log(search);
+    const { filterByNumericValues } = filter;
+    console.log(filterByNumericValues[filterByNumericValues.length - 1].column);
+
     // setResultFilter(listItems);
     // setSearch(resultFilter);
     // console.log(selNumber, selComparison, resultFilter);
@@ -75,54 +79,67 @@ export default function Table() {
 
   return (
     <>
-      <label
-        htmlFor="name-filter"
-      >
-        Filtrar Nomes
-        <br />
-        <input
-          id="name-filter"
-          type="text"
-          placehold="Pesquisar"
-          data-testid="name-filter"
-          onChange={ handleChange }
-        />
-      </label>
-      <label
-        htmlFor="column-filter"
-      >
-        Categorias
-        <select
-          id="column-filter"
-          type="text"
-          data-testid="column-filter"
-          onChange={ ({ target: { value } }) => setSelCategory(value) }
-          // filterSelectChange
+      <div id="filterInputs">
+        <label
+          htmlFor="name-filter"
         >
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="population">population</option>
-          <option value="surface_water">surface_water</option>
-        </select>
-        Comparação
-        <select
-          id="comparison-filter"
-          type="text"
-          data-testid="comparison-filter"
-          onChange={ ({ target: { value } }) => setSelComparison(value) }
+          Nomes
+          <br />
+          <input
+            id="name-filter"
+            type="text"
+            placehold="Pesquisar"
+            data-testid="name-filter"
+            onChange={ handleChange }
+          />
+        </label>
+        <label
+          htmlFor="column-filter"
         >
-          <option value="maior que">maior que</option>
-          <option value="menor que">menor que</option>
-          <option value="igual a">igual a</option>
-        </select>
-        <input
-          id="value-filter"
-          type="number"
-          value={ selNumber }
-          data-testid="value-filter"
-          onChange={ ({ target: { value } }) => setSelNumber(value) }
-        />
+          Categorias
+          <br />
+          <select
+            id="column-filter"
+            type="text"
+            data-testid="column-filter"
+            onChange={ ({ target: { value } }) => setSelCategory(value) }
+          >
+            <option value="orbital_period">orbital_period</option>
+            <option value="diameter">diameter</option>
+            <option value="rotation_period">rotation_period</option>
+            <option value="population">population</option>
+            <option value="surface_water">surface_water</option>
+          </select>
+        </label>
+        <label
+          htmlFor="comparison-filter"
+        >
+          Comparação
+          <br />
+          <select
+            id="comparison-filter"
+            type="text"
+            data-testid="comparison-filter"
+            onChange={ ({ target: { value } }) => setSelComparison(value) }
+          >
+            <option value="maior que">maior que</option>
+            <option value="menor que">menor que</option>
+            <option value="igual a">igual a</option>
+          </select>
+        </label>
+        <label
+          htmlFor="value-filter"
+        >
+          Valor
+          <br />
+          <input
+            id="value-filter"
+            type="number"
+            value={ selNumber }
+            data-testid="value-filter"
+            onChange={ ({ target: { value } }) => setSelNumber(value) }
+          />
+        </label>
         <button
           type="button"
           data-testid="button-filter"
@@ -130,8 +147,8 @@ export default function Table() {
         >
           Filtrar
         </button>
-      </label>
-      <table style={ { border: '1px solid black' } }>
+      </div>
+      <table>
         <thead>
           <tr>
             <th>Name</th>
