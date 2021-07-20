@@ -5,7 +5,7 @@ export default function DataList({ data }) {
   return (
     data.map((ele, key) => (
       <tr key={ key }>
-        <td>{ele.name}</td>
+        <td data-testid="planet-name">{ele.name}</td>
         <td>{ele.rotation_period}</td>
         <td>{ele.orbital_period}</td>
         <td>{ele.diameter}</td>

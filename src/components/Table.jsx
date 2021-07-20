@@ -1,24 +1,22 @@
+import '../styles/index.css';
 import React, { useContext, useState } from 'react';
 import AppContext from '../context/AppContext';
 import DataList from './DataList';
-import '../styles/index.css';
+import TableHead from './TableHead';
 
 export default function Table() {
   const [saveFilter, setSaveFilter] = useState([]);
-  const [selCategory, setSelCategory] = useState('');
   const [selComparison, setSelComparison] = useState('');
   const [selNumber, setSelNumber] = useState(0);
   const [selOptions, setSelOptions] = useState(
     ['orbital_period', 'diameter', 'rotation_period',
       'population', 'surface_water'],
   );
+
   const {
-    data,
-    search,
-    filter,
-    setSearch,
-    setSearchItems,
-    setFilter } = useContext(AppContext);
+    data, search, filter, setSearch, setSearchItems, setFilter,
+    defineOrder, /* orderInput, */ selCategory, setSelCategory, setOrderInput,
+  } = useContext(AppContext);
 
   const handleChange = ({ target: { value } }) => {
     setFilter({ filters: { filterByName: value } });
@@ -175,6 +173,47 @@ export default function Table() {
         >
           Filtrar
         </button>
+        <select
+          data-testid="column-sort"
+          onChange={ ({ target: { value } }) => setSelCategory(value) }
+        >
+          {
+            selOptions.map(
+              (ele) => (
+                <option key={ ele } value={ ele }>{ele}</option>
+              ),
+            )
+          }
+        </select>
+        <label
+          htmlFor="column-sort"
+        >
+          Ordenar Colunas
+          <br />
+          <input
+            name="column-sort"
+            type="radio"
+            value="ASC"
+            data-testid="column-sort-input-asc"
+            onChange={ () => setOrderInput('ASC') }
+          />
+          ASC
+          <input
+            name="column-sort"
+            type="radio"
+            value="DESC"
+            data-testid="column-sort-input-desc"
+            onChange={ () => setOrderInput('DESC') }
+          />
+          DESC
+        </label>
+        <button
+          type="button"
+          data-testid="column-sort-button"
+          onClick={ () => defineOrder() }
+        >
+          Ordenar
+        </button>
       </div>
       <div data-testid="filter">
         { saveFilter.map((ele, index) => (
@@ -192,23 +231,7 @@ export default function Table() {
         )) }
       </div>
       <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Rotation Period</th>
-            <th>Orbital Period</th>
-            <th>Diameter</th>
-            <th>Climate</th>
-            <th>Gravity</th>
-            <th>Terrain</th>
-            <th>Surface Water</th>
-            <th>Population</th>
-            <th>Films</th>
-            <th>Created</th>
-            <th>Edited</th>
-            <th>Url</th>
-          </tr>
-        </thead>
+        { TableHead() }
         <tbody>
           {
             (search.length === 0)
