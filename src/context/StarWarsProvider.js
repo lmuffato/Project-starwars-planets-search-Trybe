@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import StarWarsContext from './StarWarsContext';
-import fetchPlanets from '../services/API_STAR_WARS';
+import fetchPlanets from '../services/fetchPlanets';
 
 function StarWarsContextProvider({ children }) {
+  const [isLoaded, setIsLoaded] = useState(false);
   const [name, setName] = useState('');
   const [storedPlanets, setStoredPlanets] = useState([]);
   const [planets, setPlanets] = useState([]);
@@ -19,8 +20,9 @@ function StarWarsContextProvider({ children }) {
     'rotation_period',
     'surface_water',
   ]);
-  const [columnSort, setColumnSort] = useState('population');
+  const [columnSort, setColumnSort] = useState('name');
   const [directionSort, setDirectionSort] = useState('ASC');
+  const [ordered, setOrdered] = useState([]);
 
   function handleName({ target }) { setName(target.value.toLowerCase()); }
   function handleColumn({ target }) { setColumn(target.value); }
@@ -42,12 +44,38 @@ function StarWarsContextProvider({ children }) {
 
   function handleSortColumn({ target }) { setColumnSort(target.value); }
   function handleSortDirection({ target }) { setDirectionSort(target.value); }
+  function sortPlanetList(planetList) {
+    const planetsSorted = planetList.sort((a, b) => {
+      let result = {};
+      const test = a[columnSort] === 'unknown'
+        ? false
+        : Number.isNaN(Number(a[columnSort]));
+      if (test) {
+        result = directionSort === 'ASC'
+          ? a[columnSort].localeCompare(b[columnSort])
+          : b[columnSort].localeCompare(a[columnSort]);
+      } else {
+        result = directionSort === 'ASC'
+          ? Number(a[columnSort]) - Number(b[columnSort])
+          : Number(b[columnSort]) - Number(a[columnSort]);
+      }
+      return result;
+    });
+    return planetsSorted;
+  }
+
+  // A função sortPlanetList foi referência do PR do Rogério Lambert: https://github.com/tryber/sd-010-a-project-starwars-planets-search/pull/38
+  function handleSortBtn() {
+    // console.log(sortPlanetList(planets));
+    setOrdered(sortPlanetList(planets));
+  }
 
   useEffect(() => {
     const apiResults = async () => {
       const results = await fetchPlanets();
       setStoredPlanets(results);
-      setPlanets(results);
+      setPlanets(sortPlanetList(results));
+      setIsLoaded(true);
     };
     apiResults();
   }, []);
@@ -75,6 +103,7 @@ function StarWarsContextProvider({ children }) {
         return false;
       });
       setPlanetsWithFilter(newPlanets);
+      sortPlanetList(newPlanets);
     });
     if (filterByNumericValues.length === 0) setPlanetsWithFilter([]);
   }, [filterByNumericValues]);
@@ -85,10 +114,11 @@ function StarWarsContextProvider({ children }) {
         name,
       },
       filterByNumericValues,
-      // order: {
-      //   column: columnSort,
-      //   sort: directionSort,
-      // },
+      //  order,
+      //  order: {
+      //    column: columnSort,
+      //    sort: directionSort,
+      //  },
     },
     function: {
       handleName,
@@ -99,9 +129,11 @@ function StarWarsContextProvider({ children }) {
       deleteFilter,
       handleSortColumn,
       handleSortDirection,
-      // handleSortClick,
+      //  handleSortClick,
+      handleSortBtn,
     },
     planets,
+    ordered,
     inputsValues: {
       column,
       comparison,
