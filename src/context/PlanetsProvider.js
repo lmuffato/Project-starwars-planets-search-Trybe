@@ -8,6 +8,12 @@ function PlanetsProvider({ children }) {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [],
+  });
+  const [filterOptions, setFilterOptions] = useState({
+    column: '',
+    comparison: 'maior que',
+    value: '0',
   });
 
   useEffect(() => {
@@ -21,7 +27,9 @@ function PlanetsProvider({ children }) {
   }, []);
 
   return (
-    <planetsContext.Provider value={ { data, filters, setFilters } }>
+    <planetsContext.Provider
+      value={ { data, filters, setFilters, filterOptions, setFilterOptions } }
+    >
       { children }
     </planetsContext.Provider>
   );

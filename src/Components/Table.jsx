@@ -1,13 +1,37 @@
 import React, { useContext } from 'react';
 import planetsContext from '../context/planetsContext';
 import SearchInput from './SearchInput';
+import ValuesFilter from './ValuesFilter';
+
+// Para a implementação deste Componente e de suas lógicas, utilizei como referência o código do colega de Turma, Juan Pablo! PR: https://github.com/tryber/sd-010-a-project-starwars-planets-search/pull/128
 
 function Table() {
-  const { data, filters: { filterByName: { name } } } = useContext(planetsContext);
+  const { data, filters } = useContext(planetsContext);
+  const { filterByName: { name } } = filters;
+  const { filterByNumericValues } = filters;
+
   const filteredByName = data
     .filter((planet) => planet.name.toLowerCase().includes(name));
 
-  const planetsTable = () => filteredByName.map((planet) => (
+  const checkFilters = () => {
+    let filteredAPI = filteredByName;
+    // eslint-disable-next-line array-callback-return
+    filterByNumericValues.map((params) => {
+      if (params.comparison === 'maior que') {
+        filteredAPI = filteredByName.filter((response) => (
+          response[params.column] > Number(params.value)));
+      } else if (params.comparison === 'menor que') {
+        filteredAPI = filteredByName.filter((response) => (
+          response[params.column] < Number(params.value)));
+      } else if (params.comparison === 'igual a') {
+        filteredAPI = filteredByName.filter((response) => (
+          response[params.column] === params.value));
+      }
+    });
+    return filteredAPI;
+  };
+
+  const planetsTable = () => checkFilters().map((planet) => (
     <tr key={ planet.name }>
       <td>{ planet.name }</td>
       <td>{ planet.rotation_period }</td>
@@ -28,6 +52,7 @@ function Table() {
   return (
     <div>
       <SearchInput />
+      <ValuesFilter />
       <h1>API - Star Wars Planets</h1>
       <table>
         <thead>
