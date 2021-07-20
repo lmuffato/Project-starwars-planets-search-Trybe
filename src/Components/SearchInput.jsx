@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import planetsContext from '../context/planetsContext';
+import SortFilter from './SortFilter';
 
 function SearchInput() {
   const { filters, setFilters } = useContext(planetsContext);
@@ -12,17 +13,20 @@ function SearchInput() {
   };
 
   return (
-    <label htmlFor="searchByName">
-      Search Planet By Name:
-      {' '}
-      <input
-        id="searchByName"
-        data-testid="name-filter"
-        type="text"
-        placeholder="Planet Name..."
-        onChange={ handleChange }
-      />
-    </label>
+    <div>
+      <label htmlFor="searchByName">
+        Search Planet By Name:
+        {' '}
+        <input
+          id="searchByName"
+          data-testid="name-filter"
+          type="text"
+          placeholder="Planet Name..."
+          onChange={ handleChange }
+        />
+      </label>
+      <SortFilter />
+    </div>
   );
 }
 

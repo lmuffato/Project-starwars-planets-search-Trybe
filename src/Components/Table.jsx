@@ -9,6 +9,7 @@ function Table() {
   const { data, filters } = useContext(planetsContext);
   const { filterByName: { name } } = filters;
   const { filterByNumericValues } = filters;
+  const { order: { column, sort } } = filters;
 
   const filteredByName = data
     .filter((planet) => planet.name.toLowerCase().includes(name));
@@ -28,12 +29,20 @@ function Table() {
       }
       return '';
     });
-    return filteredAPI;
+    return filteredAPI.sort((a, b) => {
+      if (column === 'Name') {
+        return a[column.toLowerCase()].localeCompare(b[column.toLowerCase()]);
+      }
+      if (sort === 'ASC') {
+        return a[column] - b[column];
+      }
+      return b[column] - a[column];
+    });
   };
 
   const planetsTable = () => checkFilters().map((planet) => (
     <tr key={ planet.name }>
-      <td>{ planet.name }</td>
+      <td data-testid="planet-name">{ planet.name }</td>
       <td>{ planet.rotation_period }</td>
       <td>{ planet.orbital_period }</td>
       <td>{ planet.diameter }</td>

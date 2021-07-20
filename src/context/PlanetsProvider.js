@@ -9,11 +9,20 @@ function PlanetsProvider({ children }) {
       name: '',
     },
     filterByNumericValues: [],
+    order: {
+      column: 'Name',
+      sort: 'ASC',
+    },
   });
   const [filterOptions, setFilterOptions] = useState({
     column: '',
     comparison: 'maior que',
     value: '0',
+  });
+
+  const [orderOption, setOrderOption] = useState({
+    column: 'Name',
+    sort: 'ASC',
   });
 
   useEffect(() => {
@@ -28,7 +37,14 @@ function PlanetsProvider({ children }) {
 
   return (
     <planetsContext.Provider
-      value={ { data, filters, setFilters, filterOptions, setFilterOptions } }
+      value={ { data,
+        filters,
+        setFilters,
+        filterOptions,
+        setFilterOptions,
+        orderOption,
+        setOrderOption,
+      } }
     >
       { children }
     </planetsContext.Provider>
