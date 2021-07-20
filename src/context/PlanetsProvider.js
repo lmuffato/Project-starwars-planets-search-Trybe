@@ -12,14 +12,13 @@ export default function PlanetsProvider({ children }) {
         comparison: 'maior que',
         value: '0',
       },
-    ] } });
+    ],
+    order: '',
+  } });
   const [usefulData, setUsefulData] = useState(data);
-
   const PLANETS_API = 'https://swapi-trybe.herokuapp.com/api/planets/';
-
   const getPlanetsApi = () => fetch(PLANETS_API)
     .then((response) => response.json());
-
   const handleSearchClick = () => {
     const { column, comparison, value } = search.filters.filterByNumericValues[0];
     const dataFilter = data.filter((planet) => {
@@ -36,16 +35,24 @@ export default function PlanetsProvider({ children }) {
     });
     setUsefulData(dataFilter);
   };
-
   useEffect(() => {
     const retrievePlanets = async () => {
       const { results } = await getPlanetsApi();
+      const minusOne = -1;
       setData(results);
-      setUsefulData(results);
+      setUsefulData(results.sort((a, b) => {
+        if (a.name > b.name) {
+          return 1;
+        }
+        if (a.name < b.name) {
+          return minusOne;
+        }
+        // a must be equal to b
+        return 0;
+      }));
     };
     retrievePlanets();
   }, []);
-
   const clearFilter = () => {
     setSearch({ filters: {
       filterByName: { name: '' },
@@ -58,35 +65,34 @@ export default function PlanetsProvider({ children }) {
       ] } });
     setUsefulData(data);
   };
-
-  const orderPlanets = ({ target: { value } }) => {
-    const sortedData = data.sort((a, b) => {
-      // console.log(parseInt(a[value], 10), parseInt(b[value], 10));
-      let A = parseInt(a[value], 10);
-      let B = parseInt(b[value], 10);
-      const minusOne = -1;
-      if (Number.isNaN(A)) {
-        A = 0;
-      }
-      if (Number.isNaN(B)) {
-        B = 0;
-      }
-      if (A > B) {
-        return 1;
-      }
-      if (A < B) {
-        return minusOne;
-      }
-      return 0;
-    });
-    // const sortedData = usefulData.sort();
-    // console.log(usefulData);
-    setUsefulData(sortedData);
-    // console.log(sortedData);
-    console.log(usefulData);
-    // console.log(value);
-  };
-
+  // const orderPlanets = ({ target: { value } }) => {
+  //   const sortedData = data.sort((a, b) => {
+  //     // console.log(parseInt(a[value], 10), parseInt(b[value], 10));
+  //     let A = parseInt(a[value], 10);
+  //     let B = parseInt(b[value], 10);
+  //     const minusOne = -1;
+  //     if (Number.isNaN(A)) {
+  //       A = 0;
+  //     }
+  //     if (Number.isNaN(B)) {
+  //       B = 0;
+  //     }
+  //     if (A > B) {
+  //       return 1;
+  //     }
+  //     if (A < B) {
+  //       return minusOne;
+  //     }
+  //     return 0;
+  //   });
+  //   // const sortedData = usefulData.sort();
+  //   // console.log(usefulData);
+  //   setUsefulData([]);
+  //   setUsefulData(sortedData);
+  //   // console.log(sortedData);
+  //   console.log(usefulData);
+  //   // console.log(value);
+  // };
   return (
     <PlanetsContext.Provider
       value={ { usefulData,
@@ -95,13 +101,13 @@ export default function PlanetsProvider({ children }) {
         setSearch,
         handleSearchClick,
         clearFilter,
-        orderPlanets } }
+        // orderPlanets
+      } }
     >
       { children }
     </PlanetsContext.Provider>
   );
 }
-
 PlanetsProvider.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),

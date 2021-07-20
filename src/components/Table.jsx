@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 export default function Table() {
-  const { usefulData,
+  const { usefulData, search,
     search: { filters: { filterByName: { name } } } } = useContext(PlanetsContext);
   const [residentlessData, setResidentlessData] = useState([]);
   // setResidentlessData(usefulData.map((planet) => {
@@ -14,8 +14,8 @@ export default function Table() {
       delete planet.residents;
       return planet;
     }));
-  }, [usefulData]);
-
+    // console.log(usefulData);
+  }, [usefulData, search]);
   return residentlessData === undefined || residentlessData === [] ? <div /> : (
     <table>
       <tr>
@@ -38,7 +38,16 @@ export default function Table() {
           ? (
             <tr key={ index }>
               {Object.values(planet).map((value, secondaryIndex) => (
-                <td key={ Object.keys(planet)[secondaryIndex] }>{ value }</td>))}
+                Object.keys(planet)[secondaryIndex] === 'name'
+                  ? (
+                    <td
+                      data-testid="planet-name"
+                      key={ Object.keys(planet)[secondaryIndex] }
+                    >
+                      { value }
+                    </td>
+                  )
+                  : <td key={ Object.keys(planet)[secondaryIndex] }>{ value }</td>))}
             </tr>
           )
           : null
