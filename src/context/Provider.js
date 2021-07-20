@@ -7,6 +7,16 @@ const Provider = ({ children }) => {
   const [name, changeFilterName] = useState('');
   const [numericFilters, changeNumericFilters] = useState([]);
   const [filteredPlanets, changeFilteredPlanets] = useState([]);
+  const [orderFilters, setFilters] = useState({
+    filterByName: {
+      name: '',
+    },
+    filterByNumericValues: [],
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
+  });
 
   useEffect(() => {
     fetch('https://swapi-trybe.herokuapp.com/api/planets/')
@@ -57,6 +67,10 @@ const Provider = ({ children }) => {
     changeNumericFilters(filters);
   };
 
+  const setOrderSort = (column, sort) => {
+    setFilters({ ...orderFilters, order: { column, sort } });
+  };
+
   const value = {
     data: filteredPlanets,
     filters: {
@@ -66,10 +80,15 @@ const Provider = ({ children }) => {
       filterByNumericValues: [
         ...numericFilters,
       ],
+      order: {
+        column: 'Name',
+        sort: 'ASC',
+      },
     },
     changeFilterName,
     addNumericFilter,
     deleteNumericFilter,
+    setOrderSort,
   };
 
   return (
