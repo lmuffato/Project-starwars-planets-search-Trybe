@@ -65,19 +65,16 @@ function StarWarsProvider({ children }) {
 
   async function fetchPlanets() {
     const fetchedPlanets = await getPlanets();
-    console.log('fiz o fetchplanets');
     setOriginalPlanets(fetchedPlanets);
     setFilteredPlanets(
       sortNewOrder(
-        fetchedPlanets, 'orbital_period', 'DESC',
+        fetchedPlanets, filter.filters.order.column, filter.filters.order.sort,
       ),
     );
-
     setLoaded(true);
   }
 
   useEffect(() => {
-    console.log('entrei no useEffect do fetch');
     fetchPlanets();
   }, []);
 
@@ -114,11 +111,15 @@ function StarWarsProvider({ children }) {
   }, [filter]);
 
   useEffect(() => {
-    const { filters: { order: { column, sort } } } = filter;
-    console.log('sou a coluna', column);
-    if (column !== 'Name' && sort !== 'ASC') {
-      setFilteredPlanets((sortNewOrder(originalPlanets, 'orbital_period', 'DESC')));
-    }
+    const letsSet = async () => {
+      const { filters: { order: { column, sort } } } = filter;
+      if (column !== 'Name' && sort !== 'ASC') {
+        const sortedPlanets = await sortNewOrder(originalPlanets, column, sort);
+        setFilteredPlanets(sortedPlanets);
+      }
+    };
+
+    letsSet();
   }, [filter]);
 
   const consumer = {
@@ -127,7 +128,6 @@ function StarWarsProvider({ children }) {
     loaded,
     filter,
     setFilter,
-    sortNewOrder,
   };
 
   return (

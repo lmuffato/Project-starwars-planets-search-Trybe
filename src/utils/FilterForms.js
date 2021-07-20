@@ -38,10 +38,10 @@ function FilterForms() {
   }
 
   function orderClick() {
-    console.log('Order click!');
+    console.log('coluna do click: ', sortOrder, 'tipo do click: ', typeSort);
     setFilter({
       filters: {
-        filterByName,
+        filterByName: { name: '' },
         filterByNumericValues: [],
         order: { column: sortOrder, sort: typeSort },
       },
