@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import PlanetContext from './context';
 
@@ -10,13 +10,18 @@ function ApiProvider({ children }) {
     const endPoint = await fetch(url);
     const data = await endPoint.json();
     const filteredData = data.results.filter((dat) => delete dat.residents);
-    setPlanets(filteredData);
+    return filteredData
   };
+
+  useEffect(() => {
+    (async function resolved() {
+      const resolve = await getApi();
+      setPlanets(resolve);
+    }());
+  }, []);
 
   const contextValue = {
     planets,
-    getApi,
-
   };
 
   return (
