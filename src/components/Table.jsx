@@ -53,7 +53,18 @@ export default function Table() {
   };
 
   const removeItemByItem = (index) => {
-    console.log(index);
+    const { filterByNumericValues } = filter;
+    const positionItem = index + 1;
+    const result = filterByNumericValues.filter((ele, ind) => (positionItem !== ind));
+    setFilter((prevState) => (
+      { ...prevState,
+        filterByNumericValues: result,
+      }
+    ));
+
+    const namesFiltered = saveFilter.filter((ele, ind) => (index !== ind));
+    setSaveFilter(namesFiltered);
+    setSearch(data);
   };
 
   const filterParamList = () => {
