@@ -7,9 +7,10 @@ export default function Table() {
   const [selCategory, setSelCategory] = useState('');
   const [selComparison, setSelComparison] = useState('');
   const [selNumber, setSelNumber] = useState(0);
-  // const [selOptions, setSelOptions] = useState(
-  //   ['orbital_period'],
-  // );
+  const [selOptions, setSelOptions] = useState(
+    ['orbital_period', 'diameter', 'rotation_period',
+      'population', 'surface_water'],
+  );
   const {
     data,
     search,
@@ -40,10 +41,14 @@ export default function Table() {
     ));
   };
 
+  const removeCategory = () => {
+    const filterOption = selOptions.filter((item) => (item !== selCategory));
+    setSelOptions(filterOption);
+  };
+
   const filterParamList = () => {
     let listItems = [];
-    // listItems = data.filter((element) => (element[selCategory] > selNumber));
-    // setSearch(listItems);
+
     switch (selComparison) {
     case 'maior que':
       listItems = data.filter(
@@ -51,6 +56,7 @@ export default function Table() {
       );
       setSearch(listItems);
       filterSelectChange();
+      removeCategory();
       break;
     case 'menor que':
       listItems = data.filter(
@@ -58,6 +64,7 @@ export default function Table() {
       );
       setSearch(listItems);
       filterSelectChange();
+      removeCategory();
       break;
     case 'igual a':
       listItems = data.filter(
@@ -65,6 +72,7 @@ export default function Table() {
       );
       setSearch(listItems);
       filterSelectChange();
+      removeCategory();
       break;
     default:
     }
@@ -104,11 +112,11 @@ export default function Table() {
             data-testid="column-filter"
             onChange={ ({ target: { value } }) => setSelCategory(value) }
           >
-            <option value="orbital_period">orbital_period</option>
-            <option value="diameter">diameter</option>
-            <option value="rotation_period">rotation_period</option>
-            <option value="population">population</option>
-            <option value="surface_water">surface_water</option>
+            {
+              selOptions.map(
+                (ele) => (<option key={ ele } value={ ele }>{ele}</option>),
+              )
+            }
           </select>
         </label>
         <label
@@ -146,6 +154,13 @@ export default function Table() {
           onClick={ () => filterParamList() }
         >
           Filtrar
+        </button>
+        <button
+          type="button"
+          data-testid="filter"
+          onClick={ () => filterParamList() }
+        >
+          X
         </button>
       </div>
       <table>
