@@ -1,72 +1,65 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import PlanetContext from '../contexts/context';
+import context from '../contexts/context';
 
-function PlanetsList(props) {
-  const { planets, getApi } = useContext(PlanetContext);
+function Table({ state, dropItem, dropCondition, number }) {
+  const { data: apiContext } = useContext(context);
+  const [keys, setKeys] = useState([]);
   const [clicked, setClicked] = useState(false);
-  console.log(props);
-  const { state, itens, conditions, number } = props;
   useEffect(() => {
-    getApi();
-  }, [getApi]);
+    if (apiContext.length) {
+      setKeys(Object.keys(apiContext[0]));
+    }
+  }, [apiContext]);
 
   const onClick = () => () => setClicked(true);
 
-  const allPlanets = (stars) => (
-    stars
-      .map((star, index) => (
-        <tr key={ index }>
-          <td>{star.name}</td>
-          <td>{star.rotation_period}</td>
-          <td>{star.orbital_period}</td>
-          <td>{star.diameter}</td>
-          <td>{star.climate}</td>
-          <td>{star.gravity}</td>
-          <td>{star.terrain}</td>
-          <td>{star.surface_water}</td>
-          <td>{star.population}</td>
-          <td>{star.films}</td>
-          <td>{star.created}</td>
-          <td>{star.edited}</td>
-          <td>{star.url}</td>
-        </tr>
-      ))
+  const oneMap = (func) => (
+    func.map((item, index) => (
+      <tr key={ index }>
+        <td>{item.name}</td>
+        <td>{item.rotation_period}</td>
+        <td>{item.orbital_period}</td>
+        <td>{item.diameter}</td>
+        <td>{item.climate}</td>
+        <td>{item.gravity}</td>
+        <td>{item.terrain}</td>
+        <td>{item.surface_water}</td>
+        <td>{item.population}</td>
+        <td>{item.films}</td>
+        <td>{item.created}</td>
+        <td>{item.edited}</td>
+        <td>{item.url}</td>
+      </tr>
+    ))
   );
 
-  const filter = (item, condition, numbers, filtered) => {
-    const toNumber = Number(numbers);
-    if (filtered && item !== '' && condition === 'maior que' && toNumber !== 0) {
+  const applyFilter = (popu, condition, num, click) => {
+    const convert = Number(num);
+    if (click && popu !== '' && condition === 'maior que' && num !== 0) {
       return (
-        planets
-          .filter((i) => i[item] > toNumber)
+        apiContext
+          .filter((i) => i[popu] > convert)
       );
-    } if (filtered && item !== '' && condition === 'menor que' && toNumber !== 0) {
+    } if (click && popu !== '' && condition === 'menor que' && num !== 0) {
       return (
-        planets
-          .filter((i) => i[item] < toNumber)
+        apiContext
+          .filter((i) => i[popu] < convert)
       );
-    } if (filtered && item !== '' && condition === 'igual a' && toNumber !== 0) {
+    } if (click && popu !== '' && condition === 'igual a' && num !== 0) {
       return (
-        planets
-          .filter((i) => i[item] === number)
-      );
-    }
-  };
-
-  const searchByName = (name) => {
-    if (planets) {
-      return (
-        (planets
-          .filter((i) => i.name.includes(name))
-        )
+        apiContext
+          .filter((i) => i[popu] === num)
       );
     }
   };
 
-  const ObjectKeys = (array) => Object.keys(array).map((item, index) => (
-    <th key={ index }>{item}</th>
-  ));
+  const searchByName = (name) => (
+    (apiContext
+      .filter((i) => i.name.includes(name))
+    )
+  );
+
   return (
     <>
       <button
@@ -79,28 +72,23 @@ function PlanetsList(props) {
       <table>
         <thead>
           <tr>
-            {planets && ObjectKeys(planets[0])}
+            {keys.map((item, index) => <th key={ index }>{item}</th>) }
           </tr>
-          <tbody>
-            {planets && !clicked && allPlanets(searchByName(state))}
-            {clicked && allPlanets(filter(itens, conditions, number, clicked))}
-          </tbody>
         </thead>
+        <tbody>
+          {!clicked && oneMap(searchByName(state))}
+          {clicked && oneMap(applyFilter(dropItem, dropCondition, number, clicked))}
+        </tbody>
       </table>
     </>
   );
 }
 
-PlanetsList.defaultProp = {
-  getApi: PropTypes.func,
-  planets: PropTypes.string,
-};
-
-PlanetsList.propTypes = {
+Table.propTypes = {
   state: PropTypes.string.isRequired,
-  itens: PropTypes.string.isRequired,
-  conditions: PropTypes.string.isRequired,
+  dropItem: PropTypes.string.isRequired,
+  dropCondition: PropTypes.string.isRequired,
   number: PropTypes.string.isRequired,
 };
 
-export default PlanetsList;
+export default Table;

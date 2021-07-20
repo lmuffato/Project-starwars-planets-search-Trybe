@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ApiProvider from './contexts/apiProvider';
+import Provider from './contexts/Provider';
 import App from './App';
 
 ReactDOM.render(
-  <ApiProvider>
+  <Provider>
     <App />
-  </ApiProvider>,
+  </Provider>,
   document.getElementById('root'),
 );

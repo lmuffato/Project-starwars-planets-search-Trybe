@@ -3,22 +3,21 @@ import PlanetsList from './PlanetsList';
 
 function Home() {
   const [search, setSearch] = useState('');
-  const [itens, setItem] = useState('');
-  const [conditions, setCondition] = useState('');
-  const [valuation, setValuation] = useState('');
-  const [clicks, setClicks] = useState(false);
+  const [dropItem, setDropItem] = useState('');
+  const [dropCondition, setDropedCondition] = useState('');
+  const [number, setNumber] = useState('');
+  const [clicked, setClicked] = useState(false);
 
-  const handleChange = ({ target: { value } }) => setSearch(value);
+  const onChange = ({ target: { value } }) => setSearch(value);
+  const setDropPopulation = ({ target: { value } }) => setDropItem(value);
+  const setDropCondition = ({ target: { value } }) => setDropedCondition(value);
+  const setNumbered = ({ target: { value } }) => setNumber(value);
 
-  const population = ({ target: { value } }) => setItem(value);
-
-  const condition = ({ target: { value } }) => setCondition(value);
-
-  const valueUser = ({ target: { value } }) => setValuation(value);
+  // const options = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
 
   useEffect(() => {
-    setClicks(false);
-  }, [clicks]);
+    setClicked(false);
+  }, [clicked]);
 
   return (
     <section>
@@ -28,28 +27,28 @@ function Home() {
             data-testid="name-filter"
             placeholder="Digite o nome"
             type="text"
-            onChange={ handleChange }
+            onChange={ onChange }
           />
-          <select data-testid="column-filter" onChange={ population }>
+          <select data-testid="column-filter" onChange={ setDropPopulation }>
             <option>population</option>
             <option>orbital_period</option>
             <option>diameter</option>
             <option>rotation_period</option>
             <option>surface_water</option>
           </select>
-          <select data-testid="comparison-filter" onChange={ condition }>
+          <select data-testid="comparison-filter" onChange={ setDropCondition }>
             <option>maior que</option>
             <option>menor que</option>
             <option>igual a</option>
           </select>
-          <input data-testid="value-filter" type="number" onChange={ valueUser } />
+          <input data-testid="value-filter" type="number" onChange={ setNumbered } />
         </form>
       </header>
       <PlanetsList
         state={ search }
-        itens={ itens }
-        conditions={ conditions }
-        number={ valuation }
+        dropItem={ dropItem }
+        dropCondition={ dropCondition }
+        number={ number }
       />
     </section>
   );

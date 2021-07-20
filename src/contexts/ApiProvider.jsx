@@ -10,7 +10,7 @@ function ApiProvider({ children }) {
     const endPoint = await fetch(url);
     const data = await endPoint.json();
     const filteredData = data.results.filter((dat) => delete dat.residents);
-    return filteredData
+    return filteredData;
   };
 
   useEffect(() => {
