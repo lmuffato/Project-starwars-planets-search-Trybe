@@ -6,7 +6,8 @@ function SearchBar() {
     handleInputFilter,
     handleSelectedFilters,
     filters,
-    handleDeleteFilter } = useContext(PlanetsContext);
+    handleDeleteFilter,
+    handleSort } = useContext(PlanetsContext);
   const [inputName, setInputName] = useState('');
   const [selectedColumn, setSelectedColumn] = useState('');
   const [selectedComparison, setSelectedComparison] = useState('');
@@ -15,7 +16,7 @@ function SearchBar() {
   const [valueSelect, setValueSelect] = useState([
     'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
   const [currentFilters, setCurrentFilters] = useState([]);
-  const [columnSort, setColumnSort] = useState(['name']);
+  const [columnSort, setColumnSort] = useState('name');
   const [typeSort, setTypeSort] = useState('ASC');
   const handleChange = (e) => {
     e.preventDefault();
@@ -73,6 +74,14 @@ function SearchBar() {
 
   const deleteFilter = ({ target: name }) => {
     handleDeleteFilter(name);
+  };
+
+  const setGlobalSort = () => {
+    const newSort = {
+      column: columnSort,
+      order: typeSort,
+    };
+    handleSort(newSort);
   };
 
   return (
@@ -162,7 +171,13 @@ function SearchBar() {
             data-testid="column-sort-input-desc"
           />
         </label>
-        <button type="submit" data-testid="column-sort-button">Ordenar</button>
+        <button
+          type="submit"
+          data-testid="column-sort-button"
+          onClick={ () => setGlobalSort() }
+        >
+          Ordenar
+        </button>
       </fieldset>
       {currentFilters.length > 0 ? currentFilters.map((each) => (
         <div data-testid="filter" key={ each }>

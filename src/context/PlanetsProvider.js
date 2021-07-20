@@ -8,6 +8,7 @@ function PlanetsProvider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const [inputTyped, setInputTyped] = useState('');
   const [selectedFilters, setSelectedFilters] = useState([]);
+  const [selectedSort, setSelectedSort] = useState([]);
 
   const [filters, setFilters] = useState({
     filtersByName: {
@@ -15,7 +16,7 @@ function PlanetsProvider({ children }) {
     },
     filterByNumericValues: [],
     order: {
-      column: 'Name',
+      column: 'name',
       sort: 'ASC',
     },
   });
@@ -76,6 +77,20 @@ function PlanetsProvider({ children }) {
     }));
   }, [selectedFilters]);
 
+  const handleSort = (obj) => {
+    const { order } = filters;
+    if (obj.column !== order.column || obj.sort !== order.sort) {
+      setSelectedSort(obj);
+    }
+  };
+
+  useEffect(() => {
+    setFilters((prevState) => ({
+      ...prevState,
+      order: selectedSort,
+    }));
+  }, [selectedSort]);
+
   const contextValues = {
     data,
     isLoading,
@@ -85,6 +100,7 @@ function PlanetsProvider({ children }) {
     handleInputFilter,
     handleSelectedFilters,
     handleDeleteFilter,
+    handleSort,
   };
 
   return (

@@ -5,7 +5,7 @@ function Table() {
   const { data, filters } = useContext(PlanetsContext);
   const [renderData, setRenderData] = useState([]);
   const [filterStore, setFilterStore] = useState([]);
-  // const [refilter, setRefilter] = useState([]);
+  const [currentSort, setCurrentSort] = useState('');
 
   useEffect(() => {
     const getGlobal = () => {
@@ -13,6 +13,7 @@ function Table() {
       const filtered = data
         .filter((eachPlanet) => (eachPlanet.name.includes(name)));
       if (filtered.length > 0) {
+        setCurrentSort({ column: 'name', sort: 'ASC' });
         setRenderData(filtered);
       } else {
         setRenderData(data);
@@ -22,8 +23,8 @@ function Table() {
   }, [data, filters]);
 
   useEffect(() => {
-    if (filterStore && filterStore.length >= 1) setRenderData(filterStore); // render data recebe array de objetos-planetas
-  }, [filterStore]); // filterstore tambem é um array de objeto-planeta
+    if (filterStore && filterStore.length >= 1) setRenderData(filterStore);
+  }, [filterStore]);
 
   useEffect(() => {
     const filtering = () => {
@@ -33,8 +34,6 @@ function Table() {
         if (i === 0) return data;
         return filtered[i - 1];
       };
-      // data = array de obj planetas
-      // filtered depois de um foreach = array de array de objetops
       filterByNumericValues.forEach((eachfilter, index) => {
         const { value, column, comparison } = eachfilter;
 
@@ -61,6 +60,46 @@ function Table() {
     filtering();
   }, [filters, data]);
 
+  useEffect(() => {
+    setCurrentSort(filters.order);
+  }, [filters]);
+
+  const sortFunction = (arrayData) => {
+    function checkIsNumber(string) {
+      return Number.isNaN(+string) ? string : +string;
+    }
+
+    const sorted = arrayData;
+    return sorted.sort((a, b) => {
+      const menosUm = -1;
+      const um = 1;
+      const zero = 0;
+      const { column } = currentSort;
+
+      const value1 = checkIsNumber(a[column]);
+      const value2 = checkIsNumber(b[column]);
+
+      if (value1 < value2) {
+        return currentSort.sort === 'ASC' ? menosUm : um;
+      }
+      if (value1 > value2) {
+        return currentSort.sort === 'ASC' ? um : menosUm;
+      }
+      return zero;
+    });
+  };
+
+  // const sorted = arrayData;
+  // return sorted.sort((a, b) => {
+  //   if (a[currentSort.column] < b[currentSort.column]) {
+  //     return currentSort.sort === 'ASC' ? menosUm : um;
+  //   }
+  //   if (a[currentSort.column] > b[currentSort.column]) {
+  //     return currentSort.sort === 'ASC' ? um : menosUm;
+  //   }
+  //   return 0;
+  // });
+
   return (
     <div>
       <h2>{renderData.length}</h2>
@@ -73,7 +112,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {renderData.map((eachPlanet) => (
+          {sortFunction(renderData) && sortFunction(renderData).map((eachPlanet) => (
             <tr key={ eachPlanet.name }>
               {Object.values(eachPlanet).map((planet, index) => (
                 index === 0
@@ -90,14 +129,6 @@ function Table() {
 
 export default Table;
 
-// tarefas
-
-// organizar a o estado e a função que faz intermédio do dado sort no global
-// settar disparo do botao para o a função intermédiaria no global
-// organizar o useEffect que observa esse estado intermediario e roda pra settar na chave filters
-// useEffect na tabela olhando pro filters também mas condicionado a algo ( estado local?) pra mudar ordem
-
-// tabela lê o global o estado local pra se organizar: -pesquisar
-
 // https://www.smashingmagazine.com/2020/03/sortable-tables-react/
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio
+// https://github.com/tryber/sd-010-a-project-starwars-planets-search/commit/fa35f1162e3575a041f1010117e62f0a7304e199 - PR COLEGA - segunda parte sort;
