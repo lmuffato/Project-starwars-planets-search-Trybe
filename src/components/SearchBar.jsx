@@ -2,8 +2,8 @@ import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 export default function SearchBar() {
-  const { search,
-    setSearch, handleSearchClick, clearFilter } = useContext(PlanetsContext);
+  const { search, setSearch,
+    handleSearchClick, clearFilter, orderPlanets } = useContext(PlanetsContext);
 
   const handleSearchText = ({ target: { value } }) => {
     setSearch((prevState) => ({
@@ -68,6 +68,17 @@ export default function SearchBar() {
       <filter data-testid="filter">
         <button type="button" onClick={ clearFilter }>X</button>
       </filter>
+      <select
+        data-testid="column-sort"
+        id="column-sort"
+        onChange={ (e) => orderPlanets(e) }
+      >
+        <option value="population">population</option>
+        <option value="orbital_period">orbital_period</option>
+        <option value="diameter">diameter</option>
+        <option value="rotation_period">rotation_period</option>
+        <option value="surface_water">surface_water</option>
+      </select>
     </label>
   );
 }

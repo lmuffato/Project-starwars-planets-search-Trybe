@@ -59,9 +59,43 @@ export default function PlanetsProvider({ children }) {
     setUsefulData(data);
   };
 
+  const orderPlanets = ({ target: { value } }) => {
+    const sortedData = data.sort((a, b) => {
+      // console.log(parseInt(a[value], 10), parseInt(b[value], 10));
+      let A = parseInt(a[value], 10);
+      let B = parseInt(b[value], 10);
+      const minusOne = -1;
+      if (Number.isNaN(A)) {
+        A = 0;
+      }
+      if (Number.isNaN(B)) {
+        B = 0;
+      }
+      if (A > B) {
+        return 1;
+      }
+      if (A < B) {
+        return minusOne;
+      }
+      return 0;
+    });
+    // const sortedData = usefulData.sort();
+    // console.log(usefulData);
+    setUsefulData(sortedData);
+    // console.log(sortedData);
+    console.log(usefulData);
+    // console.log(value);
+  };
+
   return (
     <PlanetsContext.Provider
-      value={ { usefulData, search, setSearch, handleSearchClick, clearFilter } }
+      value={ { usefulData,
+        setUsefulData,
+        search,
+        setSearch,
+        handleSearchClick,
+        clearFilter,
+        orderPlanets } }
     >
       { children }
     </PlanetsContext.Provider>

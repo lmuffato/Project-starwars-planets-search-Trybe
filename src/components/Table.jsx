@@ -1,13 +1,20 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 export default function Table() {
   const { usefulData,
     search: { filters: { filterByName: { name } } } } = useContext(PlanetsContext);
-  const residentlessData = usefulData.map((planet) => {
-    delete planet.residents;
-    return planet;
-  });
+  const [residentlessData, setResidentlessData] = useState([]);
+  // setResidentlessData(usefulData.map((planet) => {
+  //   delete planet.residents;
+  //   return planet;
+  // }));
+  useEffect(() => {
+    setResidentlessData(usefulData.map((planet) => {
+      delete planet.residents;
+      return planet;
+    }));
+  }, [usefulData]);
 
   return residentlessData === undefined || residentlessData === [] ? <div /> : (
     <table>
