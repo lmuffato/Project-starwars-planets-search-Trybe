@@ -19,7 +19,8 @@ const Table = () => {
 
   if (clicked === true) {
     console.log('entrou');
-    const planetsFilter = data.filter((planets) => FilterNumeric(planets[column], comparison, value));
+    const planetsFilter = data
+      .filter((planets) => FilterNumeric(planets[column], comparison, value));
     return (
       <table>
         <thead>
@@ -38,21 +39,21 @@ const Table = () => {
             <th>Terrain</th>
             <th>URL</th>
           </tr>
-          {planetsFilter.map((planet) => (
-            <tr key={ planet.name }>
-              <td>{planet.climate}</td>
-              <td>{planet.created}</td>
-              <td>{planet.diameter}</td>
-              <td>{planet.edited}</td>
-              <td>{planet.films}</td>
-              <td>{planet.gravity}</td>
-              <td>{planet.name}</td>
-              <td>{planet.orbital_period}</td>
-              <td>{planet.population}</td>
-              <td>{planet.rotation_period}</td>
-              <td>{planet.surface_water}</td>
-              <td>{planet.terrain}</td>
-              <td>{planet.url}</td>
+          {planetsFilter.map((planets) => (
+            <tr key={ planets.name }>
+              <td>{planets.climate}</td>
+              <td>{planets.created}</td>
+              <td>{planets.diameter}</td>
+              <td>{planets.edited}</td>
+              <td>{planets.films}</td>
+              <td>{planets.gravity}</td>
+              <td>{planets.name}</td>
+              <td>{planets.orbital_period}</td>
+              <td>{planets.population}</td>
+              <td>{planets.rotation_period}</td>
+              <td>{planets.surface_water}</td>
+              <td>{planets.terrain}</td>
+              <td>{planets.url}</td>
             </tr>
           ))}
         </thead>
@@ -102,48 +103,6 @@ const Table = () => {
       </table>
     );
   }
-
-  // if (filterByNumericValues) {
-  //   const numericFilter = filterByNumericValues.map((planets) => {
-  //     const { column, comparison, value } = planets;
-
-  //     switch (comparison) {
-  //     case 'maior que':
-  //       return data.filter((planets) => Number(planets[column]) > Number(value));
-  //     case 'menor que':
-  //       return data.filter((planets) => Number(planets[column]) < Number(value));
-  //     case 'igual a':
-  //       return data.filter((planets) => Number(planets[column]) < Number(value));
-  //     default:
-  //       return data;
-  //     }
-  //   });
-
-  //   return (
-  //     numericFilter[0].map((planet) => (
-  //       <tr key={ planet.name }>
-  //         <td>{planet.name}</td>
-  //         <td>{planet.rotation_period}</td>
-  //         <td>{planet.orbital_period}</td>
-  //         <td>{planet.diameter}</td>
-  //         <td>{planet.climate}</td>
-  //         <td>{planet.gravity}</td>
-  //         <td>{planet.terrain}</td>
-  //         <td>{planet.surface_water}</td>
-  //         <td>{planet.population}</td>
-  //         <td>
-  //           {
-  //             planet.films
-  //               .map((film, index) => (<ul key={ index }><li>{ film }</li></ul>))
-  //           }
-  //         </td>
-  //         <td>{planet.created}</td>
-  //         <td>{planet.edited}</td>
-  //         <td>{planet.url}</td>
-  //       </tr>
-  //     ))
-  //   );
-  // }
   return (
     <table>
       <thead>
