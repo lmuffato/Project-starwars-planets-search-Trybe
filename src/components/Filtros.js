@@ -1,30 +1,38 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 function Filtros() {
+  const { filters, setFilters } = useContext(PlanetsContext);
+
   const filterByNumberInitial = {
-    column: 'population',
-    comparison: 'maior_que',
+    column: filters.columnValues[0],
+    comparison: 'maior que',
     value: '',
   };
 
   const [filterByNumber, setFilterByNumber] = useState(filterByNumberInitial);
-  const { filters, setFilters } = useContext(PlanetsContext);
 
   function handleClick() {
+    const columnValues = filters.columnValues
+      .filter((col) => col !== filterByNumber.column);
+
     setFilters({
       ...filters,
+      columnValues,
       filterByNumericValues: [
         ...filters.filterByNumericValues,
         filterByNumber,
       ],
     });
+  }
+
+  useEffect(() => {
     setFilterByNumber({
-      column: 'population',
-      comparison: 'maior_que',
+      column: filters.columnValues[0],
+      comparison: 'maior que',
       value: '',
     });
-  }
+  }, [filters]);
 
   function numberFilter() {
     return (
@@ -40,11 +48,13 @@ function Filtros() {
             },
           ) }
         >
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          { filters.columnValues.map((col, index) => (
+            <option
+              key={ index }
+              value={ col }
+            >
+              { col }
+            </option>))}
         </select>
         <select
           className="form-select"
@@ -79,6 +89,31 @@ function Filtros() {
     );
   }
 
+  function deleteFilter(e) {
+    const filtersByNumeric = filters.filterByNumericValues
+      .filter((ele) => ele.column !== e.target.name);
+    if (filtersByNumeric.length === 0) {
+      return setFilters({
+        ...filters,
+        columnValues: filters.columnValuesInitial,
+        filterByNumericValues: filtersByNumeric });
+    }
+
+    const columnValues = filters.columnValuesInitial.filter((col) => {
+      let isTrue = false;
+      for (let ind = 0; ind < filtersByNumeric.length; ind += 1) {
+        if (col !== filtersByNumeric[ind].column) {
+          isTrue = true;
+        }
+      }
+      return isTrue;
+    });
+    setFilters({
+      ...filters,
+      columnValues,
+      filterByNumericValues: filtersByNumeric });
+  }
+
   return (
     <div>
       <input
@@ -90,6 +125,21 @@ function Filtros() {
         ) }
       />
       { numberFilter() }
+      <div>
+        { filters.filterByNumericValues.length > 0
+          ? filters.filterByNumericValues.map((filtro, index) => (
+            <div data-testid="filter" key={ index }>
+              { `${filtro.column} ${filtro.comparison} ${filtro.value}` }
+              <button
+                name={ filtro.column }
+                type="button"
+                onClick={ (e) => deleteFilter(e) }
+              >
+                X
+              </button>
+            </div>
+          )) : false}
+      </div>
     </div>
   );
 }

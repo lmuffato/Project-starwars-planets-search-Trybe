@@ -5,6 +5,20 @@ import getPlanetsAPI from '../services/StarWarsAPI';
 
 function PlanetsProvider({ children }) {
   const initialFilteres = {
+    columnValues: [
+      'population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water',
+    ],
+    columnValuesInitial: [
+      'population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water',
+    ],
     filterByName: {
       name: '',
     },
@@ -39,6 +53,9 @@ function PlanetsProvider({ children }) {
     setData((d) => {
       let dataFiltered = [];
       if (d !== undefined) {
+        if (filters.filterByNumericValues.length === 0) {
+          return { ...d, dataFiltered: d.dataFromAPI };
+        }
         filters.filterByNumericValues.map((filtro) => {
           const { column, comparison, value } = filtro;
           dataFiltered = d.dataFiltered.filter((element) => {
