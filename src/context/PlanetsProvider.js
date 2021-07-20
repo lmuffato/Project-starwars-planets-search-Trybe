@@ -4,6 +4,7 @@ import PlanetsContext from './PlanetsContext';
 
 export default function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
+  const [search, setSearch] = useState({ filters: { filterByName: { name: '' } } });
 
   const PLANETS_API = 'https://swapi-trybe.herokuapp.com/api/planets/';
 
@@ -19,7 +20,7 @@ export default function PlanetsProvider({ children }) {
   }, []);
 
   return (
-    <PlanetsContext.Provider value={ { data } }>
+    <PlanetsContext.Provider value={ { data, search, setSearch } }>
       { children }
     </PlanetsContext.Provider>
   );
