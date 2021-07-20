@@ -4,7 +4,8 @@ import ApiProvider from './contexts/apiProvider';
 import App from './App';
 
 ReactDOM.render(
-<ApiProvider>
-  <App />
-</ApiProvider>
-, document.getElementById('root'));
+  <ApiProvider>
+    <App />
+  </ApiProvider>,
+  document.getElementById('root'),
+);
