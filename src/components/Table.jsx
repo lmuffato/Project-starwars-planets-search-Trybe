@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 export default function Table() {
-  const { data,
+  const { usefulData,
     search: { filters: { filterByName: { name } } } } = useContext(PlanetsContext);
-  const residentlessData = data.map((planet) => {
+  const residentlessData = usefulData.map((planet) => {
     delete planet.residents;
     return planet;
   });
