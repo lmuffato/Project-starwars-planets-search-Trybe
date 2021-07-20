@@ -24,12 +24,18 @@ function PlanetsTable() {
         </tr>
       </thead>
       {isFetching
-        ? <h1>loading</h1>
+        ? (
+          <thead>
+            <tr role="row">
+              <th scope="col">Loading</th>
+            </tr>
+          </thead>
+        )
         : (
           <tbody>
             { data.dataFiltered.map((planet) => (
               <tr role="row" key={ planet.created }>
-                <td>{planet.name}</td>
+                <td data-testid="planet-name">{planet.name}</td>
                 <td>{planet.rotation_period}</td>
                 <td>{planet.orbital_period}</td>
                 <td>{planet.diameter}</td>

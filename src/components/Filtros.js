@@ -32,7 +32,7 @@ function Filtros() {
       comparison: 'maior que',
       value: '',
     });
-  }, [filters]);
+  }, [filters.columnValues]);
 
   function numberFilter() {
     return (

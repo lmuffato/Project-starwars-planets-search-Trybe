@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import PlanetsContext from './PlanetsContext';
 import getPlanetsAPI from '../services/StarWarsAPI';
 
+const ORDER_MENOS_UM = -1;
 function PlanetsProvider({ children }) {
   const initialFilteres = {
     columnValues: [
@@ -23,14 +24,28 @@ function PlanetsProvider({ children }) {
       name: '',
     },
     filterByNumericValues: [],
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
   };
-  const [data, setData] = useState();
+  const dataInitial = { dataFiltered: [] };
+  const [data, setData] = useState(dataInitial);
   const [isFetching, setIsFetching] = useState(true);
   const [filters, setFilters] = useState(initialFilteres);
 
   async function fetchData() {
     const { results } = await getPlanetsAPI();
-    setData({ dataFromAPI: results, dataFiltered: results });
+    const resultsOrder = results.sort((a, b) => {
+      if (a.name > b.name) {
+        return 1;
+      }
+      if (a.name < b.name) {
+        return ORDER_MENOS_UM;
+      }
+      return 0;
+    });
+    setData({ dataFromAPI: resultsOrder, dataFiltered: resultsOrder });
     setIsFetching(false);
   }
 
@@ -40,7 +55,7 @@ function PlanetsProvider({ children }) {
 
   useEffect(() => {
     setData((d) => {
-      if (d !== undefined) {
+      if (d !== undefined && d.dataFiltered.length > 0) {
         const dataFiltered = d.dataFromAPI
           .filter((element) => element.name.toLowerCase()
             .includes(filters.filterByName.name.toLowerCase()));
@@ -50,30 +65,68 @@ function PlanetsProvider({ children }) {
   }, [filters.filterByName.name]);
 
   useEffect(() => {
+    function funcFilter(filtro, d) {
+      const { column, comparison, value } = filtro;
+      const dataFiltered = d.dataFromAPI.filter((element) => {
+        if (comparison === 'maior que') {
+          return Number(element[column]) > value;
+        }
+        if (comparison === 'menor que') {
+          return Number(element[column]) < value;
+        }
+        return Number(element[column]) === Number(value);
+      });
+      return dataFiltered;
+    }
     setData((d) => {
       let dataFiltered = [];
-      if (d !== undefined) {
+      if (d !== undefined && d.dataFiltered && d.dataFiltered.length > 0) {
         if (filters.filterByNumericValues.length === 0) {
           return { ...d, dataFiltered: d.dataFromAPI };
         }
         filters.filterByNumericValues.map((filtro) => {
-          const { column, comparison, value } = filtro;
-          dataFiltered = d.dataFiltered.filter((element) => {
-            if (comparison === 'maior que') {
-              return Number(element[column]) > value;
-            }
-            if (comparison === 'menor que') {
-              return Number(element[column]) < value;
-            }
-            return Number(element[column]) === Number(value);
-          });
-
+          dataFiltered = funcFilter(filtro, d);
           return true;
         });
       }
       return { ...d, dataFiltered };
     });
   }, [filters.filterByNumericValues]);
+
+  useEffect(() => {
+    function orderAsc(d) {
+      if (d.dataFromAPI && Number.isNaN(Number(d.dataFromAPI[0][filters.order.column]))) {
+        const dataOrdered = d.dataFiltered.sort((a, b) => a[filters.order.column]
+          .localeCompare(b[filters.order.column]));
+        return dataOrdered;
+      }
+      const dataOrdered = d.dataFiltered
+        .sort((a, b) => a[filters.order.column] - b[filters.order.column]);
+      return dataOrdered;
+    }
+
+    function orderDesc(d) {
+      if (d.dataFromAPI && Number.isNaN(Number(d.dataFromAPI[0][filters.order.column]))) {
+        const dataOrdered = d.dataFiltered
+          .sort((a, b) => b[filters.order.column].localeCompare(a[filters.order.column]));
+        return dataOrdered;
+      }
+      const dataOrdered = d.dataFiltered
+        .sort((a, b) => b[filters.order.column] - a[filters.order.column]);
+      return dataOrdered;
+    }
+
+    setData((d) => {
+      let dataOrdered = [];
+      if (filters.order.sort === 'ASC') {
+        dataOrdered = orderAsc(d);
+      }
+      if (filters.order.sort === 'DESC') {
+        dataOrdered = orderDesc(d);
+      }
+      return { ...d, dataFiltered: dataOrdered };
+    });
+  }, [filters.order]);
 
   return (
     <PlanetsContext.Provider
