@@ -34,6 +34,9 @@ function App() {
       const request = await fetch(endpoint);
       const { results } = await request.json();
 
+      /**
+       * @source https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+      */
       function ordena(a, b) {
         const lessOne = -1;
         if (a.name > b.name) return 1;
